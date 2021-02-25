@@ -1,0 +1,7 @@
+to square [ :distance ]
+[
+  repeat 4 [
+    fd :distance
+    rt 90
+  ]
+]

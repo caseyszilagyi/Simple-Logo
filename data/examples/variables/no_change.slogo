@@ -1,0 +1,2 @@
+# unitialized variable should have a value of 0
+FD :aaa

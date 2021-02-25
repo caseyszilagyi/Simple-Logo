@@ -1,0 +1,7 @@
+make :distance 100
+make :sides 4
+
+repeat :sides [
+  fd :distance
+  rt / 360 :angle
+]
