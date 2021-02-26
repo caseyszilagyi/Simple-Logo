@@ -1,4 +1,4 @@
-# API Lab Discussion
+# API Lab Discussion 
 # SLogo API Design
 
 ## Names and NetIDs
