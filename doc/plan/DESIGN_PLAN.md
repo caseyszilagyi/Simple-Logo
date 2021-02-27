@@ -1,6 +1,11 @@
 # SLogo Design Plan
-### Team Number
+### Team Number 
+slogo_team01
 ### Names
+- Casey Szilagyi (crs79)
+- Jin Cho (jc695)
+- Kathleen Chen (kc387)
+- Ji Yun Hyo (jh160)
 
 #### Examples
 
