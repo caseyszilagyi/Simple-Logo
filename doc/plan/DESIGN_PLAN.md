@@ -27,7 +27,8 @@ taken from [Brilliant Examples of Sketched UI Wireframes and Mock-Ups](https://o
 
 
 ## Overview
-
+Frontend External API - ViewController Interface
+Backend External API - ModelController Interface
 
 ## User Interface
 
