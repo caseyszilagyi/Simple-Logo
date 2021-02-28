@@ -31,7 +31,7 @@ can perform its tasks independently of the other parts.
 ![](wireframe/overview.png)
 
 ## User Interface
-
+![](wireframe/Possible_UI_Display_SLogo.jpg)
 
 ## Design Details
 
