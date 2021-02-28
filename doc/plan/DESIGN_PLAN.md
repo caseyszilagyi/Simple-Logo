@@ -24,11 +24,11 @@ taken from [Brilliant Examples of Sketched UI Wireframes and Mock-Ups](https://o
 
 
 ## Introduction
-
+The overall design idea is to allow for maximum flexibility while ensuring that each part of the application
+can perform its tasks independently of the other parts. 
 
 ## Overview
-Frontend External API - ViewController Interface
-Backend External API - ModelController Interface
+![](wireframe/overview.png)
 
 ## User Interface
 
