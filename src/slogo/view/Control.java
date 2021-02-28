@@ -1,15 +1,16 @@
+package View;
 
 import java.util.*;
 
 /**
  * 
  */
-public class Main {
+public abstract class Control {
 
     /**
      * Default constructor
      */
-    public Main() {
+    public Control() {
     }
 
 }

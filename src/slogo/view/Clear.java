@@ -1,15 +1,16 @@
+package View;
 
 import java.util.*;
 
 /**
  * 
  */
-public class Main {
+public class Clear extends Control {
 
     /**
      * Default constructor
      */
-    public Main() {
+    public Clear() {
     }
 
 }
