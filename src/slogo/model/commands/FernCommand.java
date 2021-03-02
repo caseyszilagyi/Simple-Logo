@@ -1,4 +1,4 @@
-package Model.Commands;
+package slogo.model.commands;
 
 import java.util.*;
 
@@ -16,15 +16,17 @@ public class FernCommand implements Commands {
     /**
      * 
      */
-    public void executeCommand() {
+    public void executeCommand(List<String> Commands) {
         // TODO implement here
     }
 
     /**
-     * 
+     *
+     * @return
      */
-    public void getParameters() {
+    public List<String> getParameters() {
         // TODO implement here
+        return null;
     }
 
 }
