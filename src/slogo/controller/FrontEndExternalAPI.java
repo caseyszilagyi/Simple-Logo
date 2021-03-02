@@ -1,4 +1,4 @@
-package Controller;
+package slogo.controller;
 
 import java.util.*;
 

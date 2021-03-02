@@ -1,4 +1,4 @@
-package View;
+package slogo.view;
 
 import java.util.*;
 

@@ -1,4 +1,4 @@
-package Model;
+package slogo.model;
 
 import java.util.*;
 

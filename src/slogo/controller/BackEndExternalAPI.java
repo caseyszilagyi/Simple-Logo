@@ -1,4 +1,4 @@
-package Controller;
+package slogo.controller;
 
 import java.util.*;
 
@@ -45,7 +45,7 @@ public interface BackEndExternalAPI {
     /**
      * @param String input
      */
-    public void parseInput(void String input);
+    public void parseInput(String input);
 
     /**
      * 

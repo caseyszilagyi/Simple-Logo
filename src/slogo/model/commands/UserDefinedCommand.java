@@ -1,4 +1,4 @@
-package Model.Commands;
+package slogo.model.commands;
 
 import java.util.*;
 
