@@ -14,10 +14,12 @@ public class CommandParser implements Parser {
     }
 
     /**
-     * 
+     * Translates the command
+     *
+     * @param commandsBeforeTranslation
      */
-    public void translateCommand() {
-        // TODO implement here
-    }
+    @Override
+    public void translateCommand(List<String> commandsBeforeTranslation) {
 
+    }
 }

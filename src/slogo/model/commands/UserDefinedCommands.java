@@ -5,11 +5,11 @@ import java.util.*;
 /**
  * 
  */
-public interface UserDefinedCommands {
+public interface UserDefinedCommands extends Commands {
 
     /**
      * 
      */
-    public void getVariables();
+    public List<String> getVariables();
 
 }

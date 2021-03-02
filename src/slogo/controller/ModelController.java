@@ -1,6 +1,8 @@
 package slogo.controller;
 
 import java.util.*;
+import javax.swing.text.html.ImageView;
+import slogo.model.Turtle;
 
 /**
  * 
@@ -14,10 +16,12 @@ public class ModelController implements BackEndExternalAPI {
     }
 
     /**
-     * 
+     *
+     * @return
      */
-    public void getCommandHistory() {
+    public List<String> getCommandHistory() {
         // TODO implement here
+        return null;
     }
 
     /**
@@ -49,10 +53,12 @@ public class ModelController implements BackEndExternalAPI {
     }
 
     /**
-     * 
+     *
+     * @return
      */
-    public void getUserDefinedCommands() {
+    public List<String> getUserDefinedCommands() {
         // TODO implement here
+        return null;
     }
 
     /**
@@ -70,24 +76,30 @@ public class ModelController implements BackEndExternalAPI {
     }
 
     /**
-     * 
+     *
+     * @return
      */
-    public void getTurtleImage() {
+    public ImageView getTurtleImage() {
         // TODO implement here
+        return null;
     }
 
     /**
-     * 
+     *
+     * @return
      */
-    public void getCommandResult() {
+    public List<String> getCommandResult() {
         // TODO implement here
+        return null;
     }
 
     /**
-     * 
+     *
+     * @return
      */
-    public void getAllTurtles() {
+    public List<Turtle> getAllTurtles() {
         // TODO implement here
+        return null;
     }
 
 }

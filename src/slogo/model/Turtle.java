@@ -1,7 +1,5 @@
 package slogo.model;
 
-import java.util.*;
-
 /**
  * 
  */
@@ -14,52 +12,60 @@ public class Turtle implements TurtleState {
     }
 
     /**
+     *
+     * @return
+     */
+    public int getAngle() {
+        // TODO implement here
+        return 0;
+    }
+
+    /**
      * 
      */
-    public void getAngle() {
+    public void setAngle(int angle) {
         // TODO implement here
     }
 
     /**
      * 
      */
-    public void setAngle() {
+    public void setXPosition(int xPosition) {
         // TODO implement here
     }
 
     /**
      * 
      */
-    public void setXPosition() {
+    public void setYPosition(int yPosition) {
         // TODO implement here
     }
 
     /**
-     * 
+     *
+     * @return
      */
-    public void setYPosition() {
+    public int getXPosition() {
         // TODO implement here
+        return 0;
     }
 
     /**
-     * 
+     *
+     * @return
      */
-    public void getXPosition() {
+    public int getYPosition() {
         // TODO implement here
+        return 0;
     }
 
     /**
-     * 
+     *
+     * @return
      */
-    public void getYPosition() {
+    public int isVisible() {
         // TODO implement here
-    }
-
-    /**
-     * 
-     */
-    public void isVisible() {
-        // TODO implement here
+        return 0;
     }
 
 }

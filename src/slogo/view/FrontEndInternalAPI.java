@@ -10,7 +10,7 @@ public interface FrontEndInternalAPI {
     /**
      * 
      */
-    public void setBackgroundColor();
+    public void setBackgroundColor(String color);
 
     /**
      * 
@@ -20,6 +20,6 @@ public interface FrontEndInternalAPI {
     /**
      * 
      */
-    public void displayError();
+    public void displayError(String errorMessage);
 
 }

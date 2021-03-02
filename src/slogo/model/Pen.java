@@ -1,7 +1,5 @@
 package slogo.model;
 
-import java.util.*;
-
 /**
  * 
  */
@@ -14,23 +12,27 @@ public class Pen implements PenState {
     }
 
     /**
-     * 
+     *
+     * @return
      */
-    public void isPenUp() {
+    public int isPenUp() {
         // TODO implement here
+        return 1;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getPenColor() {
+        // TODO implement here
+        return null;
     }
 
     /**
      * 
      */
-    public void getPenColor() {
-        // TODO implement here
-    }
-
-    /**
-     * 
-     */
-    public void setPenColor() {
+    public void setPenColor(String color) {
         // TODO implement here
     }
 

@@ -8,38 +8,42 @@ import java.util.*;
 public interface TurtleState {
 
     /**
-     * 
+     * Returns angle of turtle
+     * @return angle of turtle
      */
-    public void getAngle();
+    public int getAngle();
 
     /**
-     * 
+     * Sets the angle of the turtle
      */
-    public void setAngle();
+    public void setAngle(int angle);
 
     /**
-     * 
+     * Sets the x position of the turtle
      */
-    public void setXPosition();
+    public void setXPosition(int xPosition);
 
     /**
-     * 
+     * Sets the y position of the turtle
      */
-    public void setYPosition();
+    public void setYPosition(int yPosition);
 
     /**
-     * 
+     * Returns the x position of the turtle
+     * @return x position of turtle
      */
-    public void getXPosition();
+    public int getXPosition();
 
     /**
-     * 
+     * Returns the y position of the turtle
+     * @return
      */
-    public void getYPosition();
+    public int getYPosition();
 
     /**
-     * 
+     * Returns whether or not the turle is visible
+     * @return 1 if visible, 0 if not visible
      */
-    public void isVisible();
+    public int isVisible();
 
 }
