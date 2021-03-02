@@ -37,6 +37,7 @@ public interface BackEndExternalAPI {
 
     /**
      * Returns a data structure containing user defined commands
+     * @return
      */
     public List<String> getUserDefinedCommands();
 
