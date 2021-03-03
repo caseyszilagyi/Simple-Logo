@@ -49,7 +49,7 @@ public interface BackEndExternalAPI {
 
     /**
      * Passes in the String of commmands to be parsed
-     * @param String input
+     * @param input
      */
     public void parseInput(String input);
 
