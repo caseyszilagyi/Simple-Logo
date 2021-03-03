@@ -1,62 +1,66 @@
 package slogo.model;
 
 /**
- * 
+ * This turtle class is the backend representation of the turtle so that commands can be
+ * called on the turtle to move/rotate it
  */
 public class Turtle implements TurtleState {
 
+    private double angle;
+    private int xPosition;
+    private int yPosition;
     /**
      * Default constructor
      */
     public Turtle() {
+        xPosition = 0;
+        yPosition = 0;
+        angle = 0;
     }
 
     /**
-     *
-     * @return
+     * Gets the angle that the turtle is facing
+     * @return The angle
      */
-    public int getAngle() {
-        // TODO implement here
-        return 0;
+    public double getAngle() {
+        return angle;
     }
 
     /**
-     * 
+     * Sets the angle that the turtle is facing
      */
-    public void setAngle(int angle) {
-        // TODO implement here
+    public void setAngle(double newAngle) {
+        angle = newAngle;
     }
 
     /**
-     * 
+     * Sets the X position of the turtle
      */
-    public void setXPosition(int xPosition) {
-        // TODO implement here
+    public void setXPosition(int newXPosition) {
+        xPosition = newXPosition;
     }
 
     /**
-     * 
+     * Sets the Y position of the turtle
      */
-    public void setYPosition(int yPosition) {
-        // TODO implement here
+    public void setYPosition(int newYPosition) {
+        yPosition = newYPosition;
     }
 
     /**
-     *
-     * @return
+     * Gets the X position of the turtle
+     * @return The X position of the turtle
      */
     public int getXPosition() {
-        // TODO implement here
-        return 0;
+        return xPosition;
     }
 
     /**
-     *
-     * @return
+     * Gets the Y position of the turtle
+     * @return The Y position of the turtle
      */
     public int getYPosition() {
-        // TODO implement here
-        return 0;
+        return yPosition;
     }
 
     /**
@@ -64,7 +68,6 @@ public class Turtle implements TurtleState {
      * @return
      */
     public int isVisible() {
-        // TODO implement here
         return 0;
     }
 

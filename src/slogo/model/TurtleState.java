@@ -11,12 +11,12 @@ public interface TurtleState {
      * Returns angle of turtle
      * @return angle of turtle
      */
-    public int getAngle();
+    public double getAngle();
 
     /**
      * Sets the angle of the turtle
      */
-    public void setAngle(int angle);
+    public void setAngle(double angle);
 
     /**
      * Sets the x position of the turtle
