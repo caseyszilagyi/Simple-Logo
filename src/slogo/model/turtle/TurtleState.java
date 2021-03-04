@@ -1,4 +1,4 @@
-package slogo.model;
+package slogo.model.turtle;
 
 import java.util.*;
 
@@ -44,6 +44,6 @@ public interface TurtleState {
      * Returns whether or not the turle is visible
      * @return 1 if visible, 0 if not visible
      */
-    public int isVisible();
+    public int getVisibility();
 
 }
