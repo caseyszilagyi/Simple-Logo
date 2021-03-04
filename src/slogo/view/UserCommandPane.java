@@ -9,8 +9,11 @@ import javafx.scene.layout.HBox;
  */
 public class UserCommandPane {
   public static final int TEXT_FIELD_WIDTH = 200;
+  public static final int TEXT_FIELD_HEIGHT = 100;
+
   private HBox myBox;
   private TextField myTextField;
+
   public UserCommandPane() {
     myBox = new HBox();
     myBox.setAlignment(Pos.CENTER_LEFT);
