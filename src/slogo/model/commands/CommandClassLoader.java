@@ -1,6 +1,7 @@
-package slogo.model.commands.basic_commands;
+package slogo.model.commands;
 
 import java.lang.reflect.InvocationTargetException;
+import slogo.model.commands.basic_commands.BasicCommand;
 
 /**
  * This class is used to create instances of command objects at runtime
@@ -15,23 +16,25 @@ public class CommandClassLoader {
   /**
    * Instantiates the ClassLoader
    */
-  public CommandClassLoader(){
+  public CommandClassLoader() {
     CLASS_LOADER = new ClassLoader() {
     };
   }
 
   /**
    * Makes a basicCommand with the given string name
+   *
    * @param commandName The name of the basicCommand
    * @return The BasicCommand object
    */
-  public BasicCommand makeCommand(String commandName){
+  public BasicCommand makeCommand(String commandName) {
     BasicCommand myCommand = null;
-    try{
-      Object command = CLASS_LOADER.loadClass(COMMAND_CLASSES_PACKAGE + commandName).getDeclaredConstructor().newInstance();
+    try {
+      Object command = CLASS_LOADER.loadClass(COMMAND_CLASSES_PACKAGE + commandName)
+          .getDeclaredConstructor().newInstance();
       myCommand = (BasicCommand) command;
-    } catch (ClassNotFoundException e){
-    } catch(NoSuchMethodException e) {
+    } catch (ClassNotFoundException e) {
+    } catch (NoSuchMethodException e) {
     } catch (IllegalAccessException e) {
       e.printStackTrace();
     } catch (InstantiationException e) {
