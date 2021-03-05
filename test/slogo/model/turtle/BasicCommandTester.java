@@ -29,18 +29,30 @@ public class BasicCommandTester {
 
   @Test
   void testForward(){
-    BasicCommand forward = loadBasicCommand("Forward", 50);
+    BasicCommand forward = makeBasicCommand("Forward", makeConstantCommand(50));
     forward.execute(turtle);
     assertEquals(turtle.getXPosition(), 50);
   }
 
 
   /**
-   * Makes a basic command when passed a string name
+   * Makes a BasicCommand when passed a string name
    * @param commandName The string representing the class name
-   * @return The basic command
+   * @param commands The BasicCommands that are passed to the constructor
+   * @return The BasicCommand of the given type
    */
-  BasicCommand loadBasicCommand(String commandName,int... args){
-    return loader.makeCommand(commandName, args);
+  BasicCommand makeBasicCommand(String commandName, BasicCommand... commands){
+    return loader.makeCommand(commandName, commands);
   }
+
+  /**
+   * Makes a constant BasicCommand when passed an integer
+   * @param value The constant value
+   * @return The constant in BasicCommand form
+   */
+  BasicCommand makeConstantCommand(int value){
+    return loader.makeConstant(value);
+  }
+
+
 }
