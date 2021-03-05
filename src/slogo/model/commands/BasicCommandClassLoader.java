@@ -8,7 +8,7 @@ import slogo.model.commands.basic_commands.BasicCommand;
  *
  * @author Casey Szilagyi
  */
-public class CommandClassLoader {
+public class BasicCommandClassLoader {
 
   private final ClassLoader CLASS_LOADER;
   private final String COMMAND_CLASSES_PACKAGE = "slogo.model.commands.basic_commands.";
@@ -16,7 +16,7 @@ public class CommandClassLoader {
   /**
    * Instantiates the ClassLoader
    */
-  public CommandClassLoader() {
+  public BasicCommandClassLoader() {
     CLASS_LOADER = new ClassLoader() {
     };
   }
@@ -27,11 +27,11 @@ public class CommandClassLoader {
    * @param commandName The name of the basicCommand
    * @return The BasicCommand object
    */
-  public BasicCommand makeCommand(String commandName) {
+  public BasicCommand makeCommand(String commandName, int... args) {
     BasicCommand myCommand = null;
     try {
       Object command = CLASS_LOADER.loadClass(COMMAND_CLASSES_PACKAGE + commandName)
-          .getDeclaredConstructor().newInstance();
+          .getDeclaredConstructor(int[].class).newInstance(args);
       myCommand = (BasicCommand) command;
     } catch (ClassNotFoundException e) {
     } catch (NoSuchMethodException e) {

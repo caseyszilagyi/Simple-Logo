@@ -2,7 +2,7 @@ package slogo.controller;
 
 import java.util.*;
 import javax.swing.text.html.ImageView;
-import slogo.model.Turtle;
+import slogo.model.turtle.Turtle;
 
 /**
  * FrontEndExternal API methods the backend can call
