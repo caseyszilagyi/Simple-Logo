@@ -28,6 +28,6 @@ public class Forward implements BasicCommand {
    */
   public void execute(Turtle turtle) {
     turtle.setXPosition(turtle.getXPosition() + Math.cos(turtle.getAngle()) * DISTANCE);
-    turtle.setXPosition(turtle.getYPosition() + Math.sin(turtle.getAngle()) * DISTANCE);
+    turtle.setYPosition(turtle.getYPosition() + Math.sin(turtle.getAngle()) * DISTANCE);
   }
 }

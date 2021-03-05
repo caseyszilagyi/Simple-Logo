@@ -27,11 +27,11 @@ public class BasicCommandClassLoader {
    * @param commandName The name of the basicCommand
    * @return The BasicCommand object
    */
-  public BasicCommand makeCommand(String commandName) {
+  public BasicCommand makeCommand(String commandName, int... args) {
     BasicCommand myCommand = null;
     try {
       Object command = CLASS_LOADER.loadClass(COMMAND_CLASSES_PACKAGE + commandName)
-          .getDeclaredConstructor().newInstance();
+          .getDeclaredConstructor(int[].class).newInstance(args);
       myCommand = (BasicCommand) command;
     } catch (ClassNotFoundException e) {
     } catch (NoSuchMethodException e) {

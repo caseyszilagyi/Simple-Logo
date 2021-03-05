@@ -24,6 +24,20 @@ public class Turtle implements TurtleState {
   }
 
   /**
+   * Constructor used to put the turtle at a specific location. Useful for testing
+   * @param x The x position
+   * @param y The y position
+   * @param direction The angle the turtle is facing
+   */
+  public Turtle(double x, double y, double direction){
+    angle = direction;
+    xPosition = x;
+    yPosition = y;
+    isVisible = 1;
+    penState = 1;
+  }
+
+  /**
    * Gets the angle that the turtle is facing
    *
    * @return The angle

@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import slogo.model.commands.BasicCommandClassLoader;
 import slogo.model.commands.basic_commands.*;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 
 /**
  * This class is designed to test the implementations of each basic command separately in order
@@ -27,10 +29,9 @@ public class BasicCommandTester {
 
   @Test
   void testForward(){
-    BasicCommand forward = loadBasicCommand("Forward");
+    BasicCommand forward = loadBasicCommand("Forward", 50);
     forward.execute(turtle);
-
-
+    assertEquals(turtle.getXPosition(), 50);
   }
 
 
@@ -39,7 +40,7 @@ public class BasicCommandTester {
    * @param commandName The string representing the class name
    * @return The basic command
    */
-  BasicCommand loadBasicCommand(String commandName){
-    return loader.makeCommand(commandName);
+  BasicCommand loadBasicCommand(String commandName,int... args){
+    return loader.makeCommand(commandName, args);
   }
 }
