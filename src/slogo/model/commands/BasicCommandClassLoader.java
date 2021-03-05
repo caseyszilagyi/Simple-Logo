@@ -8,7 +8,7 @@ import slogo.model.commands.basic_commands.BasicCommand;
  *
  * @author Casey Szilagyi
  */
-public class CommandClassLoader {
+public class BasicCommandClassLoader {
 
   private final ClassLoader CLASS_LOADER;
   private final String COMMAND_CLASSES_PACKAGE = "slogo.model.commands.basic_commands.";
@@ -16,7 +16,7 @@ public class CommandClassLoader {
   /**
    * Instantiates the ClassLoader
    */
-  public CommandClassLoader() {
+  public BasicCommandClassLoader() {
     CLASS_LOADER = new ClassLoader() {
     };
   }

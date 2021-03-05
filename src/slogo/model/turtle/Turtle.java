@@ -7,9 +7,10 @@ package slogo.model.turtle;
 public class Turtle implements TurtleState {
 
   private double angle;
-  private int xPosition;
-  private int yPosition;
+  private double xPosition;
+  private double yPosition;
   private int isVisible;
+  private int penState;
 
   /**
    * Default constructor
@@ -19,6 +20,7 @@ public class Turtle implements TurtleState {
     yPosition = 0;
     angle = 0;
     isVisible = 1;
+    penState = 1;
   }
 
   /**
@@ -40,14 +42,14 @@ public class Turtle implements TurtleState {
   /**
    * Sets the X position of the turtle
    */
-  public void setXPosition(int newXPosition) {
+  public void setXPosition(double newXPosition) {
     xPosition = newXPosition;
   }
 
   /**
    * Sets the Y position of the turtle
    */
-  public void setYPosition(int newYPosition) {
+  public void setYPosition(double newYPosition) {
     yPosition = newYPosition;
   }
 
@@ -56,7 +58,7 @@ public class Turtle implements TurtleState {
    *
    * @return The X position of the turtle
    */
-  public int getXPosition() {
+  public double getXPosition() {
     return xPosition;
   }
 
@@ -65,7 +67,7 @@ public class Turtle implements TurtleState {
    *
    * @return The Y position of the turtle
    */
-  public int getYPosition() {
+  public double getYPosition() {
     return yPosition;
   }
 
@@ -86,5 +88,22 @@ public class Turtle implements TurtleState {
   public void setVisibility(int visibility) {
     isVisible = visibility;
   }
+
+  /**
+   * Sets the pen state
+   * @param userPenState The pen state
+   */
+   public void setPenState(int userPenState){
+    penState = userPenState;
+   }
+
+  /**
+   * Gets the current pen state
+   * @return The pen state
+   */
+  public int getPenState(){ return penState; };
+
+
+
 
 }
