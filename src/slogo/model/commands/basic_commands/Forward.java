@@ -24,7 +24,7 @@ public class Forward implements BasicCommand {
   /**
    * Makes the turtle move the distance forward that was specified in the constructor
    *
-   * @param informationBundle The turtle object
+   * @param informationBundle The bundle of all information that is needed
    * @return The distance forward that it moved
    */
   public int execute(CommandInformationBundle informationBundle) {

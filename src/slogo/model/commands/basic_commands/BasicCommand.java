@@ -11,10 +11,9 @@ import slogo.model.execution.CommandInformationBundle;
 public interface BasicCommand {
 
   /**
-   * The execute command is what is called in order to get the TurtleMovement object, which is used
-   * to actually change the turtle's location/angle
+   * The execute command is what is called in order to alter the state of the turtle object
    *
-   * @return The TurtleMovement object
+   * @return An integer representing the result of the command
    */
   public int execute(CommandInformationBundle informationBundle);
 

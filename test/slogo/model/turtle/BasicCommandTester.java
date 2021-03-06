@@ -40,7 +40,7 @@ public class BasicCommandTester {
   }
 
   /**
-   * Tests the baclcommand
+   * Tests the backward command
    */
   @Test
   void testBackward() {
@@ -48,6 +48,8 @@ public class BasicCommandTester {
     back.execute(commandBundle);
     assertEquals(commandBundle.getTurtle().getXPosition(), -50);
   }
+
+
 
   // Arithmetic Testing
 
@@ -60,29 +62,41 @@ public class BasicCommandTester {
     assertEquals(sum.execute(commandBundle), 120);
   }
 
+  // Control Structure Testing
+
+  /**
+   * Tests the command to make variables
+   */
+  @Test
+  void testMake(){
+    BasicCommand make = makeVariableCommand("Yo", makeConstantCommand(50));
+    make.execute(commandBundle);
+    assertEquals(commandBundle.getVariable("Yo"), 50);
+  }
+
+  
+
 
 
   // Helper methods below
 
-  /**
-   * Makes a BasicCommand when passed a string name
-   *
-   * @param commandName The string representing the class name
-   * @param commands    The BasicCommands that are passed to the constructor
-   * @return The BasicCommand of the given type
-   */
+
+
+
+
+  // Makes a basic command out of the command name and
   private BasicCommand makeBasicCommand(String commandName, BasicCommand... commands) {
     return loader.makeCommand(commandName, commands);
   }
 
-  /**
-   * Makes a constant BasicCommand when passed an integer
-   *
-   * @param value The constant value
-   * @return The constant in BasicCommand form
-   */
+  // Makes a constant command with the given integer
   private BasicCommand makeConstantCommand(int value) {
     return loader.makeConstant(value);
+  }
+
+  // Makes a constant command with the given integer
+  private BasicCommand makeVariableCommand(String varName, BasicCommand value) {
+    return loader.makeVariable(varName, value);
   }
 
 

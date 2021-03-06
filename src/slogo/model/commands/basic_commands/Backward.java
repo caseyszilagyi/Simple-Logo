@@ -24,7 +24,7 @@ public class Backward implements BasicCommand {
   /**
    * Makes the turtle move the distance back that was specified in the constructor
    *
-   * @param informationBundle The turtle object
+   * @param informationBundle The bundle of information needed to execute the command
    * @return The distance backward that it moved
    */
   public int execute(CommandInformationBundle informationBundle) {
