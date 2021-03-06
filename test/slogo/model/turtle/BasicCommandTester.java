@@ -43,8 +43,8 @@ public class BasicCommandTester {
    * Tests the baclcommand
    */
   @Test
-  void testBack() {
-    BasicCommand back = makeBasicCommand("Back", makeConstantCommand(50));
+  void testBackward() {
+    BasicCommand back = makeBasicCommand("Backward", makeConstantCommand(50));
     back.execute(commandBundle);
     assertEquals(commandBundle.getTurtle().getXPosition(), -50);
   }

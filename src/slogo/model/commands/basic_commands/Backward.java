@@ -8,7 +8,7 @@ import slogo.model.turtle.Turtle;
  *
  * @author Casey Szilagyi
  */
-public class Back implements BasicCommand {
+public class Backward implements BasicCommand {
 
   private final BasicCommand DISTANCE;
 
@@ -17,7 +17,7 @@ public class Back implements BasicCommand {
    *
    * @param commands The distance back that it will move
    */
-  public Back(BasicCommand... commands) {
+  public Backward(BasicCommand... commands) {
     DISTANCE = commands[0];
   }
 
