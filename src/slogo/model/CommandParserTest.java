@@ -62,14 +62,12 @@ public class CommandParserTest implements Parser{
             //send exception if it's a command saying the last one is a command but shouldnt be
             return root;
         }
-        if(isCommand(childVal)){ //checking if its a command isCommand
-            //if it is, then you get the number of params
-            int numParam = getSymbol(childVal);
-            for(int i=1; i<=numParam; i++){
-                //recursively insertNodeRecursive with the shorter splitCommands for each subsequent
-                // new child and yourself as the root
-                return insertNodeRecursive(splitCommands.subList(i, splitCommands.size()), child);
-            }
+        //if it is, then you get the number of params
+        int numParam = getSymbol(childVal);
+        for(int i=1; i<=numParam; i++){
+            //recursively insertNodeRecursive with the shorter splitCommands for each subsequent
+            // new child and yourself as the root
+            return insertNodeRecursive(splitCommands.subList(i, splitCommands.size()), child);
         }
         return root; //return the recursive call?
     }
