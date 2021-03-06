@@ -12,13 +12,13 @@ import javafx.scene.text.Text;
  */
 public class PossibleCommandPane {
   public static final String TITLE = "POSSIBLE COMMANDS";
-  private VBox myBox;
+  private VBox box;
   public PossibleCommandPane() {
-    myBox = new VBox();
-    myBox.setAlignment(Pos.TOP_CENTER);
-    myBox.setSpacing(5.0);
+    box = new VBox();
+    box.setAlignment(Pos.TOP_CENTER);
+    box.setSpacing(5.0);
     // change once there is css file only used for testing
-    myBox.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;"
+    box.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;"
             + "-fx-border-width: 2;" + "-fx-border-insets: 5;"
             + "-fx-border-radius: 5;" + "-fx-border-color: blue;");
     displayTitle();
@@ -53,15 +53,15 @@ public class PossibleCommandPane {
             + "-fx-border-width: 2;" + "-fx-border-insets: 5;"
             + "-fx-border-radius: 5;" + "-fx-border-color: seagreen;");
 
-    myBox.getChildren().add(subGroupBox);
+    box.getChildren().add(subGroupBox);
   }
 
   private void displayTitle() {
     Text title = new Text(TITLE);
-    myBox.getChildren().add(title);
+    box.getChildren().add(title);
   }
 
   public VBox getBox() {
-    return myBox;
+    return box;
   }
 }
