@@ -55,20 +55,23 @@ public class CommandParserTest implements Parser{
 
     //only call this if you are a command (check this and base case is if you're not a command)
     private TreeNode insertNodeRecursive(List<String> splitCommands, TreeNode root) {
-        TreeNode child = new TreeNode(splitCommands.get(0));
+        String childVal = splitCommands.get(0);
+        TreeNode child = new TreeNode(childVal, new ArrayList<>());
         root.addChild(child);
-        if(splitCommands.size() <= 1){
+        if(splitCommands.size() <= 1 || !isCommand(childVal)){
             //send exception if it's a command saying the last one is a command but shouldnt be
             return root;
         }
-        //make yourself as a treeNode
-        //checking if its a command isCommand
-        //if it is, then you get the number of params and recursively insertNodeRecursive with
-            //the shorter splitCommands for each subsequent new child and yourself as the root
-        //if its not a command then you're a leaf and can have no children (not sure how to integrate this into recursion. do i make this another base case?)
-
+        if(isCommand(childVal)){ //checking if its a command isCommand
+            //if it is, then you get the number of params
+            int numParam = getSymbol(childVal);
+            for(int i=1; i<=numParam; i++){
+                //recursively insertNodeRecursive with the shorter splitCommands for each subsequent
+                // new child and yourself as the root
+                return insertNodeRecursive(splitCommands.subList(i, splitCommands.size()), child);
+            }
+        }
         return root; //return the recursive call?
-
     }
 
     private boolean isCommand(String s){
@@ -93,9 +96,9 @@ public class CommandParserTest implements Parser{
      * @param text String representation of the command
      * @return String rep of the number of params needed for command
      */
-    public String getSymbol (String text) {
+    public Integer getSymbol (String text) {
         final String ERROR = "NO MATCH";
-        return parameters.get(text);
+        return Integer.parseInt(parameters.get(text));
     }
 
 
