@@ -43,6 +43,25 @@ public interface TurtleState {
      */
     public void setYPosition(double yPosition);
 
+
+    /**
+     * Changes the X position of the turtle by a certain amount
+     * @param changeX The change in X position
+     */
+    public void changeXPosition(double changeX);
+
+    /**
+     * Changes the Y position of the turtle by a certain amount
+     * @param changeY The change in Y position
+     */
+    public void changeYPosition(double changeY);
+
+    /**
+     * Changes the angle of the turtle by a certain amount
+     * @param rotate The change in the angle, in a counterclockwise direction
+     */
+    public void rotateClockwise(double rotate);
+
     /**
      * Returns whether or not the turtle is visible
      * @return 1 if visible, 0 if not visible

@@ -21,6 +21,29 @@ public class BasicCommandClassLoader {
     };
   }
 
+
+
+  /**
+   * Makes a Variable BasicCommand. This needs to be done in a slightly different way because the
+   * constructor takes a string and an integer
+   * @param identifier The name of the variable
+   * @param number The name of the basicCommand
+   * @return The BasicCommand object
+   */
+  public BasicCommand makeVariable(String identifier,BasicCommand... number) {
+    BasicCommand myCommand = null;
+    try {
+      Object command = CLASS_LOADER.loadClass(COMMAND_CLASSES_PACKAGE + "MakeVariable")
+          .getDeclaredConstructor(String.class, BasicCommand[].class).newInstance(identifier, number);
+      myCommand = (BasicCommand) command;
+    } catch (Exception e){
+      System.out.println("Basic command class loader");
+    }
+
+    return myCommand;
+  }
+
+
   /**
    * Makes a Constant BasicCommand. This needs to be done in a slightly different way because the
    * constructor takes integers rather than BasicCommands
@@ -28,21 +51,16 @@ public class BasicCommandClassLoader {
    * @param number The name of the basicCommand
    * @return The BasicCommand object
    */
-  public BasicCommand makeConstant(int number) {
+  public BasicCommand makeConstant(double number) {
     BasicCommand myCommand = null;
     try {
       Object command = CLASS_LOADER.loadClass(COMMAND_CLASSES_PACKAGE + "Constant")
-          .getDeclaredConstructor(int.class).newInstance(number);
+          .getDeclaredConstructor(double.class).newInstance(number);
       myCommand = (BasicCommand) command;
-    } catch (ClassNotFoundException e) {
-    } catch (NoSuchMethodException e) {
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
-    } catch (InstantiationException e) {
-      e.printStackTrace();
-    } catch (InvocationTargetException e) {
-      e.printStackTrace();
+    } catch (Exception e){
+      System.out.println("Basic command class loader");
     }
+
     return myCommand;
   }
 
@@ -59,14 +77,8 @@ public class BasicCommandClassLoader {
       Object command = CLASS_LOADER.loadClass(COMMAND_CLASSES_PACKAGE + commandName)
           .getDeclaredConstructor(BasicCommand[].class).newInstance((Object) commands);
       myCommand = (BasicCommand) command;
-    } catch (ClassNotFoundException e) {
-    } catch (NoSuchMethodException e) {
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
-    } catch (InstantiationException e) {
-      e.printStackTrace();
-    } catch (InvocationTargetException e) {
-      e.printStackTrace();
+    } catch (Exception e){
+      System.out.println("Basic command class loader");
     }
     return myCommand;
   }
