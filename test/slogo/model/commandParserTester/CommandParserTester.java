@@ -60,5 +60,26 @@ public class CommandParserTester {
         assertEquals(parser.translateCommand(input), expected);
     }
 
+    /**
+     * Tests one parameters count
+     */
+    @Test
+    void testLanguageTranslation() {
+        String userInput = "ava 50 se summe 1 2 [ fd 10 ]";
+        List<String> input = Arrays.asList(userInput.split(" "));
+        List<String> expected = new ArrayList<>();
+        expected.add("Forward");
+        expected.add("50");
+        expected.add("If");
+        expected.add("Sum");
+        expected.add("1");
+        expected.add("2");
+        expected.add("[");
+        expected.add("Forward");
+        expected.add("10");
+        expected.add("]");
+        assertEquals(parser.translateCommand(input), expected);
+    }
+
 
 }
