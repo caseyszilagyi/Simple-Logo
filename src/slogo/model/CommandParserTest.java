@@ -1,5 +1,6 @@
 package slogo.model;
 
+import com.sun.source.tree.Tree;
 import slogo.model.tree.TreeNode;
 
 import java.util.*;
@@ -8,6 +9,8 @@ public class CommandParserTest implements Parser{
 
     // where to find resources specifically for this class
     private static final String RESOURCES_PACKAGE = CommandParserTest.class.getPackageName()+".resources.commands.";
+    private static final String LANGUAGES_PACKAGE = CommandParserTest.class.getPackageName()+".resources.languages.";
+
     // "types" and the regular expression patterns that recognize those types
     // note, it is a list because order matters (some patterns may be more generic)
     private Map<String, String> myParameters;
@@ -35,9 +38,39 @@ public class CommandParserTest implements Parser{
         }
     }
 
-    public void makeTree(String allCommands){
-        List<String> splitCommands = Arrays.asList(allCommands.split(" "));
+//    public void makeTree(String allCommands){
+//        List<String> splitCommands = Arrays.asList(allCommands.split(" "));
+//        for(int n=0; n<splitCommands.size(); n++){
+//            String currCommand = splitCommands.get(n);
+//            TreeNode command = new TreeNode(currCommand, new ArrayList<>());
+//            myCommandTree.addChild(command);
+//            myCommandTree = myCommandTree.getChildren().get(0);
+//            int numParam = Integer.parseInt(getSymbol(currCommand));
+//            for(int p=1; p<=numParam; p++){
+//                String child = splitCommands.get(n+p);
+//                TreeNode childNode = new TreeNode(child, new ArrayList<>());
+//                myCommandTree.addChild(command);
+//            }
+//        }
+//    }
 
+    //only call this if you are a command (check this and base case is if you're not a command)
+    private void makeTreeRecursive(List<String> splitCommands, TreeNode root) {
+        if(splitCommands.size() <= 1){
+            //send exception if it's a command saying the last one is a command but shouldnt be
+            TreeNode child = new TreeNode(splitCommands.get(0));
+            root = child;
+        }
+
+        for(String stationName : network.getConnections(node)) {
+            TreeNode child = new TreeNode(stationName);
+            node.addChild(child);
+            addNodesRecursive(child, addedList);
+        }
+    }
+
+    private boolean isCommand(String s){
+        return myParameters.containsKey(s);
     }
 
     /**
