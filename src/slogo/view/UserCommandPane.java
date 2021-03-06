@@ -4,18 +4,22 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
+import javax.swing.text.View;
+import slogo.controller.ViewController;
 
 /**
  * Creates the pane where the user will input their commands and run them
  */
 public class UserCommandPane {
-  public static final double WIDTH = 600.0;
-  public static final double HEIGHT = 100.0;
+  private static final double WIDTH = 600.0;
+  private static final double HEIGHT = 100.0;
 
   private HBox box;
   private TextArea textArea;
+  private ViewController viewController;
 
-  public UserCommandPane() {
+  public UserCommandPane(ViewController viewController) {
+    this.viewController = viewController;
     box = new HBox();
     box.setAlignment(Pos.CENTER_LEFT);
     box.setSpacing(5.0);
@@ -29,7 +33,7 @@ public class UserCommandPane {
 
   private void createButtons() {
     Button runButton = buttonCreation("Run");
-    runButton.setOnAction(event -> System.out.println(textArea.getText()));
+    runButton.setOnAction(event -> viewController.setUserCommandInput(textArea.getText()));
     Button clearButton = buttonCreation("Clear");
     clearButton.setOnAction(event -> textArea.clear());
   }

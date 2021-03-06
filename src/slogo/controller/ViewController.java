@@ -11,12 +11,13 @@ import slogo.view.ScreenCreator;
 public class ViewController implements FrontEndExternalAPI {
     ModelController modelController;
     ScreenCreator screenCreator;
+    private String userCommandInputs;
 
     /**
      * Default constructor
      */
     public ViewController() {
-        screenCreator = new ScreenCreator();
+        screenCreator = new ScreenCreator(this);
     }
 
     /**
@@ -57,6 +58,17 @@ public class ViewController implements FrontEndExternalAPI {
     @Override
     public void setModelController(ModelController modelController) {
         this.modelController = modelController;
+    }
+
+    @Override
+    public String getUserCommandInput() {
+        return userCommandInputs;
+    }
+
+    @Override
+    public void setUserCommandInput(String userCommandInputs) {
+        this.userCommandInputs = userCommandInputs;
+        System.out.println(this.userCommandInputs);
     }
 
 }

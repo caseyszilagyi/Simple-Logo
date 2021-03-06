@@ -71,7 +71,7 @@ public class ModelController implements BackEndExternalAPI {
     }
 
     /**
-     * @param String input
+     * @param input String input
      */
     public void parseInput(String input) {
         // TODO implement here
