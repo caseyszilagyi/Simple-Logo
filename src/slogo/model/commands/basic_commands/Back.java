@@ -1,5 +1,6 @@
 package slogo.model.commands.basic_commands;
 
+import slogo.model.execution.CommandInformationBundle;
 import slogo.model.turtle.Turtle;
 
 /**
@@ -23,14 +24,13 @@ public class Back implements BasicCommand {
   /**
    * Makes the turtle move the distance back that was specified in the constructor
    *
-   * @param turtle The turtle object
+   * @param informationBundle The turtle object
    * @return The distance backward that it moved
    */
-  public int execute(Turtle turtle) {
-    turtle.setXPosition(
-        turtle.getXPosition() - Math.cos(turtle.getAngle()) * DISTANCE.execute(turtle));
-    turtle.setYPosition(
-        turtle.getYPosition() - Math.sin(turtle.getAngle()) * DISTANCE.execute(turtle));
-    return DISTANCE.execute(turtle);
+  public int execute(CommandInformationBundle informationBundle) {
+    Turtle turtle = informationBundle.getTurtle();
+    turtle.changeXPosition(-1 * Math.cos(turtle.getAngle()) * DISTANCE.execute(informationBundle));
+    turtle.changeYPosition(-1 * Math.sin(turtle.getAngle()) * DISTANCE.execute(informationBundle));
+    return DISTANCE.execute(informationBundle);
   }
 }

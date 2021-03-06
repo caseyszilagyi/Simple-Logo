@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.model.commands.BasicCommandClassLoader;
 import slogo.model.commands.basic_commands.*;
+import slogo.model.execution.CommandInformationBundle;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class BasicCommandTester {
 
-  private Turtle turtle;
+  private CommandInformationBundle commandBundle;
   private BasicCommandClassLoader loader;
 
   /**
@@ -23,7 +24,7 @@ public class BasicCommandTester {
    */
   @BeforeEach
   void setUp() {
-    turtle = new Turtle();
+    commandBundle = new CommandInformationBundle();
     loader = new BasicCommandClassLoader();
   }
 
@@ -34,8 +35,8 @@ public class BasicCommandTester {
   @Test
   void testForward() {
     BasicCommand forward = makeBasicCommand("Forward", makeConstantCommand(50));
-    forward.execute(turtle);
-    assertEquals(turtle.getXPosition(), 50);
+    forward.execute(commandBundle);
+    assertEquals(commandBundle.getTurtle().getXPosition(), 50);
   }
 
   /**
@@ -44,8 +45,8 @@ public class BasicCommandTester {
   @Test
   void testBack() {
     BasicCommand back = makeBasicCommand("Back", makeConstantCommand(50));
-    back.execute(turtle);
-    assertEquals(turtle.getXPosition(), -50);
+    back.execute(commandBundle);
+    assertEquals(commandBundle.getTurtle().getXPosition(), -50);
   }
 
   // Arithmetic Testing
@@ -56,8 +57,10 @@ public class BasicCommandTester {
   @Test
   void testSum() {
     BasicCommand sum = makeBasicCommand("Sum", makeConstantCommand(50), makeConstantCommand(70));
-    assertEquals(sum.execute(turtle), 120);
+    assertEquals(sum.execute(commandBundle), 120);
   }
+
+
 
   // Helper methods below
 

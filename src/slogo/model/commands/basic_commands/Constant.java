@@ -1,6 +1,6 @@
 package slogo.model.commands.basic_commands;
 
-import slogo.model.turtle.Turtle;
+import slogo.model.execution.CommandInformationBundle;
 
 /**
  * This is the Constant BasicCommand. Note that the constructor is different because it is the
@@ -24,11 +24,11 @@ public class Constant implements BasicCommand {
   /**
    * Returns the constant
    *
-   * @param turtle The turtle
+   * @param informationBundle The turtle
    * @return The constant
    */
   @Override
-  public int execute(Turtle turtle) {
+  public int execute(CommandInformationBundle informationBundle) {
     return CONSTANT;
   }
 

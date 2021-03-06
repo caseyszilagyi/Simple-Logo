@@ -1,6 +1,6 @@
 package slogo.model.commands.basic_commands;
 
-import slogo.model.turtle.Turtle;
+import slogo.model.execution.CommandInformationBundle;
 
 /**
  * This interface is designed to be used for all of the basic commands that the turtle can have
@@ -16,6 +16,6 @@ public interface BasicCommand {
    *
    * @return The TurtleMovement object
    */
-  public int execute(Turtle turtle);
+  public int execute(CommandInformationBundle informationBundle);
 
 }

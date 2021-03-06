@@ -1,5 +1,6 @@
 package slogo.model.commands.basic_commands;
 
+import slogo.model.execution.CommandInformationBundle;
 import slogo.model.turtle.Turtle;
 
 /**
@@ -23,13 +24,13 @@ public class Sum implements BasicCommand {
   /**
    * Makes the turtle move the distance back that was specified in the constructor
    *
-   * @param turtle The turtle object
+   * @param informationBundle The turtle object
    * @return The distance backward that it moved
    */
-  public int execute(Turtle turtle) {
+  public int execute(CommandInformationBundle informationBundle) {
     int result = 0;
     for (int i = 0; i < VALUES_TO_SUM.length; i++) {
-      result += VALUES_TO_SUM[i].execute(turtle);
+      result += VALUES_TO_SUM[i].execute(informationBundle);
     }
     return result;
   }
