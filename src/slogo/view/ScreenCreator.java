@@ -9,6 +9,8 @@ import javafx.stage.Stage;
  */
 public class ScreenCreator {
   public static final String TITLE = "SLogo";
+  public static final double DEFAULT_X = 1000.0;
+  public static final double DEFAULT_Y = 600.0;
 
   private BorderPane myRoot;
   private Scene myScene;
@@ -22,7 +24,7 @@ public class ScreenCreator {
     myStage.setResizable(true);
 
     myRoot = new BorderPane();
-    myScene = new Scene(myRoot);
+    myScene = new Scene(myRoot, DEFAULT_X, DEFAULT_Y);
     myStage.setScene(myScene);
     myStage.setTitle(TITLE);
     myStage.show();
