@@ -1,6 +1,7 @@
 package slogo.model;
 
 import java.util.*;
+import slogo.controller.ModelController;
 import slogo.model.tree.TreeNode;
 
 /**
@@ -16,12 +17,21 @@ public class CommandParser implements Parser {
     // note, it is a list because order matters (some patterns may be more generic)
     private Map<String, String> parameters;
     private TreeNode commandTree;
+    private String userInput;
+    private ModelController modelController;
 
 
-    public CommandParser(){
+    public CommandParser(String userInput, ModelController modelController){
+        this.modelController = modelController;
         parameters = new HashMap<>();
         addPatterns("Commands");
         commandTree = new TreeNode(null);
+        this.userInput = userInput;
+
+        System.out.println("Parameter Taken in by the parser" + userInput);
+        commandParamCount(Arrays.asList(userInput.split(" ")));
+
+
     }
 
     @Override
