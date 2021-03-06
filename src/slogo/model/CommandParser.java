@@ -33,6 +33,14 @@ public class CommandParser implements Parser {
         parameters = new HashMap<>();
         symbols = new ArrayList<>();
         addLangPatterns("English");
+        addLangPatterns("Chinese");
+        addLangPatterns("French");
+        addLangPatterns("German");
+        addLangPatterns("Italian");
+        addLangPatterns("Portuguese");
+        addLangPatterns("Russian");
+        addLangPatterns("Spanish");
+        addLangPatterns("Urdu");
 //        addLangPatterns("Syntax");
         addParamCounts("Commands");
         commandTree = new TreeNode(null);
