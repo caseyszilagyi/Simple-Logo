@@ -30,8 +30,7 @@ public class CommandParser implements Parser {
         this.userInput = userInput;
 
         System.out.println("Parameter Taken in by the parser" + userInput);
-
-
+        TreeNode root = makeTree();
     }
 
     @Override
@@ -46,6 +45,9 @@ public class CommandParser implements Parser {
         ResourceBundle resources = ResourceBundle.getBundle(RESOURCES_PACKAGE + syntax);
         for (String key : Collections.list(resources.getKeys())) {
             parameters.put(key, resources.getString(key));
+            System.out.println("Key: " + key);
+            System.out.println("Number: " + resources.getString(key));
+            System.out.println();
         }
     }
 
@@ -55,6 +57,7 @@ public class CommandParser implements Parser {
      */
     public TreeNode makeTree(){
         List<String> splitCommands = Arrays.asList(userInput.split(WHITESPACE));
+        System.out.println(splitCommands);
         insertNodeRecursive(splitCommands, commandTree);
         return commandTree;
     }
@@ -77,19 +80,8 @@ public class CommandParser implements Parser {
 
     //only call this if you are a command (check this and base case is if you're not a command)
     private TreeNode insertNodeRecursive(List<String> splitCommands, TreeNode root) {
-        String childVal = splitCommands.get(0);
-        TreeNode child = new TreeNode(childVal, new ArrayList<>());
-        root.addChild(child);
-        if(splitCommands.size() <= 1 || !isCommand(childVal)){
-            //send exception if it's a command saying the last one is a command but shouldnt be
-            return root;
-        }
-        //if it is, then you get the number of params
-        int numParam = getParamCount(childVal);
-        for(int i=1; i<=numParam; i++){
-            //recursively insertNodeRecursive with the shorter splitCommands for each subsequent
-            // new child and yourself as the root
-            return insertNodeRecursive(splitCommands.subList(i, splitCommands.size()), child);
+        for(String command : splitCommands){
+            System.out.println(command + ": " + getParamCount(command));
         }
         return root; //return the recursive call?
     }
@@ -105,6 +97,10 @@ public class CommandParser implements Parser {
      */
     public Integer getParamCount(String text) {
         final String ERROR = "NO MATCH";
-        return Integer.parseInt(parameters.get(text));
+        try{
+            return Integer.parseInt(parameters.get(text));
+        }catch (Exception e){
+            return -1;
+        }
     }
 }
