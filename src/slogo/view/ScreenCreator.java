@@ -17,7 +17,7 @@ public class ScreenCreator {
   private Stage stage;
   private PossibleCommandPane possibleCommandPane;
   private UserCommandPane userCommand;
-  private ViewPane myViewPane;
+  private ViewPane viewPane;
 
   public ScreenCreator() {
     stage = new Stage();
@@ -35,7 +35,7 @@ public class ScreenCreator {
     userCommand = new UserCommandPane();
     root.setBottom(userCommand.getBox());
 
-    myViewPane = new ViewPane();
-    root.setCenter(myViewPane.getBox());
+    viewPane = new ViewPane();
+    root.setCenter(viewPane.getBox());
   }
 }
