@@ -37,21 +37,11 @@ public class CommandParserTest implements Parser{
         }
     }
 
-//    public void makeTree(String allCommands){
-//        List<String> splitCommands = Arrays.asList(allCommands.split(" "));
-//        for(int n=0; n<splitCommands.size(); n++){
-//            String currCommand = splitCommands.get(n);
-//            TreeNode command = new TreeNode(currCommand, new ArrayList<>());
-//            myCommandTree.addChild(command);
-//            myCommandTree = myCommandTree.getChildren().get(0);
-//            int numParam = Integer.parseInt(getSymbol(currCommand));
-//            for(int p=1; p<=numParam; p++){
-//                String child = splitCommands.get(n+p);
-//                TreeNode childNode = new TreeNode(child, new ArrayList<>());
-//                myCommandTree.addChild(command);
-//            }
-//        }
-//    }
+    public TreeNode makeTree(String allCommands){
+        List<String> splitCommands = Arrays.asList(allCommands.split(" "));
+        insertNodeRecursive(splitCommands, commandTree);
+        return commandTree;
+    }
 
     //only call this if you are a command (check this and base case is if you're not a command)
     private TreeNode insertNodeRecursive(List<String> splitCommands, TreeNode root) {
@@ -63,7 +53,7 @@ public class CommandParserTest implements Parser{
             return root;
         }
         //if it is, then you get the number of params
-        int numParam = getSymbol(childVal);
+        int numParam = commandParamCount(childVal);
         for(int i=1; i<=numParam; i++){
             //recursively insertNodeRecursive with the shorter splitCommands for each subsequent
             // new child and yourself as the root
@@ -77,24 +67,11 @@ public class CommandParserTest implements Parser{
     }
 
     /**
-     * gets the respective parameter counts for the command specified
-     * @param lines
-     * @return
-     */
-    public String commandParamCount(List<String> lines) {
-        String ret = "";
-        for (String line : lines) {
-            ret = ret+ getSymbol(line)+" ";
-        }
-        return ret;
-    }
-
-    /**
      * Returns respective parameter counts for the command specified
      * @param text String representation of the command
      * @return String rep of the number of params needed for command
      */
-    public Integer getSymbol (String text) {
+    public Integer commandParamCount(String text) {
         final String ERROR = "NO MATCH";
         return Integer.parseInt(parameters.get(text));
     }
@@ -104,6 +81,5 @@ public class CommandParserTest implements Parser{
         CommandParserTest test = new CommandParserTest();
         test.addPatterns("Commands");
         String userInput = "Forward";
-        test.commandParamCount(Arrays.asList(userInput.split(" ")));
     }
 }

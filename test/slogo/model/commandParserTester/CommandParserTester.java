@@ -26,7 +26,7 @@ public class CommandParserTester {
      */
     @Test
     void testOneCommand() {
-        assertEquals(parser.getSymbol("Forward"), "1");
+        assertEquals(parser.commandParamCount("Forward"), 1);
     }
 
     /**
@@ -36,6 +36,10 @@ public class CommandParserTester {
     void testMultCommand() {
         String userInput = "Forward Backward";
         List<String> input = Arrays.asList(userInput.split(" "));
-        assertEquals(parser.commandParamCount(input), "1 1 ");
+        for (String s : input) {
+            assertEquals(parser.commandParamCount(s), 1);
+        }
     }
+
+
 }
