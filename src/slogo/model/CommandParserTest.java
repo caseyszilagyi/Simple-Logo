@@ -24,8 +24,8 @@ public class CommandParserTest implements Parser{
     }
 
     @Override
-    public void translateCommand(List<String> commandsBeforeTranslation) {
-
+    public List<String> translateCommand(List<String> commandsBeforeTranslation) {
+        return null;
     }
 
     /**
