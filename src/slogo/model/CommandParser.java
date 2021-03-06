@@ -12,6 +12,7 @@ public class CommandParser implements Parser {
     // where to find resources specifically for this class
     private static final String RESOURCES_PACKAGE = CommandParserTest.class.getPackageName()+".resources.commands.";
     private static final String LANGUAGES_PACKAGE = CommandParserTest.class.getPackageName()+".resources.languages.";
+    public static final String WHITESPACE = "\\s+";
 
     // "types" and the regular expression patterns that recognize those types
     // note, it is a list because order matters (some patterns may be more generic)
@@ -46,6 +47,16 @@ public class CommandParser implements Parser {
         for (String key : Collections.list(resources.getKeys())) {
             parameters.put(key, resources.getString(key));
         }
+    }
+
+    /**
+     * makes the tree at the tree root node commandTree
+     * @return
+     */
+    public TreeNode makeTree(){
+        List<String> splitCommands = Arrays.asList(userInput.split(WHITESPACE));
+        insertNodeRecursive(splitCommands, commandTree);
+        return commandTree;
     }
 
 //    public void makeTree(String allCommands){
