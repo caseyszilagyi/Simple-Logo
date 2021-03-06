@@ -1,6 +1,6 @@
 package slogo.model.commands.basic_commands;
 
-import slogo.model.turtle.Turtle;
+import slogo.model.execution.CommandInformationBundle;
 
 /**
  * This is the Constant BasicCommand. Note that the constructor is different because it is the
@@ -10,25 +10,25 @@ import slogo.model.turtle.Turtle;
  */
 public class Constant implements BasicCommand {
 
-  private final int CONSTANT;
+  private final double CONSTANT;
 
   /**
    * This constructor essentially just stores the int in a BasicCommand object
    *
    * @param value The integer to store
    */
-  public Constant(int value) {
+  public Constant(double value) {
     CONSTANT = value;
   }
 
   /**
    * Returns the constant
    *
-   * @param turtle The turtle
+   * @param informationBundle The bundle of all information that is needed for a command
    * @return The constant
    */
   @Override
-  public int execute(Turtle turtle) {
+  public double execute(CommandInformationBundle informationBundle) {
     return CONSTANT;
   }
 
