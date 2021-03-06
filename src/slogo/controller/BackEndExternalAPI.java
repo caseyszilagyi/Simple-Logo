@@ -73,4 +73,5 @@ public interface BackEndExternalAPI {
      */
     public List<Turtle> getAllTurtles();
 
+    void setViewController(ViewController viewController);
 }

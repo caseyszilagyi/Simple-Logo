@@ -15,7 +15,6 @@ public class ModelController implements BackEndExternalAPI {
      * Default constructor
      */
     public ModelController() {
-        viewController = new ViewController();
     }
 
     /**
@@ -103,6 +102,11 @@ public class ModelController implements BackEndExternalAPI {
     public List<Turtle> getAllTurtles() {
         // TODO implement here
         return null;
+    }
+
+    @Override
+    public void setViewController(ViewController viewController) {
+        this.viewController = viewController;
     }
 
 }

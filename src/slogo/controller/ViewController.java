@@ -15,7 +15,6 @@ public class ViewController implements FrontEndExternalAPI {
      */
     public ViewController() {
         ScreenCreator screenCreator = new ScreenCreator();
-        modelController = new ModelController();
     }
 
     /**
@@ -51,6 +50,11 @@ public class ViewController implements FrontEndExternalAPI {
      */
     public void displayError(String errorMessage) {
         // TODO implement here
+    }
+
+    @Override
+    public void setModelController(ModelController modelController) {
+        this.modelController = modelController;
     }
 
 }
