@@ -21,10 +21,9 @@ public class CommandParser implements Parser {
                                                                                     "Italian","Portuguese", "Russian", "Spanish", "Urdu"));
     public static final String WHITESPACE = "\\s+";
 
-    // "types" and the regular expression patterns that recognize those types
-    // note, it is a list because order matters (some patterns may be more generic)
     private Map<String, String> parameters;
-    private List<Entry<String, Pattern>> symbols;
+    private List<Entry<String, Pattern>> languageSymbols;
+    private List<Entry<String, Pattern>> regexSymbols;
     private TreeNode commandTree;
     private String userInput;
     private ModelController modelController;
@@ -33,9 +32,11 @@ public class CommandParser implements Parser {
     public CommandParser(String userInput, ModelController modelController){
         this.modelController = modelController;
         parameters = new HashMap<>();
-        symbols = new ArrayList<>();
+        languageSymbols = new ArrayList<>();
+        regexSymbols = new ArrayList<>();
+        addLangPatterns("Syntax", regexSymbols);
         for(String language : ALL_LANGUAGES) {
-            addLangPatterns(language);
+            addLangPatterns(language, languageSymbols);
         }
         addParamCounts("Commands");
         commandTree = new TreeNode(null);
@@ -49,11 +50,11 @@ public class CommandParser implements Parser {
     public List<String> translateCommand(List<String> commandsBeforeTranslation) {
         List<String> translated = new ArrayList<>();
         for(String s : commandsBeforeTranslation){
-            if(getCommandKey(s) == "NO MATCH"){
-                translated.add(s);
+            if(getCommandKey(s, regexSymbols).equals("Command")){
+                s = getCommandKey(s, languageSymbols);
             }
-            else{
-                translated.add(getCommandKey(s));
+            if(!s.equals("NO MATCH")){
+                translated.add(s);
             }
         }
         return translated;
@@ -72,11 +73,11 @@ public class CommandParser implements Parser {
     /**
      * Adds the given resource file to this language's recognized types
      */
-    public void addLangPatterns(String syntax) {
+    public void addLangPatterns(String syntax, List<Entry<String, Pattern>> patterns) {
         ResourceBundle resources = ResourceBundle.getBundle(LANGUAGES_PACKAGE + syntax);
         for (String key : Collections.list(resources.getKeys())) {
             String regex = resources.getString(key);
-            symbols.add(new SimpleEntry<>(key, Pattern.compile(regex, Pattern.CASE_INSENSITIVE)));
+            patterns.add(new SimpleEntry<>(key, Pattern.compile(regex, Pattern.CASE_INSENSITIVE)));
         }
     }
 
@@ -89,22 +90,6 @@ public class CommandParser implements Parser {
         insertNodeRecursive(splitCommands, commandTree);
         return commandTree;
     }
-
-//    public void makeTree(String allCommands){
-//        List<String> splitCommands = Arrays.asList(allCommands.split(" "));
-//        for(int n=0; n<splitCommands.size(); n++){
-//            String currCommand = splitCommands.get(n);
-//            TreeNode command = new TreeNode(currCommand, new ArrayList<>());
-//            myCommandTree.addChild(command);
-//            myCommandTree = myCommandTree.getChildren().get(0);
-//            int numParam = Integer.parseInt(getSymbol(currCommand));
-//            for(int p=1; p<=numParam; p++){
-//                String child = splitCommands.get(n+p);
-//                TreeNode childNode = new TreeNode(child, new ArrayList<>());
-//                myCommandTree.addChild(command);
-//            }
-//        }
-//    }
 
     //only call this if you are a command (check this and base case is if you're not a command)
     private TreeNode insertNodeRecursive(List<String> splitCommands, TreeNode root) {
@@ -135,14 +120,19 @@ public class CommandParser implements Parser {
      * @return String rep of the number of params needed for command
      */
     public Integer getParamCount(String text) {
-        final String ERROR = "NO MATCH";
-        return Integer.parseInt(parameters.get(text));
+        Integer paramCount = null;
+        try {
+            paramCount =  Integer.parseInt(parameters.get(text));
+        } catch (Exception e) {
+            System.out.println("Param count");
+        }
+        return paramCount;
     }
 
     /**
      * Returns key Command associated with the given text if one exists
      */
-    public String getCommandKey (String text) {
+    public String getCommandKey (String text, List<Entry<String, Pattern>> symbols) {
         final String ERROR = "NO MATCH";
         for (Entry<String, Pattern> e : symbols) {
             if (match(text, e.getValue())) {

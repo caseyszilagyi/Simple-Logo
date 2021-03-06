@@ -46,7 +46,7 @@ public class CommandParserTester {
     }
 
     /**
-     * Tests one parameters count
+     * Tests translating english to simple commands recognizable by backend
      */
     @Test
     void testTranslation() {
@@ -61,11 +61,23 @@ public class CommandParserTester {
     }
 
     /**
-     * Tests one parameters count
+     * Tests translating english to simple commands recognizable by backend
+     */
+    @Test
+    void testNonExistentCommand() {
+        String userInput = "hello";
+        List<String> input = Arrays.asList(userInput.split(" "));
+        List<String> expected = new ArrayList<>();
+        assertEquals(parser.translateCommand(input), expected);
+    }
+
+    /**
+     * Tests translating mult lang simple commands recognizable by backend
+     * also makes sure that special characters like + and [ work
      */
     @Test
     void testLanguageTranslation() {
-        String userInput = "ava 50 se summe 1 2 [ fd 10 ]";
+        String userInput = "ava 50 se + 1 2 [ fd 10 ]";
         List<String> input = Arrays.asList(userInput.split(" "));
         List<String> expected = new ArrayList<>();
         expected.add("Forward");
@@ -80,6 +92,8 @@ public class CommandParserTester {
         expected.add("]");
         assertEquals(parser.translateCommand(input), expected);
     }
+
+
 
 
 }
