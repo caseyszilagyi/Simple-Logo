@@ -1,5 +1,7 @@
 package slogo.model.turtle;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.model.commands.BasicCommandClassLoader;
@@ -74,9 +76,19 @@ public class BasicCommandTester {
     assertEquals(commandBundle.getVariable("Yo"), 50);
   }
 
-  
 
 
+
+  /**
+   * Tests the repeat command. Uses the forward method to do so.
+   */
+  @Test
+  void testRepeat(){
+    BasicCommand forward = makeBasicCommand("Forward", makeConstantCommand(5));
+    BasicCommand repeat = makeBasicCommand("Repeat", makeConstantCommand(5), forward);
+    repeat.execute(commandBundle);
+    assertEquals(commandBundle.getTurtle().getXPosition(), 25);
+  }
 
   // Helper methods below
 
