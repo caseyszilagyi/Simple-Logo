@@ -55,18 +55,21 @@ public class CommandParserTest implements Parser{
 //    }
 
     //only call this if you are a command (check this and base case is if you're not a command)
-    private void makeTreeRecursive(List<String> splitCommands, TreeNode root) {
+    private TreeNode insertNodeRecursive(List<String> splitCommands, TreeNode root) {
+        TreeNode child = new TreeNode(splitCommands.get(0));
+        root.addChild(child);
         if(splitCommands.size() <= 1){
             //send exception if it's a command saying the last one is a command but shouldnt be
-            TreeNode child = new TreeNode(splitCommands.get(0));
-            root = child;
+            return root;
         }
+        //make yourself as a treeNode
+        //checking if its a command isCommand
+        //if it is, then you get the number of params and recursively insertNodeRecursive with
+            //the shorter splitCommands for each subsequent new child and yourself as the root
+        //if its not a command then you're a leaf and can have no children (not sure how to integrate this into recursion. do i make this another base case?)
 
-        for(String stationName : network.getConnections(node)) {
-            TreeNode child = new TreeNode(stationName);
-            node.addChild(child);
-            addNodesRecursive(child, addedList);
-        }
+        return root; //return the recursive call?
+
     }
 
     private boolean isCommand(String s){
