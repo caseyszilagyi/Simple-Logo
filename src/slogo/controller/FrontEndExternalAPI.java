@@ -38,5 +38,5 @@ public interface FrontEndExternalAPI {
 
     public String getUserCommandInput();
 
-    public void setUserCommandInput(String userCommandInput);
+    public void processUserCommandInput(String userCommandInput);
 }

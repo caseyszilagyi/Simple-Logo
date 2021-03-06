@@ -4,7 +4,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
-import javax.swing.text.View;
 import slogo.controller.ViewController;
 
 /**
@@ -33,7 +32,7 @@ public class UserCommandPane {
 
   private void createButtons() {
     Button runButton = buttonCreation("Run");
-    runButton.setOnAction(event -> viewController.setUserCommandInput(textArea.getText()));
+    runButton.setOnAction(event -> viewController.processUserCommandInput(textArea.getText()));
     Button clearButton = buttonCreation("Clear");
     clearButton.setOnAction(event -> textArea.clear());
   }

@@ -66,9 +66,11 @@ public class ViewController implements FrontEndExternalAPI {
     }
 
     @Override
-    public void setUserCommandInput(String userCommandInputs) {
+    public void processUserCommandInput(String userCommandInputs) {
         this.userCommandInputs = userCommandInputs;
+        //print statement for debugging
         System.out.println(this.userCommandInputs);
+        modelController.parseInput(userCommandInputs);
     }
 
 }
