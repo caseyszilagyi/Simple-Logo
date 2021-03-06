@@ -16,7 +16,10 @@ public class CommandParserTest implements Parser{
     private Map<String, String> myParameters;
 
 
-    public CommandParserTest(){ myParameters = new HashMap<>(); }
+    public CommandParserTest(){
+        myParameters = new HashMap<>();
+        addPatterns("Commands");
+    }
 
     @Override
     public void translateCommand(List<String> commandsBeforeTranslation) {
@@ -29,41 +32,27 @@ public class CommandParserTest implements Parser{
     public void addPatterns (String syntax) {
         ResourceBundle resources = ResourceBundle.getBundle(RESOURCES_PACKAGE + syntax);
         for (String key : Collections.list(resources.getKeys())) {
-            String regex = resources.getString(key);
             myParameters.put(key, resources.getString(key));
         }
     }
 
-    private void parseText (List<String> lines) {
+
+    public String parseText (List<String> lines) {
+        String ret = "";
         for (String line : lines) {
-            if (line.trim().length() > 0) {
-//                System.out.println(String.format("%s : %s", line, getSymbol(line)));
-            }
+            ret = ret+ getSymbol(line)+" ";
         }
-        System.out.println();
+        return ret;
     }
 
     /**
      * Returns language's type associated with the given text if one exists
      */
-//    public String getSymbol (String text) {
-//        System.out.println(mySymbols);
-//        final String ERROR = "NO MATCH";
-//        for (Entry<String, Pattern> e : mySymbols) {
-////            if (match(text, e.getValue())) {
-//            System.out.println(match(text, e.getValue()));
-//                return e.getKey();
-////            }
-//        }
-//        // FIXME: perhaps throw an exception instead
-//        return ERROR;
-//    }
+    public String getSymbol (String text) {
+        final String ERROR = "NO MATCH";
+        return myParameters.get(text);
+    }
 
-    // Returns true if the given text matches the given regular expression pattern
-//    private String match (String text, Pattern regex) {
-//        // THIS IS THE OTHER IMPORTANT LINE
-//        return ;
-//    }
 
     public static void main(String[] args) {
         // NO static methods needed!
@@ -79,9 +68,9 @@ public class CommandParserTest implements Parser{
         // try against different kinds of inputs
 //        m.parseText(lang, m.examples);
 //        String userInput = "fd 50 rt 90 BACK :distance Left :angle";
-//        String userInput = "Forward";
+        String userInput = "Forward";
 //        // note, this simple "algorithm" will not handle SLogo comments
-//        test.parseText(Arrays.asList(userInput.split(" ")));
+        test.parseText(Arrays.asList(userInput.split(" ")));
 //        String fileInput = m.readFileToString(Main.class.getClassLoader().getResource("square.logo").toExternalForm());
         // instead it will "comment out" the remainder of the program!
 //        m.parseText(lang, Arrays.asList(fileInput.split(WHITESPACE)));
