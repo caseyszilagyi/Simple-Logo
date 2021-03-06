@@ -9,10 +9,13 @@ import slogo.model.turtle.Turtle;
  */
 public class ModelController implements BackEndExternalAPI {
 
+    ViewController viewController;
+
     /**
      * Default constructor
      */
     public ModelController() {
+        viewController = new ViewController();
     }
 
     /**

@@ -3,6 +3,7 @@ package slogo;
 import java.util.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import slogo.controller.ViewController;
 import slogo.view.ScreenCreator;
 
 /**
@@ -35,7 +36,7 @@ public class Main extends Application {
    */
   @Override
   public void start(Stage primaryStage) throws Exception {
-    ScreenCreator screenCreator = new ScreenCreator();
+    ViewController viewController = new ViewController();
   }
 
 }

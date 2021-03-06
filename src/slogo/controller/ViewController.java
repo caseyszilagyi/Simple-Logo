@@ -3,16 +3,19 @@ package slogo.controller;
 import java.util.*;
 import javax.swing.text.html.ImageView;
 import slogo.model.turtle.Turtle;
+import slogo.view.ScreenCreator;
 
 /**
  * 
  */
 public class ViewController implements FrontEndExternalAPI {
-
+    ModelController modelController;
     /**
      * Default constructor
      */
     public ViewController() {
+        ScreenCreator screenCreator = new ScreenCreator();
+        modelController = new ModelController();
     }
 
     /**
