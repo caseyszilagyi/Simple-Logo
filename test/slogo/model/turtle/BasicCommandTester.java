@@ -52,16 +52,16 @@ public class BasicCommandTester {
   }
 
   // Queries Testing
+
   /**
    * Tests the XCoordinate command
    */
   @Test
-  void testXCoordinate(){
+  void testXCoordinate() {
     moveTurtle(50);
     BasicCommand x = makeBasicCommand("XCoordinate");
     assertEquals(executeCommand(x), 50);
   }
-
 
   // Arithmetic Testing
 
@@ -74,26 +74,38 @@ public class BasicCommandTester {
     assertEquals(sum.execute(commandBundle), 120);
   }
 
+  // Boolean Operations Testing
+
+  /**
+   * Tests the Less than command
+   */
+  @Test
+  void testLessThan() {
+    BasicCommand lessThan = makeBasicCommand("LessThan", makeConstantCommand(50),
+        makeConstantCommand(40));
+    assertEquals(lessThan.execute(commandBundle), 0);
+    lessThan = makeBasicCommand("LessThan", makeConstantCommand(40), makeConstantCommand(50));
+    assertEquals(lessThan.execute(commandBundle), 1);
+  }
+
   // Control Structure Testing
 
   /**
    * Tests the command to make variables
    */
   @Test
-  void testMakeVariable(){
+  void testMakeVariable() {
     BasicCommand make = makeVariableCommand("Yo", makeConstantCommand(50));
     make.execute(commandBundle);
     assertEquals(commandBundle.getVariable("Yo"), 50);
   }
 
 
-
-
   /**
    * Tests the repeat command. Uses the forward method to do so.
    */
   @Test
-  void testRepeat(){
+  void testRepeat() {
     BasicCommand forward = makeBasicCommand("Forward", makeConstantCommand(5));
     BasicCommand repeat = makeBasicCommand("Repeat", makeConstantCommand(5), forward);
     repeat.execute(commandBundle);
@@ -119,12 +131,12 @@ public class BasicCommandTester {
   }
 
   // Moves the turtle a specified distance, useful for testing queries
-  private void moveTurtle(double distance){
+  private void moveTurtle(double distance) {
     BasicCommand forward = makeBasicCommand("Forward", makeConstantCommand(distance));
     forward.execute(commandBundle);
   }
 
-  private double executeCommand(BasicCommand command){
+  private double executeCommand(BasicCommand command) {
     return command.execute(commandBundle);
   }
   /*
