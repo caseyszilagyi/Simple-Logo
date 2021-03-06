@@ -17,6 +17,8 @@ public class CommandParser implements Parser {
     // where to find resources specifically for this class
     private static final String RESOURCES_PACKAGE = CommandParserTest.class.getPackageName()+".resources.commands.";
     private static final String LANGUAGES_PACKAGE = CommandParserTest.class.getPackageName()+".resources.languages.";
+    private static final List<String> ALL_LANGUAGES = new ArrayList<>(Arrays.asList("English", "Chinese", "French", "German",
+                                                                                    "Italian","Portuguese", "Russian", "Spanish", "Urdu"));
     public static final String WHITESPACE = "\\s+";
 
     // "types" and the regular expression patterns that recognize those types
@@ -32,16 +34,9 @@ public class CommandParser implements Parser {
         this.modelController = modelController;
         parameters = new HashMap<>();
         symbols = new ArrayList<>();
-        addLangPatterns("English");
-        addLangPatterns("Chinese");
-        addLangPatterns("French");
-        addLangPatterns("German");
-        addLangPatterns("Italian");
-        addLangPatterns("Portuguese");
-        addLangPatterns("Russian");
-        addLangPatterns("Spanish");
-        addLangPatterns("Urdu");
-//        addLangPatterns("Syntax");
+        for(String language : ALL_LANGUAGES) {
+            addLangPatterns(language);
+        }
         addParamCounts("Commands");
         commandTree = new TreeNode(null);
         this.userInput = userInput;
