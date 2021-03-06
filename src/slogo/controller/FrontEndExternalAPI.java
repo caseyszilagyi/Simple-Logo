@@ -34,4 +34,9 @@ public interface FrontEndExternalAPI {
      */
     public void displayError(String errorMessage);
 
+    public void setModelController(ModelController modelController);
+
+    public String getUserCommandInput();
+
+    public void processUserCommandInput(String userCommandInput);
 }

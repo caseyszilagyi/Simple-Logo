@@ -3,6 +3,7 @@ package slogo.view;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import slogo.controller.ViewController;
 
 /**
  * Create the main screen where visuals and panes will be displayed
@@ -12,30 +13,32 @@ public class ScreenCreator {
   public static final double DEFAULT_X = 1000.0;
   public static final double DEFAULT_Y = 600.0;
 
-  private BorderPane myRoot;
-  private Scene myScene;
-  private Stage myStage;
-  private PossibleCommandPane myPossibleCommandPane;
-  private UserCommandPane myUserCommandPane;
-  private ViewPane myViewPane;
+  private BorderPane root;
+  private Scene scene;
+  private Stage stage;
+  private PossibleCommandPane possibleCommandPane;
+  private UserCommandPane userCommand;
+  private ViewPane viewPane;
+  private ViewController viewController;
 
-  public ScreenCreator() {
-    myStage = new Stage();
-    myStage.setResizable(true);
+  public ScreenCreator(ViewController viewController) {
+    this.viewController = viewController;
+    stage = new Stage();
+    stage.setResizable(true);
 
-    myRoot = new BorderPane();
-    myScene = new Scene(myRoot, DEFAULT_X, DEFAULT_Y);
-    myStage.setScene(myScene);
-    myStage.setTitle(TITLE);
-    myStage.show();
+    root = new BorderPane();
+    scene = new Scene(root, DEFAULT_X, DEFAULT_Y);
+    stage.setScene(scene);
+    stage.setTitle(TITLE);
+    stage.show();
 
-    myPossibleCommandPane = new PossibleCommandPane();
-    myRoot.setRight(myPossibleCommandPane.getBox());
+    possibleCommandPane = new PossibleCommandPane();
+    root.setRight(possibleCommandPane.getBox());
 
-    myUserCommandPane = new UserCommandPane();
-    myRoot.setBottom(myUserCommandPane.getBox());
+    userCommand = new UserCommandPane(viewController);
+    root.setBottom(userCommand.getBox());
 
-    myViewPane = new ViewPane();
-    myRoot.setCenter(myViewPane.getBox());
+    viewPane = new ViewPane();
+    root.setCenter(viewPane.getBox());
   }
 }
