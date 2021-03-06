@@ -42,6 +42,7 @@ public class UserCommandPane {
     return button;
   }
 
+
   private void addTextField() {
     textArea = new TextArea();
     textArea.setPrefWidth(WIDTH);
