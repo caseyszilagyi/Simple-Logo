@@ -9,6 +9,8 @@ import slogo.model.turtle.Turtle;
  */
 public class ModelController implements BackEndExternalAPI {
 
+    ViewController viewController;
+
     /**
      * Default constructor
      */
@@ -69,10 +71,25 @@ public class ModelController implements BackEndExternalAPI {
     }
 
     /**
-     * @param String input
+     * @param input String input
      */
     public void parseInput(String input) {
         // TODO implement here
+        System.out.println("ModelController received the following string as input: \n" + input);
+
+        String commandsInOneLine = convertInputIntoOneLineStringSeparatedBySingleSpace(input);
+        System.out.println("Commands after manipulation: \n" + commandsInOneLine);
+    }
+
+    private String convertInputIntoOneLineStringSeparatedBySingleSpace(String input) {
+        String commandsInOneLine = input.replaceAll("[\r\n]+", " ");
+        commandsInOneLine = commandsInOneLine.trim().replaceAll(" +", " ");
+
+        return commandsInOneLine;
+    }
+
+    private void manipulateStringToBeAllInOneLine(String input) {
+
     }
 
     /**
@@ -100,6 +117,11 @@ public class ModelController implements BackEndExternalAPI {
     public List<Turtle> getAllTurtles() {
         // TODO implement here
         return null;
+    }
+
+    @Override
+    public void setViewController(ViewController viewController) {
+        this.viewController = viewController;
     }
 
 }
