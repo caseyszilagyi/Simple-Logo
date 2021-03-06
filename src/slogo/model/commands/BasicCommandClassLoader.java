@@ -50,7 +50,7 @@ public class BasicCommandClassLoader {
    * Makes a basicCommand with the given string name
    *
    * @param commandName The name of the basicCommand
-   * @param commands The BasicCommands that will be given to the constructor of the command
+   * @param commands    The BasicCommands that will be given to the constructor of the command
    * @return The BasicCommand object
    */
   public BasicCommand makeCommand(String commandName, BasicCommand... commands) {
