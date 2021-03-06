@@ -1,6 +1,6 @@
 package slogo.model.commands.basic_commands;
 
-import slogo.model.commands.TurtleMovement;
+import slogo.model.turtle.Turtle;
 
 /**
  * The forward command
@@ -9,23 +9,28 @@ import slogo.model.commands.TurtleMovement;
  */
 public class Forward implements BasicCommand {
 
-  private final int DISTANCE;
+  private final BasicCommand DISTANCE;
 
   /**
    * Makes an instance of the forward command
    *
-   * @param args The distance forward that it will move
+   * @param commands The distance forward that it will move
    */
-  public Forward(int... args) {
-    DISTANCE = args[0];
+  public Forward(BasicCommand... commands) {
+    DISTANCE = commands[0];
   }
 
   /**
-   * Makes the TurtleMovement object that dictates how the turtle will move
+   * Makes the turtle move the distance forward that was specified in the constructor
    *
-   * @return The TurtleMovement object
+   * @param turtle The turtle object
+   * @return The distance forward that it moved
    */
-  public TurtleMovement execute() {
-    return new TurtleMovement(DISTANCE, 0);
+  public int execute(Turtle turtle) {
+    turtle.setXPosition(
+        turtle.getXPosition() + Math.cos(turtle.getAngle()) * DISTANCE.execute(turtle));
+    turtle.setYPosition(
+        turtle.getYPosition() + Math.sin(turtle.getAngle()) * DISTANCE.execute(turtle));
+    return DISTANCE.execute(turtle);
   }
 }
