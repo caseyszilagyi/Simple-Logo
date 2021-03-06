@@ -12,14 +12,6 @@ public class TreeParser {
   public TreeParser(String test){
     TREE = test;
   }
-
-
-  //for testing, still need to convert to tree form
-  public static void main(String[] args){
-    TreeParser testing = new TreeParser("fd 50");
-
-  }
-
 }
 
 

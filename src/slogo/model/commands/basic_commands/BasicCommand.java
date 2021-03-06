@@ -16,6 +16,6 @@ public interface BasicCommand {
    *
    * @return The TurtleMovement object
    */
-  public void execute(Turtle turtle);
+  public int execute(Turtle turtle);
 
 }
