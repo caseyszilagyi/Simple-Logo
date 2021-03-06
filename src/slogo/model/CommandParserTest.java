@@ -8,7 +8,7 @@ public class CommandParserTest implements Parser{
 
     // where to find resources specifically for this class
     private static final String RESOURCES_PACKAGE = CommandParserTest.class.getPackageName()+".resources.commands.";
-    private static final String LANGUAGES_PACKAGE = CommandParserTest.class.getPackageName()+".resources.languages.";
+    private static final String LANGUAGES_PACKAGE = CommandParserTest.class.getPackageName()+".slogo.model.languages.";
 
     // "types" and the regular expression patterns that recognize those types
     // note, it is a list because order matters (some patterns may be more generic)

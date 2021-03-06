@@ -29,7 +29,6 @@ public class CommandParser implements Parser {
         this.userInput = userInput;
 
         System.out.println("Parameter Taken in by the parser" + userInput);
-        commandParamCount(Arrays.asList(userInput.split(" ")));
 
 
     }
@@ -75,7 +74,7 @@ public class CommandParser implements Parser {
             return root;
         }
         //if it is, then you get the number of params
-        int numParam = getSymbol(childVal);
+        int numParam = getParamCount(childVal);
         for(int i=1; i<=numParam; i++){
             //recursively insertNodeRecursive with the shorter splitCommands for each subsequent
             // new child and yourself as the root
@@ -89,24 +88,11 @@ public class CommandParser implements Parser {
     }
 
     /**
-     * gets the respective parameter counts for the command specified
-     * @param lines
-     * @return
-     */
-    public String commandParamCount(List<String> lines) {
-        String ret = "";
-        for (String line : lines) {
-            ret = ret+ getSymbol(line)+" ";
-        }
-        return ret;
-    }
-
-    /**
      * Returns respective parameter counts for the command specified
      * @param text String representation of the command
      * @return String rep of the number of params needed for command
      */
-    public Integer getSymbol (String text) {
+    public Integer getParamCount(String text) {
         final String ERROR = "NO MATCH";
         return Integer.parseInt(parameters.get(text));
     }
