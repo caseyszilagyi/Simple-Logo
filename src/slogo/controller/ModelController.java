@@ -79,6 +79,7 @@ public class ModelController implements BackEndExternalAPI {
 
         String commandsInOneLine = convertInputIntoOneLineStringSeparatedBySingleSpace(input);
         System.out.println("Commands after manipulation: \n" + commandsInOneLine);
+
     }
 
     private String convertInputIntoOneLineStringSeparatedBySingleSpace(String input) {
