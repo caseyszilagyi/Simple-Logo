@@ -3,8 +3,6 @@ package slogo.model.commandParserTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.model.CommandParserTest;
-import slogo.model.commands.BasicCommandClassLoader;
-import slogo.model.commands.basic_commands.BasicCommand;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,6 +36,6 @@ public class CommandParserTester {
     void testMultCommand() {
         String userInput = "Forward Backward";
         List<String> input = Arrays.asList(userInput.split(" "));
-        assertEquals(parser.parseText(input), "1 1 ");
+        assertEquals(parser.commandParamCount(input), "1 1 ");
     }
 }
