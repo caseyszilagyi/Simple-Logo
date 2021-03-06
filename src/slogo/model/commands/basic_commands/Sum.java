@@ -24,11 +24,11 @@ public class Sum implements BasicCommand {
   /**
    * Makes the turtle move the distance back that was specified in the constructor
    *
-   * @param informationBundle The turtle object
-   * @return The distance backward that it moved
+   * @param informationBundle The bundle that has the turtle and variables
+   * @return The sum of the two numbers
    */
-  public int execute(CommandInformationBundle informationBundle) {
-    int result = 0;
+  public double execute(CommandInformationBundle informationBundle) {
+    double result = 0;
     for (int i = 0; i < VALUES_TO_SUM.length; i++) {
       result += VALUES_TO_SUM[i].execute(informationBundle);
     }

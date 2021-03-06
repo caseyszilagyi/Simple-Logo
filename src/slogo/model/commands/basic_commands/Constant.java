@@ -10,14 +10,14 @@ import slogo.model.execution.CommandInformationBundle;
  */
 public class Constant implements BasicCommand {
 
-  private final int CONSTANT;
+  private final double CONSTANT;
 
   /**
    * This constructor essentially just stores the int in a BasicCommand object
    *
    * @param value The integer to store
    */
-  public Constant(int value) {
+  public Constant(double value) {
     CONSTANT = value;
   }
 
@@ -28,7 +28,7 @@ public class Constant implements BasicCommand {
    * @return The constant
    */
   @Override
-  public int execute(CommandInformationBundle informationBundle) {
+  public double execute(CommandInformationBundle informationBundle) {
     return CONSTANT;
   }
 

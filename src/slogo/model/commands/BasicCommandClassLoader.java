@@ -33,7 +33,7 @@ public class BasicCommandClassLoader {
   public BasicCommand makeVariable(String identifier,BasicCommand... number) {
     BasicCommand myCommand = null;
     try {
-      Object command = CLASS_LOADER.loadClass(COMMAND_CLASSES_PACKAGE + "Make")
+      Object command = CLASS_LOADER.loadClass(COMMAND_CLASSES_PACKAGE + "MakeVariable")
           .getDeclaredConstructor(String.class, BasicCommand[].class).newInstance(identifier, number);
       myCommand = (BasicCommand) command;
     } catch (Exception e){
@@ -51,11 +51,11 @@ public class BasicCommandClassLoader {
    * @param number The name of the basicCommand
    * @return The BasicCommand object
    */
-  public BasicCommand makeConstant(int number) {
+  public BasicCommand makeConstant(double number) {
     BasicCommand myCommand = null;
     try {
       Object command = CLASS_LOADER.loadClass(COMMAND_CLASSES_PACKAGE + "Constant")
-          .getDeclaredConstructor(int.class).newInstance(number);
+          .getDeclaredConstructor(double.class).newInstance(number);
       myCommand = (BasicCommand) command;
     } catch (Exception e){
       System.out.println("Basic command class loader");

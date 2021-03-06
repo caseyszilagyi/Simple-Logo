@@ -27,7 +27,7 @@ public class Forward implements BasicCommand {
    * @param informationBundle The bundle of all information that is needed
    * @return The distance forward that it moved
    */
-  public int execute(CommandInformationBundle informationBundle) {
+  public double execute(CommandInformationBundle informationBundle) {
     Turtle turtle = informationBundle.getTurtle();
     turtle.changeXPosition(Math.cos(turtle.getAngle()) * DISTANCE.execute(informationBundle));
     turtle.changeYPosition(Math.sin(turtle.getAngle()) * DISTANCE.execute(informationBundle));

@@ -12,7 +12,7 @@ import slogo.model.turtle.Turtle;
 public class CommandInformationBundle {
 
   private final Turtle TURTLE = new Turtle();
-  private final Map<String, Integer> VARIABLES = new HashMap<>();
+  private final Map<String, Double> VARIABLES = new HashMap<>();
   //Need to figure out what the second data type is, some kind of tree?
   private final Map<String, String> COMMANDS = new HashMap<>();
 
@@ -28,7 +28,7 @@ public class CommandInformationBundle {
    * @param name     The variable name
    * @param variable The value of the variable
    */
-  public void addVariable(String name, int variable) {
+  public void addVariable(String name, double variable) {
     VARIABLES.put(name, variable);
   }
 
@@ -38,7 +38,7 @@ public class CommandInformationBundle {
    * @param name The variable name
    * @return The value of the variable
    */
-  public int getVariable(String name) {
+  public double getVariable(String name) {
     return VARIABLES.get(name);
   }
 

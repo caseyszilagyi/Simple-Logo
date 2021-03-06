@@ -15,6 +15,6 @@ public interface BasicCommand {
    *
    * @return An integer representing the result of the command
    */
-  public int execute(CommandInformationBundle informationBundle);
+  public double execute(CommandInformationBundle informationBundle);
 
 }

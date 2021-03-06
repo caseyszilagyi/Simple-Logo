@@ -7,7 +7,7 @@ import slogo.model.execution.CommandInformationBundle;
  *
  * @author Casey Szilagyi
  */
-public class Make implements BasicCommand {
+public class MakeVariable implements BasicCommand {
 
   private final String NAME;
   private final BasicCommand VALUE;
@@ -18,7 +18,7 @@ public class Make implements BasicCommand {
    * @param name     The name of the variables
    * @param commands The variable value
    */
-  public Make(String name, BasicCommand... commands) {
+  public MakeVariable(String name, BasicCommand... commands) {
     NAME = name;
     VALUE = commands[0];
   }
@@ -30,8 +30,8 @@ public class Make implements BasicCommand {
    * @param informationBundle The information bundle needed to store the variable in
    * @return The distance forward that it moved
    */
-  public int execute(CommandInformationBundle informationBundle) {
-    int value = VALUE.execute(informationBundle);
+  public double execute(CommandInformationBundle informationBundle) {
+    double value = VALUE.execute(informationBundle);
     informationBundle.addVariable(NAME, value);
     return value;
   }

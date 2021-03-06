@@ -14,6 +14,7 @@ public class Repeat implements BasicCommand {
 
   /**
    * Makes an instance of the Repeat loop
+   *
    * @param commands The chain of basic commands that defines the repeat loop
    */
   public Repeat(BasicCommand... commands) {
@@ -27,10 +28,10 @@ public class Repeat implements BasicCommand {
    * @param informationBundle The information bundle needed to modify the turtle/store information
    * @return The value of the final command executed
    */
-  public int execute(CommandInformationBundle informationBundle) {
-    int val = 0;
-    for(int i = 0; i< LOOP_COUNT.execute(informationBundle); i++){
-      for(int commandNumber = 1; commandNumber<COMMANDS.length; commandNumber++){
+  public double execute(CommandInformationBundle informationBundle) {
+    double val = 0;
+    for (int i = 0; i < LOOP_COUNT.execute(informationBundle); i++) {
+      for (int commandNumber = 1; commandNumber < COMMANDS.length; commandNumber++) {
         val = COMMANDS[commandNumber].execute(informationBundle);
       }
     }

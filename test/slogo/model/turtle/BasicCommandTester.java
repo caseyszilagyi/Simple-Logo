@@ -51,6 +51,16 @@ public class BasicCommandTester {
     assertEquals(commandBundle.getTurtle().getXPosition(), -50);
   }
 
+  // Queries Testing
+  /**
+   * Tests the XCoordinate command
+   */
+  @Test
+  void testXCoordinate(){
+    moveTurtle(50);
+    BasicCommand x = makeBasicCommand("XCoordinate");
+    assertEquals(executeCommand(x), 50);
+  }
 
 
   // Arithmetic Testing
@@ -70,7 +80,7 @@ public class BasicCommandTester {
    * Tests the command to make variables
    */
   @Test
-  void testMake(){
+  void testMakeVariable(){
     BasicCommand make = makeVariableCommand("Yo", makeConstantCommand(50));
     make.execute(commandBundle);
     assertEquals(commandBundle.getVariable("Yo"), 50);
@@ -93,16 +103,13 @@ public class BasicCommandTester {
   // Helper methods below
 
 
-
-
-
   // Makes a basic command out of the command name and
   private BasicCommand makeBasicCommand(String commandName, BasicCommand... commands) {
     return loader.makeCommand(commandName, commands);
   }
 
   // Makes a constant command with the given integer
-  private BasicCommand makeConstantCommand(int value) {
+  private BasicCommand makeConstantCommand(double value) {
     return loader.makeConstant(value);
   }
 
@@ -110,6 +117,23 @@ public class BasicCommandTester {
   private BasicCommand makeVariableCommand(String varName, BasicCommand value) {
     return loader.makeVariable(varName, value);
   }
+
+  // Moves the turtle a specified distance, useful for testing queries
+  private void moveTurtle(double distance){
+    BasicCommand forward = makeBasicCommand("Forward", makeConstantCommand(distance));
+    forward.execute(commandBundle);
+  }
+
+  private double executeCommand(BasicCommand command){
+    return command.execute(commandBundle);
+  }
+  /*
+  // Rotates the turtle a specified angle, useful for testing queries
+  private void rotateTurtle(double angle){
+    BasicCommand forward = makeBasicCommand("Forward,", makeConstantCommand(distance));
+    forward.execute(commandBundle);
+  }
+  */
 
 
 }

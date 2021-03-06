@@ -27,7 +27,7 @@ public class Backward implements BasicCommand {
    * @param informationBundle The bundle of information needed to execute the command
    * @return The distance backward that it moved
    */
-  public int execute(CommandInformationBundle informationBundle) {
+  public double execute(CommandInformationBundle informationBundle) {
     Turtle turtle = informationBundle.getTurtle();
     turtle.changeXPosition(-1 * Math.cos(turtle.getAngle()) * DISTANCE.execute(informationBundle));
     turtle.changeYPosition(-1 * Math.sin(turtle.getAngle()) * DISTANCE.execute(informationBundle));
