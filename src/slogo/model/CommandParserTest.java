@@ -20,6 +20,7 @@ public class CommandParserTest implements Parser{
         parameters = new HashMap<>();
         addPatterns("Commands");
         commandTree = new TreeNode(null);
+
     }
 
     @Override

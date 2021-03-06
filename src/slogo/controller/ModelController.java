@@ -2,6 +2,7 @@ package slogo.controller;
 
 import java.util.*;
 import javax.swing.text.html.ImageView;
+import slogo.model.CommandParser;
 import slogo.model.turtle.Turtle;
 
 /**
@@ -79,6 +80,8 @@ public class ModelController implements BackEndExternalAPI {
 
         String commandsInOneLine = convertInputIntoOneLineStringSeparatedBySingleSpace(input);
         System.out.println("Commands after manipulation: \n" + commandsInOneLine);
+        CommandParser commandParser = new CommandParser(commandsInOneLine, this);
+
     }
 
     private String convertInputIntoOneLineStringSeparatedBySingleSpace(String input) {
