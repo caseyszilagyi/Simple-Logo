@@ -75,7 +75,7 @@ public class ModelController implements BackEndExternalAPI {
      */
     public void parseInput(String input) {
         // TODO implement here
-        System.out.println("ModelController received the following string as input: " + input);
+        System.out.println("ModelController received the following string as input: \n" + input);
     }
 
     /**
