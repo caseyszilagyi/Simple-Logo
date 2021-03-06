@@ -1,6 +1,11 @@
 package slogo.model;
 
+//import java.util.*;
 import java.util.*;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Map.Entry;
+import java.util.regex.Pattern;
+
 import slogo.controller.ModelController;
 import slogo.model.tree.TreeNode;
 
@@ -17,6 +22,7 @@ public class CommandParser implements Parser {
     // "types" and the regular expression patterns that recognize those types
     // note, it is a list because order matters (some patterns may be more generic)
     private Map<String, String> parameters;
+    private List<Entry<String, Pattern>> symbols;
     private TreeNode commandTree;
     private String userInput;
     private ModelController modelController;
@@ -25,7 +31,10 @@ public class CommandParser implements Parser {
     public CommandParser(String userInput, ModelController modelController){
         this.modelController = modelController;
         parameters = new HashMap<>();
-        addPatterns("Commands");
+        symbols = new ArrayList<>();
+        addLangPatterns("English");
+//        addLangPatterns("Syntax");
+        addParamCounts("Commands");
         commandTree = new TreeNode(null);
         this.userInput = userInput;
 
@@ -34,20 +43,40 @@ public class CommandParser implements Parser {
     }
 
     @Override
-    public void translateCommand(List<String> commandsBeforeTranslation) {
-
+    public List<String> translateCommand(List<String> commandsBeforeTranslation) {
+        List<String> translated = new ArrayList<>();
+        for(String s : commandsBeforeTranslation){
+            if(getCommandKey(s) == "NO MATCH"){
+                translated.add(s);
+            }
+            else{
+                translated.add(getCommandKey(s));
+            }
+        }
+        return translated;
     }
 
     /**
      * Adds the given resource file to this language's recognized types
      */
-    public void addPatterns (String syntax) {
+    public void addParamCounts(String syntax) {
         ResourceBundle resources = ResourceBundle.getBundle(RESOURCES_PACKAGE + syntax);
         for (String key : Collections.list(resources.getKeys())) {
             parameters.put(key, resources.getString(key));
             System.out.println("Key: " + key);
             System.out.println("Number: " + resources.getString(key));
             System.out.println();
+        }
+    }
+
+    /**
+     * Adds the given resource file to this language's recognized types
+     */
+    public void addLangPatterns(String syntax) {
+        ResourceBundle resources = ResourceBundle.getBundle(LANGUAGES_PACKAGE + syntax);
+        for (String key : Collections.list(resources.getKeys())) {
+            String regex = resources.getString(key);
+            symbols.add(new SimpleEntry<>(key, Pattern.compile(regex, Pattern.CASE_INSENSITIVE)));
         }
     }
 
@@ -103,4 +132,24 @@ public class CommandParser implements Parser {
             return -1;
         }
     }
+
+    /**
+     * Returns key Command associated with the given text if one exists
+     */
+    public String getCommandKey (String text) {
+        final String ERROR = "NO MATCH";
+        for (Entry<String, Pattern> e : symbols) {
+            if (match(text, e.getValue())) {
+                return e.getKey();
+            }
+        }
+        // FIXME: perhaps throw an exception instead
+        return ERROR;
+    }
+
+    // Returns true if the given text matches the given regular expression pattern
+    private boolean match (String text, Pattern regex) {
+        return regex.matcher(text).matches();
+    }
+
 }
