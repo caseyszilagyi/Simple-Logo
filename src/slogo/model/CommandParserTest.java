@@ -1,6 +1,5 @@
 package slogo.model;
 
-import com.sun.source.tree.Tree;
 import slogo.model.tree.TreeNode;
 
 import java.util.*;
@@ -13,14 +12,14 @@ public class CommandParserTest implements Parser{
 
     // "types" and the regular expression patterns that recognize those types
     // note, it is a list because order matters (some patterns may be more generic)
-    private Map<String, String> myParameters;
-    private TreeNode myCommandTree;
+    private Map<String, String> parameters;
+    private TreeNode commandTree;
 
 
     public CommandParserTest(){
-        myParameters = new HashMap<>();
+        parameters = new HashMap<>();
         addPatterns("Commands");
-        myCommandTree = new TreeNode(null);
+        commandTree = new TreeNode(null);
     }
 
     @Override
@@ -34,7 +33,7 @@ public class CommandParserTest implements Parser{
     public void addPatterns (String syntax) {
         ResourceBundle resources = ResourceBundle.getBundle(RESOURCES_PACKAGE + syntax);
         for (String key : Collections.list(resources.getKeys())) {
-            myParameters.put(key, resources.getString(key));
+            parameters.put(key, resources.getString(key));
         }
     }
 
@@ -73,7 +72,7 @@ public class CommandParserTest implements Parser{
     }
 
     private boolean isCommand(String s){
-        return myParameters.containsKey(s);
+        return parameters.containsKey(s);
     }
 
     /**
@@ -96,29 +95,14 @@ public class CommandParserTest implements Parser{
      */
     public String getSymbol (String text) {
         final String ERROR = "NO MATCH";
-        return myParameters.get(text);
+        return parameters.get(text);
     }
 
 
     public static void main(String[] args) {
-        // NO static methods needed!
-
-
-        // set up the parser, which checks for matches in order given
         CommandParserTest test = new CommandParserTest();
-        // these are more specific, so add them first to ensure they are checked first
-//        test.addPatterns("English");
-        // general checks, added last
         test.addPatterns("Commands");
-
-        // try against different kinds of inputs
-//        m.parseText(lang, m.examples);
-//        String userInput = "fd 50 rt 90 BACK :distance Left :angle";
         String userInput = "Forward";
-//        // note, this simple "algorithm" will not handle SLogo comments
         test.commandParamCount(Arrays.asList(userInput.split(" ")));
-//        String fileInput = m.readFileToString(Main.class.getClassLoader().getResource("square.logo").toExternalForm());
-        // instead it will "comment out" the remainder of the program!
-//        m.parseText(lang, Arrays.asList(fileInput.split(WHITESPACE)));
     }
 }
