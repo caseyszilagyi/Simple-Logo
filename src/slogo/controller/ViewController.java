@@ -10,11 +10,13 @@ import slogo.view.ScreenCreator;
  */
 public class ViewController implements FrontEndExternalAPI {
     ModelController modelController;
+    ScreenCreator screenCreator;
+
     /**
      * Default constructor
      */
     public ViewController() {
-        ScreenCreator screenCreator = new ScreenCreator();
+        screenCreator = new ScreenCreator();
     }
 
     /**
