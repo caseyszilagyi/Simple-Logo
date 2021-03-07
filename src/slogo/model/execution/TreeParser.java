@@ -1,7 +1,12 @@
 package slogo.model.execution;
 
+import java.util.ArrayList;
+import java.util.List;
 import slogo.model.commands.BasicCommandClassLoader;
+import slogo.model.commands.basic_commands.BasicCommand;
+import slogo.model.commands.basic_commands.Constant;
 import slogo.model.tree.TreeNode;
+import slogo.model.turtle.Turtle;
 
 /**
  * Once the input has been parsed into tree form, this class takes that tree and turns it into a
@@ -23,14 +28,25 @@ public class TreeParser {
    * post-order traversal through tree passed in. execute commands as you traverse and reach a command node. if not, save the children as parameters for command
    *
    */
-  public void parseCommands(TreeNode root) {
-    if (root == null) { return; }
+  public BasicCommand parseCommands(TreeNode root, CommandInformationBundle commandInfo) {
+    if (root == null) { return null; }
+    List<BasicCommand> childExecutions = new ArrayList<>(); //do we want this to be a list of basic commands or doubles returned from execute?
     for (TreeNode child : root.getChildren()) {
-      parseCommands(child);
+      childExecutions.add(parseCommands(child, commandInfo)); //how to make sure you're sending the updated command info
     }
-    //execute if the root is a command
-    //if not then add urself to the parameters?
+    String commandType = root.getValue();
+    BasicCommand rootCommand = COMMAND_CLASS_LOADER.makeCommand(commandType, childExecutions); //need to extract the childExecutions into indiv param
+    double rootExecution = rootCommand.execute(commandInfo);
+    return new Constant(rootExecution); //since execute is always an int, this will just condense the command and its children to a constant basic command
+    
+    //execute if the root is a command (childExecutions is a list of the parameters needed for execute)
+    //construct a basic command object respective to string in the node (root.getValue())
+    //create an arraylist for the parameters it got from children and use to .execute
+    //pass information bubble to execute
+    //if execute returns a number then add to the parameters of your parents
+    //return execute of the root command
   }
+
 
 }
 
