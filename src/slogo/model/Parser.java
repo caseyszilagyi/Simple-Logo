@@ -10,6 +10,6 @@ public interface Parser {
     /**
      * Translates the command
      */
-    public void translateCommand(List<String> commandsBeforeTranslation);
+    public List<String> translateCommand(List<String> commandsBeforeTranslation);
 
 }

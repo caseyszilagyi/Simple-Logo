@@ -5,7 +5,7 @@ import slogo.model.execution.CommandInformationBundle;
 /**
  * This is the Constant BasicCommand. Note that the constructor is different because it is the
  * lowest level command and therefore can't be constructed out of other commands. Therefore, it must
- * be passed an integer in order to be constructed rather than an unspecified number of basic
+ * be passed a double in order to be constructed rather than an unspecified number of basic
  * commands
  */
 public class Constant implements BasicCommand {
