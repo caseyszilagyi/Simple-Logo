@@ -1,6 +1,7 @@
 package slogo.model;
 
 //import java.util.*;
+import com.sun.source.tree.Tree;
 import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
@@ -41,15 +42,16 @@ public class CommandParser implements Parser {
         commandTree = new TreeNode(null);
         this.userInput = userInput;
 
-        System.out.println("Parameter Taken in by the parser" + userInput);
+        System.out.println("Command Taken in by the parser: " + userInput);
         TreeNode root = makeTree();
+        printPostOrder(root);
     }
 
     @Override
     public List<String> translateCommand(List<String> commandsBeforeTranslation) {
         List<String> translated = new ArrayList<>();
         for(String s : commandsBeforeTranslation){
-            if(getCommandKey(s) == "NO MATCH"){
+            if(getCommandKey(s).equals("NO MATCH")){
                 translated.add(s);
             }
             else{
@@ -88,10 +90,27 @@ public class CommandParser implements Parser {
      * @return
      */
     public TreeNode makeTree(){
-        List<String> splitCommands = Arrays.asList(userInput.split(WHITESPACE));
-        System.out.println(splitCommands);
-        insertNodeRecursive(splitCommands, commandTree);
+        List<String> splitCommands = translateCommand(Arrays.asList(userInput.split(WHITESPACE)));
+        Deque<String> commandQueue = new LinkedList<>(splitCommands);
+        System.out.println("QUEUE: " + commandQueue);
+
+        while(!commandQueue.isEmpty()){
+            TreeNode child = new TreeNode(commandQueue.removeFirst());
+            commandTree.addChild(child);
+            insertNodeRecursive(commandQueue, child);
+        }
         return commandTree;
+    }
+
+    private void printPostOrder(TreeNode root){
+        if(root == null){
+            return;
+        }
+
+        System.out.println("Value: " + root.getVal());
+        for(TreeNode child : root.getChildren()){
+            printPostOrder(child);
+        }
     }
 
 //    public void makeTree(String allCommands){
@@ -111,11 +130,23 @@ public class CommandParser implements Parser {
 //    }
 
     //only call this if you are a command (check this and base case is if you're not a command)
-    private TreeNode insertNodeRecursive(List<String> splitCommands, TreeNode root) {
-        for(String command : splitCommands){
-            System.out.println(command + ": " + getParamCount(command));
+    private TreeNode insertNodeRecursive(Deque<String> splitCommands, TreeNode root) {
+        if(getParamCount(root.getVal()) == 0){
+            System.out.println(root.getVal() + " is a leaf");
         }
-        return root; //return the recursive call?
+
+
+        System.out.println();
+        for(int i = 0; i < getParamCount(root.getVal()); i ++){
+            TreeNode dummy = new TreeNode(splitCommands.removeFirst());
+            root.addChild(dummy);
+            System.out.println("Parent: " + root.getVal());
+            System.out.println("Child: " + dummy.getVal());
+            insertNodeRecursive(splitCommands, dummy);
+        }
+
+        System.out.println();
+        return root;
     }
 
     private boolean isCommand(String s){
@@ -132,7 +163,7 @@ public class CommandParser implements Parser {
         try{
             return Integer.parseInt(parameters.get(text));
         }catch (Exception e){
-            return -1;
+            return 0;
         }
     }
 

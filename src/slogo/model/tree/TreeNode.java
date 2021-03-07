@@ -35,4 +35,8 @@ public class TreeNode {
         return children;
     }
 
+    public String getVal(){
+        return val;
+    }
+
 }
