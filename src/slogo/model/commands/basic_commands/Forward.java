@@ -34,6 +34,7 @@ public class Forward implements BasicCommand {
         .changeXPosition(Math.cos(informationBundle.getTurtle().getAngle()/360) * val);
     informationBundle.getTurtle()
         .changeYPosition(Math.sin(informationBundle.getTurtle().getAngle()/360) * val);
+    informationBundle.updateTurtle();
     return val;
   }
 }

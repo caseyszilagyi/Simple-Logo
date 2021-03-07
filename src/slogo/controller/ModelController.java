@@ -104,6 +104,16 @@ public class ModelController implements BackEndExternalAPI {
     }
 
     /**
+     * Passes the arraylist of values necessary to modify the turtle in the front end. This method
+     * is intended to be called in the model when the turtle is updated
+     *
+     * @param parameters The List of parameters to pass to the view
+     */
+    public void passInputToFrontEnd(List<Double> parameters){
+        //: TODO Call a method on the viewController and pass it this arraylist of parameters
+    }
+
+    /**
      *
      * @return
      */

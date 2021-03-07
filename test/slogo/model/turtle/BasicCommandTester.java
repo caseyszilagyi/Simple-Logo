@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import slogo.controller.ModelController;
 import slogo.model.commands.BasicCommandClassLoader;
 import slogo.model.commands.basic_commands.*;
 import slogo.model.execution.CommandInformationBundle;
@@ -22,6 +23,7 @@ public class BasicCommandTester {
 
   private CommandInformationBundle commandBundle;
   private BasicCommandClassLoader loader;
+  private ModelController modelController;
   static final double TOLERANCE = 0.0005;
 
   /**
@@ -29,7 +31,8 @@ public class BasicCommandTester {
    */
   @BeforeEach
   void setUp() {
-    commandBundle = new CommandInformationBundle();
+    modelController = new ModelController();
+    commandBundle = new CommandInformationBundle(modelController);
     loader = new BasicCommandClassLoader();
   }
 
@@ -108,7 +111,7 @@ public class BasicCommandTester {
 
   // Makes a basic command out of the command name and
   private BasicCommand makeBasicCommand(TreeNode node) {
-    return loader.makeCommand(commandBundle, node, node.getChildren());
+    return loader.makeCommand(commandBundle, node);
   }
 
   // Moves the turtle a specified distance, useful for testing queries
