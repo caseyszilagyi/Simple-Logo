@@ -35,7 +35,7 @@ public class CleanInputTester {
   void testTranslation() {
     String userInput = "fd 50 forward 10";
     String expected = "Forward 50 Forward 10 ";
-    assertEquals(cleaner.translateCommand(), expected);
+    assertEquals(cleaner.translateCommand(userInput), expected);
   }
 
   /**
@@ -46,7 +46,7 @@ public class CleanInputTester {
     String userInput = "hello";
     List<String> input = Arrays.asList(userInput.split(" "));
     List<String> expected = new ArrayList<>();
-    assertEquals(cleaner.translateCommand(), expected);
+    assertEquals(cleaner.translateCommand(userInput), expected);
   }
 
 }
