@@ -18,47 +18,28 @@ public class CommandParser implements Parser {
     // where to find resources specifically for this class
     private static final String RESOURCES_PACKAGE = CommandParser.class.getPackageName()+".resources.commands.";
     private static final String LANGUAGES_PACKAGE = CommandParser.class.getPackageName()+".resources.languages.";
-    private static final List<String> ALL_LANGUAGES = new ArrayList<>(Arrays.asList("English", "Chinese", "French", "German",
-                                                                                    "Italian","Portuguese", "Russian", "Spanish", "Urdu"));
     public static final String WHITESPACE = "\\s+";
 
     // "types" and the regular expression patterns that recognize those types
     // note, it is a list because order matters (some patterns may be more generic)
     private Map<String, String> parameters;
-    private List<Entry<String, Pattern>> symbols;
     private TreeNode commandTree;
-    private String userInput;
+    private List<String> cleanCommands;
     private ModelController modelController;
+    private InputCleaner inputCleaner;
 
 
-    public CommandParser(String userInput, ModelController modelController){
+    public CommandParser(String rawInput, ModelController modelController){
         this.modelController = modelController;
         parameters = new HashMap<>();
-        symbols = new ArrayList<>();
-        for(String language : ALL_LANGUAGES) {
-            addLangPatterns(language);
-        }
+        inputCleaner = new InputCleaner(rawInput, modelController, this);
+        cleanCommands = inputCleaner.cleanString();
         addParamCounts("Commands");
         commandTree = new TreeNode(null);
-        this.userInput = userInput;
-
-        System.out.println("Command Taken in by the parser: " + userInput);
+        System.out.println("Command Taken in by the parser: " + rawInput);
+        System.out.println("Clean command: "+cleanCommands);
         TreeNode root = makeTree();
         printPreOrder(root);
-    }
-
-    @Override
-    public List<String> translateCommand(List<String> commandsBeforeTranslation) {
-        List<String> translated = new ArrayList<>();
-        for(String s : commandsBeforeTranslation){
-            if(getCommandKey(s).equals("NO MATCH")){
-                translated.add(s);
-            }
-            else{
-                translated.add(getCommandKey(s));
-            }
-        }
-        return translated;
     }
 
     /**
@@ -78,27 +59,12 @@ public class CommandParser implements Parser {
     public void addSingleParamCount(String command, String paramCount){
         parameters.put(command, paramCount);
     }
-
-    /**
-     * Adds the given resource file to this language's recognized types
-     */
-    public void addLangPatterns(String syntax) {
-        ResourceBundle resources = ResourceBundle.getBundle(LANGUAGES_PACKAGE + syntax);
-        for (String key : Collections.list(resources.getKeys())) {
-            String regex = resources.getString(key);
-            symbols.add(new SimpleEntry<>(key, Pattern.compile(regex, Pattern.CASE_INSENSITIVE)));
-        }
-    }
-
-
-
     /**
      * makes the tree at the tree root node commandTree
      * @return
      */
     public TreeNode makeTree(){
-        List<String> splitCommands = translateCommand(Arrays.asList(userInput.split(WHITESPACE)));
-        Deque<String> commandQueue = new LinkedList<>(splitCommands);
+        Deque<String> commandQueue = new LinkedList<>(cleanCommands);
         System.out.println("QUEUE: " + commandQueue);
 
         while(!commandQueue.isEmpty()){
@@ -108,9 +74,6 @@ public class CommandParser implements Parser {
         }
         return commandTree;
     }
-
-
-
     private void printPreOrder(TreeNode root){
         if(root == null){
             return;
@@ -121,22 +84,6 @@ public class CommandParser implements Parser {
             printPreOrder(child);
         }
     }
-
-//    public void makeTree(String allCommands){
-//        List<String> splitCommands = Arrays.asList(allCommands.split(" "));
-//        for(int n=0; n<splitCommands.size(); n++){
-//            String currCommand = splitCommands.get(n);
-//            TreeNode command = new TreeNode(currCommand, new ArrayList<>());
-//            myCommandTree.addChild(command);
-//            myCommandTree = myCommandTree.getChildren().get(0);
-//            int numParam = Integer.parseInt(getSymbol(currCommand));
-//            for(int p=1; p<=numParam; p++){
-//                String child = splitCommands.get(n+p);
-//                TreeNode childNode = new TreeNode(child, new ArrayList<>());
-//                myCommandTree.addChild(command);
-//            }
-//        }
-//    }
 
     //only call this if you are a command (check this and base case is if you're not a command)
     private TreeNode insertNodeRecursive(Deque<String> splitCommands, TreeNode root) {
@@ -176,23 +123,8 @@ public class CommandParser implements Parser {
         }
     }
 
-    /**
-     * Returns key Command associated with the given text if one exists
-     */
-    public String getCommandKey (String text) {
-        final String ERROR = "NO MATCH";
-        for (Entry<String, Pattern> e : symbols) {
-            if (match(text, e.getValue())) {
-                return e.getKey();
-            }
-        }
-        // FIXME: perhaps throw an exception instead
-        return ERROR;
+    @Override
+    public List<String> translateCommand(List<String> commandsBeforeTranslation) {
+        return null;
     }
-
-    // Returns true if the given text matches the given regular expression pattern
-    private boolean match (String text, Pattern regex) {
-        return regex.matcher(text).matches();
-    }
-
 }
