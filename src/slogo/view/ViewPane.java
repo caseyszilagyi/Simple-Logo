@@ -95,7 +95,7 @@ public class ViewPane {
     turtleX = turtle.getX() - Math.cos(turtleAngle) * distance;
     turtleY = turtle.getY() + Math.sin(turtleAngle) * distance;
     if(!penUP){
-      Line line1 = new Line(turtle.getX() + 35, turtle.getY()+ 65, turtleX+ 35, turtleY+ 65);
+      Line line1 = new Line(turtle.getX() + 35, turtle.getY()+ 35, turtleX+ 35, turtleY+ 35);
       paneBox.getChildren().add(line1);
     }
 
