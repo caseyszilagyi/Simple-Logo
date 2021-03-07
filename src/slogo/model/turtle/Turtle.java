@@ -1,5 +1,9 @@
 package slogo.model.turtle;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * This turtle class is the backend representation of the turtle so that commands can be called on
  * the turtle to move/rotate it
@@ -145,7 +149,9 @@ public class Turtle implements TurtleState {
    */
   public int getPenState(){ return penState; };
 
-
+  public List<Double> getFrontEndParameters(){
+    return Arrays.asList(getXPosition(), getYPosition(), getAngle(), getPenState()/1.0, getVisibility()/1.0, 0.0);
+  }
 
 
 }

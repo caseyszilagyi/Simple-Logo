@@ -75,8 +75,7 @@ public class BasicCommandClassLoader {
    * @param node The node to make the basic command with
    * @return The BasicCommand object
    */
-  public BasicCommand makeCommand(CommandInformationBundle informationBundle, TreeNode node,
-      List<TreeNode> children) {
+  public BasicCommand makeCommand(CommandInformationBundle informationBundle, TreeNode node) {
 
     if (isConstant(node)) {
       return makeConstant(Double.parseDouble(node.getValue()));
@@ -93,7 +92,7 @@ public class BasicCommandClassLoader {
     BasicCommand myCommand = null;
     try {
       Object command = CLASS_LOADER.loadClass(COMMAND_CLASSES_PACKAGE + node.getValue())
-          .getDeclaredConstructor(List.class).newInstance((Object) children);
+          .getDeclaredConstructor(List.class).newInstance((Object) node.getChildren());
       myCommand = (BasicCommand) command;
     } catch (Exception e) {
       System.out.println("Command Doesn't exist!!!!");

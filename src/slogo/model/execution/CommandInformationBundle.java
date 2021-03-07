@@ -2,6 +2,7 @@ package slogo.model.execution;
 
 import java.util.HashMap;
 import java.util.Map;
+import slogo.controller.ModelController;
 import slogo.model.commands.BasicCommandClassLoader;
 import slogo.model.commands.basic_commands.BasicCommand;
 import slogo.model.tree.TreeNode;
@@ -20,11 +21,13 @@ public class CommandInformationBundle {
   private final Map<String, BasicCommand> COMMANDS = new HashMap<>();
 
   private final BasicCommandClassLoader CLASS_LOADER = new BasicCommandClassLoader();
+  private final ModelController MODEL_CONTROLLER;
 
   /**
    * Makes our information bundle
    */
-  public CommandInformationBundle() {
+  public CommandInformationBundle(ModelController modelController) {
+    MODEL_CONTROLLER = modelController;
   }
 
   /**
@@ -66,6 +69,8 @@ public class CommandInformationBundle {
     return TURTLE;
   }
 
+  public void updateTurtle() { MODEL_CONTROLLER.passInputToFrontEnd(TURTLE.getFrontEndParameters());}
+
   /**
    * Makes a Basic command using the given node
    *
@@ -73,7 +78,7 @@ public class CommandInformationBundle {
    * @return The BasicCommand
    */
   public BasicCommand loadClass(TreeNode node) {
-    return CLASS_LOADER.makeCommand(this, node, node.getChildren());
+    return CLASS_LOADER.makeCommand(this, node);
   }
 
 }
