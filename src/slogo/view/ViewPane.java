@@ -69,6 +69,11 @@ public class ViewPane {
     turtle.setY(y);
   }
 
+  public void turnTurtle(double d){
+    turtle.setRotate(turtle.getRotate() + d);
+    System.out.println(turtle.getRotate());
+  }
+
   public AnchorPane getBox() {
     return paneBox;
   }

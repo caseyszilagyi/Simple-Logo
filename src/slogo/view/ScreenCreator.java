@@ -75,6 +75,10 @@ public class ScreenCreator {
     planeIII.setOnAction(event -> viewPane.moveTurtle(-3.0, -4.0));
     Button planeIV = buttonCreation("(3.0, -4.0)");
     planeIV.setOnAction(event -> viewPane.moveTurtle(3.0, -4.0));
+    Button planeV = buttonCreation("Turn 90 degrees");
+    planeV.setOnAction(event -> viewPane.turnTurtle(90));
+    Button planeVI = buttonCreation("Turn 45 degrees");
+    planeVI.setOnAction(event -> viewPane.turnTurtle(45));
   }
 
   // TODO: remove later (testing)
