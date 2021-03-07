@@ -87,6 +87,8 @@ public class ScreenCreator {
     planeVII.setOnAction(event -> viewPane.moveTurtleByDistance(5));
     Button planeVIII = buttonCreation("move forward by 15");
     planeVIII.setOnAction(event -> viewPane.moveTurtleByDistance(15));
+    Button plane11 = buttonCreation("Switch State of Pen");
+    plane11.setOnAction(event -> viewPane.switchPenState());
   }
 
   // TODO: remove later (testing)

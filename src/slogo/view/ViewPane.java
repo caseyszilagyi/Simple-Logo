@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Line;
 
 /**
  * Creates the view for where the turtle will be displayed
@@ -26,6 +27,7 @@ public class ViewPane {
   private double centerX = 325.75;
   private double centerY = 198;
   private double direction = 90;
+  private boolean penUP = false;
 
   public ViewPane() {
     paneBox = new AnchorPane();
@@ -72,6 +74,13 @@ public class ViewPane {
     turtle.setY(y);
   }
 
+  private double convertX(double xCoordinate){
+    return centerX + xCoordinate * (screenWidth / cols) - (TURTLE_WIDTH / 2);
+  }
+  private double convertY(double yCoordinate){
+    return centerY - yCoordinate * (screenHeight / cols) - (TURTLE_HEIGHT / 2);
+  }
+
   public void moveTurtleByDistance(double distance){
     // do the calculations to make the turtle go forward
     // THIS WAS WAY HARDER THAN I THOGUGHT
@@ -85,6 +94,12 @@ public class ViewPane {
     System.out.println(turtleAngle);
     turtleX = turtle.getX() - Math.cos(turtleAngle) * distance;
     turtleY = turtle.getY() + Math.sin(turtleAngle) * distance;
+    if(!penUP){
+      Line line1 = new Line(turtle.getX() + 35, turtle.getY()+ 65, turtleX+ 35, turtleY+ 65);
+      paneBox.getChildren().add(line1);
+    }
+
+
     turtle.setX(turtleX);
     turtle.setY(turtleY);
 
@@ -100,4 +115,7 @@ public class ViewPane {
   }
 
 
+  public void switchPenState() {
+    penUP = !penUP;
+  }
 }
