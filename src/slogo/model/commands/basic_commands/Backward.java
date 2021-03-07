@@ -32,9 +32,9 @@ public class Backward implements BasicCommand {
   public double execute(CommandInformationBundle informationBundle) {
     double val = informationBundle.loadClass(CHILDREN.get(0)).execute(informationBundle) * -1;
     informationBundle.getTurtle()
-        .changeXPosition(Math.cos(informationBundle.getTurtle().getAngle()) * val);
+        .changeXPosition(Math.cos(informationBundle.getTurtle().getAngle()/360) * val);
     informationBundle.getTurtle()
-        .changeYPosition(Math.sin(informationBundle.getTurtle().getAngle()) * val);
+        .changeYPosition(Math.sin(informationBundle.getTurtle().getAngle()/360) * val);
     return val;
   }
 }
