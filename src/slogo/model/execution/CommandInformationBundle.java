@@ -2,6 +2,9 @@ package slogo.model.execution;
 
 import java.util.HashMap;
 import java.util.Map;
+import slogo.model.commands.BasicCommandClassLoader;
+import slogo.model.commands.basic_commands.BasicCommand;
+import slogo.model.tree.TreeNode;
 import slogo.model.turtle.Turtle;
 
 /**
@@ -12,9 +15,11 @@ import slogo.model.turtle.Turtle;
 public class CommandInformationBundle {
 
   private final Turtle TURTLE = new Turtle();
-  private final Map<String, Double> VARIABLES = new HashMap<>();
+  private final Map<String, BasicCommand> VARIABLES = new HashMap<>();
   //Need to figure out what the second data type is, some kind of tree?
-  private final Map<String, String> COMMANDS = new HashMap<>();
+  private final Map<String, BasicCommand> COMMANDS = new HashMap<>();
+
+  private final BasicCommandClassLoader CLASS_LOADER = new BasicCommandClassLoader();
 
   /**
    * Makes our information bundle
@@ -25,20 +30,30 @@ public class CommandInformationBundle {
   /**
    * Adds a variable to the map
    *
-   * @param name     The variable name
-   * @param variable The value of the variable
+   * @param name  The variable name
+   * @param value The value of the variable in BasicCommand form
    */
-  public void addVariable(String name, double variable) {
-    VARIABLES.put(name, variable);
+  public void addVariable(String name, BasicCommand value) {
+    VARIABLES.put(name, value);
   }
 
   /**
    * Gets a variable from the map
    *
    * @param name The variable name
-   * @return The value of the variable
+   * @return The value of the variable in BasicCommand form
    */
-  public double getVariable(String name) {
+  public BasicCommand getVariable(String name) {
+    return VARIABLES.get(name);
+  }
+
+  /**
+   * Gets a command from the map
+   *
+   * @param name The command name
+   * @return The root node of the command in BasicCommand form
+   */
+  public BasicCommand getCommand(String name) {
     return VARIABLES.get(name);
   }
 
@@ -49,6 +64,16 @@ public class CommandInformationBundle {
    */
   public Turtle getTurtle() {
     return TURTLE;
+  }
+
+  /**
+   * Makes a Basic command using the given node
+   *
+   * @param node The node
+   * @return The BasicCommand
+   */
+  public BasicCommand loadClass(TreeNode node) {
+    return CLASS_LOADER.makeCommand(this, node, node.getChildren());
   }
 
 }

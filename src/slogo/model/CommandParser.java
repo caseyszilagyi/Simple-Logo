@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
+
 import slogo.controller.ModelController;
 import slogo.model.tree.TreeNode;
 
@@ -21,9 +22,10 @@ public class CommandParser implements Parser {
                                                                                     "Italian","Portuguese", "Russian", "Spanish", "Urdu"));
     public static final String WHITESPACE = "\\s+";
 
+    // "types" and the regular expression patterns that recognize those types
+    // note, it is a list because order matters (some patterns may be more generic)
     private Map<String, String> parameters;
-    private List<Entry<String, Pattern>> languageSymbols;
-    private List<Entry<String, Pattern>> regexSymbols;
+    private List<Entry<String, Pattern>> symbols;
     private TreeNode commandTree;
     private String userInput;
     private ModelController modelController;
@@ -32,11 +34,9 @@ public class CommandParser implements Parser {
     public CommandParser(String userInput, ModelController modelController){
         this.modelController = modelController;
         parameters = new HashMap<>();
-        languageSymbols = new ArrayList<>();
-        regexSymbols = new ArrayList<>();
-        addLangPatterns("Syntax", regexSymbols);
+        symbols = new ArrayList<>();
         for(String language : ALL_LANGUAGES) {
-            addLangPatterns(language, languageSymbols);
+            addLangPatterns(language);
         }
         addParamCounts("Commands");
         commandTree = new TreeNode(null);
@@ -54,8 +54,8 @@ public class CommandParser implements Parser {
             if(getCommandKey(s).equals("NO MATCH")){
                 translated.add(s);
             }
-            if(!s.equals("NO MATCH")){
-                translated.add(s);
+            else{
+                translated.add(getCommandKey(s));
             }
         }
         return translated;
@@ -77,11 +77,11 @@ public class CommandParser implements Parser {
     /**
      * Adds the given resource file to this language's recognized types
      */
-    public void addLangPatterns(String syntax, List<Entry<String, Pattern>> patterns) {
+    public void addLangPatterns(String syntax) {
         ResourceBundle resources = ResourceBundle.getBundle(LANGUAGES_PACKAGE + syntax);
         for (String key : Collections.list(resources.getKeys())) {
             String regex = resources.getString(key);
-            patterns.add(new SimpleEntry<>(key, Pattern.compile(regex, Pattern.CASE_INSENSITIVE)));
+            symbols.add(new SimpleEntry<>(key, Pattern.compile(regex, Pattern.CASE_INSENSITIVE)));
         }
     }
 
@@ -101,6 +101,7 @@ public class CommandParser implements Parser {
         }
         return commandTree;
     }
+
 
 
     private void printPreOrder(TreeNode root){
@@ -171,7 +172,7 @@ public class CommandParser implements Parser {
     /**
      * Returns key Command associated with the given text if one exists
      */
-    public String getCommandKey (String text, List<Entry<String, Pattern>> symbols) {
+    public String getCommandKey (String text) {
         final String ERROR = "NO MATCH";
         for (Entry<String, Pattern> e : symbols) {
             if (match(text, e.getValue())) {

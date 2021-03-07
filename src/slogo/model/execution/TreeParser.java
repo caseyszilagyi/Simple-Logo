@@ -23,10 +23,11 @@ public class TreeParser {
     TREE = test;
   }
 
+
   /**
    * post-order traversal through tree passed in. execute commands as you traverse and reach a command node. if not, save the children as parameters for command
    * condenses all subtrees into constant commands as it traverses up.
-   */
+
   public BasicCommand parseCommands(TreeNode root, CommandInformationBundle commandInfo) {
     if (root == null) { return null; }
     List<BasicCommand> childExecutions = new ArrayList<>(); //do we want this to be a list of basic commands or doubles returned from execute?
@@ -45,7 +46,7 @@ public class TreeParser {
     //if execute returns a number then add to the parameters of your parents
     //return execute of the root command
   }
-
+   */
 
 }
 
