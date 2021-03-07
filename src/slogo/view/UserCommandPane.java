@@ -22,7 +22,7 @@ public class UserCommandPane {
     box = new HBox();
     box.setAlignment(Pos.CENTER_LEFT);
     box.setSpacing(5.0);
-    // change once there is css file only used for testing
+    // TODO: change once there is css file only used for testing
     box.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;"
             + "-fx-border-width: 2;" + "-fx-border-insets: 5;"
             + "-fx-border-radius: 5;" + "-fx-border-color: green;");
