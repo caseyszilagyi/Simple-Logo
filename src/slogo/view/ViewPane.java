@@ -9,12 +9,12 @@ import javafx.scene.layout.HBox;
  * Creates the view for where the turtle will be displayed
  */
 public class ViewPane {
-  public static final String TURTLE_IMAGE = "Turtle1.gif";
+  public static final String TURTLE_IMAGE = "Turtle2.gif";
   public static final double TURTLE_WIDTH = 70.0;
   public static final double TURTLE_HEIGHT = 70.0;
 
   private HBox paneBox;
-  private ImageView turtle;
+  private turtleDisplay turtle;
   public ViewPane() {
     paneBox = new HBox();
     paneBox.setAlignment(Pos.CENTER);
@@ -23,15 +23,7 @@ public class ViewPane {
     paneBox.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;"
             + "-fx-border-width: 2;" + "-fx-border-insets: 5;"
             + "-fx-border-radius: 5;" + "-fx-border-color: red;");
-    createTurtle();
-  }
-
-  private void createTurtle() {
-    Image image = new Image(this.getClass().getClassLoader().getResourceAsStream(TURTLE_IMAGE));
-    turtle = new ImageView(image);
-    turtle.setFitWidth(TURTLE_WIDTH);
-    turtle.setFitHeight(TURTLE_HEIGHT);
-    paneBox.getChildren().add(turtle);
+    turtle = new turtleDisplay(paneBox);
   }
 
   public HBox getBox() {
