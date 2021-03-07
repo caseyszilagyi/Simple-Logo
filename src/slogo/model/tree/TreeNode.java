@@ -47,4 +47,8 @@ public class TreeNode {
     return val;
   }
 
+    public String getVal(){
+        return val;
+    }
+
 }
