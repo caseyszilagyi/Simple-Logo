@@ -67,8 +67,6 @@ public class ViewPane {
 
     turtle.setX(x);
     turtle.setY(y);
-    System.out.println(x);
-    System.out.println(y);
   }
 
   public AnchorPane getBox() {
