@@ -63,6 +63,18 @@ public class BasicCommandTester {
   // Turtle Queries
 
   // Math Operations
+  /**
+   * Tests the sum command
+   */
+  @Test
+  void testSum() {
+    TreeNode child = makeNode("60");
+    TreeNode child2 = makeNode("10");
+    TreeNode root = makeTree("Sum", child, child2);
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(val, 70, TOLERANCE);
+  }
+
 
   // Boolean Operations
 

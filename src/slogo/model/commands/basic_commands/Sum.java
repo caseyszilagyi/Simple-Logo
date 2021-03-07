@@ -1,6 +1,8 @@
 package slogo.model.commands.basic_commands;
 
+import java.util.List;
 import slogo.model.execution.CommandInformationBundle;
+import slogo.model.tree.TreeNode;
 import slogo.model.turtle.Turtle;
 
 /**
@@ -10,15 +12,15 @@ import slogo.model.turtle.Turtle;
  */
 public class Sum implements BasicCommand {
 
-  private final BasicCommand[] VALUES_TO_SUM;
+  private final List<TreeNode> VALUES_TO_SUM;
 
   /**
    * Makes an instance of the sum command
    *
-   * @param commands The BasicCommands to sum
+   * @param nodes The TreeNodes to sum
    */
-  public Sum(BasicCommand... commands) {
-    VALUES_TO_SUM = commands;
+  public Sum(List<TreeNode> nodes) {
+    VALUES_TO_SUM = nodes;
   }
 
   /**
@@ -29,8 +31,8 @@ public class Sum implements BasicCommand {
    */
   public double execute(CommandInformationBundle informationBundle) {
     double result = 0;
-    for (int i = 0; i < VALUES_TO_SUM.length; i++) {
-      result += VALUES_TO_SUM[i].execute(informationBundle);
+    for (int i = 0; i < VALUES_TO_SUM.size(); i++) {
+      result += informationBundle.loadClass(VALUES_TO_SUM.get(i)).execute(informationBundle);
     }
     return result;
   }
