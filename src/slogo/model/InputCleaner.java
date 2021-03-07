@@ -58,10 +58,6 @@ public class InputCleaner {
     return removedComments.toString();
   }
 
-  private boolean isComment(int currInd, int nextInd, List<String> commands){
-    return commands.get(currInd).equals("\n") && commands.get(currInd).equals("#");
-  }
-
   public List<String> translateCommand(String input) {
     List<String> translated = new ArrayList<>();
     List<String> beforeTranslation = Arrays.asList(input.split(WHITESPACE));
@@ -81,7 +77,9 @@ public class InputCleaner {
     String commandKey = "CommandBlock";
     String commandVal = "";
     for (int ind = 0; ind < toRet.size(); ind++) {
-      blockSize++;
+      if(commandParser.isCommand(toRet.get(ind))){
+        blockSize++;
+      }
       if (toRet.get(ind).equals("[")) {
         toRet.set(ind, commandKey);
         blockSize = 0;

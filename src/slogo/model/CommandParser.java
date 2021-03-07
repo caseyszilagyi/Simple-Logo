@@ -63,19 +63,19 @@ public class CommandParser implements Parser {
      * makes the tree at the tree root node commandTree
      * @return
      */
-    public TreeNode makeTree(){
+    public TreeNode makeTree() {
         Deque<String> commandQueue = new LinkedList<>(cleanCommands);
         System.out.println("QUEUE: " + commandQueue);
 
-        while(!commandQueue.isEmpty()){
+        while (!commandQueue.isEmpty()) {
             TreeNode child = new TreeNode(commandQueue.removeFirst());
             commandTree.addChild(child);
             insertNodeRecursive(commandQueue, child);
         }
         return commandTree;
     }
-    private void printPreOrder(TreeNode root){
-        if(root == null){
+    private void printPreOrder(TreeNode root) {
+        if (root == null) {
             return;
         }
 
@@ -85,17 +85,21 @@ public class CommandParser implements Parser {
         }
     }
 
-    //only call this if you are a command (check this and base case is if you're not a command)
     private TreeNode insertNodeRecursive(Deque<String> splitCommands, TreeNode root) {
-        if(getParamCount(root.getVal()) == 0){
+        if (getParamCount(root.getVal()) == 0) {
             System.out.println(root.getVal() + " is a leaf");
         }
 
 
         System.out.println();
+        int paramCount = getParamCount(root.getVal());
+        System.out.println(paramCount);
         for(int i = 0; i < getParamCount(root.getVal()); i ++){
             TreeNode dummy = new TreeNode(splitCommands.removeFirst());
             root.addChild(dummy);
+            if(root.getVal().equals("CommandBlock")){
+                parameters.remove("CommandBlock", paramCount);
+            }
             System.out.println("Parent: " + root.getVal());
             System.out.println("Child: " + dummy.getVal());
             insertNodeRecursive(splitCommands, dummy);
@@ -105,7 +109,7 @@ public class CommandParser implements Parser {
         return root;
     }
 
-    private boolean isCommand(String s){
+    public boolean isCommand(String s){
         return parameters.containsKey(s);
     }
 
