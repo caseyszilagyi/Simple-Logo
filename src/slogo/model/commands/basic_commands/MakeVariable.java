@@ -16,11 +16,11 @@ public class MakeVariable implements BasicCommand {
    * Makes an instance of the Make command
    *
    * @param name     The name of the variables
-   * @param commands The variable value
+   * @param value The variable value
    */
-  public MakeVariable(String name, BasicCommand... commands) {
+  public MakeVariable(String name, BasicCommand value) {
     NAME = name;
-    VALUE = commands[0];
+    VALUE = value;
   }
 
   /**
@@ -31,8 +31,7 @@ public class MakeVariable implements BasicCommand {
    * @return The distance forward that it moved
    */
   public double execute(CommandInformationBundle informationBundle) {
-    double value = VALUE.execute(informationBundle);
-    informationBundle.addVariable(NAME, value);
-    return value;
+    informationBundle.addVariable(NAME, VALUE);
+    return VALUE.execute(informationBundle);
   }
 }
