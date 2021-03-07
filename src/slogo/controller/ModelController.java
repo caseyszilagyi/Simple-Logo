@@ -97,6 +97,14 @@ public class ModelController implements BackEndExternalAPI {
 
     /**
      *
+     * @param error
+     */
+    public void handleInputError(String error){
+
+    }
+
+    /**
+     *
      * @return
      */
     public ImageView getTurtleImage() {
