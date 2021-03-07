@@ -72,8 +72,26 @@ public class ViewPane {
     turtle.setY(y);
   }
 
+  public void moveTurtleByDistance(double distance){
+    // do the calculations to make the turtle go forward
+    // THIS WAS WAY HARDER THAN I THOGUGHT
+    // because the angles/getrotate are all messed up
+    double turtleX;
+    double turtleY;
+    System.out.println(turtle.getRotate());
+    double turtleAngle = ((-turtle.getRotate() - 90) * Math.PI) / (180);
+    System.out.println("sin: " + Math.sin(turtleAngle));
+    System.out.println("cos: " + Math.cos(turtleAngle));
+    System.out.println(turtleAngle);
+    turtleX = turtle.getX() - Math.cos(turtleAngle) * distance;
+    turtleY = turtle.getY() + Math.sin(turtleAngle) * distance;
+    turtle.setX(turtleX);
+    turtle.setY(turtleY);
+
+  }
+
   public void turnTurtle(double d){
-    turtle.setRotate(turtle.getRotate() + d);
+    turtle.setRotate(turtle.getRotate() - d);
     System.out.println(90 - turtle.getRotate());
   }
 
