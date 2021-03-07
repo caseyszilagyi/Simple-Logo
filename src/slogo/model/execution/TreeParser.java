@@ -6,7 +6,6 @@ import slogo.model.commands.BasicCommandClassLoader;
 import slogo.model.commands.basic_commands.BasicCommand;
 import slogo.model.commands.basic_commands.Constant;
 import slogo.model.tree.TreeNode;
-import slogo.model.turtle.Turtle;
 
 /**
  * Once the input has been parsed into tree form, this class takes that tree and turns it into a
@@ -26,7 +25,7 @@ public class TreeParser {
 
   /**
    * post-order traversal through tree passed in. execute commands as you traverse and reach a command node. if not, save the children as parameters for command
-   *
+   * condenses all subtrees into constant commands as it traverses up.
    */
   public BasicCommand parseCommands(TreeNode root, CommandInformationBundle commandInfo) {
     if (root == null) { return null; }
@@ -35,10 +34,10 @@ public class TreeParser {
       childExecutions.add(parseCommands(child, commandInfo)); //how to make sure you're sending the updated command info
     }
     String commandType = root.getValue();
-    BasicCommand rootCommand = COMMAND_CLASS_LOADER.makeCommand(commandType, childExecutions); //need to extract the childExecutions into indiv param
+    BasicCommand rootCommand = COMMAND_CLASS_LOADER.makeCommand(commandType, (BasicCommand) childExecutions); //need to extract the childExecutions into indiv param
     double rootExecution = rootCommand.execute(commandInfo);
     return new Constant(rootExecution); //since execute is always an int, this will just condense the command and its children to a constant basic command
-    
+
     //execute if the root is a command (childExecutions is a list of the parameters needed for execute)
     //construct a basic command object respective to string in the node (root.getValue())
     //create an arraylist for the parameters it got from children and use to .execute
