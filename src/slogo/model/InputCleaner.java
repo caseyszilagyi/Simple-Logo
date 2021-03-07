@@ -43,10 +43,9 @@ public class InputCleaner {
   }
 
   public List<String> cleanString() {
-    List<String> translated = translateCommand();
+    String noComments = removeComments();
+    List<String> translated = translateCommand(noComments);
     List<String> groupedCommands = findCommandBlocks(translated);
-
-
   }
 
   private String removeComments() {
@@ -63,9 +62,9 @@ public class InputCleaner {
     return commands.get(currInd).equals("\n") && commands.get(currInd).equals("#");
   }
 
-  public List<String> translateCommand() {
+  public List<String> translateCommand(String input) {
     List<String> translated = new ArrayList<>();
-    List<String> beforeTranslation = Arrays.asList(userInput.split(WHITESPACE));
+    List<String> beforeTranslation = Arrays.asList(input.split(WHITESPACE));
     for (String s : beforeTranslation) {
       if (getCommandKey(s).equals("NO MATCH")) {
         translated.add(s);
