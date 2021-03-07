@@ -11,7 +11,9 @@ import slogo.model.execution.CommandInformationBundle;
 public interface BasicCommand {
 
   /**
-   * The execute command is what is called in order to alter the state of the turtle object
+   * The execute command is what is called in order to use the command. This could be modifying the
+   * turtle, storing a variable, storing a user defined command,  or just returning a value after
+   * arithmetic
    *
    * @return An integer representing the result of the command
    */
