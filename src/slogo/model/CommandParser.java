@@ -44,7 +44,7 @@ public class CommandParser implements Parser {
 
         System.out.println("Command Taken in by the parser: " + userInput);
         TreeNode root = makeTree();
-        printPostOrder(root);
+        printPreOrder(root);
     }
 
     @Override
@@ -102,14 +102,14 @@ public class CommandParser implements Parser {
         return commandTree;
     }
 
-    private void printPostOrder(TreeNode root){
+    private void printPreOrder(TreeNode root){
         if(root == null){
             return;
         }
 
         System.out.println("Value: " + root.getVal());
         for(TreeNode child : root.getChildren()){
-            printPostOrder(child);
+            printPreOrder(child);
         }
     }
 
