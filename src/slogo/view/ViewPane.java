@@ -23,8 +23,8 @@ public class ViewPane {
 
   private double screenWidth;
   private double screenHeight;
-  private double centerX;
-  private double centerY;
+  private double centerX = 325.75;
+  private double centerY = 198;
 
   public ViewPane() {
     paneBox = new AnchorPane();
@@ -43,6 +43,9 @@ public class ViewPane {
     turtle.setFitWidth(TURTLE_WIDTH);
     turtle.setFitHeight(TURTLE_HEIGHT);
     paneBox.getChildren().add(turtle);
+
+    turtle.setX(centerX);
+    turtle.setY(centerY);
   }
 
   public void moveTurtle(double xCoordinate, double yCoordinate) {
@@ -51,6 +54,7 @@ public class ViewPane {
 
     screenWidth = paneBox.getWidth();
     screenHeight = paneBox.getHeight();
+
 
     double coordinateWidth = screenWidth / cols;
     double coordinateHeight = screenHeight / cols;
@@ -63,6 +67,8 @@ public class ViewPane {
 
     turtle.setX(x);
     turtle.setY(y);
+    System.out.println(x);
+    System.out.println(y);
   }
 
   public AnchorPane getBox() {
