@@ -16,8 +16,8 @@ import slogo.model.tree.TreeNode;
 public class CommandParser implements Parser {
 
     // where to find resources specifically for this class
-    private static final String RESOURCES_PACKAGE = CommandParserTest.class.getPackageName()+".resources.commands.";
-    private static final String LANGUAGES_PACKAGE = CommandParserTest.class.getPackageName()+".resources.languages.";
+    private static final String RESOURCES_PACKAGE = CommandParser.class.getPackageName()+".resources.commands.";
+    private static final String LANGUAGES_PACKAGE = CommandParser.class.getPackageName()+".resources.languages.";
     private static final List<String> ALL_LANGUAGES = new ArrayList<>(Arrays.asList("English", "Chinese", "French", "German",
                                                                                     "Italian","Portuguese", "Russian", "Spanish", "Urdu"));
     public static final String WHITESPACE = "\\s+";
@@ -67,11 +67,16 @@ public class CommandParser implements Parser {
     public void addParamCounts(String syntax) {
         ResourceBundle resources = ResourceBundle.getBundle(RESOURCES_PACKAGE + syntax);
         for (String key : Collections.list(resources.getKeys())) {
+            addSingleParamCount(key, resources.getString(key));
             parameters.put(key, resources.getString(key));
             System.out.println("Key: " + key);
             System.out.println("Number: " + resources.getString(key));
             System.out.println();
         }
+    }
+
+    public void addSingleParamCount(String command, String paramCount){
+        parameters.put(command, paramCount);
     }
 
     /**
@@ -84,6 +89,8 @@ public class CommandParser implements Parser {
             symbols.add(new SimpleEntry<>(key, Pattern.compile(regex, Pattern.CASE_INSENSITIVE)));
         }
     }
+
+
 
     /**
      * makes the tree at the tree root node commandTree
