@@ -30,7 +30,7 @@ public class CommandInformationBundle {
   /**
    * Adds a variable to the map
    *
-   * @param name     The variable name
+   * @param name  The variable name
    * @param value The value of the variable in BasicCommand form
    */
   public void addVariable(String name, BasicCommand value) {
@@ -68,10 +68,11 @@ public class CommandInformationBundle {
 
   /**
    * Makes a Basic command using the given node
+   *
    * @param node The node
    * @return The BasicCommand
    */
-  public BasicCommand loadClass(TreeNode node){
+  public BasicCommand loadClass(TreeNode node) {
     return CLASS_LOADER.makeCommand(this, node, node.getChildren());
   }
 

@@ -22,6 +22,7 @@ public class BasicCommandTester {
 
   private CommandInformationBundle commandBundle;
   private BasicCommandClassLoader loader;
+  static final double TOLERANCE = 0.0005;
 
   /**
    * Sets up the turtle and the classloader
@@ -33,6 +34,7 @@ public class BasicCommandTester {
   }
 
 
+  // Turtle commands
   /**
    * Tests the forward command
    */
@@ -41,7 +43,19 @@ public class BasicCommandTester {
     TreeNode child = makeNode("50");
     TreeNode root = makeTree("Forward", child);
     makeBasicCommand(root).execute(commandBundle);
-    assertEquals(50, commandBundle.getTurtle().getXPosition());
+    assertEquals(50, commandBundle.getTurtle().getXPosition(), TOLERANCE);
+  }
+
+
+  /**
+   * Tests the backward command
+   */
+  @Test
+  void testBackward() {
+    TreeNode child = makeNode("60");
+    TreeNode root = makeTree("Backward", child);
+    makeBasicCommand(root).execute(commandBundle);
+    assertEquals(-60, commandBundle.getTurtle().getXPosition(), TOLERANCE);
   }
 
 
