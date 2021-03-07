@@ -16,15 +16,15 @@ public class ViewPane {
   public static final double TURTLE_WIDTH = 70.0;
   public static final double TURTLE_HEIGHT = 70.0;
 
-  public static final int rows = 21;
-  public static final int cols = 21;
+  public static final int rows = 101;
+  public static final int cols = 101;
 
   private AnchorPane paneBox;
   private ImageView turtle;
 
   private double screenWidth;
   private double screenHeight;
-  private double centerX = 325.75;
+  private double centerX = 297.5;
   private double centerY = 198;
   private double direction = 90;
   private boolean penUP = false;
@@ -68,6 +68,12 @@ public class ViewPane {
     double x = centerX + xCoordinate * coordinateWidth - turtleCenterX;
     double y = centerY - yCoordinate * coordinateHeight - turtleCenterY;
 
+    if(!penUP) {
+      Line line1 = new Line(turtle.getX() + TURTLE_WIDTH / 2, turtle.getY() + TURTLE_WIDTH / 2,
+              x + TURTLE_HEIGHT / 2, y + TURTLE_HEIGHT / 2);
+      paneBox.getChildren().add(line1);
+    }
+
     System.out.println(x);
     turtle.setX(x);
     System.out.println(turtle.getX());
@@ -78,7 +84,7 @@ public class ViewPane {
     return centerX + xCoordinate * (screenWidth / cols) - (TURTLE_WIDTH / 2);
   }
   private double convertY(double yCoordinate){
-    return centerY - yCoordinate * (screenHeight / cols) - (TURTLE_HEIGHT / 2);
+    return centerY - yCoordinate * (screenHeight / rows) - (TURTLE_HEIGHT / 2);
   }
 
   public void moveTurtleByDistance(double distance){
@@ -95,7 +101,8 @@ public class ViewPane {
     turtleX = turtle.getX() - Math.cos(turtleAngle) * distance;
     turtleY = turtle.getY() + Math.sin(turtleAngle) * distance;
     if(!penUP){
-      Line line1 = new Line(turtle.getX() + 35, turtle.getY()+ 35, turtleX+ 35, turtleY+ 35);
+      Line line1 = new Line(turtle.getX() + TURTLE_WIDTH / 2, turtle.getY() + TURTLE_WIDTH / 2,
+              turtleX + TURTLE_HEIGHT / 2, turtleY + TURTLE_HEIGHT / 2);
       paneBox.getChildren().add(line1);
     }
 
