@@ -25,6 +25,7 @@ public class ViewPane {
   private double screenHeight;
   private double centerX = 325.75;
   private double centerY = 198;
+  private double direction = 90;
 
   public ViewPane() {
     paneBox = new AnchorPane();
@@ -65,13 +66,15 @@ public class ViewPane {
     double x = centerX + xCoordinate * coordinateWidth - turtleCenterX;
     double y = centerY - yCoordinate * coordinateHeight - turtleCenterY;
 
+    System.out.println(x);
     turtle.setX(x);
+    System.out.println(turtle.getX());
     turtle.setY(y);
   }
 
   public void turnTurtle(double d){
     turtle.setRotate(turtle.getRotate() + d);
-    System.out.println(turtle.getRotate());
+    System.out.println(90 - turtle.getRotate());
   }
 
   public AnchorPane getBox() {
