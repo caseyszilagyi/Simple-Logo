@@ -25,7 +25,6 @@ public class InputCleaner {
     symbols = new ArrayList<>();
     language = "English";
     addLangPatterns(language);
-    addLangPatterns("Syntax");
     this.userInput = userInput;
     this.modelController = modelController;
     this.commandParser = commandParser;
@@ -46,13 +45,14 @@ public class InputCleaner {
     String noComments = removeComments();
     List<String> translated = translateCommand(noComments);
     List<String> groupedCommands = findCommandBlocks(translated);
+    return groupedCommands;
   }
 
-  private String removeComments() {
+  public String removeComments() {
     StringBuffer removedComments = new StringBuffer(userInput);
-    while (userInput.indexOf('#') != -1) {
-      int indBeforeComment = removedComments.indexOf("#")-1;
-      int indAfterComment = removedComments.indexOf("\n", indBeforeComment);
+    while (removedComments.indexOf("#") != -1) {
+      int indBeforeComment = removedComments.indexOf("#");
+      int indAfterComment = removedComments.indexOf("\n", indBeforeComment)+1;
       removedComments.replace(indBeforeComment, indAfterComment, " ");
     }
     return removedComments.toString();
@@ -76,23 +76,24 @@ public class InputCleaner {
   }
 
   private List<String> findCommandBlocks(List<String> commands) {
+    List<String> toRet = new ArrayList<>(commands);
     int blockSize = 0;
     String commandKey = "CommandBlock";
     String commandVal = "";
-    for (int ind = 0; ind < commands.size(); ind++) {
+    for (int ind = 0; ind < toRet.size(); ind++) {
       blockSize++;
-      if (commands.get(ind).equals("[")) {
-        commands.set(ind, commandKey);
+      if (toRet.get(ind).equals("[")) {
+        toRet.set(ind, commandKey);
         blockSize = 0;
       }
-      if (commands.get(ind).equals("]")) {
-        commands.remove(ind);
+      if (toRet.get(ind).equals("]")) {
+        toRet.remove(ind);
         ind--;
         commandVal = blockSize-1 + "";
         commandParser.addSingleParamCount(commandKey, commandVal);
       }
     }
-    return commands;
+    return toRet;
   }
 
   public String getCommandKey (String text) {
