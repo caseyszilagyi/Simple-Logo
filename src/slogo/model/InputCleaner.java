@@ -4,7 +4,9 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
@@ -16,6 +18,7 @@ public class InputCleaner {
   public static final String WHITESPACE = "\\s+";
   private String language;
   private List<Entry<String, Pattern>> symbols;
+  private Map<String, Pattern> syntaxMap;
   private String userInput;
   private CommandParser commandParser;
   private ModelController modelController;
@@ -23,8 +26,10 @@ public class InputCleaner {
 
   public InputCleaner(String userInput, ModelController modelController, CommandParser commandParser){
     symbols = new ArrayList<>();
+    syntaxMap = new HashMap<>();
     language = "English";
     addLangPatterns(language);
+    addRegExPatterns("Syntax");
     this.userInput = userInput;
     this.modelController = modelController;
     this.commandParser = commandParser;
@@ -33,11 +38,20 @@ public class InputCleaner {
   /**
    * Adds the given resource file to this language's recognized types
    */
-  public void addLangPatterns(String syntax) {
+  private void addLangPatterns(String syntax) {
     ResourceBundle resources = ResourceBundle.getBundle(LANGUAGES_PACKAGE + syntax);
     for (String key : Collections.list(resources.getKeys())) {
       String regex = resources.getString(key);
       symbols.add(new SimpleEntry<>(key, Pattern.compile(regex, Pattern.CASE_INSENSITIVE)));
+    }
+  }
+
+  private void addRegExPatterns(String syntax){
+
+    ResourceBundle resources = ResourceBundle.getBundle(LANGUAGES_PACKAGE + syntax);
+    for (String key : Collections.list(resources.getKeys())) {
+      String regex = resources.getString(key);
+      syntaxMap.put(key, Pattern.compile(regex, Pattern.CASE_INSENSITIVE));
     }
   }
 
@@ -77,7 +91,7 @@ public class InputCleaner {
     String commandKey = "CommandBlock";
     String commandVal = "";
     for (int ind = 0; ind < toRet.size(); ind++) {
-      if(commandParser.isCommand(toRet.get(ind))){
+      if(isCommand(toRet.get(ind))){
         blockSize++;
       }
       if (toRet.get(ind).equals("[")) {
@@ -92,6 +106,10 @@ public class InputCleaner {
       }
     }
     return toRet;
+  }
+
+  private boolean isCommand(String s){
+    return match(s, syntaxMap.get("Command"));
   }
 
   public String getCommandKey (String text) {
