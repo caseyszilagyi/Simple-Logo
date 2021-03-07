@@ -75,6 +75,20 @@ public class ScreenCreator {
     planeIII.setOnAction(event -> viewPane.moveTurtle(-3.0, -4.0));
     Button planeIV = buttonCreation("(3.0, -4.0)");
     planeIV.setOnAction(event -> viewPane.moveTurtle(3.0, -4.0));
+    Button planeV = buttonCreation("Turn left 90 degrees");
+    planeV.setOnAction(event -> viewPane.turnTurtle(90));
+    Button planeVI = buttonCreation("Turn left 45 degrees");
+    planeVI.setOnAction(event -> viewPane.turnTurtle(45));
+    Button plane9 = buttonCreation("Turn right 90 degrees");
+    plane9.setOnAction(event -> viewPane.turnTurtle(-90));
+    Button plane10 = buttonCreation("Turn right 45 degrees");
+    plane10.setOnAction(event -> viewPane.turnTurtle(-45));
+    Button planeVII = buttonCreation("move forward by 5");
+    planeVII.setOnAction(event -> viewPane.moveTurtleByDistance(5));
+    Button planeVIII = buttonCreation("move forward by 15");
+    planeVIII.setOnAction(event -> viewPane.moveTurtleByDistance(15));
+    Button plane11 = buttonCreation("Switch State of Pen");
+    plane11.setOnAction(event -> viewPane.switchPenState());
   }
 
   // TODO: remove later (testing)
