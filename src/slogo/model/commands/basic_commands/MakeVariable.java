@@ -1,6 +1,8 @@
 package slogo.model.commands.basic_commands;
 
+import java.util.List;
 import slogo.model.execution.CommandInformationBundle;
+import slogo.model.tree.TreeNode;
 
 /**
  * This command makes and stores a variable for later use
@@ -10,17 +12,17 @@ import slogo.model.execution.CommandInformationBundle;
 public class MakeVariable implements BasicCommand {
 
   private final String NAME;
-  private final BasicCommand VALUE;
+  private final TreeNode VALUE;
 
   /**
-   * Makes an instance of the Make command
+   * Makes an instance of the MakeVariable command
    *
-   * @param name     The name of the variables
-   * @param value The variable value
+   * @param nodes The nodes for making the variable. Includes the string name, and the other
+   *              node that will eventually be a double value
    */
-  public MakeVariable(String name, BasicCommand value) {
-    NAME = name;
-    VALUE = value;
+  public MakeVariable(List<TreeNode> nodes) {
+    NAME = nodes.get(0).getValue();
+    VALUE = nodes.get(1);
   }
 
   /**
@@ -28,10 +30,11 @@ public class MakeVariable implements BasicCommand {
    * variable
    *
    * @param informationBundle The information bundle needed to store the variable in
-   * @return The distance forward that it moved
+   * @return The variable value
    */
   public double execute(CommandInformationBundle informationBundle) {
-    informationBundle.addVariable(NAME, VALUE);
-    return VALUE.execute(informationBundle);
+    BasicCommand variableValue = informationBundle.loadClass(VALUE);
+    informationBundle.addVariable(NAME, variableValue);
+    return variableValue.execute(informationBundle);
   }
 }

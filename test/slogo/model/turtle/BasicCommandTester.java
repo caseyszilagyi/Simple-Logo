@@ -33,8 +33,8 @@ public class BasicCommandTester {
     loader = new BasicCommandClassLoader();
   }
 
-
   // Turtle commands
+
   /**
    * Tests the forward command
    */
@@ -42,10 +42,9 @@ public class BasicCommandTester {
   void testForward() {
     TreeNode child = makeNode("50");
     TreeNode root = makeTree("Forward", child);
-    makeBasicCommand(root).execute(commandBundle);
+    executeCommand(makeBasicCommand(root));
     assertEquals(50, commandBundle.getTurtle().getXPosition(), TOLERANCE);
   }
-
 
   /**
    * Tests the backward command
@@ -54,8 +53,41 @@ public class BasicCommandTester {
   void testBackward() {
     TreeNode child = makeNode("60");
     TreeNode root = makeTree("Backward", child);
-    makeBasicCommand(root).execute(commandBundle);
+    executeCommand(makeBasicCommand(root));
     assertEquals(-60, commandBundle.getTurtle().getXPosition(), TOLERANCE);
+  }
+
+  // Turtle Queries
+
+  // Math Operations
+
+  // Boolean Operations
+
+  /**
+   * Tests the LessThan command
+   */
+  @Test
+  void testLessThan() {
+    TreeNode child1 = makeNode("60");
+    TreeNode child2 = makeNode("40");
+    TreeNode root = makeTree("LessThan", child1, child2);
+    assertEquals(0, executeCommand(makeBasicCommand(root)) , TOLERANCE);
+    root = makeTree("LessThan", child2, child1);
+    assertEquals(1, executeCommand(makeBasicCommand(root)) , TOLERANCE);
+  }
+
+
+  // Variables, Control Structures, and User Defined Commands
+  /**
+   * Tests the MakeVariable command
+   */
+  @Test
+  void testMakeVariable() {
+    TreeNode name = makeNode("Awesome");
+    TreeNode value = makeNode("60");
+    TreeNode root = makeTree("MakeVariable", name, value);
+    assertEquals(60, executeCommand(makeBasicCommand(root)) , TOLERANCE);
+    assertEquals(60, commandBundle.getVariable("Awesome").execute(commandBundle) , TOLERANCE);
   }
 
 
@@ -79,11 +111,6 @@ public class BasicCommandTester {
     return loader.makeCommand(commandBundle, node, node.getChildren());
   }
 
-  // Makes a constant command with the given integer
-  private BasicCommand makeConstantCommand(double value) {
-    return loader.makeConstant(value);
-  }
-
   // Moves the turtle a specified distance, useful for testing queries
   private void moveTurtle(String distance) {
     TreeNode node = makeTree("Forward", makeNode("50"));
@@ -94,6 +121,7 @@ public class BasicCommandTester {
   private double executeCommand(BasicCommand command) {
     return command.execute(commandBundle);
   }
+
   /*
   // Rotates the turtle a specified angle, useful for testing queries
   private void rotateTurtle(double angle){
