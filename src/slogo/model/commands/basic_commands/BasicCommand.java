@@ -19,4 +19,6 @@ public interface BasicCommand {
    */
   public double execute(CommandInformationBundle informationBundle);
 
+
+
 }
