@@ -69,7 +69,7 @@ public interface TurtleState {
    *
    * @param rotate The change in the angle, in a counterclockwise direction
    */
-  public void rotateClockwise(double rotate);
+  public void rotateCounterClockwise(double rotate);
 
   /**
    * Returns whether or not the turtle is visible
