@@ -83,7 +83,7 @@ public class BasicCommandTester {
   }
 
   /**
-   * Tests the rotationa and movement of the turtle to make sure the radians/degrees
+   * Tests the rotation and movement of the turtle to make sure the radians/degrees
    * conversion is correct
    */
   @Test
@@ -96,6 +96,18 @@ public class BasicCommandTester {
     assertEquals(7.07, commandBundle.getTurtle().getXPosition(), TOLERANCE);
   }
 
+  /**
+   * Tests the forward movement with the sum command
+   */
+  @Test
+  void testForwardSum(){
+    TreeNode child = makeNode("5");
+    TreeNode child2 = makeNode("10");
+    TreeNode sum = makeTree("Sum", child, child2);
+    TreeNode root = makeTree("Forward", sum);
+    executeCommand(makeBasicCommand(root));
+    assertEquals(15, commandBundle.getTurtle().getXPosition());
+  }
 
   // Turtle Queries
 
