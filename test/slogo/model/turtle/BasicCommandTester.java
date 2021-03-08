@@ -102,7 +102,7 @@ public class BasicCommandTester {
     TreeNode value = makeNode("60");
     TreeNode root = makeTree("MakeVariable", name, value);
     assertEquals(60, executeCommand(makeBasicCommand(root)) , TOLERANCE);
-    assertEquals(60, commandBundle.getVariable("Awesome").execute(commandBundle) , TOLERANCE);
+    assertEquals(60, commandBundle.getVariableMap().get("Awesome") , TOLERANCE);
   }
 
 
@@ -130,11 +130,11 @@ public class BasicCommandTester {
   private void moveTurtle(String distance) {
     TreeNode node = makeTree("Forward", makeNode("50"));
     BasicCommand forward = makeBasicCommand(node);
-    forward.execute(commandBundle);
+    forward.execute();
   }
 
   private double executeCommand(BasicCommand command) {
-    return command.execute(commandBundle);
+    return command.execute();
   }
 
   /*
