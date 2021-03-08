@@ -70,9 +70,7 @@ public class CommandParser implements Parser {
         while (!commandQueue.isEmpty()) {
             String command = commandQueue.removeFirst();
             TreeNode child = new TreeNode(command);
-            if(command.contains("CommandBlock")) {
-                child = new TreeNode(command, "CommandBlock");
-            }
+            child = checkCommandBlock(child);
             commandTree.addChild(child);
             insertNodeRecursive(commandQueue, child);
         }
@@ -101,9 +99,7 @@ public class CommandParser implements Parser {
         for(int i = 0; i < getParamCount(root.getValue()); i ++){
             String command = splitCommands.removeFirst();
             TreeNode dummy = new TreeNode(command);
-            if(command.contains("CommandBlock")) {
-                dummy = new TreeNode(command, "CommandBlock");
-            }
+            dummy = checkCommandBlock(dummy);
             root.addChild(dummy);
             System.out.println("Parent: " + root.getCommand());
             System.out.println("Child: " + dummy.getCommand());
@@ -126,6 +122,13 @@ public class CommandParser implements Parser {
         }catch (Exception e){
             return 0;
         }
+    }
+
+    private TreeNode checkCommandBlock(TreeNode node){
+        if(node.getCommand().contains("CommandBlock")) {
+            node = new TreeNode(node.getCommand(), "CommandBlock");
+        }
+        return node;
     }
 
     @Override
