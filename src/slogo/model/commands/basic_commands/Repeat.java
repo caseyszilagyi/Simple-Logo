@@ -1,5 +1,6 @@
 package slogo.model.commands.basic_commands;
 
+import slogo.model.commands.basic_commands.command_types.ControlStructureCommand;
 import slogo.model.execution.CommandInformationBundle;
 
 /**
@@ -7,9 +8,9 @@ import slogo.model.execution.CommandInformationBundle;
  *
  * @author Casey Szilagyi
  */
-public class Repeat implements BasicCommand {
+public class Repeat extends ControlStructureCommand {
 
-  private final BasicCommand LOOP_COUNT;
+  private final double LOOP_COUNT;
   private final BasicCommand[] COMMANDS;
 
   /**

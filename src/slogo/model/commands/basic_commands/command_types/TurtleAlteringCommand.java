@@ -20,11 +20,9 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    * Makes the BasicCommand and saves the turtle
    *
    * @param informationBundle The only part of this bundle that is needed is the turtle
-   * @param children          The children needed to execute this node
    */
-  public TurtleAlteringCommand(CommandInformationBundle informationBundle,
-      List<TreeNode> children) {
-    super(informationBundle, children);
+  public TurtleAlteringCommand(CommandInformationBundle informationBundle) {
+    super(informationBundle);
     TURTLE = informationBundle.getTurtle();
   }
 

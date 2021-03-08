@@ -1,6 +1,7 @@
 package slogo.model.commands.basic_commands;
 
 import java.util.List;
+import slogo.model.commands.basic_commands.command_types.TurtleAlteringCommand;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 import slogo.model.turtle.Turtle;
@@ -10,32 +11,30 @@ import slogo.model.turtle.Turtle;
  *
  * @author Casey Szilagyi
  */
-public class Backward implements BasicCommand {
+public class Backward extends TurtleAlteringCommand {
 
-  private final List<TreeNode> CHILDREN;
+  private final double DISTANCE;
 
   /**
    * Makes an instance of the backward command
    *
-   * @param nodes All of the children nodes needed for this command
+   * @param bundle The information bundle that holds the turtle that this command operates on
+   * @param nodes  All of the children nodes needed for this command
    */
-  public Backward(List<TreeNode> nodes) {
-    CHILDREN = nodes;
+  public Backward(CommandInformationBundle bundle, List<TreeNode> nodes) {
+    super(bundle);
+    DISTANCE = super.loadClass(bundle, nodes.get(0)).execute();
   }
 
   /**
    * Makes the turtle move the distance backward that is specified by the child node
    *
-   * @param informationBundle The bundle of all information that is needed
-   * @return The distance backward that it moved
+   * @return The distance backward that the turtle moved
    */
-  public double execute(CommandInformationBundle informationBundle) {
-    double val = informationBundle.loadClass(CHILDREN.get(0)).execute(informationBundle) * -1;
-    informationBundle.getTurtle()
-        .changeXPosition(Math.cos(informationBundle.getTurtle().getAngle()/360) * val);
-    informationBundle.getTurtle()
-        .changeYPosition(Math.sin(informationBundle.getTurtle().getAngle()/360) * val);
-    informationBundle.updateTurtle();
-    return val;
+  public double execute() {
+    changeTurtleX(DISTANCE * Math.cos(getAngle() / 360 * Math.PI * 2));
+    changeTurtleY(DISTANCE * Math.sin(getAngle() / 360 * Math.PI * 2));
+    return DISTANCE;
   }
+
 }

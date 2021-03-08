@@ -11,7 +11,7 @@ import slogo.model.turtle.Turtle;
  * data from the turtle in any way. It does not have the ability to alter the state
  * of the turtle
  */
-public abstract class TurtleQueryCommand implements BasicCommand {
+public abstract class TurtleQueryCommand extends Command {
 
   private final Turtle TURTLE;
 
@@ -20,8 +20,7 @@ public abstract class TurtleQueryCommand implements BasicCommand {
    *
    * @param informationBundle The bundle of information that contains the turtle
    */
-  public TurtleQueryCommand(CommandInformationBundle informationBundle,
-      List<TreeNode> children){
+  public TurtleQueryCommand(CommandInformationBundle informationBundle){
     TURTLE = informationBundle.getTurtle();
   }
 

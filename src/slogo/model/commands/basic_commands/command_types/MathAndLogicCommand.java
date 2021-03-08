@@ -11,16 +11,15 @@ import slogo.model.tree.TreeNode;
  *
  * @author Casey Szilagyi
  */
-public abstract class MathAndLogicCommand implements BasicCommand {
+public abstract class MathAndLogicCommand extends Command {
 
   /**
    * Constructs an instance of this class type
    *
    * @param informationBundle None of this bundle is used for any command that deals with
    *                          math/logic
-   * @param children          The TreeNodes that are used to execute the command
    */
-  public MathAndLogicCommand(CommandInformationBundle informationBundle, List<TreeNode> children) {
+  public MathAndLogicCommand(CommandInformationBundle informationBundle) {
   }
 
 

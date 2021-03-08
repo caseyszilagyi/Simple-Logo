@@ -24,11 +24,10 @@ public class Constant implements BasicCommand {
   /**
    * Returns the constant
    *
-   * @param informationBundle The bundle of all information that is needed for a command
    * @return The constant
    */
   @Override
-  public double execute(CommandInformationBundle informationBundle) {
+  public double execute() {
     return CONSTANT;
   }
 

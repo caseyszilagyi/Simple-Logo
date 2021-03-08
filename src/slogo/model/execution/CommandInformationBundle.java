@@ -16,7 +16,7 @@ import slogo.model.turtle.Turtle;
 public class CommandInformationBundle {
 
   private final Turtle TURTLE = new Turtle();
-  private final Map<String, TreeNode> VARIABLES = new HashMap<>();
+  private final Map<String, Double> VARIABLES = new HashMap<>();
   //Need to figure out what the second data type is, some kind of tree?
   private final Map<String, TreeNode> COMMANDS = new HashMap<>();
 

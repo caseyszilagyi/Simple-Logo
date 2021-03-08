@@ -1,6 +1,7 @@
 package slogo.model.commands.basic_commands;
 
 import java.util.List;
+import slogo.model.commands.basic_commands.command_types.ControlStructureCommand;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
@@ -9,32 +10,32 @@ import slogo.model.tree.TreeNode;
  *
  * @author Casey Szilagyi
  */
-public class MakeVariable implements BasicCommand {
+public class MakeVariable extends ControlStructureCommand {
 
   private final String NAME;
-  private final TreeNode VALUE;
+  private final double VALUE;
 
   /**
    * Makes an instance of the MakeVariable command
    *
+   * @param bundle Contains the map of variable names to values
    * @param nodes The nodes for making the variable. Includes the string name, and the other
    *              node that will eventually be a double value
    */
-  public MakeVariable(List<TreeNode> nodes) {
+  public MakeVariable(CommandInformationBundle bundle ,List<TreeNode> nodes) {
+    super(bundle);
     NAME = nodes.get(0).getValue();
-    VALUE = nodes.get(1);
+    VALUE = loadClass(bundle, nodes.get(1)).execute();
   }
 
   /**
    * Adds the variable to the bundle that holds the variables, and returns the value of the
    * variable
    *
-   * @param informationBundle The information bundle needed to store the variable in
    * @return The variable value
    */
-  public double execute(CommandInformationBundle informationBundle) {
-    BasicCommand variableValue = informationBundle.loadClass(VALUE);
-    informationBundle.addVariable(NAME, variableValue);
-    return variableValue.execute(informationBundle);
+  public double execute() {
+    setVariable(NAME, VALUE);
+    return VALUE;
   }
 }

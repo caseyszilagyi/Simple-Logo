@@ -11,19 +11,19 @@ import slogo.model.tree.TreeNode;
  * For this reason, any class that extends this class might need access to user defined
  * commands/variables
  */
-public abstract class ControlStructureCommand implements BasicCommand {
+public abstract class ControlStructureCommand extends Command {
 
-  private final Map<String,TreeNode> VARIABLE_MAP;
+  private final Map<String, Double> VARIABLE_MAP;
   private final Map<String, TreeNode> COMMAND_MAP;
+  private final CommandInformationBundle INFORMATION_BUNDLE;
 
   /**
    * @param informationBundle The bundle that has the user defined variables/commands
-   * @param children          The TreeNodes that are used to execute this command
    */
-  public ControlStructureCommand(CommandInformationBundle informationBundle,
-      List<TreeNode> children) {
+  public ControlStructureCommand(CommandInformationBundle informationBundle) {
     COMMAND_MAP = informationBundle.getCommandMap();
     VARIABLE_MAP = informationBundle.getVariableMap();
+    INFORMATION_BUNDLE = informationBundle;
   }
 
   /**
@@ -31,7 +31,7 @@ public abstract class ControlStructureCommand implements BasicCommand {
    * @param name The variable name
    * @return The TreeNode
    */
-  protected TreeNode getVariable(String name){
+  protected Double getVariable(String name){
     return VARIABLE_MAP.get(name);
   }
 
@@ -40,7 +40,7 @@ public abstract class ControlStructureCommand implements BasicCommand {
    * @param name The variable name
    * @param value The TreeNode
    */
-  protected void setVariable(String name, TreeNode value){
+  protected void setVariable(String name, Double value){
     VARIABLE_MAP.put(name, value);
   }
 
@@ -62,5 +62,6 @@ public abstract class ControlStructureCommand implements BasicCommand {
     COMMAND_MAP.put(name, command);
   }
 
+  
 
 }
