@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.provider.EnumSource.Mode;
 import slogo.controller.ModelController;
 import slogo.model.CommandParser;
 import slogo.model.InputCleaner;
@@ -14,15 +15,17 @@ import slogo.model.InputCleaner;
 public class CleanInputTester {
 
   private InputCleaner cleaner;
+  private CommandParser commandParser;
+  private ModelController modelController;
 
   /**
    * Sets up the commandParser
    */
   @BeforeEach
   void setUp() {
-    ModelController modelController = new ModelController();
+    modelController = new ModelController();
     String userInput = "if :size < 5 \n#comment\n[ forward :size back :size stop ]";
-    CommandParser commandParser = new CommandParser(userInput, modelController);
+    commandParser = new CommandParser(userInput, modelController);
     cleaner = new InputCleaner(userInput, modelController, commandParser);
   }
 
@@ -99,13 +102,14 @@ public class CleanInputTester {
     expected.add(":size");
     expected.add("<");
     expected.add("5");
-    expected.add("CommandBlock");
+    expected.add("CommandBlock_1");
     expected.add("Forward");
     expected.add(":size");
     expected.add("Backward");
     expected.add(":size");
     expected.add("stop");
     assertEquals(cleaner.cleanString(), expected);
+    assertEquals(commandParser.getParamCount("CommandBlock_1"), 3);
   }
 }
 

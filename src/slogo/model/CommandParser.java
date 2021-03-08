@@ -22,7 +22,7 @@ public class CommandParser implements Parser {
 
     // "types" and the regular expression patterns that recognize those types
     // note, it is a list because order matters (some patterns may be more generic)
-    private Map<String, Queue<String>> parameters;
+    private Map<String, String> parameters;
     private TreeNode commandTree;
     private List<String> cleanCommands;
     private ModelController modelController;
@@ -49,8 +49,7 @@ public class CommandParser implements Parser {
         ResourceBundle resources = ResourceBundle.getBundle(RESOURCES_PACKAGE + syntax);
         for (String key : Collections.list(resources.getKeys())) {
             addSingleParamCount(key, resources.getString(key));
-            parameters.putIfAbsent(key, new PriorityQueue<>());
-            parameters.get(key).add(resources.getString(key));
+            parameters.put(key, resources.getString(key));
             System.out.println("Key: " + key);
             System.out.println("Number: " + resources.getString(key));
             System.out.println();
@@ -58,8 +57,7 @@ public class CommandParser implements Parser {
     }
 
     public void addSingleParamCount(String command, String paramCount){
-        parameters.putIfAbsent(command, new PriorityQueue<>());
-        parameters.get(command).add(paramCount);
+        parameters.put(command, paramCount);
     }
     /**
      * makes the tree at the tree root node commandTree
@@ -70,7 +68,11 @@ public class CommandParser implements Parser {
         System.out.println("QUEUE: " + commandQueue);
 
         while (!commandQueue.isEmpty()) {
-            TreeNode child = new TreeNode(commandQueue.removeFirst());
+            String command = commandQueue.removeFirst();
+            TreeNode child = new TreeNode(command);
+            if(command.contains("CommandBlock")) {
+                child = new TreeNode(command, "CommandBlock");
+            }
             commandTree.addChild(child);
             insertNodeRecursive(commandQueue, child);
         }
@@ -81,38 +83,35 @@ public class CommandParser implements Parser {
             return;
         }
 
-        System.out.println("Value: " + root.getVal());
+        System.out.println("Value: " + root.getCommand());
         for(TreeNode child : root.getChildren()){
             printPreOrder(child);
         }
     }
 
     private TreeNode insertNodeRecursive(Deque<String> splitCommands, TreeNode root) {
-        if (getParamCount(root.getVal()) == 0) {
-            System.out.println(root.getVal() + " is a leaf");
+        if (getParamCount(root.getValue()) == 0) {
+            System.out.println(root.getValue() + " is a leaf");
         }
 
 
         System.out.println();
-        int paramCount = getParamCount(root.getVal());
+        int paramCount = getParamCount(root.getValue());
         System.out.println(paramCount);
-        for(int i = 0; i < getParamCount(root.getVal()); i ++){
-            TreeNode dummy = new TreeNode(splitCommands.removeFirst());
-            root.addChild(dummy);
-            if(root.getVal().equals("CommandBlock")){
-                parameters.get("CommandBlock").remove();
+        for(int i = 0; i < getParamCount(root.getValue()); i ++){
+            String command = splitCommands.removeFirst();
+            TreeNode dummy = new TreeNode(command);
+            if(command.contains("CommandBlock")) {
+                dummy = new TreeNode(command, "CommandBlock");
             }
-            System.out.println("Parent: " + root.getVal());
-            System.out.println("Child: " + dummy.getVal());
+            root.addChild(dummy);
+            System.out.println("Parent: " + root.getCommand());
+            System.out.println("Child: " + dummy.getCommand());
             insertNodeRecursive(splitCommands, dummy);
         }
 
         System.out.println();
         return root;
-    }
-
-    public boolean isCommand(String s){
-        return parameters.containsKey(s);
     }
 
     /**
@@ -123,7 +122,7 @@ public class CommandParser implements Parser {
     public Integer getParamCount(String text) {
         final String ERROR = "NO MATCH";
         try{
-            return Integer.parseInt(parameters.get(text).peek());
+            return Integer.parseInt(parameters.get(text));
         }catch (Exception e){
             return 0;
         }

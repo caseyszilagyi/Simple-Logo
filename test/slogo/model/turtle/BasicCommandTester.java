@@ -97,7 +97,7 @@ public class BasicCommandTester {
 
   // Makes a Tree with the top node being the string, and all children being the list of nodes
   private TreeNode makeTree(String root, TreeNode... children){
-    return new TreeNode(root, Arrays.asList(children.clone()));
+    return new TreeNode(root, root,  Arrays.asList(children.clone()));
   }
 
   // Makes a single TreeNode

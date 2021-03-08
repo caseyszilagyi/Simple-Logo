@@ -9,14 +9,22 @@ import java.util.List;
 public class TreeNode {
 
   String val;
+  String commandClass;
   List<TreeNode> children = new LinkedList<>();
 
   public TreeNode(String data) {
     val = data;
+    commandClass = data;
   }
 
-  public TreeNode(String data, List<TreeNode> child) {
+  public TreeNode(String data, String command) {
     val = data;
+    commandClass = command;
+  }
+
+  public TreeNode(String data, String command, List<TreeNode> child) {
+    val = data;
+    this.commandClass = command;
     children = child;
   }
 
@@ -47,8 +55,10 @@ public class TreeNode {
     return val;
   }
 
-    public String getVal(){
-        return val;
-    }
+  public String getCommand(){
+    return commandClass;
+  }
+
+  public void setValue(String command){ val = command; }
 
 }

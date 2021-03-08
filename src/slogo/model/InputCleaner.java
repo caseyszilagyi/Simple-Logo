@@ -88,21 +88,29 @@ public class InputCleaner {
   private List<String> findCommandBlocks(List<String> commands) {
     List<String> toRet = new ArrayList<>(commands);
     int blockSize = 0;
-    String commandKey = "CommandBlock";
+    String commandKey = "CommandBlock_";
     String commandVal = "";
+    int commandCount = 0;
     for (int ind = 0; ind < toRet.size(); ind++) {
+      String commandKeyNum = "";
       if(isCommand(toRet.get(ind))){
         blockSize++;
       }
       if (toRet.get(ind).equals("[")) {
-        toRet.set(ind, commandKey);
+        commandCount++;
+        commandKeyNum = commandKey + Integer.toString(commandCount);
+        toRet.set(ind, commandKeyNum);
         blockSize = 0;
+
       }
       if (toRet.get(ind).equals("]")) {
         toRet.remove(ind);
         ind--;
-        commandVal = blockSize-1 + "";
-        commandParser.addSingleParamCount(commandKey, commandVal);
+        commandVal = blockSize + "";
+        System.out.println("COMMAND_1: "+ commandVal);
+        commandKeyNum = commandKey + Integer.toString(commandCount);
+
+        commandParser.addSingleParamCount(commandKeyNum, commandVal);
       }
     }
     return toRet;
