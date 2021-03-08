@@ -24,7 +24,7 @@ public class BasicCommandTester {
   private CommandInformationBundle commandBundle;
   private BasicCommandClassLoader loader;
   private ModelController modelController;
-  static final double TOLERANCE = 0.0005;
+  static final double TOLERANCE = 0.05;
 
   /**
    * Sets up the turtle and the classloader
@@ -58,6 +58,55 @@ public class BasicCommandTester {
     TreeNode root = makeTree("Backward", child);
     executeCommand(makeBasicCommand(root));
     assertEquals(-60, commandBundle.getTurtle().getXPosition(), TOLERANCE);
+  }
+
+  /**
+   * Tests the right rotation command
+   */
+  @Test
+  void testRight() {
+    TreeNode child = makeNode("60");
+    TreeNode root = makeTree("Right", child);
+    executeCommand(makeBasicCommand(root));
+    assertEquals(300, commandBundle.getTurtle().getAngle(), TOLERANCE);
+  }
+
+  /**
+   * Tests the left rotation command
+   */
+  @Test
+  void testLeft() {
+    TreeNode child = makeNode("60");
+    TreeNode root = makeTree("Left", child);
+    executeCommand(makeBasicCommand(root));
+    assertEquals(60, commandBundle.getTurtle().getAngle(), TOLERANCE);
+  }
+
+  /**
+   * Tests the rotation and movement of the turtle to make sure the radians/degrees
+   * conversion is correct
+   */
+  @Test
+  void testRotateAndMove(){
+    TreeNode child = makeNode("45");
+    TreeNode root = makeTree("Left", child);
+    executeCommand(makeBasicCommand(root));
+    moveTurtle("10");
+    assertEquals(7.07, commandBundle.getTurtle().getXPosition(), TOLERANCE);
+    assertEquals(7.07, commandBundle.getTurtle().getXPosition(), TOLERANCE);
+  }
+
+  /**
+   * Tests the forward movement with the sum command
+   */
+  @Test
+  void testForwardSum(){
+    TreeNode child = makeNode("5");
+    TreeNode child2 = makeNode("10");
+    TreeNode sum = makeTree("Sum", child, child2);
+    TreeNode root = makeTree("Forward", sum);
+    executeCommand(makeBasicCommand(root));
+    assertEquals(15, commandBundle.getTurtle().getXPosition());
   }
 
   // Turtle Queries
@@ -128,7 +177,7 @@ public class BasicCommandTester {
 
   // Moves the turtle a specified distance, useful for testing queries
   private void moveTurtle(String distance) {
-    TreeNode node = makeTree("Forward", makeNode("50"));
+    TreeNode node = makeTree("Forward", makeNode(distance));
     BasicCommand forward = makeBasicCommand(node);
     forward.execute();
   }
