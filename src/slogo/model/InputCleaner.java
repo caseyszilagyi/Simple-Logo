@@ -62,7 +62,7 @@ public class InputCleaner {
     return groupedCommands;
   }
 
-  public String removeComments() {
+  private String removeComments() {
     StringBuffer removedComments = new StringBuffer(userInput);
     while (removedComments.indexOf("#") != -1) {
       int indBeforeComment = removedComments.indexOf("#");
@@ -72,7 +72,7 @@ public class InputCleaner {
     return removedComments.toString();
   }
 
-  public List<String> translateCommand(String input) {
+  private List<String> translateCommand(String input) {
     List<String> translated = new ArrayList<>();
     List<String> beforeTranslation = Arrays.asList(input.split(WHITESPACE));
     for (String s : beforeTranslation) {
@@ -108,11 +108,11 @@ public class InputCleaner {
     return toRet;
   }
 
-  private boolean isCommand(String s){
+  private boolean isCommand(String s) {
     return match(s, syntaxMap.get("Command"));
   }
 
-  public String getCommandKey (String text) {
+  private String getCommandKey (String text) {
     final String ERROR = "NO MATCH";
     for (Entry<String, Pattern> e : symbols) {
       if (match(text, e.getValue())) {
@@ -126,14 +126,4 @@ public class InputCleaner {
   private boolean match (String text, Pattern regex) {
     return regex.matcher(text).matches();
   }
-
-  private String joinStringList(List<String> split){
-    String joined = "";
-    for(String s : split){
-      joined = joined + s + " ";
-    }
-    return joined;
-  }
-
-
 }

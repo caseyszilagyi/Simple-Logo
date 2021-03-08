@@ -22,7 +22,7 @@ public class CommandParser implements Parser {
 
     // "types" and the regular expression patterns that recognize those types
     // note, it is a list because order matters (some patterns may be more generic)
-    private Map<String, String> parameters;
+    private Map<String, Queue<String>> parameters;
     private TreeNode commandTree;
     private List<String> cleanCommands;
     private ModelController modelController;
@@ -49,7 +49,8 @@ public class CommandParser implements Parser {
         ResourceBundle resources = ResourceBundle.getBundle(RESOURCES_PACKAGE + syntax);
         for (String key : Collections.list(resources.getKeys())) {
             addSingleParamCount(key, resources.getString(key));
-            parameters.put(key, resources.getString(key));
+            parameters.putIfAbsent(key, new PriorityQueue<>());
+            parameters.get(key).add(resources.getString(key));
             System.out.println("Key: " + key);
             System.out.println("Number: " + resources.getString(key));
             System.out.println();
@@ -57,7 +58,8 @@ public class CommandParser implements Parser {
     }
 
     public void addSingleParamCount(String command, String paramCount){
-        parameters.put(command, paramCount);
+        parameters.putIfAbsent(command, new PriorityQueue<>());
+        parameters.get(command).add(paramCount);
     }
     /**
      * makes the tree at the tree root node commandTree
@@ -98,7 +100,7 @@ public class CommandParser implements Parser {
             TreeNode dummy = new TreeNode(splitCommands.removeFirst());
             root.addChild(dummy);
             if(root.getVal().equals("CommandBlock")){
-                parameters.remove("CommandBlock", paramCount);
+                parameters.get("CommandBlock").remove();
             }
             System.out.println("Parent: " + root.getVal());
             System.out.println("Child: " + dummy.getVal());
@@ -121,7 +123,7 @@ public class CommandParser implements Parser {
     public Integer getParamCount(String text) {
         final String ERROR = "NO MATCH";
         try{
-            return Integer.parseInt(parameters.get(text));
+            return Integer.parseInt(parameters.get(text).peek());
         }catch (Exception e){
             return 0;
         }
