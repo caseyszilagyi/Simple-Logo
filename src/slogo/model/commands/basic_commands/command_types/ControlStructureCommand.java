@@ -13,8 +13,8 @@ import slogo.model.tree.TreeNode;
  */
 public abstract class ControlStructureCommand implements BasicCommand {
 
-  Map<String,TreeNode> VARIABLE_MAP;
-  Map<String, TreeNode> COMMAND_MAP;
+  private final Map<String,TreeNode> VARIABLE_MAP;
+  private final Map<String, TreeNode> COMMAND_MAP;
 
   /**
    * @param informationBundle The bundle that has the user defined variables/commands
@@ -31,7 +31,7 @@ public abstract class ControlStructureCommand implements BasicCommand {
    * @param name The variable name
    * @return The TreeNode
    */
-  public TreeNode getVariable(String name){
+  protected TreeNode getVariable(String name){
     return VARIABLE_MAP.get(name);
   }
 
@@ -40,7 +40,7 @@ public abstract class ControlStructureCommand implements BasicCommand {
    * @param name The variable name
    * @param value The TreeNode
    */
-  public void setVariable(String name, TreeNode value){
+  protected void setVariable(String name, TreeNode value){
     VARIABLE_MAP.put(name, value);
   }
 
@@ -49,7 +49,7 @@ public abstract class ControlStructureCommand implements BasicCommand {
    * @param name The variable name
    * @return The TreeNode
    */
-  public TreeNode getCommand(String name){
+  protected TreeNode getCommand(String name){
     return COMMAND_MAP.get(name);
   }
 
@@ -58,11 +58,9 @@ public abstract class ControlStructureCommand implements BasicCommand {
    * @param name The command name
    * @param command The TreeNode that represents it
    */
-  public void setCommand(String name, TreeNode command){
+  protected void setCommand(String name, TreeNode command){
     COMMAND_MAP.put(name, command);
   }
-
-
 
 
 }
