@@ -32,8 +32,8 @@ public class Backward extends TurtleAlteringCommand {
    * @return The distance backward that the turtle moved
    */
   public double execute() {
-    changeTurtleX(DISTANCE * Math.cos(getAngle() / 360 * Math.PI * 2));
-    changeTurtleY(DISTANCE * Math.sin(getAngle() / 360 * Math.PI * 2));
+    changeTurtleX(-1 * DISTANCE * Math.cos(getAngle() / 360 * Math.PI * 2));
+    changeTurtleY(-1 * DISTANCE * Math.sin(getAngle() / 360 * Math.PI * 2));
     return DISTANCE;
   }
 

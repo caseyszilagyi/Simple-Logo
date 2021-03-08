@@ -34,9 +34,9 @@ public class CommandInformationBundle {
    * Adds a variable to the map
    *
    * @param name  The variable name
-   * @param value The value of the variable in BasicCommand form
+   * @param value The value of the variable
    */
-  public void addVariable(String name, TreeNode value) {
+  public void addVariable(String name, Double value) {
     VARIABLES.put(name, value);
   }
 
@@ -44,7 +44,7 @@ public class CommandInformationBundle {
    * Gets the map of commands
    * @return The command map
    */
-  public Map getCommandMap(){
+  public Map<String, TreeNode> getCommandMap(){
     return COMMANDS;
   }
 
@@ -52,7 +52,7 @@ public class CommandInformationBundle {
    * Gets the map of variables
    * @return The variable map
    */
-  public Map getVariableMap(){
+  public Map<String, Double> getVariableMap(){
     return VARIABLES;
   }
 

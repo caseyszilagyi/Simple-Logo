@@ -28,40 +28,54 @@ public abstract class ControlStructureCommand extends Command {
 
   /**
    * Gets the TreeNode representing a certain variable
+   *
    * @param name The variable name
    * @return The TreeNode
    */
-  protected Double getVariable(String name){
+  protected Double getVariable(String name) {
     return VARIABLE_MAP.get(name);
   }
 
   /**
    * Sets a variable name to a TreeNode
-   * @param name The variable name
+   *
+   * @param name  The variable name
    * @param value The TreeNode
    */
-  protected void setVariable(String name, Double value){
+  protected void setVariable(String name, Double value) {
     VARIABLE_MAP.put(name, value);
   }
 
   /**
    * Gets the TreeNode representing a certain user defined command
+   *
    * @param name The variable name
    * @return The TreeNode
    */
-  protected TreeNode getCommand(String name){
+  protected TreeNode getCommand(String name) {
     return COMMAND_MAP.get(name);
   }
 
   /**
    * Gets a command name to a TreeNode that represents it
-   * @param name The command name
+   *
+   * @param name    The command name
    * @param command The TreeNode that represents it
    */
-  protected void setCommand(String name, TreeNode command){
+  protected void setCommand(String name, TreeNode command) {
     COMMAND_MAP.put(name, command);
   }
 
-  
+
+  /**
+   * Executes a block of commands. This is used for looping/conditionals
+   *
+   * @param node The node that holds all of the commands to execute
+   * @return The double value that represents the executed command block
+   */
+  protected double executeBlock(TreeNode node) {
+    return loadClass(INFORMATION_BUNDLE, node).execute();
+  }
+
 
 }
