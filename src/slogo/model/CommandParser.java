@@ -12,6 +12,8 @@ import slogo.model.tree.TreeNode;
 
 /**
  * translates the string of all commands into a non-binary tree
+ * @author Jin Cho
+ * @author Ji Yun Hyo
  */
 public class CommandParser implements Parser {
 
