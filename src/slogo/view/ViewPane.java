@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 /**
@@ -28,15 +29,14 @@ public class ViewPane {
   private double centerY = 198;
   private double direction = 90;
   private boolean penUP = false;
+  private Color penColor = Color.BLACK;
 
   public ViewPane() {
     paneBox = new AnchorPane();
-    // change once there is css file only used for testing
+    // TODO: change once there is css file only used for testing
     paneBox.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;"
             + "-fx-border-width: 2;" + "-fx-border-insets: 5;"
             + "-fx-border-radius: 5;" + "-fx-border-color: purple;");
-    screenWidth = paneBox.getWidth();
-    screenHeight = paneBox.getHeight();
     createTurtle();
   }
 
@@ -46,7 +46,6 @@ public class ViewPane {
     turtle.setFitWidth(TURTLE_WIDTH);
     turtle.setFitHeight(TURTLE_HEIGHT);
     paneBox.getChildren().add(turtle);
-
     turtle.setX(centerX);
     turtle.setY(centerY);
   }
@@ -59,7 +58,7 @@ public class ViewPane {
     screenHeight = paneBox.getHeight();
 
 
-    double coordinateWidth = screenWidth / cols;
+    double coordinateWidth = screenWidth / rows;
     double coordinateHeight = screenHeight / cols;
 
     centerX = screenWidth / 2;
@@ -69,22 +68,11 @@ public class ViewPane {
     double y = centerY - yCoordinate * coordinateHeight - turtleCenterY;
 
     if(!penUP) {
-      Line line1 = new Line(turtle.getX() + TURTLE_WIDTH / 2, turtle.getY() + TURTLE_WIDTH / 2,
-              x + TURTLE_HEIGHT / 2, y + TURTLE_HEIGHT / 2);
-      paneBox.getChildren().add(line1);
+      createLine(x, y);
     }
 
-    System.out.println(x);
     turtle.setX(x);
-    System.out.println(turtle.getX());
     turtle.setY(y);
-  }
-
-  private double convertX(double xCoordinate){
-    return centerX + xCoordinate * (screenWidth / cols) - (TURTLE_WIDTH / 2);
-  }
-  private double convertY(double yCoordinate){
-    return centerY - yCoordinate * (screenHeight / rows) - (TURTLE_HEIGHT / 2);
   }
 
   public void moveTurtleByDistance(double distance){
@@ -93,34 +81,32 @@ public class ViewPane {
     // because the angles/getrotate are all messed up
     double turtleX;
     double turtleY;
-    System.out.println(turtle.getRotate());
     double turtleAngle = ((-turtle.getRotate() - 90) * Math.PI) / (180);
-    System.out.println("sin: " + Math.sin(turtleAngle));
-    System.out.println("cos: " + Math.cos(turtleAngle));
-    System.out.println(turtleAngle);
     turtleX = turtle.getX() - Math.cos(turtleAngle) * distance;
     turtleY = turtle.getY() + Math.sin(turtleAngle) * distance;
     if(!penUP){
-      Line line1 = new Line(turtle.getX() + TURTLE_WIDTH / 2, turtle.getY() + TURTLE_WIDTH / 2,
-              turtleX + TURTLE_HEIGHT / 2, turtleY + TURTLE_HEIGHT / 2);
-      paneBox.getChildren().add(line1);
+      createLine(turtleX, turtleY);
     }
-
 
     turtle.setX(turtleX);
     turtle.setY(turtleY);
 
   }
 
+  private void createLine(double x, double y) {
+    Line line1 = new Line(turtle.getX() + TURTLE_WIDTH / 2, turtle.getY() + TURTLE_WIDTH / 2,
+            x + TURTLE_HEIGHT / 2, y + TURTLE_HEIGHT / 2);
+    line1.setStroke(penColor);
+    paneBox.getChildren().add(line1);
+  }
+
   public void turnTurtle(double d){
     turtle.setRotate(turtle.getRotate() - d);
-    System.out.println(90 - turtle.getRotate());
   }
 
   public AnchorPane getBox() {
     return paneBox;
   }
-
 
   public void switchPenState() {
     penUP = !penUP;
