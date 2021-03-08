@@ -15,6 +15,7 @@ import slogo.model.turtle.Turtle;
 public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
 
   private final Turtle TURTLE;
+  private final CommandInformationBundle BUNDLE;
 
   /**
    * Makes the BasicCommand and saves the turtle
@@ -24,6 +25,7 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
   public TurtleAlteringCommand(CommandInformationBundle informationBundle) {
     super(informationBundle);
     TURTLE = informationBundle.getTurtle();
+    BUNDLE = informationBundle;
   }
 
   /**
@@ -112,6 +114,10 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    */
   protected void reset() {
     TURTLE.clearScreen();
+  }
+
+  protected void updateFrontEnd(){
+    BUNDLE.updateTurtle();
   }
 
 

@@ -34,6 +34,7 @@ public class Backward extends TurtleAlteringCommand {
   public double execute() {
     changeTurtleX(-1 * DISTANCE * Math.cos(getAngle() / 360 * Math.PI * 2));
     changeTurtleY(-1 * DISTANCE * Math.sin(getAngle() / 360 * Math.PI * 2));
+    updateFrontEnd();
     return DISTANCE;
   }
 
