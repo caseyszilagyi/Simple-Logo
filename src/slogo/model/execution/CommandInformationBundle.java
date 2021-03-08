@@ -16,9 +16,9 @@ import slogo.model.turtle.Turtle;
 public class CommandInformationBundle {
 
   private final Turtle TURTLE = new Turtle();
-  private final Map<String, BasicCommand> VARIABLES = new HashMap<>();
+  private final Map<String, TreeNode> VARIABLES = new HashMap<>();
   //Need to figure out what the second data type is, some kind of tree?
-  private final Map<String, BasicCommand> COMMANDS = new HashMap<>();
+  private final Map<String, TreeNode> COMMANDS = new HashMap<>();
 
   private final BasicCommandClassLoader CLASS_LOADER = new BasicCommandClassLoader();
   private final ModelController MODEL_CONTROLLER;
@@ -36,29 +36,27 @@ public class CommandInformationBundle {
    * @param name  The variable name
    * @param value The value of the variable in BasicCommand form
    */
-  public void addVariable(String name, BasicCommand value) {
+  public void addVariable(String name, TreeNode value) {
     VARIABLES.put(name, value);
   }
 
   /**
-   * Gets a variable from the map
-   *
-   * @param name The variable name
-   * @return The value of the variable in BasicCommand form
+   * Gets the map of commands
+   * @return The command map
    */
-  public BasicCommand getVariable(String name) {
-    return VARIABLES.get(name);
+  public Map getCommandMap(){
+    return COMMANDS;
   }
 
   /**
-   * Gets a command from the map
-   *
-   * @param name The command name
-   * @return The root node of the command in BasicCommand form
+   * Gets the map of variables
+   * @return The variable map
    */
-  public BasicCommand getCommand(String name) {
-    return VARIABLES.get(name);
+  public Map getVariableMap(){
+    return VARIABLES;
   }
+
+
 
   /**
    * Gets the turtle in this bundle
