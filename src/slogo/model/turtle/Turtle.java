@@ -111,7 +111,7 @@ public class Turtle implements TurtleState {
    * @param rotate The change in the angle, in a counterclockwise direction
    */
   public void rotateClockwise(double rotate){
-    angle += rotate;
+    angle -= rotate;
     angle = angle % 360;
   };
 
@@ -149,6 +149,10 @@ public class Turtle implements TurtleState {
    */
   public int getPenState(){ return penState; };
 
+  /**
+   * Gets the parameters to pass to the front end to display
+   * @return The list of parameters
+   */
   public List<Double> getFrontEndParameters(){
     return Arrays.asList(getXPosition(), getYPosition(), getAngle(), getPenState()/1.0, getVisibility()/1.0, 0.0);
   }
