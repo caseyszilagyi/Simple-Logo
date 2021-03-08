@@ -39,4 +39,6 @@ public interface FrontEndExternalAPI {
     public String getUserCommandInput();
 
     public void processUserCommandInput(String userCommandInput);
+
+     public void passInputFromBackendToFrontEnd(List<Double> parameters);
 }

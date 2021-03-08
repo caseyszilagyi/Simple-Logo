@@ -111,6 +111,7 @@ public class ModelController implements BackEndExternalAPI {
      */
     public void passInputToFrontEnd(List<Double> parameters){
         //: TODO Call a method on the viewController and pass it this arraylist of parameters
+        viewController.passInputFromBackendToFrontEnd(parameters);
     }
 
     /**

@@ -97,4 +97,5 @@ public class ScreenCreator {
     buttonBox.getChildren().add(button);
     return button;
   }
+
 }

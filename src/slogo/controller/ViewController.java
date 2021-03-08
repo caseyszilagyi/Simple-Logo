@@ -73,4 +73,9 @@ public class ViewController implements FrontEndExternalAPI {
         modelController.parseInput(userCommandInputs);
     }
 
+    @Override
+    public void passInputFromBackendToFrontEnd(List<Double> parameters) {
+        // TODO implement and decide which class will get sent these parameters
+    }
+
 }
