@@ -20,24 +20,40 @@ public class ViewPane {
   public static final int rows = 101;
   public static final int cols = 101;
 
+  private BorderPane viewPane;
   private AnchorPane paneBox;
   private ImageView turtle;
+  private HBox choicePane;
 
   private double screenWidth;
   private double screenHeight;
-  private double centerX = 297.5;
-  private double centerY = 198;
+  private double centerX = 280.5;
+  private double centerY = 164.0;
   private double direction = 90;
   private boolean penUP = false;
   private Color penColor = Color.BLACK;
 
   public ViewPane() {
+    viewPane = new BorderPane();
     paneBox = new AnchorPane();
+    viewPane.setCenter(paneBox);
     // TODO: change once there is css file only used for testing
-    paneBox.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;"
+    viewPane.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;"
             + "-fx-border-width: 2;" + "-fx-border-insets: 5;"
             + "-fx-border-radius: 5;" + "-fx-border-color: purple;");
+    paneBox.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;"
+            + "-fx-border-width: 2;" + "-fx-border-insets: 5;"
+            + "-fx-border-radius: 5;" + "-fx-border-color: green;");
+    createChoicePane();
+    viewPane.setTop(choicePane);
     createTurtle();
+  }
+
+  private void createChoicePane() {
+    choicePane = new HBox();
+    choicePane.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;"
+            + "-fx-border-width: 2;" + "-fx-border-insets: 5;"
+            + "-fx-border-radius: 5;" + "-fx-border-color: aquamarine;");
   }
 
   private void createTurtle() {
@@ -72,7 +88,9 @@ public class ViewPane {
     }
 
     turtle.setX(x);
+    System.out.println(x);
     turtle.setY(y);
+    System.out.println(y);
   }
 
   public void moveTurtleByDistance(double distance){
@@ -104,8 +122,8 @@ public class ViewPane {
     turtle.setRotate(turtle.getRotate() - d);
   }
 
-  public AnchorPane getBox() {
-    return paneBox;
+  public BorderPane getBox() {
+    return viewPane;
   }
 
   public void switchPenState() {
