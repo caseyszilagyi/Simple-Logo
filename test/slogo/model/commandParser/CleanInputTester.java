@@ -14,19 +14,12 @@ import slogo.model.InputCleaner;
 
 public class CleanInputTester {
 
-  private InputCleaner cleaner;
-  private CommandParser commandParser;
-  private ModelController modelController;
-
   /**
    * Sets up the commandParser
    */
   @BeforeEach
   void setUp() {
-    modelController = new ModelController();
-    String userInput = "if :size < 5 \n#comment\n[ forward :size back :size stop ]";
-    commandParser = new CommandParser(userInput, modelController);
-    cleaner = new InputCleaner(userInput, modelController, commandParser);
+
   }
 
 
@@ -36,6 +29,7 @@ public class CleanInputTester {
 
   void testTranslation() {
     String userInput = "fd 50 forward 10";
+    InputCleaner cleaner = makeInputCleaner(userInput);
     String expected = "Forward 50 Forward 10 ";
 //    assertEquals(cleaner.translateCommand(userInput), expected);
   }
@@ -76,6 +70,7 @@ public class CleanInputTester {
 
   void testCommandBlocks() {
     String userInput = "if :size < 5 [ forward :size back :size stop ]";
+    InputCleaner cleaner = makeInputCleaner(userInput);
     List<String> input = Arrays.asList(userInput.split(" "));
     List<String> expected = new ArrayList<>();
     expected.add("if");
@@ -97,6 +92,7 @@ public class CleanInputTester {
   @Test
   void testCleaningAll() {
     String userInput = "if :size < 5 \n#comment\n[ forward :size back :size stop ]";
+    InputCleaner cleaner = makeInputCleaner(userInput);
     List<String> expected = new ArrayList<>();
     expected.add("If");
     expected.add(":size");
@@ -109,7 +105,47 @@ public class CleanInputTester {
     expected.add(":size");
     expected.add("stop");
     assertEquals(cleaner.cleanString(), expected);
-    assertEquals(commandParser.getParamCount("CommandBlock_1"), 3);
+    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 3);
   }
+
+  /**
+   * Test all steps (remove commands and group blocks
+   */
+  @Test
+  void testMultCommandBlocks() {
+    String userInput = "if :size < 5 \n#comment\n[ forward :size back :size stop ] repeat 4 [ forward 5 ]";
+    InputCleaner cleaner = makeInputCleaner(userInput);
+    List<String> expected = new ArrayList<>();
+    expected.add("If");
+    expected.add(":size");
+    expected.add("<");
+    expected.add("5");
+    expected.add("CommandBlock_1");
+    expected.add("Forward");
+    expected.add(":size");
+    expected.add("Backward");
+    expected.add(":size");
+    expected.add("stop");
+    expected.add("Repeat");
+    expected.add("4");
+    expected.add("CommandBlock_2");
+    expected.add("Forward");
+    expected.add("5");
+    assertEquals(cleaner.cleanString(), expected);
+    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 3);
+    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_2"), 1);
+
+  }
+
+  private InputCleaner makeInputCleaner(String userInput){
+    ModelController modelController = new ModelController();
+    CommandParser commandParser = new CommandParser(userInput, modelController);
+    InputCleaner cleaner = new InputCleaner(userInput, modelController, commandParser);
+    return cleaner;
+  }
+
+
+
+
 }
 

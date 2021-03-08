@@ -20,7 +20,7 @@ public class InputCleaner {
   private List<Entry<String, Pattern>> symbols;
   private Map<String, Pattern> syntaxMap;
   private String userInput;
-  private CommandParser commandParser;
+  public CommandParser commandParser;
   private ModelController modelController;
 
 
