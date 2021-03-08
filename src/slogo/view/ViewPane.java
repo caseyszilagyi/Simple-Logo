@@ -1,13 +1,15 @@
 package slogo.view;
 
 import java.lang.Math;
-import javafx.geometry.Pos;
+
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.stage.FileChooser;
 
 /**
  * Creates the view for where the turtle will be displayed
@@ -24,6 +26,10 @@ public class ViewPane {
   private AnchorPane paneBox;
   private ImageView turtle;
   private HBox choicePane;
+  private Image turtleImage;
+  private ColorPicker penColorPicker;
+  private ColorPicker backgroundColorPicker;
+  private FileChooser turtleImageChooser;
 
   private double screenWidth;
   private double screenHeight;
@@ -50,15 +56,30 @@ public class ViewPane {
   }
 
   private void createChoicePane() {
+    double spacing = 5.0;
     choicePane = new HBox();
+    choicePane.setSpacing(spacing);
     choicePane.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;"
             + "-fx-border-width: 2;" + "-fx-border-insets: 5;"
             + "-fx-border-radius: 5;" + "-fx-border-color: aquamarine;");
+    backgroundColorPicker = new ColorPicker(Color.WHITE);
+    choicePane.getChildren().add(backgroundColorPicker);
+    penColorPicker = new ColorPicker(Color.BLACK);
+    choicePane.getChildren().add(penColorPicker);
+    Button turtleImageButton = new Button("Choose turtle image");
+    turtleImageChooser = new FileChooser();
+    choicePane.getChildren().add(turtleImageButton);
+  }
+
+  private Button buttonCreation(String text) {
+    Button button = new Button(text);
+    choicePane.getChildren().add(button);
+    return button;
   }
 
   private void createTurtle() {
-    Image image = new Image(this.getClass().getClassLoader().getResourceAsStream(TURTLE_IMAGE));
-    turtle = new ImageView(image);
+    turtleImage = new Image(this.getClass().getClassLoader().getResourceAsStream(TURTLE_IMAGE));
+    turtle = new ImageView(turtleImage);
     turtle.setFitWidth(TURTLE_WIDTH);
     turtle.setFitHeight(TURTLE_HEIGHT);
     paneBox.getChildren().add(turtle);
