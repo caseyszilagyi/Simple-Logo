@@ -1,6 +1,7 @@
 package slogo.model.commands.basic_commands;
 
 import slogo.model.execution.CommandInformationBundle;
+import slogo.model.tree.TreeNode;
 
 /**
  * This interface is designed to be used for all of the basic commands that the turtle can have
@@ -17,6 +18,8 @@ public interface BasicCommand {
    *
    * @return An integer representing the result of the command
    */
-  public double execute(CommandInformationBundle informationBundle);
+  public double execute();
+
+
 
 }

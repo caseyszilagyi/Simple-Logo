@@ -1,6 +1,8 @@
 package slogo.model.commands.basic_commands;
 
+import java.util.ArrayList;
 import java.util.List;
+import slogo.model.commands.basic_commands.command_types.ControlStructureCommand;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
@@ -10,30 +12,35 @@ import slogo.model.tree.TreeNode;
  *
  * @author Casey Szilagyi
  */
-public class CommandBlock implements BasicCommand {
+public class CommandBlock extends ControlStructureCommand {
 
-  private final List<TreeNode> CHILDREN;
+  private final List<BasicCommand> CHILDREN;
+
 
   /**
    * Makes an instance of the CommandBlock command
    *
+   * @param informationBundle The information that could be needed to execute a command
    * @param nodes All of the children to be executed
    */
-  public CommandBlock(List<TreeNode> nodes) {
-    CHILDREN = nodes;
+  public CommandBlock(CommandInformationBundle informationBundle, List<TreeNode> nodes) {
+    super(informationBundle);
+    CHILDREN = new ArrayList<>();
+    for(int i = 0; i<nodes.size(); i++){
+      CHILDREN.add(loadClass(informationBundle, nodes.get(i)));
+    }
   }
 
   /**
    * Executes all of the children commands by looping through them. Returns whatever the last one
    * returns
    *
-   * @param informationBundle The bundle of all information that is needed to execute commands
    * @return The final command value
    */
-  public double execute(CommandInformationBundle informationBundle) {
+  public double execute() {
     double val = 0;
     for (int i = 0; i < CHILDREN.size(); i++) {
-      val = informationBundle.loadClass(CHILDREN.get(i)).execute(informationBundle);
+      val = CHILDREN.get(i).execute();
     }
     return val;
   }

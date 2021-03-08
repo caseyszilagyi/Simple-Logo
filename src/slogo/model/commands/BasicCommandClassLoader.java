@@ -81,18 +81,18 @@ public class BasicCommandClassLoader {
       return makeConstant(Double.parseDouble(node.getValue()));
     }
 
-    if (informationBundle.getCommand((node.getValue())) != null) {
-      return informationBundle.getCommand((node.getValue()));
+    if (informationBundle.getCommandMap().containsKey(node.getValue())) {
+      node = informationBundle.getCommandMap().get(node.getValue());
     }
 
-    if (informationBundle.getVariable((node.getValue())) != null) {
-      return informationBundle.getVariable((node.getValue()));
+    if (informationBundle.getVariableMap().containsKey(node.getValue())) {
+      return makeConstant(informationBundle.getVariableMap().get(node.getValue()));
     }
 
     BasicCommand myCommand = null;
     try {
       Object command = CLASS_LOADER.loadClass(COMMAND_CLASSES_PACKAGE + node.getValue())
-          .getDeclaredConstructor(List.class).newInstance((Object) node.getChildren());
+          .getDeclaredConstructor(CommandInformationBundle.class, List.class).newInstance(informationBundle, (Object) node.getChildren());
       myCommand = (BasicCommand) command;
     } catch (Exception e) {
       System.out.println("Command Doesn't exist!!!!");
