@@ -13,8 +13,9 @@ public class Turtle implements TurtleState {
   private double angle;
   private double xPosition;
   private double yPosition;
-  private int isVisible;
-  private int penState;
+  private double isVisible;
+  private double penState;
+  private double clearScreen;
 
   /**
    * Default constructor
@@ -25,15 +26,17 @@ public class Turtle implements TurtleState {
     angle = 0;
     isVisible = 1;
     penState = 1;
+    clearScreen = 0;
   }
 
   /**
    * Constructor used to put the turtle at a specific location. Useful for testing
-   * @param x The x position
-   * @param y The y position
+   *
+   * @param x         The x position
+   * @param y         The y position
    * @param direction The angle the turtle is facing
    */
-  public Turtle(double x, double y, double direction){
+  public Turtle(double x, double y, double direction) {
     angle = direction;
     xPosition = x;
     yPosition = y;
@@ -55,6 +58,10 @@ public class Turtle implements TurtleState {
    */
   public void setAngle(double newAngle) {
     angle = newAngle;
+    angle = angle % 360;
+    if(angle<0){
+      angle+=360;
+    }
   }
 
   /**
@@ -92,29 +99,38 @@ public class Turtle implements TurtleState {
 
   /**
    * Changes the X position of the turtle by a certain amount
+   *
    * @param changeX The change in X position
    */
-  public void changeXPosition(double changeX){
+  public void changeXPosition(double changeX) {
     xPosition += changeX;
   }
 
   /**
    * Changes the Y position of the turtle by a certain amount
+   *
    * @param changeY The change in Y position
    */
-  public void changeYPosition(double changeY){
+  public void changeYPosition(double changeY) {
     yPosition += changeY;
-  };
+  }
+
+  ;
 
   /**
    * Changes the angle of the turtle by a certain amount
+   *
    * @param rotate The change in the angle, in a counterclockwise direction
    */
-  public void rotateClockwise(double rotate){
+  public void rotateCounterClockwise(double rotate) {
     angle += rotate;
     angle = angle % 360;
-  };
+    if(angle<0){
+      angle += 360;
+    }
+  }
 
+  ;
 
 
   /**
@@ -122,7 +138,7 @@ public class Turtle implements TurtleState {
    *
    * @return The turtle's visibility
    */
-  public int getVisibility() {
+  public double getVisibility() {
     return isVisible;
   }
 
@@ -131,26 +147,42 @@ public class Turtle implements TurtleState {
    *
    * @param visibility The visibility
    */
-  public void setVisibility(int visibility) {
+  public void setVisibility(double visibility) {
     isVisible = visibility;
   }
 
   /**
    * Sets the pen state
+   *
    * @param userPenState The pen state
    */
-   public void setPenState(int userPenState){
+  public void setPenState(double userPenState) {
     penState = userPenState;
-   }
+  }
 
   /**
    * Gets the current pen state
+   *
    * @return The pen state
    */
-  public int getPenState(){ return penState; };
+  public double getPenState() {
+    return penState;
+  }
 
-  public List<Double> getFrontEndParameters(){
-    return Arrays.asList(getXPosition(), getYPosition(), getAngle(), getPenState()/1.0, getVisibility()/1.0, 0.0);
+
+  public double clearScreen(){
+    return clearScreen;
+  }
+
+
+  /**
+   * Gets the parameters to pass to the front end to display
+   *
+   * @return The list of parameters
+   */
+  public List<Double> getFrontEndParameters() {
+    return Arrays
+        .asList(getXPosition(), getYPosition(), getAngle(), getPenState(), getVisibility(), clearScreen());
   }
 
 

@@ -1,6 +1,8 @@
 package slogo.model.commands.basic_commands;
 
 import java.util.List;
+import slogo.model.commands.BasicCommandClassLoader;
+import slogo.model.commands.basic_commands.command_types.TurtleAlteringCommand;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
@@ -9,32 +11,30 @@ import slogo.model.tree.TreeNode;
  *
  * @author Casey Szilagyi
  */
-public class Forward implements BasicCommand {
+public class Forward extends TurtleAlteringCommand {
 
-  private final List<TreeNode> CHILDREN;
+  private final double DISTANCE;
 
   /**
    * Makes an instance of the forward command
    *
+   * @param bundle Contains the turtle that will neeed to be altered for this command
    * @param nodes All of the children nodes needed for this command
    */
-  public Forward(List<TreeNode> nodes) {
-    CHILDREN = nodes;
+  public Forward(CommandInformationBundle bundle ,List<TreeNode> nodes) {
+    super(bundle);
+    DISTANCE = loadClass(bundle, nodes.get(0)).execute();
   }
 
   /**
    * Makes the turtle move the distance forward that is specified by the child node
    *
-   * @param informationBundle The bundle of all information that is needed
    * @return The distance forward that it moved
    */
-  public double execute(CommandInformationBundle informationBundle) {
-    double val = informationBundle.loadClass(CHILDREN.get(0)).execute(informationBundle);
-    informationBundle.getTurtle()
-        .changeXPosition(Math.cos(informationBundle.getTurtle().getAngle()/360) * val);
-    informationBundle.getTurtle()
-        .changeYPosition(Math.sin(informationBundle.getTurtle().getAngle()/360) * val);
-    informationBundle.updateTurtle();
-    return val;
+  public double execute() {
+    changeTurtleX(DISTANCE * Math.cos(getAngle() / 360 * Math.PI * 2));
+    changeTurtleY(DISTANCE * Math.sin(getAngle() / 360 * Math.PI * 2));
+    updateFrontEnd();
+    return DISTANCE;
   }
 }

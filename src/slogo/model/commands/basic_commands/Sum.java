@@ -1,6 +1,8 @@
 package slogo.model.commands.basic_commands;
 
 import java.util.List;
+import slogo.model.commands.basic_commands.command_types.Command;
+import slogo.model.commands.basic_commands.command_types.MathAndLogicCommand;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 import slogo.model.turtle.Turtle;
@@ -10,30 +12,29 @@ import slogo.model.turtle.Turtle;
  *
  * @author Casey Szilagyi
  */
-public class Sum implements BasicCommand {
+public class Sum extends MathAndLogicCommand {
 
-  private final List<TreeNode> VALUES_TO_SUM;
+  private final double VALUE_1;
+  private final double VALUE_2;
 
   /**
    * Makes an instance of the sum command
    *
-   * @param nodes The TreeNodes to sum
+   * @param bundle Not used for this command
+   * @param children The TreeNodes to sum
    */
-  public Sum(List<TreeNode> nodes) {
-    VALUES_TO_SUM = nodes;
+  public Sum(CommandInformationBundle bundle, List<TreeNode> children) {
+    super(bundle);
+    VALUE_1 = loadClass(bundle, children.get(0)).execute();
+    VALUE_2 = loadClass(bundle, children.get(1)).execute();
   }
 
   /**
    * Makes the turtle move the distance back that was specified in the constructor
    *
-   * @param informationBundle The bundle that has the turtle and variables
    * @return The sum of the two numbers
    */
-  public double execute(CommandInformationBundle informationBundle) {
-    double result = 0;
-    for (int i = 0; i < VALUES_TO_SUM.size(); i++) {
-      result += informationBundle.loadClass(VALUES_TO_SUM.get(i)).execute(informationBundle);
-    }
-    return result;
+  public double execute() {
+    return VALUE_1 + VALUE_2;
   }
 }
