@@ -86,7 +86,8 @@ public class ModelController implements BackEndExternalAPI {
         TreeNode inputRoot = commandParser.makeTree();
         // inputRoot is null and the command starts from its child
         for(TreeNode child : inputRoot.getChildren()){
-
+//           BasicCommand command = loader.makeCommand(commandBundle, node);
+//            command.execute();
         }
     }
 
