@@ -4,6 +4,7 @@ import java.util.*;
 import javax.swing.text.html.ImageView;
 import slogo.model.CommandParser;
 import slogo.model.InputCleaner;
+import slogo.model.tree.TreeNode;
 import slogo.model.turtle.Turtle;
 
 /**
@@ -74,12 +75,19 @@ public class ModelController implements BackEndExternalAPI {
     }
 
     /**
+     * parses through input and creates a tree. it then executes all the commands in that tree
+     *
      * @param input String input
      */
     public void parseInput(String input) {
         // TODO implement here
         System.out.println("ModelController received the following string as input: \n" + input);
         CommandParser commandParser = new CommandParser(input, this);
+        TreeNode inputRoot = commandParser.makeTree();
+        // inputRoot is null and the command starts from its child
+        for(TreeNode child : inputRoot.getChildren()){
+
+        }
     }
 
     /**

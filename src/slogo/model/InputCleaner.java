@@ -69,8 +69,7 @@ public class InputCleaner {
     String noComments = removeComments();
     List<String> translated = translateCommand(noComments);
     List<String> groupedCommands = findCommandBlocks(translated);
-    List<String> addedVariables = findVariables(groupedCommands);
-    return addedVariables;
+    return groupedCommands;
   }
 
   private String removeComments() {
@@ -128,19 +127,35 @@ public class InputCleaner {
     return match(s, syntaxMap.get("Command"));
   }
 
-  private List<String> findVariables(List<String> commands){
+  private List<String> replaceVariables(List<String> commands) {
     List<String> toRet = new ArrayList<>(commands);
     for (int ind = 0; ind < toRet.size(); ind++) {
-      if(isVariable(toRet.get(ind))){
-        toRet.set(ind, toRet.get(ind).substring(1));
-        toRet.add(ind, "MakeVariable");
+      if(isVariable(toRet.get(ind))) {
+        //here, you set the variable = the varible value (constant)
+//        toRet.set(ind, toRet.get(ind).substring(1));
       }
     }
     return toRet;
   }
 
   private boolean isVariable(String s) {
+    //also need to check if it exists in map
     return match(s, syntaxMap.get("Variable"));
+  }
+
+  private List<String> replaceUserDefCommands(List<String> commands) {
+    List<String> toRet = new ArrayList<>(commands);
+    for (int ind = 0; ind < toRet.size(); ind++) {
+      if(isUserDefCommand(toRet.get(ind))) {
+        //replace the name of command with the command block node with the children that are its params
+      }
+    }
+    return toRet;
+  }
+
+  private boolean isUserDefCommand(String s) {
+    //look in map of pre def commands
+    return true;
   }
 
   private String getCommandKey (String text) {
