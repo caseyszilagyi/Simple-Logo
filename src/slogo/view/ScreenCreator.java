@@ -44,7 +44,7 @@ public class ScreenCreator {
     userCommand = new UserCommandPane(viewController);
     root.setBottom(userCommand.getBox());
 
-    viewPane = new ViewPane();
+    viewPane = new ViewPane(stage);
     root.setCenter(viewPane.getBox());
 
     // TODO: remove later (testing)
@@ -97,4 +97,5 @@ public class ScreenCreator {
     buttonBox.getChildren().add(button);
     return button;
   }
+
 }
