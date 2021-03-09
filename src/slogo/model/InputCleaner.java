@@ -69,7 +69,7 @@ public class InputCleaner {
     String noComments = removeComments();
     List<String> translated = translateCommand(noComments);
     List<String> groupedCommands = findCommandBlocks(translated);
-    List<String> addedVariables = findVariables(groupedCommands)
+    List<String> addedVariables = findVariables(groupedCommands);
     return addedVariables;
   }
 
