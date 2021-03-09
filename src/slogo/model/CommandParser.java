@@ -35,8 +35,6 @@ public class CommandParser implements Parser {
         commandTree = new TreeNode(null);
         System.out.println("Command Taken in by the parser: " + rawInput);
         System.out.println("Clean command: "+cleanCommands);
-        TreeNode root = makeTree();
-        printPreOrder(root);
     }
 
     /**

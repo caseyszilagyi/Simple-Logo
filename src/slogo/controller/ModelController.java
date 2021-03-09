@@ -4,6 +4,8 @@ import java.util.*;
 import javax.swing.text.html.ImageView;
 import slogo.model.CommandParser;
 import slogo.model.InputCleaner;
+import slogo.model.commands.BasicCommandClassLoader;
+import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 import slogo.model.turtle.Turtle;
 
@@ -85,9 +87,11 @@ public class ModelController implements BackEndExternalAPI {
         CommandParser commandParser = new CommandParser(input, this);
         TreeNode inputRoot = commandParser.makeTree();
         // inputRoot is null and the command starts from its child
+        CommandInformationBundle commandInformationBundle = new CommandInformationBundle(this);
+        BasicCommandClassLoader basicCommandClassLoader = new BasicCommandClassLoader();
         for(TreeNode child : inputRoot.getChildren()){
-//           BasicCommand command = loader.makeCommand(commandBundle, node);
-//            command.execute();
+            System.out.println("Value of child of root: " + child.getValue());
+            basicCommandClassLoader.makeCommand(commandInformationBundle,child).execute();
         }
     }
 
