@@ -4,12 +4,14 @@ import java.io.File;
 import java.io.InputStream;
 import java.lang.Math;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -69,16 +71,29 @@ public class ViewPane {
             + "-fx-border-width: 2;" + "-fx-border-insets: 5;"
             + "-fx-border-radius: 5;" + "-fx-border-color: aquamarine;");
     backgroundColorPicker = new ColorPicker(Color.WHITE);
+    backgroundColorPicker.setOnAction(event -> changeBackgroundColor());
     choicePane.getChildren().add(backgroundColorPicker);
     penColorPicker = new ColorPicker(Color.BLACK);
+    penColorPicker.setOnAction(event -> penColor = penColorPicker.getValue());
     choicePane.getChildren().add(penColorPicker);
     Button turtleImageButton = new Button("Choose turtle image");
-    turtleImageChooser = new FileChooser();
     choicePane.getChildren().add(turtleImageButton);
     turtleImageButton.setOnAction(event -> uploadTurtleImage());
   }
 
+  private void changeBackgroundColor() {
+    Paint fill = backgroundColorPicker.getValue();
+    BackgroundFill backgroundFill =
+            new BackgroundFill(fill,
+                    CornerRadii.EMPTY,
+                    Insets.EMPTY);
+    Background background = new Background(backgroundFill);
+    paneBox.setBackground(background);
+  }
+
+  // TODO: check for inappropriate file type (not .gif)
   private void uploadTurtleImage() {
+    turtleImageChooser = new FileChooser();
     File file = turtleImageChooser.showOpenDialog(stage);
     turtleImageFile = file.getName();
     turtleImage = new Image(turtleImageFile);
