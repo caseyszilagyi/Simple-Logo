@@ -8,6 +8,8 @@ import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 import slogo.controller.ModelController;
+import slogo.model.commands.BasicCommandClassLoader;
+import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
@@ -42,6 +44,13 @@ public class CommandParser implements Parser {
         System.out.println("Clean command: "+cleanCommands);
         TreeNode root = makeTree();
         printPreOrder(root);
+
+        //TESTING
+        CommandInformationBundle commandInformationBundle = new CommandInformationBundle(modelController);
+        BasicCommandClassLoader basicCommandClassLoader = new BasicCommandClassLoader();
+        for (TreeNode child : root.getChildren()){
+            basicCommandClassLoader.makeCommand(commandInformationBundle,child).execute();
+        }
     }
 
     /**
