@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.provider.EnumSource.Mode;
 import slogo.controller.ModelController;
 import slogo.model.CommandParser;
 import slogo.model.InputCleaner;

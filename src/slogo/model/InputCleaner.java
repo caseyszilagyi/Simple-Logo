@@ -12,6 +12,12 @@ import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 import slogo.controller.ModelController;
 
+/**
+ * Cleans the raw string input from the user into a list of strings that the CommandParser can use will recognize as commands and command parameters
+ * removes comments, bundles series of commands in [] into a CommandBundle, adds CommandBundle param counts to parameters cound in CommandParser
+ *
+ * @author jincho
+ */
 public class InputCleaner {
 
   private static final String LANGUAGES_PACKAGE = InputCleaner.class.getPackageName()+".resources.languages.";
@@ -21,23 +27,24 @@ public class InputCleaner {
   private Map<String, Pattern> syntaxMap;
   private String userInput;
   public CommandParser commandParser;
-  private ModelController modelController;
 
-
-  public InputCleaner(String userInput, ModelController modelController, CommandParser commandParser){
+  /**
+   * create instance of InputCleaner and initializes lists for "translating" the string into strings recognizable by backend classes and parser
+   *
+   * @param userInput raw string of commands
+   * @param modelController ModelController associated with the current string input
+   * @param commandParser CommandParser that will parse through this particular string
+   */
+  public InputCleaner(String userInput, ModelController modelController, CommandParser commandParser) {
     symbols = new ArrayList<>();
     syntaxMap = new HashMap<>();
     language = "English";
     addLangPatterns(language);
     addRegExPatterns("Syntax");
     this.userInput = userInput;
-    this.modelController = modelController;
     this.commandParser = commandParser;
   }
 
-  /**
-   * Adds the given resource file to this language's recognized types
-   */
   private void addLangPatterns(String syntax) {
     ResourceBundle resources = ResourceBundle.getBundle(LANGUAGES_PACKAGE + syntax);
     for (String key : Collections.list(resources.getKeys())) {
@@ -46,20 +53,24 @@ public class InputCleaner {
     }
   }
 
-  private void addRegExPatterns(String syntax){
-
-    ResourceBundle resources = ResourceBundle.getBundle(LANGUAGES_PACKAGE + syntax);
+  private void addRegExPatterns(String regEx) {
+    ResourceBundle resources = ResourceBundle.getBundle(LANGUAGES_PACKAGE + regEx);
     for (String key : Collections.list(resources.getKeys())) {
       String regex = resources.getString(key);
       syntaxMap.put(key, Pattern.compile(regex, Pattern.CASE_INSENSITIVE));
     }
   }
 
+  /**
+   * method that actually cleans the string input
+   * @return list of strings without comments, translated to backend recognizable, and commandblocks grouped
+   */
   public List<String> cleanString() {
     String noComments = removeComments();
     List<String> translated = translateCommand(noComments);
     List<String> groupedCommands = findCommandBlocks(translated);
-    return groupedCommands;
+    List<String> addedVariables = findVariables(groupedCommands)
+    return addedVariables;
   }
 
   private String removeComments() {
@@ -93,7 +104,7 @@ public class InputCleaner {
     int commandCount = 0;
     for (int ind = 0; ind < toRet.size(); ind++) {
       String commandKeyNum = "";
-      if(isCommand(toRet.get(ind))){
+      if (isCommand(toRet.get(ind))) {
         blockSize++;
       }
       if (toRet.get(ind).equals("[")) {
@@ -101,15 +112,12 @@ public class InputCleaner {
         commandKeyNum = commandKey + Integer.toString(commandCount);
         toRet.set(ind, commandKeyNum);
         blockSize = 0;
-
       }
       if (toRet.get(ind).equals("]")) {
         toRet.remove(ind);
         ind--;
         commandVal = blockSize + "";
-        System.out.println("COMMAND_1: "+ commandVal);
         commandKeyNum = commandKey + Integer.toString(commandCount);
-
         commandParser.addSingleParamCount(commandKeyNum, commandVal);
       }
     }
@@ -118,6 +126,21 @@ public class InputCleaner {
 
   private boolean isCommand(String s) {
     return match(s, syntaxMap.get("Command"));
+  }
+
+  private List<String> findVariables(List<String> commands){
+    List<String> toRet = new ArrayList<>(commands);
+    for (int ind = 0; ind < toRet.size(); ind++) {
+      if(isVariable(toRet.get(ind))){
+        toRet.set(ind, toRet.get(ind).substring(1));
+        toRet.add(ind, "MakeVariable");
+      }
+    }
+    return toRet;
+  }
+
+  private boolean isVariable(String s) {
+    return match(s, syntaxMap.get("Variable"));
   }
 
   private String getCommandKey (String text) {

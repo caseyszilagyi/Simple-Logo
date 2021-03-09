@@ -1,24 +1,19 @@
 package slogo.model;
 
-//import java.util.*;
-import com.sun.source.tree.Tree;
 import java.util.*;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.Map.Entry;
-import java.util.regex.Pattern;
 
 import slogo.controller.ModelController;
 import slogo.model.tree.TreeNode;
 
 /**
- * translates the string of all commands into a non-binary tree
+ * creates a n-ary tree of all commands and their parameters associated with this string input
+ *
+ * @author jincho jiyunhyo
  */
 public class CommandParser implements Parser {
 
     // where to find resources specifically for this class
     private static final String RESOURCES_PACKAGE = CommandParser.class.getPackageName()+".resources.commands.";
-    private static final String LANGUAGES_PACKAGE = CommandParser.class.getPackageName()+".resources.languages.";
-    public static final String WHITESPACE = "\\s+";
 
     // "types" and the regular expression patterns that recognize those types
     // note, it is a list because order matters (some patterns may be more generic)
@@ -27,6 +22,8 @@ public class CommandParser implements Parser {
     private List<String> cleanCommands;
     private ModelController modelController;
     private InputCleaner inputCleaner;
+    public List<String> preOrderResults = new ArrayList<>();
+
 
 
     public CommandParser(String rawInput, ModelController modelController){
@@ -56,12 +53,17 @@ public class CommandParser implements Parser {
         }
     }
 
+    /**
+     * adds a single command and parameter count pair to the map
+     * @param command command type name
+     * @param paramCount number of parameters command will take in
+     */
     public void addSingleParamCount(String command, String paramCount){
         parameters.put(command, paramCount);
     }
     /**
      * makes the tree at the tree root node commandTree
-     * @return
+     * @return root node of command tree
      */
     public TreeNode makeTree() {
         Deque<String> commandQueue = new LinkedList<>(cleanCommands);
@@ -76,7 +78,9 @@ public class CommandParser implements Parser {
         }
         return commandTree;
     }
+
     private void printPreOrder(TreeNode root) {
+        preOrderResults.add(root.getValue());
         if (root == null) {
             return;
         }
