@@ -57,10 +57,10 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
   /**
    * Changes the angle of the turtle
    *
-   * @param change The change in angle in degrees, in the counterclockwise direction
+   * @param change The change in angle in degrees, in the counter clockwise direction
    */
   protected void changeTurtleAngle(double change) {
-    TURTLE.rotateClockwise(change);
+    TURTLE.rotateCounterClockwise(change);
   }
 
   /**

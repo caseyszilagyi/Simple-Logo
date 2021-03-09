@@ -58,6 +58,10 @@ public class Turtle implements TurtleState {
    */
   public void setAngle(double newAngle) {
     angle = newAngle;
+    angle = angle % 360;
+    if(angle<0){
+      angle+=360;
+    }
   }
 
   /**
@@ -118,9 +122,12 @@ public class Turtle implements TurtleState {
    *
    * @param rotate The change in the angle, in a counterclockwise direction
    */
-  public void rotateClockwise(double rotate) {
-    angle -= rotate;
+  public void rotateCounterClockwise(double rotate) {
+    angle += rotate;
     angle = angle % 360;
+    if(angle<0){
+      angle += 360;
+    }
   }
 
   ;
