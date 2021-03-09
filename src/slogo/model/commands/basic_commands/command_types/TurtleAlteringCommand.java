@@ -86,7 +86,7 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    *
    * @param angle The angle
    */
-  protected void setAngle(double angle) {
+  protected void setTurtleAngle(double angle) {
     TURTLE.setAngle(angle);
   }
 
