@@ -1,12 +1,20 @@
 package slogo.view;
 
+import java.io.File;
+import java.io.InputStream;
 import java.lang.Math;
-import javafx.geometry.Pos;
+
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 /**
  * Creates the view for where the turtle will be displayed
@@ -16,37 +24,88 @@ public class ViewPane {
   public static final double TURTLE_WIDTH = 70.0;
   public static final double TURTLE_HEIGHT = 70.0;
 
-  public static final int rows = 21;
-  public static final int cols = 21;
+  public static final int rows = 101;
+  public static final int cols = 101;
 
+  private BorderPane viewPane;
   private AnchorPane paneBox;
   private ImageView turtle;
+  private HBox choicePane;
+  private Image turtleImage;
+  private ColorPicker penColorPicker;
+  private ColorPicker backgroundColorPicker;
+  private FileChooser turtleImageChooser;
+  private Stage stage;
 
   private double screenWidth;
   private double screenHeight;
-  private double centerX = 325.75;
-  private double centerY = 198;
+  private double centerX = 280.5;
+  private double centerY = 164.0;
   private double direction = 90;
   private boolean penUP = false;
+  private Color penColor = Color.BLACK;
+  private String turtleImageFile = "Turtle2.gif";
 
-  public ViewPane() {
+  public ViewPane(Stage s) {
+    stage = s;
+    viewPane = new BorderPane();
     paneBox = new AnchorPane();
-    // change once there is css file only used for testing
-    paneBox.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;"
+    viewPane.setCenter(paneBox);
+    // TODO: change once there is css file only used for testing
+    viewPane.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;"
             + "-fx-border-width: 2;" + "-fx-border-insets: 5;"
             + "-fx-border-radius: 5;" + "-fx-border-color: purple;");
-    screenWidth = paneBox.getWidth();
-    screenHeight = paneBox.getHeight();
+    paneBox.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;"
+            + "-fx-border-width: 2;" + "-fx-border-insets: 5;"
+            + "-fx-border-radius: 5;" + "-fx-border-color: green;");
+    createChoicePane();
+    viewPane.setTop(choicePane);
     createTurtle();
   }
 
+  private void createChoicePane() {
+    double spacing = 5.0;
+    choicePane = new HBox();
+    choicePane.setSpacing(spacing);
+    choicePane.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;"
+            + "-fx-border-width: 2;" + "-fx-border-insets: 5;"
+            + "-fx-border-radius: 5;" + "-fx-border-color: aquamarine;");
+    backgroundColorPicker = new ColorPicker(Color.WHITE);
+    backgroundColorPicker.setOnAction(event -> changeBackgroundColor());
+    choicePane.getChildren().add(backgroundColorPicker);
+    penColorPicker = new ColorPicker(Color.BLACK);
+    penColorPicker.setOnAction(event -> penColor = penColorPicker.getValue());
+    choicePane.getChildren().add(penColorPicker);
+    Button turtleImageButton = new Button("Choose turtle image");
+    choicePane.getChildren().add(turtleImageButton);
+    turtleImageButton.setOnAction(event -> uploadTurtleImage());
+  }
+
+  private void changeBackgroundColor() {
+    Paint fill = backgroundColorPicker.getValue();
+    BackgroundFill backgroundFill =
+            new BackgroundFill(fill,
+                    CornerRadii.EMPTY,
+                    Insets.EMPTY);
+    Background background = new Background(backgroundFill);
+    paneBox.setBackground(background);
+  }
+
+  // TODO: check for inappropriate file type (not .gif)
+  private void uploadTurtleImage() {
+    turtleImageChooser = new FileChooser();
+    File file = turtleImageChooser.showOpenDialog(stage);
+    turtleImageFile = file.getName();
+    turtleImage = new Image(turtleImageFile);
+    turtle.setImage(turtleImage);
+  }
+
   private void createTurtle() {
-    Image image = new Image(this.getClass().getClassLoader().getResourceAsStream(TURTLE_IMAGE));
-    turtle = new ImageView(image);
+    turtleImage = new Image(turtleImageFile);
+    turtle = new ImageView(turtleImage);
     turtle.setFitWidth(TURTLE_WIDTH);
     turtle.setFitHeight(TURTLE_HEIGHT);
     paneBox.getChildren().add(turtle);
-
     turtle.setX(centerX);
     turtle.setY(centerY);
   }
@@ -59,7 +118,7 @@ public class ViewPane {
     screenHeight = paneBox.getHeight();
 
 
-    double coordinateWidth = screenWidth / cols;
+    double coordinateWidth = screenWidth / rows;
     double coordinateHeight = screenHeight / cols;
 
     centerX = screenWidth / 2;
@@ -68,17 +127,14 @@ public class ViewPane {
     double x = centerX + xCoordinate * coordinateWidth - turtleCenterX;
     double y = centerY - yCoordinate * coordinateHeight - turtleCenterY;
 
-    System.out.println(x);
-    turtle.setX(x);
-    System.out.println(turtle.getX());
-    turtle.setY(y);
-  }
+    if(!penUP) {
+      createLine(x, y);
+    }
 
-  private double convertX(double xCoordinate){
-    return centerX + xCoordinate * (screenWidth / cols) - (TURTLE_WIDTH / 2);
-  }
-  private double convertY(double yCoordinate){
-    return centerY - yCoordinate * (screenHeight / cols) - (TURTLE_HEIGHT / 2);
+    turtle.setX(x);
+    System.out.println(x);
+    turtle.setY(y);
+    System.out.println(y);
   }
 
   public void moveTurtleByDistance(double distance){
@@ -87,33 +143,32 @@ public class ViewPane {
     // because the angles/getrotate are all messed up
     double turtleX;
     double turtleY;
-    System.out.println(turtle.getRotate());
     double turtleAngle = ((-turtle.getRotate() - 90) * Math.PI) / (180);
-    System.out.println("sin: " + Math.sin(turtleAngle));
-    System.out.println("cos: " + Math.cos(turtleAngle));
-    System.out.println(turtleAngle);
     turtleX = turtle.getX() - Math.cos(turtleAngle) * distance;
     turtleY = turtle.getY() + Math.sin(turtleAngle) * distance;
     if(!penUP){
-      Line line1 = new Line(turtle.getX() + 35, turtle.getY()+ 35, turtleX+ 35, turtleY+ 35);
-      paneBox.getChildren().add(line1);
+      createLine(turtleX, turtleY);
     }
-
 
     turtle.setX(turtleX);
     turtle.setY(turtleY);
 
   }
 
+  private void createLine(double x, double y) {
+    Line line1 = new Line(turtle.getX() + TURTLE_WIDTH / 2, turtle.getY() + TURTLE_WIDTH / 2,
+            x + TURTLE_HEIGHT / 2, y + TURTLE_HEIGHT / 2);
+    line1.setStroke(penColor);
+    paneBox.getChildren().add(line1);
+  }
+
   public void turnTurtle(double d){
     turtle.setRotate(turtle.getRotate() - d);
-    System.out.println(90 - turtle.getRotate());
   }
 
-  public AnchorPane getBox() {
-    return paneBox;
+  public BorderPane getBox() {
+    return viewPane;
   }
-
 
   public void switchPenState() {
     penUP = !penUP;
