@@ -109,6 +109,20 @@ public class BasicCommandTester {
     assertEquals(15, commandBundle.getTurtle().getXPosition());
   }
 
+  /**
+   * Tests the SetPosition turtle command
+   */
+  @Test
+  void testSetPosition(){
+    TreeNode child = makeNode("5");
+    TreeNode child2 = makeNode("5");
+    TreeNode root = makeTree("SetPosition", child, child2);
+    double distance = executeCommand(makeBasicCommand(root));
+    assertEquals(7.07, distance, TOLERANCE);
+    assertEquals(5, commandBundle.getTurtle().getXPosition());
+    assertEquals(5, commandBundle.getTurtle().getYPosition());
+  }
+
   // Turtle Queries
 
   // Math Operations
@@ -153,6 +167,7 @@ public class BasicCommandTester {
     assertEquals(60, executeCommand(makeBasicCommand(root)) , TOLERANCE);
     assertEquals(60, commandBundle.getVariableMap().get("Awesome") , TOLERANCE);
   }
+
 
 
   // Helper methods below
