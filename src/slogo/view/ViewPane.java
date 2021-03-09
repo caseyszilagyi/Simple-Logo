@@ -1,5 +1,7 @@
 package slogo.view;
 
+import java.io.File;
+import java.io.InputStream;
 import java.lang.Math;
 
 import javafx.scene.control.Button;
@@ -10,6 +12,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 /**
  * Creates the view for where the turtle will be displayed
@@ -30,6 +33,7 @@ public class ViewPane {
   private ColorPicker penColorPicker;
   private ColorPicker backgroundColorPicker;
   private FileChooser turtleImageChooser;
+  private Stage stage;
 
   private double screenWidth;
   private double screenHeight;
@@ -38,8 +42,10 @@ public class ViewPane {
   private double direction = 90;
   private boolean penUP = false;
   private Color penColor = Color.BLACK;
+  private String turtleImageFile = "Turtle2.gif";
 
-  public ViewPane() {
+  public ViewPane(Stage s) {
+    stage = s;
     viewPane = new BorderPane();
     paneBox = new AnchorPane();
     viewPane.setCenter(paneBox);
@@ -69,16 +75,18 @@ public class ViewPane {
     Button turtleImageButton = new Button("Choose turtle image");
     turtleImageChooser = new FileChooser();
     choicePane.getChildren().add(turtleImageButton);
+    turtleImageButton.setOnAction(event -> uploadTurtleImage());
   }
 
-  private Button buttonCreation(String text) {
-    Button button = new Button(text);
-    choicePane.getChildren().add(button);
-    return button;
+  private void uploadTurtleImage() {
+    File file = turtleImageChooser.showOpenDialog(stage);
+    turtleImageFile = file.getName();
+    turtleImage = new Image(turtleImageFile);
+    turtle.setImage(turtleImage);
   }
 
   private void createTurtle() {
-    turtleImage = new Image(this.getClass().getClassLoader().getResourceAsStream(TURTLE_IMAGE));
+    turtleImage = new Image(turtleImageFile);
     turtle = new ImageView(turtleImage);
     turtle.setFitWidth(TURTLE_WIDTH);
     turtle.setFitHeight(TURTLE_HEIGHT);
