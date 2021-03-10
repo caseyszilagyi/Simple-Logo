@@ -175,6 +175,9 @@ public class ViewPane {
     penUP = !penUP;
   }
 
+  //These magic index values need to be processed in some other way
+  //Current set up for these parameters is not SHY enough since we have to have
+  // prior knowledge about the order of these parameters
   public void updateTurtle(List<Double> parameters) {
     moveTurtle(parameters.get(0), parameters.get(1));
     turtle.setRotate(90 - parameters.get(2));
