@@ -1,0 +1,13 @@
+Math Operations:
+DIFFERENCE expr1 expr2
+- expr1 expr2
+
+Description:
+Calculates the second value subtracted from the first value
+
+Parameters:
+expr1 - any expression
+expr2 - any expression
+
+Returns:
+Difference of expr1 and expr2

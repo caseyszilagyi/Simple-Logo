@@ -1,0 +1,11 @@
+Math Operations:
+COS degrees
+
+Description:
+Calculates cosine of given degrees
+
+Parameters:
+degrees - any expression
+
+Returns:
+Cosine of degrees

@@ -1,0 +1,13 @@
+Turtle Commands:
+SETXY x y
+GOTO x y
+
+Description:
+Moves turtle to given (x, y) position, where (0, 0) is the center of the screen
+
+Parameters:
+x - any expression
+y - any expression
+
+Returns:
+Distance the turtle moved

@@ -1,0 +1,13 @@
+Control Structure Commands:
+DOTIMES [ variable limit ] [ command(s) ]
+
+Description:
+Runs command(s) for each value specified in the range, i.e., from (1 - limit) inclusive; variable is assigned to each succeeding value so that it can be accessed by the command(s)
+
+Parameters:
+variable - any variable name
+limit - any expression
+command(s) - any command
+
+Returns:
+Result of last command in the list executed; 0 if no commands are executed

@@ -1,0 +1,11 @@
+Math Operations:
+ATAN degrees
+
+Description:
+Calculates arctangent of given degrees
+
+Parameters:
+degrees - any expression
+
+Returns:
+Arctangent of degrees

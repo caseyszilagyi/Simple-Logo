@@ -1,0 +1,11 @@
+Math Operations:
+SIN degrees
+
+Description:
+Calculates sine of given degrees
+
+Parameters:
+degrees - any expression
+
+Returns:
+Sine of degrees

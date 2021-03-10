@@ -23,7 +23,6 @@ import javafx.stage.Stage;
  * @author Ji Yun Hyo
  */
 public class ViewPane {
-  public static final String TURTLE_IMAGE = "Turtle2.gif";
   public static final double TURTLE_WIDTH = 70.0;
   public static final double TURTLE_HEIGHT = 70.0;
 
@@ -98,9 +97,11 @@ public class ViewPane {
   private void uploadTurtleImage() {
     turtleImageChooser = new FileChooser();
     File file = turtleImageChooser.showOpenDialog(stage);
-    turtleImageFile = file.getName();
+    turtleImageFile = file.toURI().toString();
     turtleImage = new Image(turtleImageFile);
     turtle.setImage(turtleImage);
+    turtle.setFitWidth(TURTLE_WIDTH);
+    turtle.setFitHeight(TURTLE_HEIGHT);
   }
 
   private void createTurtle() {
@@ -120,11 +121,8 @@ public class ViewPane {
     screenWidth = paneBox.getWidth();
     screenHeight = paneBox.getHeight();
 
-
     double coordinateWidth = screenWidth / rows;
     double coordinateHeight = screenHeight / cols;
-
-
 
     double x = screenWidth / 2 + xCoordinate * coordinateWidth - turtleCenterX;
     double y = screenHeight / 2 - yCoordinate * coordinateHeight - turtleCenterY;
