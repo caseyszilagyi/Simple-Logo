@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import slogo.controller.BackEndExternalAPI;
 import slogo.controller.ModelController;
 import slogo.model.commands.BasicCommandClassLoader;
 import slogo.model.commands.basic_commands.*;
@@ -23,7 +24,7 @@ public class BasicCommandTester {
 
   private CommandInformationBundle commandBundle;
   private BasicCommandClassLoader loader;
-  private ModelController modelController;
+  private BackEndExternalAPI modelController;
   static final double TOLERANCE = 0.05;
 
   /**

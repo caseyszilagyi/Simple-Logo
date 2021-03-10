@@ -2,6 +2,7 @@ package slogo.model;
 
 import java.util.*;
 
+import slogo.controller.BackEndExternalAPI;
 import slogo.controller.ModelController;
 import slogo.model.tree.TreeNode;
 
@@ -20,13 +21,13 @@ public class CommandParser implements Parser {
     private Map<String, String> parameters;
     private TreeNode commandTree;
     private List<String> cleanCommands;
-    private ModelController modelController;
+    private BackEndExternalAPI modelController;
     private InputCleaner inputCleaner;
     public List<String> preOrderResults = new ArrayList<>();
 
 
 
-    public CommandParser(String rawInput, ModelController modelController){
+    public CommandParser(String rawInput, BackEndExternalAPI modelController){
         this.modelController = modelController;
         parameters = new HashMap<>();
         inputCleaner = new InputCleaner(rawInput, modelController, this);

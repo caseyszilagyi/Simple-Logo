@@ -19,6 +19,8 @@ import javafx.stage.Stage;
 
 /**
  * Creates the view for where the turtle will be displayed
+ * @author Kathleen Chen
+ * @author Ji Yun Hyo
  */
 public class ViewPane {
   public static final String TURTLE_IMAGE = "Turtle2.gif";

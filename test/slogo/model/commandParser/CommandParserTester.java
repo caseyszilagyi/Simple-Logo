@@ -3,6 +3,7 @@ package slogo.model.commandParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.provider.EnumSource.Mode;
+import slogo.controller.BackEndExternalAPI;
 import slogo.controller.ModelController;
 import slogo.model.CommandParser;
 
@@ -70,7 +71,7 @@ public class CommandParserTester {
 
 
     private CommandParser makeParser(String userInput){
-        ModelController modelController = new ModelController();
+        BackEndExternalAPI modelController = new ModelController();
         CommandParser commandParser = new CommandParser(userInput, modelController);
         return commandParser;
     }
