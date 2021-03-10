@@ -9,6 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import slogo.controller.FrontEndExternalAPI;
 import slogo.controller.ViewController;
 
 /**
@@ -25,12 +26,12 @@ public class ScreenCreator {
   private PossibleCommandPane possibleCommandPane;
   private UserCommandPane userCommand;
   private ViewPane viewPane;
-  private ViewController viewController;
+  private FrontEndExternalAPI viewController;
   private VBox buttonBox;
   private double xTurtle;
   private double yTurtle;
 
-  public ScreenCreator(ViewController viewController) {
+  public ScreenCreator(FrontEndExternalAPI viewController) {
     this.viewController = viewController;
     stage = new Stage();
     stage.setResizable(true);

@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
+import slogo.controller.FrontEndExternalAPI;
 import slogo.controller.ViewController;
 
 /**
@@ -15,9 +16,9 @@ public class UserCommandPane {
 
   private HBox box;
   private TextArea textArea;
-  private ViewController viewController;
+  private FrontEndExternalAPI viewController;
 
-  public UserCommandPane(ViewController viewController) {
+  public UserCommandPane(FrontEndExternalAPI viewController) {
     this.viewController = viewController;
     box = new HBox();
     box.setAlignment(Pos.CENTER_LEFT);

@@ -14,7 +14,7 @@ import slogo.model.turtle.Turtle;
  */
 public class ModelController implements BackEndExternalAPI {
 
-    ViewController viewController;
+    FrontEndExternalAPI viewController;
 
     /**
      * Default constructor
@@ -142,7 +142,7 @@ public class ModelController implements BackEndExternalAPI {
     }
 
     @Override
-    public void setViewController(ViewController viewController) {
+    public void setViewController(FrontEndExternalAPI viewController) {
         this.viewController = viewController;
     }
 

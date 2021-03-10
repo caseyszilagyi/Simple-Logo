@@ -22,4 +22,5 @@ public interface FrontEndInternalAPI {
      */
     public void displayError(String errorMessage);
 
+  void processUserCommandInput(String text);
 }
