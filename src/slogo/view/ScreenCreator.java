@@ -108,6 +108,7 @@ public class ScreenCreator {
     }
   }
 
+  //REMOVE LATER THIS IS ONLY FOR DEBUGGING
   private void reset(){
     root = new BorderPane();
     scene = new Scene(root, DEFAULT_X, DEFAULT_Y);
