@@ -1,6 +1,7 @@
 package slogo.model.commands.basic_commands;
 
 import java.util.List;
+import slogo.model.CommandParser;
 import slogo.model.commands.basic_commands.command_types.ControlStructureCommand;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
@@ -14,6 +15,7 @@ public class MakeVariable extends ControlStructureCommand {
 
   private final String NAME;
   private final double VALUE;
+  private CommandInformationBundle bundle;
 
   /**
    * Makes an instance of the MakeVariable command
@@ -35,6 +37,7 @@ public class MakeVariable extends ControlStructureCommand {
    * @return The variable value
    */
   public double execute() {
+    //
     setVariable(NAME, VALUE);
     return VALUE;
   }

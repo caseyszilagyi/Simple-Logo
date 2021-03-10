@@ -14,12 +14,17 @@ import slogo.model.turtle.Turtle;
  */
 public class ModelController implements BackEndExternalAPI {
 
-    FrontEndExternalAPI viewController;
+    ViewController viewController;
+    CommandInformationBundle commandInformationBundle;
+    BasicCommandClassLoader basicCommandClassLoader;
 
     /**
      * Default constructor
      */
     public ModelController() {
+        commandInformationBundle = new CommandInformationBundle(this);
+        basicCommandClassLoader = new BasicCommandClassLoader();
+
     }
 
     /**
@@ -89,8 +94,8 @@ public class ModelController implements BackEndExternalAPI {
 
         //NEEDS TO BE REFACTORED TO MAKE SURE WE ADHERE TO DEPENDENCY INVERSION PRINCIPLE
         // inputRoot is null and the command starts from its child
-        CommandInformationBundle commandInformationBundle = new CommandInformationBundle(this);
-        BasicCommandClassLoader basicCommandClassLoader = new BasicCommandClassLoader();
+//        CommandInformationBundle commandInformationBundle = new CommandInformationBundle(this);
+//        BasicCommandClassLoader basicCommandClassLoader = new BasicCommandClassLoader();
         for(TreeNode child : inputRoot.getChildren()){
             System.out.println("Value of child of root: " + child.getValue());
             basicCommandClassLoader.makeCommand(commandInformationBundle,child).execute();
