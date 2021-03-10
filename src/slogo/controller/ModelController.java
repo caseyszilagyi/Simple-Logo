@@ -86,6 +86,8 @@ public class ModelController implements BackEndExternalAPI {
         System.out.println("ModelController received the following string as input: \n" + input);
         CommandParser commandParser = new CommandParser(input, this);
         TreeNode inputRoot = commandParser.makeTree();
+
+        //NEEDS TO BE REFACTORED TO MAKE SURE WE ADHERE TO DEPENDENCY INVERSION PRINCIPLE
         // inputRoot is null and the command starts from its child
         CommandInformationBundle commandInformationBundle = new CommandInformationBundle(this);
         BasicCommandClassLoader basicCommandClassLoader = new BasicCommandClassLoader();
