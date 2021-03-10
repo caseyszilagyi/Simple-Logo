@@ -17,7 +17,7 @@ import slogo.controller.ViewController;
 public class ScreenCreator {
   public static final String TITLE = "SLogo";
   public static final double DEFAULT_X = 1000.0;
-  public static final double DEFAULT_Y = 600.0;
+  public static final double DEFAULT_Y = 860;
 
   private BorderPane root;
   private Scene scene;
