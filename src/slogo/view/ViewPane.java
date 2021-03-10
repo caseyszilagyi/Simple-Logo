@@ -25,8 +25,8 @@ public class ViewPane {
   public static final double TURTLE_WIDTH = 70.0;
   public static final double TURTLE_HEIGHT = 70.0;
 
-  public static final int rows = 101;
-  public static final int cols = 101;
+  public static final int rows = 1010;
+  public static final int cols = 1010;
 
   private BorderPane viewPane;
   private AnchorPane paneBox;

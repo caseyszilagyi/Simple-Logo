@@ -69,6 +69,7 @@ public class InputCleaner {
     String noComments = removeComments();
     List<String> translated = translateCommand(noComments);
     List<String> groupedCommands = findCommandBlocks(translated);
+    groupedCommands.removeIf(command -> command.equals(""));
     return groupedCommands;
   }
 
