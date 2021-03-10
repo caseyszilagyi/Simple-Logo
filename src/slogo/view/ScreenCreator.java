@@ -109,7 +109,29 @@ public class ScreenCreator {
   }
 
   private void reset(){
-    ScreenCreator screenCreator = new ScreenCreator(viewController);
+    root = new BorderPane();
+    scene = new Scene(root, DEFAULT_X, DEFAULT_Y);
+    stage.setScene(scene);
+    stage.setTitle(TITLE);
+    stage.show();
+
+    possibleCommandPane = new PossibleCommandPane();
+    root.setRight(possibleCommandPane.getBox());
+
+    userCommand = new UserCommandPane(viewController);
+    root.setBottom(userCommand.getBox());
+
+    viewPane = new ViewPane(stage);
+    root.setCenter(viewPane.getBox());
+
+    // TODO: remove later (testing)
+    // For testing for now
+    buttonBox = new VBox();
+    buttonBox.setAlignment(Pos.TOP_CENTER);
+    buttonBox.setSpacing(5.0);
+    root.setLeft(buttonBox);
+    addTitle();
+    createButtons();
   }
 
 }
