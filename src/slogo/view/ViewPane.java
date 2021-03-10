@@ -41,7 +41,7 @@ public class ViewPane {
   private double screenWidth;
   private double screenHeight;
   private double centerX = 280.5;
-  private double centerY = 150.5;
+  private double centerY = 280.5;
   private double direction = 90;
   private boolean penUP = false;
   private Color penColor = Color.BLACK;

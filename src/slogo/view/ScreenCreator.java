@@ -56,6 +56,8 @@ public class ScreenCreator {
     root.setLeft(buttonBox);
     addTitle();
     createButtons();
+
+    System.out.println(viewPane.getBox().getHeight());
   }
 
   // TODO: remove later (testing)
