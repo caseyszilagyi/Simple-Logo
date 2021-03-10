@@ -5,7 +5,7 @@ import javax.swing.text.html.ImageView;
 import slogo.model.turtle.Turtle;
 
 /**
- * BackEndExternal API methods the frontend can call
+ * @author Ji Yun Hyo
  */
 public interface BackEndExternalAPI {
 
@@ -74,4 +74,6 @@ public interface BackEndExternalAPI {
     public List<Turtle> getAllTurtles();
 
     void setViewController(FrontEndExternalAPI viewController);
+
+    void passInputToFrontEnd(List<Double> frontEndParameters);
 }

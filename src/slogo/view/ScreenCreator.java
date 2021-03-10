@@ -14,6 +14,8 @@ import slogo.controller.ViewController;
 
 /**
  * Create the main screen where visuals and panes will be displayed
+ * @author Kathleen Chen
+ * @author Ji Yun Hyo
  */
 public class ScreenCreator {
   public static final String TITLE = "SLogo";

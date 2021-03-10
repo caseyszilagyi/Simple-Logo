@@ -5,7 +5,7 @@ import javax.swing.text.html.ImageView;
 import slogo.model.turtle.Turtle;
 
 /**
- * FrontEndExternal API methods the backend can call
+ * @author Ji Yun Hyo
  */
 public interface FrontEndExternalAPI {
 

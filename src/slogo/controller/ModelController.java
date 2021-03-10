@@ -10,7 +10,7 @@ import slogo.model.tree.TreeNode;
 import slogo.model.turtle.Turtle;
 
 /**
- * 
+ * @author Ji Yun Hyo
  */
 public class ModelController implements BackEndExternalAPI {
 

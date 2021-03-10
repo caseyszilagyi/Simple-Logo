@@ -7,7 +7,7 @@ import slogo.view.FrontEndInternalAPI;
 import slogo.view.ScreenCreator;
 
 /**
- * 
+ * @author Ji Yun Hyo
  */
 public class ViewController implements FrontEndExternalAPI {
     BackEndExternalAPI modelController;
