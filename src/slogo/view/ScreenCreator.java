@@ -9,10 +9,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import slogo.controller.FrontEndExternalAPI;
 import slogo.controller.ViewController;
 
 /**
  * Create the main screen where visuals and panes will be displayed
+ * @author Kathleen Chen
+ * @author Ji Yun Hyo
  */
 public class ScreenCreator {
   public static final String TITLE = "SLogo";
@@ -25,14 +28,17 @@ public class ScreenCreator {
   private PossibleCommandPane possibleCommandPane;
   private UserCommandPane userCommand;
   private ViewPane viewPane;
-  private ViewController viewController;
+  private FrontEndExternalAPI viewController;
   private VBox buttonBox;
+  private double xTurtle;
+  private double yTurtle;
 
-  public ScreenCreator(ViewController viewController) {
+  public ScreenCreator(FrontEndExternalAPI viewController) {
     this.viewController = viewController;
     stage = new Stage();
     stage.setResizable(true);
-
+    xTurtle = 0;
+    yTurtle = 0;
     root = new BorderPane();
     scene = new Scene(root, DEFAULT_X, DEFAULT_Y);
     stage.setScene(scene);

@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
+import slogo.controller.BackEndExternalAPI;
 import slogo.controller.ModelController;
 
 /**
@@ -35,7 +36,7 @@ public class InputCleaner {
    * @param modelController ModelController associated with the current string input
    * @param commandParser CommandParser that will parse through this particular string
    */
-  public InputCleaner(String userInput, ModelController modelController, CommandParser commandParser) {
+  public InputCleaner(String userInput, BackEndExternalAPI modelController, CommandParser commandParser) {
     symbols = new ArrayList<>();
     syntaxMap = new HashMap<>();
     language = "English";
@@ -69,6 +70,7 @@ public class InputCleaner {
     String noComments = removeComments();
     List<String> translated = translateCommand(noComments);
     List<String> groupedCommands = findCommandBlocks(translated);
+    groupedCommands.removeIf(command -> command.equals(""));
     return groupedCommands;
   }
 
@@ -84,7 +86,7 @@ public class InputCleaner {
 
   private List<String> translateCommand(String input) {
     List<String> translated = new ArrayList<>();
-    List<String> beforeTranslation = Arrays.asList(input.split(WHITESPACE));
+    String[] beforeTranslation = input.split(WHITESPACE);
     for (String s : beforeTranslation) {
       if (getCommandKey(s).equals("NO MATCH")) {
         translated.add(s);

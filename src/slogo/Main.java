@@ -3,6 +3,8 @@ package slogo;
 import java.util.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import slogo.controller.BackEndExternalAPI;
+import slogo.controller.FrontEndExternalAPI;
 import slogo.controller.ModelController;
 import slogo.controller.ViewController;
 import slogo.view.ScreenCreator;
@@ -37,8 +39,8 @@ public class Main extends Application {
    */
   @Override
   public void start(Stage primaryStage) throws Exception {
-    ViewController viewController = new ViewController();
-    ModelController modelController = new ModelController();
+    FrontEndExternalAPI viewController = new ViewController();
+    BackEndExternalAPI modelController = new ModelController();
     viewController.setModelController(modelController);
     modelController.setViewController(viewController);
   }

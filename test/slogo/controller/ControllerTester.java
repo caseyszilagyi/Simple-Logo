@@ -17,7 +17,7 @@ public class ControllerTester {
      */
     @BeforeEach
     void setUp() {
-        ModelController modelController = new ModelController();
+        BackEndExternalAPI modelController = new ModelController();
         String userInput = "fd";
         parser = new CommandParser(userInput, modelController);
     }
