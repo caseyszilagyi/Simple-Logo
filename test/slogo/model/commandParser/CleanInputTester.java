@@ -89,6 +89,18 @@ public class CleanInputTester {
    * Test all steps (remove commands and group blocks
    */
   @Test
+  void testXCor() {
+    String userInput = "xcor";
+    InputCleaner cleaner = makeInputCleaner(userInput);
+    List<String> expected = new ArrayList<>();
+    expected.add("XCoordinate");
+    assertEquals(cleaner.cleanString(), expected);
+  }
+
+  /**
+   * Test all steps (remove commands and group blocks
+   */
+  @Test
   void testCleaningAll() {
     String userInput = "if :size < 5 \n#comment\n[ forward :size back :size stop ]";
     InputCleaner cleaner = makeInputCleaner(userInput);

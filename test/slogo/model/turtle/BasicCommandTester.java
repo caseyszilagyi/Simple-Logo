@@ -123,7 +123,55 @@ public class BasicCommandTester {
     assertEquals(5, commandBundle.getTurtle().getYPosition());
   }
 
+  /**
+   * Tests the SetHeading turtle command
+   */
+  @Test
+  void testSetHeading(){
+    TreeNode child = makeNode("10");
+    TreeNode root = makeTree("SetHeading", child);
+    double degreeChange = executeCommand(makeBasicCommand(root));
+    assertEquals(80, degreeChange);
+    assertEquals(10, commandBundle.getTurtle().getAngle());
+  }
+
+  /**
+   * Tests the SetHeading turtle command
+   */
+  @Test
+  void testTowards(){
+    commandBundle.getTurtle().setXPosition(-10);
+    commandBundle.getTurtle().setYPosition(-10);
+    TreeNode child1 = makeNode("0");
+    TreeNode child2 = makeNode("0");
+    TreeNode root = makeTree("Towards", child1, child2);
+    double degreeChange = executeCommand(makeBasicCommand(root));
+    assertEquals(45, degreeChange);
+    assertEquals(45, commandBundle.getTurtle().getAngle());
+  }
+
   // Turtle Queries
+
+  @Test
+  void testXCor() {
+    TreeNode root = makeTree("XCoordinate");
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(val, 0);
+  }
+
+  @Test
+  void testYCor() {
+    TreeNode root = makeTree("YCoordinate");
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(val, 0);
+  }
+
+  @Test
+  void testHeading() {
+    TreeNode root = makeTree("Heading");
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(val, 90);
+  }
 
   // Math Operations
   /**
@@ -136,6 +184,30 @@ public class BasicCommandTester {
     TreeNode root = makeTree("Sum", child, child2);
     double val = executeCommand(makeBasicCommand(root));
     assertEquals(val, 70, TOLERANCE);
+  }
+
+  /**
+   * Tests the diff command
+   */
+  @Test
+  void testDiff() {
+    TreeNode child = makeNode("60");
+    TreeNode child2 = makeNode("10");
+    TreeNode root = makeTree("Difference", child, child2);
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(val, 50, TOLERANCE);
+  }
+
+  /**
+   * Tests the product command
+   */
+  @Test
+  void testProd() {
+    TreeNode child = makeNode("60");
+    TreeNode child2 = makeNode("10");
+    TreeNode root = makeTree("Product", child, child2);
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(val, 600, TOLERANCE);
   }
 
 
