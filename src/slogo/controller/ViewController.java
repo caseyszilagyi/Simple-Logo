@@ -3,13 +3,14 @@ package slogo.controller;
 import java.util.*;
 import javax.swing.text.html.ImageView;
 import slogo.model.turtle.Turtle;
+import slogo.view.FrontEndInternalAPI;
 import slogo.view.ScreenCreator;
 
 /**
- * 
+ * @author Ji Yun Hyo
  */
 public class ViewController implements FrontEndExternalAPI {
-    ModelController modelController;
+    BackEndExternalAPI modelController;
     ScreenCreator screenCreator;
     private String userCommandInputs;
 
@@ -56,7 +57,7 @@ public class ViewController implements FrontEndExternalAPI {
     }
 
     @Override
-    public void setModelController(ModelController modelController) {
+    public void setModelController(BackEndExternalAPI modelController) {
         this.modelController = modelController;
     }
 
