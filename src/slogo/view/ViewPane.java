@@ -122,11 +122,12 @@ public class ViewPane {
     double coordinateWidth = screenWidth / rows;
     double coordinateHeight = screenHeight / cols;
 
-    centerX = screenWidth / 2;
-    centerY = screenHeight / 2;
 
-    double x = centerX + xCoordinate * coordinateWidth - turtleCenterX;
-    double y = centerY - yCoordinate * coordinateHeight - turtleCenterY;
+
+    double x = screenWidth / 2 + xCoordinate * coordinateWidth - turtleCenterX;
+    double y = screenHeight / 2 - yCoordinate * coordinateHeight - turtleCenterY;
+    centerX = xCoordinate;
+    centerY = yCoordinate;
 
     if(!penUP) {
       createLine(x, y);
