@@ -39,6 +39,7 @@ public class SetHeading extends TurtleAlteringCommand {
   @Override
   public double execute() {
     setAngle(ANGLE);
+    updateFrontEnd();
     return degreesMoved();
   }
 }

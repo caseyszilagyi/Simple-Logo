@@ -53,6 +53,7 @@ public class SetTowards extends TurtleAlteringCommand {
   @Override
   public double execute() {
     setAngle(newAngle());
+    updateFrontEnd();
     return angleChange();
   }
 }
