@@ -10,7 +10,7 @@ import slogo.model.tree.TreeNode;
  *
  * @author jincho
  */
-public class Towards extends TurtleAlteringCommand {
+public class SetTowards extends TurtleAlteringCommand {
 
   private final double PREV_ANGLE;
   private final double X_HEADING;
@@ -25,7 +25,7 @@ public class Towards extends TurtleAlteringCommand {
    * @param informationBundle The bundle of information that contains the turtle
    * @param children
    */
-  public Towards(CommandInformationBundle informationBundle, List<TreeNode> children) {
+  public SetTowards(CommandInformationBundle informationBundle, List<TreeNode> children) {
     super(informationBundle);
     PREV_ANGLE = informationBundle.getTurtle().getAngle();
     CURR_X = informationBundle.getTurtle().getXPosition();

@@ -136,7 +136,7 @@ public class BasicCommandTester {
   }
 
   /**
-   * Tests the SetHeading turtle command
+   * Tests the SetTowards turtle command
    */
   @Test
   void testTowards(){
@@ -144,7 +144,7 @@ public class BasicCommandTester {
     commandBundle.getTurtle().setYPosition(-10);
     TreeNode child1 = makeNode("0");
     TreeNode child2 = makeNode("0");
-    TreeNode root = makeTree("Towards", child1, child2);
+    TreeNode root = makeTree("SetTowards", child1, child2);
     double degreeChange = executeCommand(makeBasicCommand(root));
     assertEquals(45, degreeChange);
     assertEquals(45, commandBundle.getTurtle().getAngle());
@@ -208,6 +208,17 @@ public class BasicCommandTester {
     TreeNode root = makeTree("Product", child, child2);
     double val = executeCommand(makeBasicCommand(root));
     assertEquals(val, 600, TOLERANCE);
+  }
+
+  /**
+   * Tests the sine command
+   */
+  @Test
+  void testSin() {
+    TreeNode child = makeNode("90");
+    TreeNode root = makeTree("Sine", child);
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(val, 1, TOLERANCE);
   }
 
 
