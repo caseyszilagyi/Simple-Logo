@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.lang.Math;
 
+import java.util.List;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -40,7 +41,7 @@ public class ViewPane {
   private double screenWidth;
   private double screenHeight;
   private double centerX = 280.5;
-  private double centerY = 164.0;
+  private double centerY = 280.5;
   private double direction = 90;
   private boolean penUP = false;
   private Color penColor = Color.BLACK;
@@ -172,5 +173,13 @@ public class ViewPane {
 
   public void switchPenState() {
     penUP = !penUP;
+  }
+
+  //These magic index values need to be processed in some other way
+  //Current set up for these parameters is not SHY enough since we have to have
+  // prior knowledge about the order of these parameters
+  public void updateTurtle(List<Double> parameters) {
+    moveTurtle(parameters.get(0), parameters.get(1));
+    turtle.setRotate(90 - parameters.get(2));
   }
 }
