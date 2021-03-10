@@ -1,5 +1,6 @@
 package slogo.view;
 
+import java.util.List;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -89,6 +90,8 @@ public class ScreenCreator {
     planeVIII.setOnAction(event -> viewPane.moveTurtleByDistance(15));
     Button plane11 = buttonCreation("Switch State of Pen");
     plane11.setOnAction(event -> viewPane.switchPenState());
+    Button plane12 = buttonCreation("Clear Screen");
+    plane12.setOnAction(event -> reset());
   }
 
   // TODO: remove later (testing)
@@ -96,6 +99,17 @@ public class ScreenCreator {
     Button button = new Button(text);
     buttonBox.getChildren().add(button);
     return button;
+  }
+
+  public void moveTurtle(List<Double> parameters){
+    viewPane.updateTurtle(parameters);
+    if(parameters.get(5) == 1){
+      reset();
+    }
+  }
+
+  private void reset(){
+    ScreenCreator screenCreator = new ScreenCreator(viewController);
   }
 
 }

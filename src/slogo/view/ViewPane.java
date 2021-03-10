@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.lang.Math;
 
+import java.util.List;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -40,7 +41,7 @@ public class ViewPane {
   private double screenWidth;
   private double screenHeight;
   private double centerX = 280.5;
-  private double centerY = 164.0;
+  private double centerY = 150.5;
   private double direction = 90;
   private boolean penUP = false;
   private Color penColor = Color.BLACK;
@@ -172,5 +173,10 @@ public class ViewPane {
 
   public void switchPenState() {
     penUP = !penUP;
+  }
+
+  public void updateTurtle(List<Double> parameters) {
+    moveTurtle(parameters.get(0), parameters.get(1));
+    turtle.setRotate(90 - parameters.get(2));
   }
 }
