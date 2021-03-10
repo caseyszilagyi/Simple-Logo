@@ -27,12 +27,15 @@ public class ScreenCreator {
   private ViewPane viewPane;
   private ViewController viewController;
   private VBox buttonBox;
+  private double xTurtle;
+  private double yTurtle;
 
   public ScreenCreator(ViewController viewController) {
     this.viewController = viewController;
     stage = new Stage();
     stage.setResizable(true);
-
+    xTurtle = 0;
+    yTurtle = 0;
     root = new BorderPane();
     scene = new Scene(root, DEFAULT_X, DEFAULT_Y);
     stage.setScene(scene);
