@@ -7,22 +7,22 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * The LessThan Command, which compares the values of two nodes
+ * This command compares the values of the two children nodes.
  *
  * @author Casey Szilagyi
  */
-public class LessThan extends MathAndLogicCommand {
+public class GreaterThan extends MathAndLogicCommand {
 
   private final double EXPRESSION_1;
   private final double EXPRESSION_2;
 
   /**
-   * Makes an instance of the less than command
+   * Makes an instance of the greater than command, which will compare two node values
    *
    * @param bundle Not used for this command type
    * @param nodes The two children to be compared
    */
-  public LessThan(CommandInformationBundle bundle, List<TreeNode> nodes) {
+  public GreaterThan(CommandInformationBundle bundle, List<TreeNode> nodes) {
     super(bundle);
     EXPRESSION_1 = loadClass(bundle, nodes.get(0)).execute();
     EXPRESSION_2 = loadClass(bundle, nodes.get(1)).execute();
@@ -31,10 +31,10 @@ public class LessThan extends MathAndLogicCommand {
   /**
    * Compares the values of the two expressions
    *
-   * @return 1 if the first expression is less than the second, 0 otherwise
+   * @return 1 if the first expression is greater than the second, 0 otherwise
    */
   public double execute() {
-    if (EXPRESSION_1 < EXPRESSION_2) {
+    if (EXPRESSION_1 > EXPRESSION_2) {
       return 1;
     }
     return 0;
