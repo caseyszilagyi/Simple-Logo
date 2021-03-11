@@ -377,6 +377,18 @@ public class BasicCommandTester {
     assertEquals(Math.sqrt(3), val, TOLERANCE);
   }
 
+  /**
+   * Tests the tangent command
+   */
+  @Test
+  void testArcTangent() {
+    TreeNode child = makeNode("1.73");
+    TreeNode root = makeTree("ArcTangent", child);
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(60, val, TOLERANCE);
+  }
+
+
   // Boolean Operations
 
   /**
