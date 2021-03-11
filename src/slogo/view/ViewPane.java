@@ -51,7 +51,7 @@ public class ViewPane {
   private static final String LANGUAGE_OPTIONS = "slogo.model.resources.languages.LangaugeOptions";
 
   private BorderPane viewPane;
-  private AnchorPane paneBox;
+  private AnchorPane turtleViewPane;
   private ImageView turtle;
   private GridPane choicePane;
   private Image turtleImage;
@@ -77,10 +77,10 @@ public class ViewPane {
     viewPane = new BorderPane();
     viewPane.setId(VIEW_PANE_ID);
     viewPane.getStyleClass().add(VIEW_PANE_ID);
-    paneBox = new AnchorPane();
-    viewPane.setCenter(paneBox);
-    paneBox.setId(PANE_BOX_ID);
-    paneBox.getStyleClass().add(PANE_BOX_ID);
+    turtleViewPane = new AnchorPane();
+    viewPane.setCenter(turtleViewPane);
+    turtleViewPane.setId(PANE_BOX_ID);
+    turtleViewPane.getStyleClass().add(PANE_BOX_ID);
     createChoicePane();
     viewPane.setTop(choicePane);
     createTurtle();
@@ -194,7 +194,7 @@ public class ViewPane {
                     new CornerRadii(10),
                     new Insets(10));
     Background background = new Background(backgroundFill);
-    paneBox.setBackground(background);
+    turtleViewPane.setBackground(background);
     choicePane.getChildren().remove(backgroundColorPicker);
     choicePane.add(backgroundColorPickerButton, 0, 0);
   }
@@ -215,7 +215,7 @@ public class ViewPane {
     turtle = new ImageView(turtleImage);
     turtle.setFitWidth(TURTLE_WIDTH);
     turtle.setFitHeight(TURTLE_HEIGHT);
-    paneBox.getChildren().add(turtle);
+    turtleViewPane.getChildren().add(turtle);
     turtle.setX(centerX);
     turtle.setY(centerY);
   }
@@ -225,8 +225,8 @@ public class ViewPane {
     double turtleCenterX = TURTLE_WIDTH / 2;
     double turtleCenterY = TURTLE_HEIGHT / 2;
 
-    double screenWidth = paneBox.getWidth();
-    double screenHeight = paneBox.getHeight();
+    double screenWidth = turtleViewPane.getWidth();
+    double screenHeight = turtleViewPane.getHeight();
 
     double coordinateWidth = screenWidth / rows;
     double coordinateHeight = screenHeight / cols;
@@ -251,7 +251,7 @@ public class ViewPane {
     Line line1 = new Line(turtle.getX() + TURTLE_WIDTH / 2, turtle.getY() + TURTLE_WIDTH / 2,
             x + TURTLE_HEIGHT / 2, y + TURTLE_HEIGHT / 2);
     line1.setStroke(penColor);
-    paneBox.getChildren().add(line1);
+    turtleViewPane.getChildren().add(line1);
   }
 
   public void turnTurtle(double d){
@@ -280,6 +280,10 @@ public class ViewPane {
       turtle.setVisible(true);
     } else {
       turtle.setVisible(false);
+    }
+    if (parameters.get(5) == 1) {
+      turtleViewPane.getChildren().clear();
+      createTurtle();
     }
   }
 }

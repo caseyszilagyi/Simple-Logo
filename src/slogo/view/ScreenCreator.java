@@ -52,9 +52,9 @@ public class ScreenCreator {
   public void moveTurtle(List<Double> parameters){
     System.out.println("parameters: " + parameters);
     viewPane.updateTurtle(parameters);
-    if(parameters.get(5) == 1){
-      reset();
-    }
+//    if(parameters.get(5) == 1){
+//      reset();
+//    }
   }
 
   //TODO: REMOVE LATER THIS IS ONLY FOR DEBUGGING
