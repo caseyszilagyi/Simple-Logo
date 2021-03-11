@@ -399,6 +399,18 @@ public class BasicCommandTester {
     assertEquals(2.30, val, TOLERANCE);
   }
 
+  /**
+   * Tests the power command
+   */
+  @Test
+  void testPower() {
+    TreeNode base = makeNode("3");
+    TreeNode exponent = makeNode("5");
+    TreeNode root = makeTree("Power", base, exponent);
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(243, val, TOLERANCE);
+  }
+
 
   // Boolean Operations
 
