@@ -124,21 +124,20 @@ public class ViewPane {
     double coordinateWidth = screenWidth / rows;
     double coordinateHeight = screenHeight / cols;
 
-
+    centerX =  screenWidth / 2;
+    centerY = screenHeight / 2;
 
     double x = screenWidth / 2 + xCoordinate * coordinateWidth - turtleCenterX;
     double y = screenHeight / 2 - yCoordinate * coordinateHeight - turtleCenterY;
-    centerX = xCoordinate;
-    centerY = yCoordinate;
 
     if(!penUP) {
       createLine(x, y);
     }
 
     turtle.setX(x);
-    System.out.println(x);
+    System.out.println("xCoord on ViewPane: " + x);
     turtle.setY(y);
-    System.out.println(y);
+    System.out.println("yCoord on ViewPane: " +y);
   }
 
   public void moveTurtleByDistance(double distance){

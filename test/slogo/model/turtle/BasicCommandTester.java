@@ -334,6 +334,17 @@ public class BasicCommandTester {
   }
 
   /**
+   * Tests the Minus command
+   */
+  @Test
+  void testMinus() {
+    TreeNode child = makeNode("65");
+    TreeNode root = makeTree("Minus", child);
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(val, -65, TOLERANCE);
+  }
+
+  /**
    * Tests the sine command
    */
   @Test
@@ -342,6 +353,72 @@ public class BasicCommandTester {
     TreeNode root = makeTree("Sine", child);
     double val = executeCommand(makeBasicCommand(root));
     assertEquals(val, 1, TOLERANCE);
+  }
+
+  /**
+   * Tests the cosine command
+   */
+  @Test
+  void testCosine() {
+    TreeNode child = makeNode("60");
+    TreeNode root = makeTree("Cosine", child);
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(0.5, val, TOLERANCE);
+  }
+
+  /**
+   * Tests the tangent command
+   */
+  @Test
+  void testTangent() {
+    TreeNode child = makeNode("60");
+    TreeNode root = makeTree("Tangent", child);
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(Math.sqrt(3), val, TOLERANCE);
+  }
+
+  /**
+   * Tests the tangent command
+   */
+  @Test
+  void testArcTangent() {
+    TreeNode child = makeNode("1.73");
+    TreeNode root = makeTree("ArcTangent", child);
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(60, val, TOLERANCE);
+  }
+
+  /**
+   * Tests the natural log command
+   */
+  @Test
+  void testNaturalLog() {
+    TreeNode child = makeNode("10");
+    TreeNode root = makeTree("NaturalLog", child);
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(2.30, val, TOLERANCE);
+  }
+
+  /**
+   * Tests the power command
+   */
+  @Test
+  void testPower() {
+    TreeNode base = makeNode("3");
+    TreeNode exponent = makeNode("5");
+    TreeNode root = makeTree("Power", base, exponent);
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(243, val, TOLERANCE);
+  }
+
+  /**
+   * Tests the pi
+   */
+  @Test
+  void testPi() {
+    TreeNode root = makeTree("Pi");
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(3.14, val, TOLERANCE);
   }
 
   // Boolean Operations
@@ -359,6 +436,88 @@ public class BasicCommandTester {
     assertEquals(1, executeCommand(makeBasicCommand(root)), TOLERANCE);
   }
 
+  /**
+   * Tests the LessThan command
+   */
+  @Test
+  void testGreaterThan() {
+    TreeNode child1 = makeNode("60");
+    TreeNode child2 = makeNode("40");
+    TreeNode root = makeTree("GreaterThan", child1, child2);
+    assertEquals(1, executeCommand(makeBasicCommand(root)), TOLERANCE);
+    root = makeTree("GreaterThan", child2, child1);
+    assertEquals(0, executeCommand(makeBasicCommand(root)), TOLERANCE);
+  }
+
+  /**
+   * Tests the Equal command
+   */
+  @Test
+  void testEqual() {
+    TreeNode child1 = makeNode("60");
+    TreeNode child2 = makeNode("40");
+    TreeNode root = makeTree("Equal", child1, child2);
+    assertEquals(0, executeCommand(makeBasicCommand(root)), TOLERANCE);
+    root = makeTree("Equal", child1, child1);
+    assertEquals(1, executeCommand(makeBasicCommand(root)), TOLERANCE);
+  }
+
+  /**
+   * Tests the not equal command
+   */
+  @Test
+  void testNotEqual() {
+    TreeNode child1 = makeNode("60");
+    TreeNode child2 = makeNode("40");
+    TreeNode root = makeTree("NotEqual", child1, child2);
+    assertEquals(1, executeCommand(makeBasicCommand(root)), TOLERANCE);
+    root = makeTree("NotEqual", child1, child1);
+    assertEquals(0, executeCommand(makeBasicCommand(root)), TOLERANCE);
+  }
+
+  /**
+   * Tests the and command
+   */
+  @Test
+  void testAnd() {
+    TreeNode child1 = makeNode("60");
+    TreeNode child2 = makeNode("0");
+    TreeNode root = makeTree("And", child1, child2);
+    assertEquals(0, executeCommand(makeBasicCommand(root)), TOLERANCE);
+    root = makeTree("And", child2, child2);
+    assertEquals(0, executeCommand(makeBasicCommand(root)), TOLERANCE);
+    root = makeTree("And", child1, child1);
+    assertEquals(1, executeCommand(makeBasicCommand(root)), TOLERANCE);
+  }
+
+  /**
+   * Tests the and command
+   */
+  @Test
+  void testOr() {
+    TreeNode child1 = makeNode("60");
+    TreeNode child2 = makeNode("0");
+    TreeNode root = makeTree("Or", child1, child2);
+    assertEquals(1, executeCommand(makeBasicCommand(root)), TOLERANCE);
+    root = makeTree("Or", child2, child2);
+    assertEquals(0, executeCommand(makeBasicCommand(root)), TOLERANCE);
+    root = makeTree("Or", child1, child1);
+    assertEquals(1, executeCommand(makeBasicCommand(root)), TOLERANCE);
+  }
+
+  /**
+   * Tests the and command
+   */
+  @Test
+  void testNot() {
+    TreeNode child = makeNode("60");
+    TreeNode root = makeTree("Not", child);
+    assertEquals(0, executeCommand(makeBasicCommand(root)), TOLERANCE);
+    child = makeNode("0");
+    root = makeTree("Not", child);
+    assertEquals(1, executeCommand(makeBasicCommand(root)), TOLERANCE);
+  }
+
   // Variables, Control Structures, and User Defined Commands
 
   /**
@@ -372,6 +531,8 @@ public class BasicCommandTester {
     assertEquals(60, executeCommand(makeBasicCommand(root)), TOLERANCE);
     assertEquals(60, commandBundle.getVariableMap().get("Awesome"), TOLERANCE);
   }
+
+
 
   // Helper methods below
 

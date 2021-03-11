@@ -12,17 +12,17 @@ import slogo.model.tree.TreeNode;
  */
 public class Sine extends MathAndLogicCommand {
 
-  private final double VALUE;
+  private final double ANGLE;
 
   /**
-   * Makes an instance of the sum command
+   * Makes an instance of the sine command
    *
    * @param bundle Not used for this command
-   * @param children The TreeNodes to sine
+   * @param children The TreeNode to taake the sine of
    */
   public Sine(CommandInformationBundle bundle, List<TreeNode> children) {
     super(bundle);
-    VALUE = loadClass(bundle, children.get(0)).execute();
+    ANGLE = loadClass(bundle, children.get(0)).execute();
   }
 
   /**
@@ -31,6 +31,6 @@ public class Sine extends MathAndLogicCommand {
    * @return The sine of angle
    */
   public double execute() {
-    return Math.sin(Math.toRadians(VALUE));
+    return Math.sin(Math.toRadians(ANGLE));
   }
 }
