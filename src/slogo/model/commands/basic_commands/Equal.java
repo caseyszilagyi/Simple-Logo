@@ -31,7 +31,7 @@ public class Equal extends MathAndLogicCommand {
   /**
    * Compares the values of the two expressions
    *
-   * @return 1 if the first expression is less than the second, 0 otherwise
+   * @return 1 if the expressions are equal, 0 otherwise
    */
   public double execute() {
     if (EXPRESSION_1 == EXPRESSION_2) {

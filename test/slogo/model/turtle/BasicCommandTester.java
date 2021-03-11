@@ -462,6 +462,35 @@ public class BasicCommandTester {
     assertEquals(1, executeCommand(makeBasicCommand(root)), TOLERANCE);
   }
 
+  /**
+   * Tests the not equal command
+   */
+  @Test
+  void testNotEqual() {
+    TreeNode child1 = makeNode("60");
+    TreeNode child2 = makeNode("40");
+    TreeNode root = makeTree("NotEqual", child1, child2);
+    assertEquals(1, executeCommand(makeBasicCommand(root)), TOLERANCE);
+    root = makeTree("NotEqual", child1, child1);
+    assertEquals(0, executeCommand(makeBasicCommand(root)), TOLERANCE);
+  }
+
+  /**
+   * Tests the and command
+   */
+  @Test
+  void testAnd() {
+    TreeNode child1 = makeNode("60");
+    TreeNode child2 = makeNode("0");
+    TreeNode root = makeTree("And", child1, child2);
+    assertEquals(0, executeCommand(makeBasicCommand(root)), TOLERANCE);
+    root = makeTree("And", child2, child2);
+    assertEquals(0, executeCommand(makeBasicCommand(root)), TOLERANCE);
+    root = makeTree("And", child1, child1);
+    assertEquals(1, executeCommand(makeBasicCommand(root)), TOLERANCE);
+  }
+  
+
   // Variables, Control Structures, and User Defined Commands
 
   /**

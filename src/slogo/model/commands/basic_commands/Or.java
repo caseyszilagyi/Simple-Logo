@@ -7,34 +7,34 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * The LessThan Command, which compares the values of two nodes
+ * The Or command, which checks to see if either node is nonzero
  *
  * @author Casey Szilagyi
  */
-public class LessThan extends MathAndLogicCommand {
+public class Or extends MathAndLogicCommand {
 
   private final double EXPRESSION_1;
   private final double EXPRESSION_2;
 
   /**
-   * Makes an instance of the less than command
+   * Makes an instance of the or command
    *
    * @param bundle Not used for this command type
-   * @param nodes The two children to be compared
+   * @param nodes The two children to be checked
    */
-  public LessThan(CommandInformationBundle bundle, List<TreeNode> nodes) {
+  public Or(CommandInformationBundle bundle, List<TreeNode> nodes) {
     super(bundle);
     EXPRESSION_1 = loadClass(bundle, nodes.get(0)).execute();
     EXPRESSION_2 = loadClass(bundle, nodes.get(1)).execute();
   }
 
   /**
-   * Compares the values of the two expressions
+   * Checks to see if either of the values are nonzero
    *
-   * @return 1 if the first expression is less than the second, 0 otherwise
+   * @return 1 if either expression is nonzero
    */
   public double execute() {
-    if (EXPRESSION_1 < EXPRESSION_2) {
+    if (EXPRESSION_1 != 0 || EXPRESSION_2 != 0) {
       return 1;
     }
     return 0;
