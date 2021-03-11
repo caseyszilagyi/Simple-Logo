@@ -14,7 +14,7 @@ import slogo.model.turtle.Turtle;
  */
 public class ModelController implements BackEndExternalAPI {
 
-    ViewController viewController;
+    FrontEndExternalAPI viewController;
     CommandInformationBundle commandInformationBundle;
     BasicCommandClassLoader basicCommandClassLoader;
 
@@ -38,28 +38,28 @@ public class ModelController implements BackEndExternalAPI {
     }
 
     /**
-     * 
+     *
      */
     public void removeUserDefinedCommand() {
         // TODO implement here
     }
 
     /**
-     * 
+     *
      */
     public void addVariable() {
         // TODO implement here
     }
 
     /**
-     * 
+     *
      */
     public void removeVariable() {
         // TODO implement here
     }
 
     /**
-     * 
+     *
      */
     public void getVariable() {
         // TODO implement here
@@ -75,7 +75,7 @@ public class ModelController implements BackEndExternalAPI {
     }
 
     /**
-     * 
+     *
      */
     public void addUserDefinedCommands() {
         // TODO implement here
@@ -118,7 +118,9 @@ public class ModelController implements BackEndExternalAPI {
      */
     public void passInputToFrontEnd(List<Double> parameters){
         //: TODO Call a method on the viewController and pass it this arraylist of parameters
-        viewController.passInputFromBackendToFrontEnd(parameters);
+        if(viewController != null){
+            viewController.passInputFromBackendToFrontEnd(parameters);
+        }
     }
 
     /**

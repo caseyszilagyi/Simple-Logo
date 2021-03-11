@@ -1,7 +1,5 @@
 package slogo.model.turtle;
 
-import java.util.*;
-
 /**
  *
  */
@@ -100,9 +98,12 @@ public interface TurtleState {
   public void setPenState(double penState);
 
   /**
-   * Clears the screen and moves the turtle to 0,0
+   * Clears the screen
    */
-  public double clearScreen();
+  public void clearScreen();
 
-
+  /**
+   * Allows lines to be drawn after the screen is cleared
+   */
+  public void allowLines();
 }
