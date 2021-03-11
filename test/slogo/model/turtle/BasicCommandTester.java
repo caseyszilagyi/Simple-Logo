@@ -84,30 +84,6 @@ public class BasicCommandTester {
   }
 
   /**
-   * Tests the set heading command
-   */
-  @Test
-  void testSetHeading() {
-    TreeNode child = makeNode("60");
-    TreeNode root = makeTree("SetHeading", child);
-    executeCommand(makeBasicCommand(root));
-    assertEquals(60, commandBundle.getTurtle().getAngle(), TOLERANCE);
-  }
-
-  /**
-   * Tests the towards command
-   */
-  @Test
-  void testTowards() {
-    moveTurtle("10");
-    TreeNode x = makeNode("20");
-    TreeNode y = makeNode("10");
-    TreeNode root = makeTree("Towards", x, y);
-    executeCommand(makeBasicCommand(root));
-    assertEquals(45, commandBundle.getTurtle().getAngle(), TOLERANCE);
-  }
-
-  /**
    * Tests the rotation and movement of the turtle to make sure the radians/degrees
    * conversion is correct
    */
