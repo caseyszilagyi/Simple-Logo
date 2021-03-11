@@ -1,10 +1,19 @@
 package slogo.view;
 
-import javafx.geometry.Pos;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
 import slogo.controller.FrontEndExternalAPI;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Creates the pane where the user will input their commands and run them
@@ -15,10 +24,13 @@ public class UserCommandPane {
   private static final String USER_COMMAND_PANE_ID = "UserCommandPane";
   private static final String TEXT_AREA = "text-area";
   private static final String BUTTON = "button";
+  private static final String FILE_PATH = "src/slogo/view/resources/reference";
 
   private HBox box;
   private TextArea textArea;
   private FrontEndExternalAPI viewController;
+  private ComboBox<String> helpComboBox;
+  private Button helpButton;
 
   public UserCommandPane(FrontEndExternalAPI viewController) {
     this.viewController = viewController;
@@ -33,6 +45,53 @@ public class UserCommandPane {
     runButton.setOnAction(event -> viewController.processUserCommandInput(textArea.getText()));
     Button clearButton = buttonCreation("Clear");
     clearButton.setOnAction(event -> textArea.clear());
+    helpButton = buttonCreation("Help");
+    helpButton.setOnAction(event -> createHelpButton());
+  }
+
+  private void createHelpButton() {
+    box.getChildren().remove(helpButton);
+    File directoryPath = new File(FILE_PATH);
+    String[] contents = directoryPath.list();
+    ArrayList<String> allReferences = new ArrayList<>(Arrays.asList(contents));
+    Collections.sort(allReferences);
+    helpComboBox = new ComboBox<>();
+    helpComboBox.getItems().addAll(allReferences);
+    helpComboBox.setValue("Choose command");
+    box.getChildren().add(helpComboBox);
+    helpComboBox.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent event) {
+        displayCommandInformation(helpComboBox.getValue());
+      }
+    });
+  }
+
+  private void displayCommandInformation(String command) {
+    File file = new File(FILE_PATH + "/" + command);
+    String fname = FILE_PATH + "/" + command;
+    String line = null;
+    StringBuilder text = new StringBuilder();
+    try
+    {
+      FileReader fileReader = new FileReader(fname);
+      BufferedReader bufferedReader = new BufferedReader(fileReader);
+      while((line = bufferedReader.readLine()) != null)
+      {
+        text.append(line);
+        text.append("\n");
+      }
+      bufferedReader.close();
+    }
+    catch(IOException ex)
+    {
+      System.out.println("Error reading file named '" + fname + "'");
+    }
+    Alert info = new Alert(AlertType.INFORMATION);
+    info.setContentText(text.toString());
+    info.showAndWait();
+    box.getChildren().remove(helpComboBox);
+    box.getChildren().add(helpButton);
   }
 
   private Button buttonCreation(String text) {
