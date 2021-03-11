@@ -14,7 +14,7 @@ import slogo.model.turtle.Turtle;
  */
 public class ModelController implements BackEndExternalAPI {
 
-    ViewController viewController;
+    FrontEndExternalAPI viewController;
     CommandInformationBundle commandInformationBundle;
     BasicCommandClassLoader basicCommandClassLoader;
 
