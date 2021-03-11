@@ -20,7 +20,7 @@ public class LessThan extends MathAndLogicCommand {
    * Makes an instance of the less than command
    *
    * @param bundle Not used for this command type
-   * @param nodes The TreeNode objects that will condense to integers to compare
+   * @param nodes The two children to be compared
    */
   public LessThan(CommandInformationBundle bundle, List<TreeNode> nodes) {
     super(bundle);

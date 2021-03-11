@@ -449,6 +449,19 @@ public class BasicCommandTester {
     assertEquals(0, executeCommand(makeBasicCommand(root)), TOLERANCE);
   }
 
+  /**
+   * Tests the Equal command
+   */
+  @Test
+  void testEqual() {
+    TreeNode child1 = makeNode("60");
+    TreeNode child2 = makeNode("40");
+    TreeNode root = makeTree("Equal", child1, child2);
+    assertEquals(0, executeCommand(makeBasicCommand(root)), TOLERANCE);
+    root = makeTree("Equal", child1, child1);
+    assertEquals(1, executeCommand(makeBasicCommand(root)), TOLERANCE);
+  }
+
   // Variables, Control Structures, and User Defined Commands
 
   /**

@@ -7,22 +7,22 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * This command compares the values of the two children nodes.
+ * The Equal command, which checks if the value of two nodes are equal
  *
  * @author Casey Szilagyi
  */
-public class GreaterThan extends MathAndLogicCommand {
+public class Equal extends MathAndLogicCommand {
 
   private final double EXPRESSION_1;
   private final double EXPRESSION_2;
 
   /**
-   * Makes an instance of the greater than command, which will compare two node values
+   * Makes an instance of the equal command
    *
    * @param bundle Not used for this command type
    * @param nodes The two children to be compared
    */
-  public GreaterThan(CommandInformationBundle bundle, List<TreeNode> nodes) {
+  public Equal(CommandInformationBundle bundle, List<TreeNode> nodes) {
     super(bundle);
     EXPRESSION_1 = loadClass(bundle, nodes.get(0)).execute();
     EXPRESSION_2 = loadClass(bundle, nodes.get(1)).execute();
@@ -31,10 +31,10 @@ public class GreaterThan extends MathAndLogicCommand {
   /**
    * Compares the values of the two expressions
    *
-   * @return 1 if the first expression is greater than the second, 0 otherwise
+   * @return 1 if the first expression is less than the second, 0 otherwise
    */
   public double execute() {
-    if (EXPRESSION_1 > EXPRESSION_2) {
+    if (EXPRESSION_1 == EXPRESSION_2) {
       return 1;
     }
     return 0;
