@@ -20,7 +20,7 @@ public class And extends MathAndLogicCommand {
    * Makes an instance of the and command
    *
    * @param bundle Not used for this command type
-   * @param nodes The two children to be checked
+   * @param nodes  The two children to be checked
    */
   public And(CommandInformationBundle bundle, List<TreeNode> nodes) {
     super(bundle);
