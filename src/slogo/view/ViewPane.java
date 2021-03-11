@@ -233,8 +233,6 @@ public class ViewPane {
 
     double x = screenWidth / 2 + xCoordinate * coordinateWidth - turtleCenterX;
     double y = screenHeight / 2 - yCoordinate * coordinateHeight - turtleCenterY;
-    centerX = xCoordinate;
-    centerY = yCoordinate;
 
     if(!penUP) {
       createLine(x, y);
@@ -262,8 +260,8 @@ public class ViewPane {
     return viewPane;
   }
 
-  public void switchPenState() {
-    penUP = !penUP;
+  public void setPenDown() {
+    penUP = false;
   }
 
   //These magic index values need to be processed in some other way
@@ -274,7 +272,9 @@ public class ViewPane {
     moveTurtle(parameters.get(0), parameters.get(1));
     turtle.setRotate(90 - parameters.get(2));
     if (parameters.get(3) == 1) {
-      switchPenState();
+      setPenDown();
+    } else {
+      setPenUp();
     }
     if (parameters.get(4) == 1) {
       turtle.setVisible(true);
@@ -286,4 +286,6 @@ public class ViewPane {
       createTurtle();
     }
   }
-}
+
+  private void setPenUp() {
+    
