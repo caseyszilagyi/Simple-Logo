@@ -6,32 +6,31 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * Calculates the Cosine of an angle
+ * Calculates the Tangent of an angle
  *
  * @author Casey Szilagyi
  */
-public class Cosine extends MathAndLogicCommand {
+public class Tangent extends MathAndLogicCommand {
 
   private final double ANGLE;
 
   /**
-   * Makes an instance of the cosine
+   * Makes an instance of the tangent command
    *
    * @param bundle   Not used for this command
-   * @param children The TreeNode to take the cosine of
-   * @param children The TreeNode to take the cosine of
+   * @param children The TreeNode to take the tangent of
    */
-  public Cosine(CommandInformationBundle bundle, List<TreeNode> children) {
+  public Tangent(CommandInformationBundle bundle, List<TreeNode> children) {
     super(bundle);
     ANGLE = loadClass(bundle, children.get(0)).execute();
   }
 
   /**
-   * calculate cosine of angle in degrees
+   * calculate tangent of angle in degrees
    *
-   * @return The cosine of angle
+   * @return The tangent of angle
    */
   public double execute() {
-    return Math.cos(Math.toRadians(ANGLE));
+    return Math.tan(Math.toRadians(ANGLE));
   }
 }
