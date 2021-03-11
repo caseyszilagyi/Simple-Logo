@@ -17,7 +17,7 @@ public class Minus extends MathAndLogicCommand {
   /**
    * Makes an instance of the minus command
    *
-   * @param bundle Not used for this command
+   * @param bundle   Not used for this command
    * @param children The TreeNode to return the minus of
    */
   public Minus(CommandInformationBundle bundle, List<TreeNode> children) {

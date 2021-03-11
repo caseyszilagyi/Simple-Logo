@@ -355,6 +355,17 @@ public class BasicCommandTester {
     assertEquals(val, 1, TOLERANCE);
   }
 
+  /**
+   * Tests the cosine command
+   */
+  @Test
+  void testCosine() {
+    TreeNode child = makeNode("60");
+    TreeNode root = makeTree("Cosine", child);
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(0.5, val, TOLERANCE);
+  }
+
   // Boolean Operations
 
   /**
