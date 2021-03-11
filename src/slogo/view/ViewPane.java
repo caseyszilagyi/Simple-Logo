@@ -1,12 +1,15 @@
 package slogo.view;
 
 import java.io.File;
-import java.lang.Math;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
+
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -25,6 +28,13 @@ public class ViewPane {
   private static final double TURTLE_WIDTH = 70.0;
   private static final double TURTLE_HEIGHT = 70.0;
 
+  private static final double ICON_WIDTH = 20.0;
+  private static final double ICON_HEIGHT = 20.0;
+
+  private static final String BACKGROUND_ICON = "BackgroundIcon.gif";
+  private static final String PEN_ICON = "PenIcon.gif";
+  private static final String TURTLE_ICON = "TurtleT1.gif";
+
   private static final int rows = 1010;
   private static final int cols = 1010;
 
@@ -32,25 +42,32 @@ public class ViewPane {
   private static final String PANE_BOX_ID = "TurtleView";
   private static final String CHOICE_PANE_ID = "ChoicePane";
   private static final String BACKGROUND_COLOR_PICKER_ID = "BackgroundColorPicker";
+  private static final String PEN_COLOR_PICKER_ID = "PenColorPicker";
   private static final String COLOR_PICKER = "color-picker";
-  private static final String BUTTON = "button";
-  private static final String TURTLE_IMAGE_BUTTON = "Choose turtle image";
+  private static final String ICON = "icon";
+
+  private static final String LANGUAGE_OPTIONS = "slogo.model.resources.languages.LangaugeOptions";
 
   private BorderPane viewPane;
   private AnchorPane paneBox;
   private ImageView turtle;
-  private HBox choicePane;
+  private GridPane choicePane;
   private Image turtleImage;
   private ColorPicker penColorPicker;
   private ColorPicker backgroundColorPicker;
   private Stage stage;
+  private Button backgroundColorPickerButton;
+  private Button penColorPickerButton;
+  private ComboBox<String> languages;
+  private ResourceBundle languageOptions;
 
-  private double centerX = 358.0;
-  private double centerY = 258.5;
+  private double centerX = 362.0;
+  private double centerY = 260.5;
   private boolean penUP = false;
   private Color penColor = Color.BLACK;
   private String turtleImageFile = "Turtle2.gif";
-  private Color defaultPenColor = Color.BLACK;
+  private Color currentPenColor = Color.BLACK;
+  private String currentBackgroundColor = "d3d3d3";
 
   public ViewPane(Stage s) {
     stage = s;
@@ -67,35 +84,104 @@ public class ViewPane {
   }
 
   private void createChoicePane() {
-    choicePane = new HBox();
+    choicePane = new GridPane();
     choicePane.getStyleClass().add(CHOICE_PANE_ID);
 
-    String defaultBackgroundColor = "d3d3d3";
-    backgroundColorPicker = new ColorPicker(Color.valueOf(defaultBackgroundColor));
-    backgroundColorPicker.setOnAction(event -> changeBackgroundColor());
+    createBackgroundColorPicker();
+
+    createPenColorPicker();
+
+    Button turtleImageButton = new Button();
+    ImageView icon = setIcon(TURTLE_ICON);
+    turtleImageButton.setGraphic(icon);
+    turtleImageButton.getStyleClass().add(ICON);
+    choicePane.add(turtleImageButton, 2, 0);
+    turtleImageButton.setOnAction(event -> uploadTurtleImage());
+
+    createLanguageComboBox();
+  }
+
+  private void createLanguageComboBox() {
+    languageOptions = ResourceBundle.getBundle(LANGUAGE_OPTIONS);
+    String defaultLanguage = languageOptions.getString("English");
+    ArrayList<String> allLanguages = new ArrayList<>(){{
+      add(languageOptions.getString("Chinese"));
+      add(languageOptions.getString("English"));
+      add(languageOptions.getString("French"));
+      add(languageOptions.getString("German"));
+      add(languageOptions.getString("Italian"));
+      add(languageOptions.getString("Portuguese"));
+      add(languageOptions.getString("Russian"));
+      add(languageOptions.getString("Spanish"));
+      add(languageOptions.getString("Urdu"));
+    }};
+    languages = new ComboBox();
+    languages.getItems().addAll(allLanguages);
+    languages.setValue(defaultLanguage);
+    choicePane.add(languages, 4, 0);
+  }
+
+  private void createPenColorPicker() {
+    penColorPickerButton = new Button();
+    ImageView icon = setIcon(PEN_ICON);
+    penColorPickerButton.setGraphic(icon);
+    penColorPickerButton.getStyleClass().add(ICON);
+    choicePane.add(penColorPickerButton, 1, 0);
+    penColorPickerButton.setOnAction(event -> changePenButton());
+  }
+
+  private void changePenButton() {
+    choicePane.getChildren().remove(penColorPickerButton);
+    penColorPicker = new ColorPicker(currentPenColor);
+    penColorPicker.setId(PEN_COLOR_PICKER_ID);
+    penColorPicker.getStyleClass().add(COLOR_PICKER);
+    choicePane.add(penColorPicker,1, 0);
+    penColorPicker.setOnAction(event -> changePenColor());
+  }
+
+  private void changePenColor() {
+    penColor = penColorPicker.getValue();
+    currentPenColor = penColor;
+    choicePane.getChildren().remove(penColorPicker);
+    choicePane.add(penColorPickerButton, 1, 0);
+  }
+
+  private void createBackgroundColorPicker() {
+    backgroundColorPickerButton = new Button();
+    ImageView icon = setIcon(BACKGROUND_ICON);
+    backgroundColorPickerButton.setGraphic(icon);
+    backgroundColorPickerButton.setOnAction(event -> changeBackgroundButton());
+    backgroundColorPickerButton.getStyleClass().add(ICON);
+    choicePane.add(backgroundColorPickerButton, 0, 0);
+  }
+
+  private ImageView setIcon(String icon) {
+    ImageView iconView = new ImageView(new Image(icon));
+    iconView.setFitWidth(ICON_WIDTH);
+    iconView.setFitHeight(ICON_HEIGHT);
+    return iconView;
+  }
+
+  private void changeBackgroundButton() {
+    choicePane.getChildren().remove(backgroundColorPickerButton);
+    backgroundColorPicker = new ColorPicker(Color.valueOf(currentBackgroundColor));
     backgroundColorPicker.setId(BACKGROUND_COLOR_PICKER_ID);
     backgroundColorPicker.getStyleClass().add(COLOR_PICKER);
-    choicePane.getChildren().add(backgroundColorPicker);
-
-    penColorPicker = new ColorPicker(defaultPenColor);
-    penColorPicker.setOnAction(event -> penColor = penColorPicker.getValue());
-    penColorPicker.getStyleClass().add(COLOR_PICKER);
-    choicePane.getChildren().add(penColorPicker);
-
-    Button turtleImageButton = new Button(TURTLE_IMAGE_BUTTON);
-    turtleImageButton.getStyleClass().add(BUTTON);
-    choicePane.getChildren().add(turtleImageButton);
-    turtleImageButton.setOnAction(event -> uploadTurtleImage());
+    choicePane.add(backgroundColorPicker, 0, 0);
+    backgroundColorPicker.setOnAction(event -> changeBackgroundColor());
   }
 
   private void changeBackgroundColor() {
     Paint fill = backgroundColorPicker.getValue();
+    currentBackgroundColor = fill.toString();
     BackgroundFill backgroundFill =
             new BackgroundFill(fill,
                     new CornerRadii(10),
                     new Insets(10));
     Background background = new Background(backgroundFill);
     paneBox.setBackground(background);
+    choicePane.getChildren().remove(backgroundColorPicker);
+    choicePane.add(backgroundColorPickerButton, 0, 0);
   }
 
   // TODO: check for inappropriate file type (not .gif)
@@ -145,24 +231,6 @@ public class ViewPane {
     System.out.println("y center: " + (screenHeight / 2 - 0 * coordinateHeight - turtleCenterY));
   }
 
-  public void moveTurtleByDistance(double distance){
-    // do the calculations to make the turtle go forward
-    // THIS WAS WAY HARDER THAN I THOGUGHT
-    // because the angles/getrotate are all messed up
-    double turtleX;
-    double turtleY;
-    double turtleAngle = ((-turtle.getRotate() - 90) * Math.PI) / (180);
-    turtleX = turtle.getX() - Math.cos(turtleAngle) * distance;
-    turtleY = turtle.getY() + Math.sin(turtleAngle) * distance;
-    if(!penUP){
-      createLine(turtleX, turtleY);
-    }
-
-    turtle.setX(turtleX);
-    turtle.setY(turtleY);
-
-  }
-
   private void createLine(double x, double y) {
     Line line1 = new Line(turtle.getX() + TURTLE_WIDTH / 2, turtle.getY() + TURTLE_WIDTH / 2,
             x + TURTLE_HEIGHT / 2, y + TURTLE_HEIGHT / 2);
@@ -186,7 +254,16 @@ public class ViewPane {
   //Current set up for these parameters is not SHY enough since we have to have
   // prior knowledge about the order of these parameters
   public void updateTurtle(List<Double> parameters) {
+    System.out.println("parameters: " + parameters);
     moveTurtle(parameters.get(0), parameters.get(1));
     turtle.setRotate(90 - parameters.get(2));
+    if (parameters.get(3) == 1) {
+      switchPenState();
+    }
+    if (parameters.get(4) == 1) {
+      turtle.setVisible(true);
+    } else {
+      turtle.setVisible(false);
+    }
   }
 }
