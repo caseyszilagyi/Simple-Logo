@@ -411,6 +411,15 @@ public class BasicCommandTester {
     assertEquals(243, val, TOLERANCE);
   }
 
+  /**
+   * Tests the pi
+   */
+  @Test
+  void testPi() {
+    TreeNode root = makeTree("Pi");
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(3.14, val, TOLERANCE);
+  }
 
   // Boolean Operations
 
