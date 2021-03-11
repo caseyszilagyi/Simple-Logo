@@ -99,7 +99,10 @@ public class ScreenCreator {
     Button plane11 = buttonCreation("Switch State of Pen");
     plane11.setOnAction(event -> viewPane.switchPenState());
     Button plane12 = buttonCreation("Clear Screen");
-    plane12.setOnAction(event -> reset());
+    plane12.setOnAction(event -> {
+      viewController.processUserCommandInput("ClearScreen");
+      reset();
+    } );
   }
 
   // TODO: remove later (testing)
@@ -114,11 +117,11 @@ public class ScreenCreator {
     if(parameters.get(5) == 1){
       reset();
     }
+
   }
 
   //REMOVE LATER THIS IS ONLY FOR DEBUGGING
   private void reset(){
-
     viewPane = new ViewPane(stage);
     root.setCenter(viewPane.getBox());
 
