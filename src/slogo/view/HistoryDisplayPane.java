@@ -1,14 +1,11 @@
 package slogo.view;
 
-import javafx.geometry.Pos;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 
 /**
- * Create the HBox for the display for possible commands
+ * Create the HBox for the display for history of commands, variables, and user commands
  */
 public class HistoryDisplayPane {
   private static final String TITLE = "HISTORY, VARIABLES,\nAND USER COMMANDS";
@@ -21,6 +18,18 @@ public class HistoryDisplayPane {
     box = new VBox();
     box.getStyleClass().add(HISTORY_DISPLAY_PANE_ID);
     displayTitle();
+    createHistoryPane();
+    createVariablePane();
+    createUserCommandsPane();
+  }
+
+  private void createUserCommandsPane() {
+  }
+
+  private void createVariablePane() {
+  }
+
+  private void createHistoryPane() {
   }
 
   private void displayTitle() {

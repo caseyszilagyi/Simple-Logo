@@ -64,8 +64,8 @@ public class ViewPane {
   private ResourceBundle languageOptions;
   private String language;
 
-  private double centerX = 362.0;
-  private double centerY = 260.5;
+  private double centerX = 371.0;
+  private double centerY = 259.0;
   private boolean penUP = false;
   private Color penColor = Color.BLACK;
   private String turtleImageFile = "Turtle2.gif";
@@ -221,6 +221,7 @@ public class ViewPane {
   }
 
   public void moveTurtle(double xCoordinate, double yCoordinate) {
+
     double turtleCenterX = TURTLE_WIDTH / 2;
     double turtleCenterY = TURTLE_HEIGHT / 2;
 
