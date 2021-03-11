@@ -11,24 +11,22 @@ import javafx.scene.text.Text;
  * Create the HBox for the display for possible commands
  */
 public class PossibleCommandPane {
-  public static final String TITLE = "POSSIBLE COMMANDS";
+  private static final String TITLE = "POSSIBLE COMMANDS";
+  private static final String POSSIBLE_COMMAND_PANE_ID = "PossibleCommandPane";
+  private static final String SUB_GROUP_PANE_ID = "SubGroupPane";
+
   private VBox box;
+
   public PossibleCommandPane() {
     box = new VBox();
-    box.setAlignment(Pos.TOP_CENTER);
-    box.setSpacing(5.0);
-    // TODO: change once there is css file only used for testing
-    box.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;"
-            + "-fx-border-width: 2;" + "-fx-border-insets: 5;"
-            + "-fx-border-radius: 5;" + "-fx-border-color: blue;");
+    box.getStyleClass().add(POSSIBLE_COMMAND_PANE_ID);
     displayTitle();
     createCommandSubGroups();
   }
 
   private void createCommandSubGroups() {
     VBox subGroupBox = new VBox();
-    subGroupBox.setAlignment(Pos.CENTER_LEFT);
-    subGroupBox.setSpacing(5.0);
+    subGroupBox.getStyleClass().add(SUB_GROUP_PANE_ID);
 
     ToggleGroup toggleGroup = new ToggleGroup();
     RadioButton turtleCommands = new RadioButton("Turtle Commands");
@@ -47,11 +45,6 @@ public class PossibleCommandPane {
     RadioButton booleanOperations = new RadioButton("Boolean Operations");
     booleanOperations.setToggleGroup(toggleGroup);
     subGroupBox.getChildren().add(booleanOperations);
-
-    // change once there is css file only used for testing
-    subGroupBox.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;"
-            + "-fx-border-width: 2;" + "-fx-border-insets: 5;"
-            + "-fx-border-radius: 5;" + "-fx-border-color: seagreen;");
 
     box.getChildren().add(subGroupBox);
   }

@@ -5,7 +5,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
 import slogo.controller.FrontEndExternalAPI;
-import slogo.controller.ViewController;
 
 /**
  * Creates the pane where the user will input their commands and run them
@@ -13,6 +12,9 @@ import slogo.controller.ViewController;
 public class UserCommandPane {
   private static final double WIDTH = 600.0;
   private static final double HEIGHT = 100.0;
+  private static final String USER_COMMAND_PANE_ID = "UserCommandPane";
+  private static final String TEXT_AREA = "text-area";
+  private static final String BUTTON = "button";
 
   private HBox box;
   private TextArea textArea;
@@ -21,12 +23,7 @@ public class UserCommandPane {
   public UserCommandPane(FrontEndExternalAPI viewController) {
     this.viewController = viewController;
     box = new HBox();
-    box.setAlignment(Pos.CENTER_LEFT);
-    box.setSpacing(5.0);
-    // TODO: change once there is css file only used for testing
-    box.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;"
-            + "-fx-border-width: 2;" + "-fx-border-insets: 5;"
-            + "-fx-border-radius: 5;" + "-fx-border-color: green;");
+    box.getStyleClass().add(USER_COMMAND_PANE_ID);
     addTextField();
     createButtons();
   }
@@ -41,7 +38,7 @@ public class UserCommandPane {
   private Button buttonCreation(String text) {
     Button button = new Button(text);
     button.setPrefHeight(HEIGHT);
-    //button.getStyleClass().add("button");
+    button.getStyleClass().add(BUTTON);
     box.getChildren().add(button);
     return button;
   }
@@ -51,6 +48,7 @@ public class UserCommandPane {
     textArea = new TextArea();
     textArea.setPrefWidth(WIDTH);
     textArea.setPrefHeight(HEIGHT);
+    textArea.getStyleClass().add(TEXT_AREA);
     box.getChildren().add(textArea);
   }
 
