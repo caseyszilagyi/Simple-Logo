@@ -28,6 +28,7 @@ public class InputCleaner {
   private Map<String, Pattern> syntaxMap;
   private String userInput;
   public CommandParser commandParser;
+  private BackEndExternalAPI modelController;
 
   /**
    * create instance of InputCleaner and initializes lists for "translating" the string into strings recognizable by backend classes and parser
@@ -44,6 +45,7 @@ public class InputCleaner {
     addRegExPatterns("Syntax");
     this.userInput = userInput;
     this.commandParser = commandParser;
+    this.modelController = modelController;
   }
 
   private void addLangPatterns(String syntax) {
@@ -71,7 +73,8 @@ public class InputCleaner {
     List<String> translated = translateCommand(noComments);
     List<String> groupedCommands = findCommandBlocks(translated);
     groupedCommands.removeIf(command -> command.equals(""));
-    return groupedCommands;
+    List<String> variablesToValues = replaceVariables(groupedCommands);
+    return variablesToValues;
   }
 
   private String removeComments() {
@@ -134,7 +137,8 @@ public class InputCleaner {
     for (int ind = 0; ind < toRet.size(); ind++) {
       if(isVariable(toRet.get(ind))) {
         //here, you set the variable = the varible value (constant)
-//        toRet.set(ind, toRet.get(ind).substring(1));
+        double varVal = modelController.getVariable(toRet.get(ind).substring(1));
+        toRet.set(ind, toRet.get(ind).substring(1));
       }
     }
     return toRet;
@@ -156,8 +160,7 @@ public class InputCleaner {
   }
 
   private boolean isUserDefCommand(String s) {
-    //look in map of pre def commands
-    return true;
+    return modelController.getUserDefinedCommands().containsKey(s);
   }
 
   private String getCommandKey (String text) {

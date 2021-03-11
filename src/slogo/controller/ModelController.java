@@ -60,19 +60,23 @@ public class ModelController implements BackEndExternalAPI {
     }
 
     /**
-     * 
+     * gives access to the value a variable represents
+     *
+     * @param var variable name to get
      */
-    public void getVariable() {
+    public Double getVariable(String var) {
         // TODO implement here
+        return commandInformationBundle.getVariableMap().get(var);
     }
 
     /**
+     * gives "global" access to all user defined commands so that user can access every time they user input
      *
-     * @return
+     * @return map of command names to their command tree root nodes
      */
-    public List<String> getUserDefinedCommands() {
+    public Map<String, TreeNode> getUserDefinedCommands() {
         // TODO implement here
-        return null;
+        return commandInformationBundle.getCommandMap();
     }
 
     /**

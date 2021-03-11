@@ -2,6 +2,7 @@ package slogo.controller;
 
 import java.util.*;
 import javax.swing.text.html.ImageView;
+import slogo.model.tree.TreeNode;
 import slogo.model.turtle.Turtle;
 
 /**
@@ -33,13 +34,13 @@ public interface BackEndExternalAPI {
     /**
      * Returns a variable
      */
-    public void getVariable();
+    public Double getVariable(String var);
 
     /**
      * Returns a data structure containing user defined commands
      * @return
      */
-    public List<String> getUserDefinedCommands();
+    public Map<String, TreeNode> getUserDefinedCommands();
 
     /**
      * Adds a new user defined command to the
