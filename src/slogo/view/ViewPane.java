@@ -184,4 +184,10 @@ public class ViewPane {
     moveTurtle(parameters.get(0), parameters.get(1));
     turtle.setRotate(90 - parameters.get(2));
   }
+
+  public void resetTurtle(){
+    turtle.setX(centerX);
+    turtle.setY(centerY);
+    turtle.setRotate(0);
+  }
 }

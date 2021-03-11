@@ -124,6 +124,6 @@ public class ScreenCreator {
   private void reset(){
     viewPane = new ViewPane(stage);
     root.setCenter(viewPane.getBox());
-
+    viewPane.resetTurtle();
   }
 }
