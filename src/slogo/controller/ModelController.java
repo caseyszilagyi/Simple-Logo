@@ -8,13 +8,14 @@ import slogo.model.commands.BasicCommandClassLoader;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 import slogo.model.turtle.Turtle;
+import slogo.view.FrontEndInternalAPI;
 
 /**
  * @author Ji Yun Hyo
  */
 public class ModelController implements BackEndExternalAPI {
 
-    ViewController viewController;
+    FrontEndExternalAPI viewController;
     CommandInformationBundle commandInformationBundle;
     BasicCommandClassLoader basicCommandClassLoader;
 
