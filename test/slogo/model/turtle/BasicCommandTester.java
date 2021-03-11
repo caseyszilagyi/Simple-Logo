@@ -211,6 +211,9 @@ public class BasicCommandTester {
 
   // Turtle Queries
 
+  /**
+   * Tests the XCoordinate Command
+   */
   @Test
   void testXCor() {
     TreeNode root = makeTree("XCoordinate");
@@ -218,6 +221,9 @@ public class BasicCommandTester {
     assertEquals(val, 0);
   }
 
+  /**
+   * Tests the YCoordinate Command
+   */
   @Test
   void testYCor() {
     TreeNode root = makeTree("YCoordinate");
@@ -225,11 +231,44 @@ public class BasicCommandTester {
     assertEquals(val, 0);
   }
 
+  /**
+   * Tests the Heading Command
+   */
   @Test
   void testHeading() {
     TreeNode root = makeTree("Heading");
     double val = executeCommand(makeBasicCommand(root));
     assertEquals(val, 90);
+  }
+
+  /**
+   * Tests the IsPenDown Command
+   */
+  @Test
+  void testIsPenDown() {
+    TreeNode root = makeTree("PenUp");
+    executeCommand(makeBasicCommand(root));
+    root = makeTree("IsPenDown");
+    assertEquals(executeCommand(makeBasicCommand(root)), 0);
+    root = makeTree("PenDown");
+    executeCommand(makeBasicCommand(root));
+    root = makeTree("IsPenDown");
+    assertEquals(executeCommand(makeBasicCommand(root)), 1);
+  }
+
+  /**
+   * Tests the IsShowing Command
+   */
+  @Test
+  void testIsShowing() {
+    TreeNode root = makeTree("HideTurtle");
+    executeCommand(makeBasicCommand(root));
+    root = makeTree("IsShowing");
+    assertEquals(executeCommand(makeBasicCommand(root)), 0);
+    root = makeTree("ShowTurtle");
+    executeCommand(makeBasicCommand(root));
+    root = makeTree("IsShowing");
+    assertEquals(executeCommand(makeBasicCommand(root)), 1);
   }
 
   // Math Operations

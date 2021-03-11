@@ -29,6 +29,7 @@ public class PenDown extends TurtleAlteringCommand {
    */
   public double execute() {
     changePenState(1);
+    updateFrontEnd();
     return 1;
   }
 }

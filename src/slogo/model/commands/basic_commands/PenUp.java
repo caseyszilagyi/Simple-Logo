@@ -29,6 +29,7 @@ public class PenUp extends TurtleAlteringCommand {
    */
   public double execute() {
     changePenState(0);
+    updateFrontEnd();
     return 0;
   }
 }

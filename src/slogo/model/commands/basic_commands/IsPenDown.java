@@ -13,21 +13,21 @@ import slogo.model.tree.TreeNode;
 public class IsPenDown extends TurtleQueryCommand {
 
   /**
-   * Makes an instance of the IsPenDown
+   * Makes an instance of the IsPenDown command
    *
    * @param bundle Has the turtle that will need to be accessed
-   * @param children The basic commands. This will be null since it is a query
+   * @param children This will be null because it is a query, and therefore has no arguments
    */
-  public XCoordinate(CommandInformationBundle bundle, List<TreeNode> children) {
+  public IsPenDown(CommandInformationBundle bundle, List<TreeNode> children) {
     super(bundle);
   }
 
   /**
-   * Gets the turtle's XCoordinate
+   * Gets the turtle's pen state
    *
-   * @return The XCoordinate
+   * @return 1 if down, 0 if up
    */
   public double execute() {
-    return getXCoordinate();
+    return getPenState();
   }
 }

@@ -32,6 +32,7 @@ public class Home extends TurtleAlteringCommand {
     setTurtleX(0);
     setTurtleY(0);
     setAngle(90);
+    updateFrontEnd();
     return distance;
   }
 }
