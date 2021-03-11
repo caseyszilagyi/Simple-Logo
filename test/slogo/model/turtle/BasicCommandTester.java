@@ -94,6 +94,19 @@ public class BasicCommandTester {
   }
 
   /**
+   * Tests the towards command
+   */
+  @Test
+  void testTowards() {
+    moveTurtle("10");
+    TreeNode x = makeNode("20");
+    TreeNode y = makeNode("10");
+    TreeNode root = makeTree("Towards", x, y);
+    executeCommand(makeBasicCommand(root));
+    assertEquals(45, commandBundle.getTurtle().getAngle(), TOLERANCE);
+  }
+
+  /**
    * Tests the rotation and movement of the turtle to make sure the radians/degrees
    * conversion is correct
    */
@@ -193,17 +206,19 @@ public class BasicCommandTester {
     forward.execute();
   }
 
+  // Rotates the turtle a specified angle in the clockwise direction, useful for testing queries
+  private void rotateTurtleClockwise(String angle){
+    TreeNode node = makeTree("Right", makeNode(angle));
+    BasicCommand rotate = makeBasicCommand(node);
+    rotate.execute();
+  }
+
   private double executeCommand(BasicCommand command) {
     return command.execute();
   }
 
-  /*
-  // Rotates the turtle a specified angle, useful for testing queries
-  private void rotateTurtle(double angle){
-    BasicCommand forward = makeBasicCommand("Forward,", makeConstantCommand(distance));
-    forward.execute(commandBundle);
-  }
-  */
+
+
 
 
 
