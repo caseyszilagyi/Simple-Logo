@@ -15,7 +15,7 @@ public class IsPenDown extends TurtleQueryCommand {
   /**
    * Makes an instance of the IsPenDown command
    *
-   * @param bundle Has the turtle that will need to be accessed
+   * @param bundle   Has the turtle that will need to be accessed
    * @param children This will be null because it is a query, and therefore has no arguments
    */
   public IsPenDown(CommandInformationBundle bundle, List<TreeNode> children) {

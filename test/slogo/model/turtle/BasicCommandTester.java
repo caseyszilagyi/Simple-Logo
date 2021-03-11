@@ -310,6 +310,30 @@ public class BasicCommandTester {
   }
 
   /**
+   * Tests the Quotient command
+   */
+  @Test
+  void testQuotient() {
+    TreeNode child = makeNode("65");
+    TreeNode child2 = makeNode("10");
+    TreeNode root = makeTree("Quotient", child, child2);
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(val, 6, TOLERANCE);
+  }
+
+  /**
+   * Tests the Remainder command
+   */
+  @Test
+  void testRemainder() {
+    TreeNode child = makeNode("65");
+    TreeNode child2 = makeNode("10");
+    TreeNode root = makeTree("Remainder", child, child2);
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(val, 5, TOLERANCE);
+  }
+
+  /**
    * Tests the sine command
    */
   @Test

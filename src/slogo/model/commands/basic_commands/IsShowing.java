@@ -15,7 +15,7 @@ public class IsShowing extends TurtleQueryCommand {
   /**
    * Makes an instance of the IsShowing command
    *
-   * @param bundle Has the turtle that will need to be accessed
+   * @param bundle   Has the turtle that will need to be accessed
    * @param children This will be null because it is a query, and therefore has no arguments
    */
   public IsShowing(CommandInformationBundle bundle, List<TreeNode> children) {
