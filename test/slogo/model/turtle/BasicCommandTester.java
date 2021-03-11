@@ -334,6 +334,17 @@ public class BasicCommandTester {
   }
 
   /**
+   * Tests the Minus command
+   */
+  @Test
+  void testMinus() {
+    TreeNode child = makeNode("65");
+    TreeNode root = makeTree("Minus", child);
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(val, -65, TOLERANCE);
+  }
+
+  /**
    * Tests the sine command
    */
   @Test
