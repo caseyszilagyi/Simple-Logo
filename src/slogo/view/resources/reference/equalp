@@ -1,0 +1,13 @@
+Boolean Operations:
+EQUAL? expr1 expr2
+EQUALP expr1 expr2
+
+Description:
+Reports whether or not the given expressions result in the same value
+
+Parameters:
+expr1 - any expression
+expr2 - any expression
+
+Returns:
+1 if expr1 and expr2 are equal; 0 otherwise

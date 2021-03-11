@@ -1,0 +1,12 @@
+Control Structure Commands:
+REPEAT expr [ command(s) ]
+
+Description:
+Runs command(s) given in the list the value of expr number of times; the value of the current iteration, starting at 1, is automatically assigned to the variable, :repcount, so that it can be accessed by the command(s).
+
+Parameters:
+expr - any expression
+command(s) - any command
+
+Returns:
+Result of last command in the list executed; 0 if no commands are executed

@@ -1,0 +1,11 @@
+Boolean Operations:
+NOT test
+
+Description:
+Reports logical opposite of given test
+
+Parameters:
+test - any expression
+
+Returns:
+1 if test is 0; 0 if test is non-zero

@@ -1,0 +1,12 @@
+Turtle Commands:
+PENUP
+PU
+
+Description:
+Puts pen up such that when the turtle moves, it does not leave a trail
+
+Parameters:
+None
+
+Returns:
+0

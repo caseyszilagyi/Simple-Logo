@@ -1,0 +1,11 @@
+Turtle Queries:
+XCOR
+
+Description:
+Reports turtle's current x-coordinate, where (0, 0) is the center of the screen
+
+Parameters:
+None
+
+Returns:
+Turtle's x-coordinate

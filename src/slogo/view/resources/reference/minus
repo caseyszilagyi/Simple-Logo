@@ -1,0 +1,12 @@
+Math Operations:
+MINUS expr
+~ expr
+
+Description:
+Calculates the negation of the given value
+
+Parameters:
+expr - any expression
+
+Returns:
+Negative of the value of expr

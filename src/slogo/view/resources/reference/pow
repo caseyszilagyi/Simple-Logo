@@ -1,0 +1,12 @@
+Math Operations:
+POW base exponent
+
+Description:
+Calculates given base value raised to the power of the given exponent
+
+Parameters:
+base - any expression
+exponent - any expression
+
+Returns:
+Base raised to the power of the exponent

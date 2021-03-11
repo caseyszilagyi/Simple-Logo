@@ -1,0 +1,12 @@
+Turtle Commands:
+HIDETURTLE
+HT
+
+Description:
+Makes turtle invisible
+
+Parameters:
+None
+
+Returns:
+0
