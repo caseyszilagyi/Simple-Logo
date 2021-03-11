@@ -388,6 +388,17 @@ public class BasicCommandTester {
     assertEquals(60, val, TOLERANCE);
   }
 
+  /**
+   * Tests the natural log command
+   */
+  @Test
+  void testNaturalLog() {
+    TreeNode child = makeNode("10");
+    TreeNode root = makeTree("NaturalLog", child);
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(2.30, val, TOLERANCE);
+  }
+
 
   // Boolean Operations
 
