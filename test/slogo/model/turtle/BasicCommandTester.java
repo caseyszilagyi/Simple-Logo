@@ -72,7 +72,7 @@ public class BasicCommandTester {
     TreeNode child = makeNode("100");
     TreeNode root = makeTree("Right", child);
     executeCommand(makeBasicCommand(root));
-    assertEquals(350 , commandBundle.getTurtle().getAngle(), TOLERANCE);
+    assertEquals(350, commandBundle.getTurtle().getAngle(), TOLERANCE);
   }
 
   /**
@@ -87,11 +87,11 @@ public class BasicCommandTester {
   }
 
   /**
-   * Tests the rotation and movement of the turtle to make sure the radians/degrees
-   * conversion is correct
+   * Tests the rotation and movement of the turtle to make sure the radians/degrees conversion is
+   * correct
    */
   @Test
-  void testRotateAndMove(){
+  void testRotateAndMove() {
     TreeNode child = makeNode("45");
     TreeNode root = makeTree("Right", child);
     executeCommand(makeBasicCommand(root));
@@ -104,7 +104,7 @@ public class BasicCommandTester {
    * Tests the forward movement with the sum command
    */
   @Test
-  void testForwardSum(){
+  void testForwardSum() {
     TreeNode child = makeNode("5");
     TreeNode child2 = makeNode("10");
     TreeNode sum = makeTree("Sum", child, child2);
@@ -117,7 +117,7 @@ public class BasicCommandTester {
    * Tests the SetPosition turtle command
    */
   @Test
-  void testSetPosition(){
+  void testSetPosition() {
     TreeNode child = makeNode("5");
     TreeNode child2 = makeNode("5");
     TreeNode root = makeTree("SetPosition", child, child2);
@@ -131,7 +131,7 @@ public class BasicCommandTester {
    * Tests the SetHeading turtle command
    */
   @Test
-  void testSetHeading(){
+  void testSetHeading() {
     TreeNode child = makeNode("10");
     TreeNode root = makeTree("SetHeading", child);
     double degreeChange = executeCommand(makeBasicCommand(root));
@@ -143,7 +143,7 @@ public class BasicCommandTester {
    * Tests the SetTowards turtle command
    */
   @Test
-  void testTowards(){
+  void testTowards() {
     commandBundle.getTurtle().setXPosition(-10);
     commandBundle.getTurtle().setYPosition(-10);
     TreeNode child1 = makeNode("0");
@@ -158,15 +158,56 @@ public class BasicCommandTester {
    * Tests PenUp and PenDown
    */
   @Test
-  void testPenUpAndDown(){
+  void testPenUpAndDown() {
     TreeNode up = makeNode("PenUp");
     assertEquals(0, executeCommand(makeBasicCommand(up)));
     assertEquals(0, commandBundle.getTurtle().getPenState());
     TreeNode down = makeNode("PenDown");
     assertEquals(1, executeCommand(makeBasicCommand(down)));
     assertEquals(1, commandBundle.getTurtle().getPenState());
+  }
+
+  /**
+   * Tests ShowTurtle and HideTurtle
+   */
+  @Test
+  void testShowAndHideTurtle() {
+    TreeNode up = makeNode("HideTurtle");
+    assertEquals(0, executeCommand(makeBasicCommand(up)));
+    assertEquals(0, commandBundle.getTurtle().getVisibility());
+    TreeNode down = makeNode("ShowTurtle");
+    assertEquals(1, executeCommand(makeBasicCommand(down)));
+    assertEquals(1, commandBundle.getTurtle().getVisibility());
 
   }
+
+  /**
+   * Tests Home command
+   */
+  @Test
+  void testHome() {
+    rotateTurtleClockwise("45");
+    moveTurtle("10");
+    TreeNode home = makeNode("Home");
+    assertEquals(10, executeCommand(makeBasicCommand(home)));
+    assertEquals(0, commandBundle.getTurtle().getXPosition());
+    assertEquals(0, commandBundle.getTurtle().getYPosition());
+  }
+
+  /**
+   * Tests ClearScreen command
+   */
+  @Test
+  void testClearScreen() {
+    rotateTurtleClockwise("45");
+    moveTurtle("10");
+    TreeNode home = makeNode("ClearScreen");
+    assertEquals(10, executeCommand(makeBasicCommand(home)));
+    assertEquals(0, commandBundle.getTurtle().getXPosition());
+    assertEquals(0, commandBundle.getTurtle().getYPosition());
+  }
+
+
 
   // Turtle Queries
 
@@ -192,6 +233,7 @@ public class BasicCommandTester {
   }
 
   // Math Operations
+
   /**
    * Tests the sum command
    */
@@ -239,7 +281,6 @@ public class BasicCommandTester {
     assertEquals(val, 1, TOLERANCE);
   }
 
-
   // Boolean Operations
 
   /**
@@ -250,13 +291,13 @@ public class BasicCommandTester {
     TreeNode child1 = makeNode("60");
     TreeNode child2 = makeNode("40");
     TreeNode root = makeTree("LessThan", child1, child2);
-    assertEquals(0, executeCommand(makeBasicCommand(root)) , TOLERANCE);
+    assertEquals(0, executeCommand(makeBasicCommand(root)), TOLERANCE);
     root = makeTree("LessThan", child2, child1);
-    assertEquals(1, executeCommand(makeBasicCommand(root)) , TOLERANCE);
+    assertEquals(1, executeCommand(makeBasicCommand(root)), TOLERANCE);
   }
 
-
   // Variables, Control Structures, and User Defined Commands
+
   /**
    * Tests the MakeVariable command
    */
@@ -265,23 +306,20 @@ public class BasicCommandTester {
     TreeNode name = makeNode("Awesome");
     TreeNode value = makeNode("60");
     TreeNode root = makeTree("MakeVariable", name, value);
-    assertEquals(60, executeCommand(makeBasicCommand(root)) , TOLERANCE);
-    assertEquals(60, commandBundle.getVariableMap().get("Awesome") , TOLERANCE);
+    assertEquals(60, executeCommand(makeBasicCommand(root)), TOLERANCE);
+    assertEquals(60, commandBundle.getVariableMap().get("Awesome"), TOLERANCE);
   }
-
-
 
   // Helper methods below
 
 
-
   // Makes a Tree with the top node being the string, and all children being the list of nodes
-  private TreeNode makeTree(String root, TreeNode... children){
-    return new TreeNode(root, root,  Arrays.asList(children.clone()));
+  private TreeNode makeTree(String root, TreeNode... children) {
+    return new TreeNode(root, root, Arrays.asList(children.clone()));
   }
 
   // Makes a single TreeNode
-  private TreeNode makeNode(String val){
+  private TreeNode makeNode(String val) {
     return new TreeNode(val);
   }
 
@@ -299,7 +337,7 @@ public class BasicCommandTester {
   }
 
   // Rotates the turtle a specified angle in the clockwise direction, useful for testing queries
-  private void rotateTurtleClockwise(String angle){
+  private void rotateTurtleClockwise(String angle) {
     TreeNode node = makeTree("Right", makeNode(angle));
     BasicCommand rotate = makeBasicCommand(node);
     rotate.execute();
@@ -308,10 +346,6 @@ public class BasicCommandTester {
   private double executeCommand(BasicCommand command) {
     return command.execute();
   }
-
-
-
-
 
 
 }

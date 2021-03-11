@@ -16,9 +16,9 @@ public class PenUp extends TurtleAlteringCommand {
    * Makes an instance of the pen up command
    *
    * @param bundle Contains the turtle that will need to be altered for this command
-   * @param nodes This command has no children, so this will be null
+   * @param nodes  This command has no children, so this will be null
    */
-  public PenUp(CommandInformationBundle bundle ,List<TreeNode> nodes) {
+  public PenUp(CommandInformationBundle bundle, List<TreeNode> nodes) {
     super(bundle);
   }
 

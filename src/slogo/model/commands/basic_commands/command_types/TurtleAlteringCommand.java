@@ -109,11 +109,13 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
   }
 
   /**
-   * Resets the screen and moves the turtle back to 0,0 Need to change this implementation, won't
-   * work right now
+   * Resets the screen
    */
   protected void reset() {
     TURTLE.clearScreen();
+    updateFrontEnd();
+    TURTLE.allowLines();
+    updateFrontEnd();
   }
 
   protected void updateFrontEnd(){

@@ -6,29 +6,29 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * The pen down command
+ * The show turtle command
  *
  * @author Casey Szilagyi
  */
-public class PenDown extends TurtleAlteringCommand {
+public class ShowTurtle extends TurtleAlteringCommand {
 
   /**
-   * Makes an instance of the pen down command
+   * Makes an instance of the ShowTurtle command
    *
    * @param bundle Contains the turtle that will need to be altered for this command
    * @param nodes  This command has no children, so this will be null
    */
-  public PenDown(CommandInformationBundle bundle, List<TreeNode> nodes) {
+  public ShowTurtle(CommandInformationBundle bundle, List<TreeNode> nodes) {
     super(bundle);
   }
 
   /**
-   * Puts the pen down
+   * Makes the turtle visible
    *
-   * @return 1, because the pen is drawing
+   * @return 1, because the turtle is visible
    */
   public double execute() {
-    changePenState(1);
+    changeTurtleVisibility(1);
     return 1;
   }
 }
