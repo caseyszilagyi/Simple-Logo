@@ -2,7 +2,6 @@ package slogo.model;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 import slogo.controller.BackEndExternalAPI;
-import slogo.controller.ModelController;
+import slogo.model.tree.TreeNode;
 
 /**
  * Cleans the raw string input from the user into a list of strings that the CommandParser can use will recognize as commands and command parameters
@@ -22,13 +21,15 @@ import slogo.controller.ModelController;
 public class InputCleaner {
 
   private static final String LANGUAGES_PACKAGE = InputCleaner.class.getPackageName()+".resources.languages.";
-  public static final String WHITESPACE = "\\s+";
+  private static final String WHITESPACE = "\\s+";
+  private final Map<String, Double> VARIABLES;
+  private final Map<String, TreeNode> COMMANDS;
+
   private String language;
   private List<Entry<String, Pattern>> symbols;
   private Map<String, Pattern> syntaxMap;
   private String userInput;
   public CommandParser commandParser;
-  private BackEndExternalAPI modelController;
 
   /**
    * create instance of InputCleaner and initializes lists for "translating" the string into strings recognizable by backend classes and parser
@@ -45,7 +46,8 @@ public class InputCleaner {
     addRegExPatterns("Syntax");
     this.userInput = userInput;
     this.commandParser = commandParser;
-    this.modelController = modelController;
+    VARIABLES = modelController.getVariables();
+    COMMANDS = modelController.getUserDefinedCommands();
   }
 
   private void addLangPatterns(String syntax) {
@@ -137,15 +139,18 @@ public class InputCleaner {
     for (int ind = 0; ind < toRet.size(); ind++) {
       if(isVariable(toRet.get(ind))) {
         //here, you set the variable = the varible value (constant)
-        double varVal = modelController.getVariable(toRet.get(ind).substring(1));
-        toRet.set(ind, toRet.get(ind).substring(1));
+        try {
+          Double varVal = VARIABLES.get(toRet.get(ind).substring(1));
+          toRet.set(ind, toRet.get(ind).substring(1));
+        } catch (Exception e){
+          System.out.println("Variable doesn't exist!!");
+        }
       }
     }
     return toRet;
   }
 
   private boolean isVariable(String s) {
-    //also need to check if it exists in map
     return match(s, syntaxMap.get("Variable"));
   }
 
@@ -160,7 +165,7 @@ public class InputCleaner {
   }
 
   private boolean isUserDefCommand(String s) {
-    return modelController.getUserDefinedCommands().containsKey(s);
+    return COMMANDS.containsKey(s);
   }
 
   private String getCommandKey (String text) {

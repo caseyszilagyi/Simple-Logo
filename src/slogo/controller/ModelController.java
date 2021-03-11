@@ -3,12 +3,10 @@ package slogo.controller;
 import java.util.*;
 import javax.swing.text.html.ImageView;
 import slogo.model.CommandParser;
-import slogo.model.InputCleaner;
 import slogo.model.commands.BasicCommandClassLoader;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 import slogo.model.turtle.Turtle;
-import slogo.view.FrontEndInternalAPI;
 
 /**
  * @author Ji Yun Hyo
@@ -64,9 +62,18 @@ public class ModelController implements BackEndExternalAPI {
      *
      * @param var variable name to get
      */
-    public Double getVariable(String var) {
+    public Double getSingleVariable(String var) {
         // TODO implement here
         return commandInformationBundle.getVariableMap().get(var);
+    }
+
+    /**
+     * gives access to the value a variable represents
+     *
+     */
+    public Map<String, Double> getVariables() {
+        // TODO implement here
+        return commandInformationBundle.getVariableMap();
     }
 
     /**

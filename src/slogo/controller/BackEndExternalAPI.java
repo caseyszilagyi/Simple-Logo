@@ -34,7 +34,12 @@ public interface BackEndExternalAPI {
     /**
      * Returns a variable
      */
-    public Double getVariable(String var);
+    public Double getSingleVariable(String var);
+
+    /**
+     * Returns a map of all the variable name to values mappings
+     */
+    public Map<String, Double> getVariables();
 
     /**
      * Returns a data structure containing user defined commands
