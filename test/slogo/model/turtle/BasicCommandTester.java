@@ -436,6 +436,19 @@ public class BasicCommandTester {
     assertEquals(1, executeCommand(makeBasicCommand(root)), TOLERANCE);
   }
 
+  /**
+   * Tests the LessThan command
+   */
+  @Test
+  void testGreaterThan() {
+    TreeNode child1 = makeNode("60");
+    TreeNode child2 = makeNode("40");
+    TreeNode root = makeTree("GreaterThan", child1, child2);
+    assertEquals(1, executeCommand(makeBasicCommand(root)), TOLERANCE);
+    root = makeTree("GreaterThan", child2, child1);
+    assertEquals(0, executeCommand(makeBasicCommand(root)), TOLERANCE);
+  }
+
   // Variables, Control Structures, and User Defined Commands
 
   /**
@@ -449,6 +462,8 @@ public class BasicCommandTester {
     assertEquals(60, executeCommand(makeBasicCommand(root)), TOLERANCE);
     assertEquals(60, commandBundle.getVariableMap().get("Awesome"), TOLERANCE);
   }
+
+
 
   // Helper methods below
 
