@@ -1,12 +1,9 @@
 package slogo.view;
 
 import java.util.List;
-import javafx.geometry.Pos;
+
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import slogo.controller.FrontEndExternalAPI;
 
@@ -23,7 +20,7 @@ public class ScreenCreator {
   private BorderPane root;
   private Scene scene;
   private Stage stage;
-  private PossibleCommandPane possibleCommandPane;
+  private HistoryDisplayPane historyDisplayPane;
   private UserCommandPane userCommand;
   private ViewPane viewPane;
   private FrontEndExternalAPI viewController;
@@ -42,8 +39,8 @@ public class ScreenCreator {
     styleSheet = "slogo/view/resources/default.css";
     scene.getStylesheets().add(styleSheet);
 
-    possibleCommandPane = new PossibleCommandPane();
-    root.setRight(possibleCommandPane.getBox());
+    historyDisplayPane = new HistoryDisplayPane();
+    root.setRight(historyDisplayPane.getBox());
 
     userCommand = new UserCommandPane(viewController);
     root.setBottom(userCommand.getBox());

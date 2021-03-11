@@ -2,11 +2,8 @@ package slogo.view;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
 import slogo.controller.FrontEndExternalAPI;
 
@@ -25,6 +22,8 @@ public class UserCommandPane {
   private static final String TEXT_AREA = "text-area";
   private static final String BUTTON = "button";
   private static final String FILE_PATH = "src/slogo/view/resources/reference";
+  private static final String COMBO_BOX = "combo-box";
+  private static final String DEFAULT_MESSAGE = "Choose command";
 
   private HBox box;
   private TextArea textArea;
@@ -57,7 +56,8 @@ public class UserCommandPane {
     Collections.sort(allReferences);
     helpComboBox = new ComboBox<>();
     helpComboBox.getItems().addAll(allReferences);
-    helpComboBox.setValue("Choose command");
+    helpComboBox.setValue(DEFAULT_MESSAGE);
+    helpComboBox.getStyleClass().add(COMBO_BOX);
     box.getChildren().add(helpComboBox);
     helpComboBox.setOnAction(new EventHandler<ActionEvent>() {
       @Override
