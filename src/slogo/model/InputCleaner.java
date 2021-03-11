@@ -138,7 +138,6 @@ public class InputCleaner {
     List<String> toRet = new ArrayList<>(commands);
     for (int ind = 0; ind < toRet.size(); ind++) {
       if(isVariable(toRet.get(ind))) {
-        //here, you set the variable = the varible value (constant)
         try {
           Double varVal = VARIABLES.get(toRet.get(ind).substring(1));
           toRet.set(ind, toRet.get(ind).substring(1));
@@ -159,6 +158,12 @@ public class InputCleaner {
     for (int ind = 0; ind < toRet.size(); ind++) {
       if(isUserDefCommand(toRet.get(ind))) {
         //replace the name of command with the command block node with the children that are its params
+        try {
+          TreeNode userDefCommand = COMMANDS.get(toRet.get(ind));
+
+        } catch (Exception e) {
+          System.out.println("User Defined Command doesn't exist!!!");
+        }
       }
     }
     return toRet;
