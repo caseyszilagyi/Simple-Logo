@@ -2,6 +2,7 @@ package slogo.model.execution;
 
 import java.util.HashMap;
 import java.util.Map;
+import slogo.controller.BackEndExternalAPI;
 import slogo.controller.ModelController;
 import slogo.model.commands.BasicCommandClassLoader;
 import slogo.model.commands.basic_commands.BasicCommand;
@@ -21,12 +22,13 @@ public class CommandInformationBundle {
   private final Map<String, TreeNode> COMMANDS = new HashMap<>();
 
   private final BasicCommandClassLoader CLASS_LOADER = new BasicCommandClassLoader();
-  private final ModelController MODEL_CONTROLLER;
+  private final BackEndExternalAPI MODEL_CONTROLLER;
 
   /**
    * Makes our information bundle
+   * @param modelController
    */
-  public CommandInformationBundle(ModelController modelController) {
+  public CommandInformationBundle(BackEndExternalAPI modelController) {
     MODEL_CONTROLLER = modelController;
   }
 

@@ -23,7 +23,7 @@ public class Turtle implements TurtleState {
   public Turtle() {
     xPosition = 0;
     yPosition = 0;
-    angle = 0;
+    angle = 90;
     isVisible = 1;
     penState = 1;
     clearScreen = 0;

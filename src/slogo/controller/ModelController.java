@@ -4,19 +4,27 @@ import java.util.*;
 import javax.swing.text.html.ImageView;
 import slogo.model.CommandParser;
 import slogo.model.InputCleaner;
+import slogo.model.commands.BasicCommandClassLoader;
+import slogo.model.execution.CommandInformationBundle;
+import slogo.model.tree.TreeNode;
 import slogo.model.turtle.Turtle;
 
 /**
- * 
+ * @author Ji Yun Hyo
  */
 public class ModelController implements BackEndExternalAPI {
 
     ViewController viewController;
+    CommandInformationBundle commandInformationBundle;
+    BasicCommandClassLoader basicCommandClassLoader;
 
     /**
      * Default constructor
      */
     public ModelController() {
+        commandInformationBundle = new CommandInformationBundle(this);
+        basicCommandClassLoader = new BasicCommandClassLoader();
+
     }
 
     /**
@@ -25,6 +33,7 @@ public class ModelController implements BackEndExternalAPI {
      */
     public List<String> getCommandHistory() {
         // TODO implement here
+        // get the
         return null;
     }
 
@@ -73,26 +82,24 @@ public class ModelController implements BackEndExternalAPI {
     }
 
     /**
+     * parses through input and creates a tree. it then executes all the commands in that tree
+     *
      * @param input String input
      */
     public void parseInput(String input) {
         // TODO implement here
         System.out.println("ModelController received the following string as input: \n" + input);
-
-//        String commandsInOneLine = convertInputIntoOneLineStringSeparatedBySingleSpace(input);
-//        System.out.println("Commands after manipulation: \n" + commandsInOneLine);
         CommandParser commandParser = new CommandParser(input, this);
-    }
+        TreeNode inputRoot = commandParser.makeTree();
 
-    private String convertInputIntoOneLineStringSeparatedBySingleSpace(String input) {
-        String commandsInOneLine = input.replaceAll("[\r\n]+", " ");
-        commandsInOneLine = commandsInOneLine.trim().replaceAll(" +", " ");
-
-        return commandsInOneLine;
-    }
-
-    private void manipulateStringToBeAllInOneLine(String input) {
-
+        //NEEDS TO BE REFACTORED TO MAKE SURE WE ADHERE TO DEPENDENCY INVERSION PRINCIPLE
+        // inputRoot is null and the command starts from its child
+//        CommandInformationBundle commandInformationBundle = new CommandInformationBundle(this);
+//        BasicCommandClassLoader basicCommandClassLoader = new BasicCommandClassLoader();
+        for(TreeNode child : inputRoot.getChildren()){
+            System.out.println("Value of child of root: " + child.getValue());
+            basicCommandClassLoader.makeCommand(commandInformationBundle,child).execute();
+        }
     }
 
     /**
@@ -111,6 +118,7 @@ public class ModelController implements BackEndExternalAPI {
      */
     public void passInputToFrontEnd(List<Double> parameters){
         //: TODO Call a method on the viewController and pass it this arraylist of parameters
+        viewController.passInputFromBackendToFrontEnd(parameters);
     }
 
     /**
@@ -141,7 +149,7 @@ public class ModelController implements BackEndExternalAPI {
     }
 
     @Override
-    public void setViewController(ViewController viewController) {
+    public void setViewController(FrontEndExternalAPI viewController) {
         this.viewController = viewController;
     }
 

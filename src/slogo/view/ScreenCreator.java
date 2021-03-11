@@ -1,5 +1,6 @@
 package slogo.view;
 
+import java.util.List;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -8,15 +9,18 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import slogo.controller.FrontEndExternalAPI;
 import slogo.controller.ViewController;
 
 /**
  * Create the main screen where visuals and panes will be displayed
+ * @author Kathleen Chen
+ * @author Ji Yun Hyo
  */
 public class ScreenCreator {
   public static final String TITLE = "SLogo";
   public static final double DEFAULT_X = 1000.0;
-  public static final double DEFAULT_Y = 600.0;
+  public static final double DEFAULT_Y = 860;
 
   private BorderPane root;
   private Scene scene;
@@ -24,14 +28,17 @@ public class ScreenCreator {
   private PossibleCommandPane possibleCommandPane;
   private UserCommandPane userCommand;
   private ViewPane viewPane;
-  private ViewController viewController;
+  private FrontEndExternalAPI viewController;
   private VBox buttonBox;
+  private double xTurtle;
+  private double yTurtle;
 
-  public ScreenCreator(ViewController viewController) {
+  public ScreenCreator(FrontEndExternalAPI viewController) {
     this.viewController = viewController;
     stage = new Stage();
     stage.setResizable(true);
-
+    xTurtle = 0;
+    yTurtle = 0;
     root = new BorderPane();
     scene = new Scene(root, DEFAULT_X, DEFAULT_Y);
     stage.setScene(scene);
@@ -44,7 +51,7 @@ public class ScreenCreator {
     userCommand = new UserCommandPane(viewController);
     root.setBottom(userCommand.getBox());
 
-    viewPane = new ViewPane();
+    viewPane = new ViewPane(stage);
     root.setCenter(viewPane.getBox());
 
     // TODO: remove later (testing)
@@ -55,6 +62,8 @@ public class ScreenCreator {
     root.setLeft(buttonBox);
     addTitle();
     createButtons();
+
+    System.out.println(viewPane.getBox().getHeight());
   }
 
   // TODO: remove later (testing)
@@ -89,6 +98,8 @@ public class ScreenCreator {
     planeVIII.setOnAction(event -> viewPane.moveTurtleByDistance(15));
     Button plane11 = buttonCreation("Switch State of Pen");
     plane11.setOnAction(event -> viewPane.switchPenState());
+    Button plane12 = buttonCreation("Clear Screen");
+    plane12.setOnAction(event -> reset());
   }
 
   // TODO: remove later (testing)
@@ -96,5 +107,20 @@ public class ScreenCreator {
     Button button = new Button(text);
     buttonBox.getChildren().add(button);
     return button;
+  }
+
+  public void moveTurtle(List<Double> parameters){
+    viewPane.updateTurtle(parameters);
+    if(parameters.get(5) == 1){
+      reset();
+    }
+  }
+
+  //REMOVE LATER THIS IS ONLY FOR DEBUGGING
+  private void reset(){
+
+    viewPane = new ViewPane(stage);
+    root.setCenter(viewPane.getBox());
+
   }
 }

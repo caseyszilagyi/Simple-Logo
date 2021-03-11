@@ -3,13 +3,14 @@ package slogo.controller;
 import java.util.*;
 import javax.swing.text.html.ImageView;
 import slogo.model.turtle.Turtle;
+import slogo.view.FrontEndInternalAPI;
 import slogo.view.ScreenCreator;
 
 /**
- * 
+ * @author Ji Yun Hyo
  */
 public class ViewController implements FrontEndExternalAPI {
-    ModelController modelController;
+    BackEndExternalAPI modelController;
     ScreenCreator screenCreator;
     private String userCommandInputs;
 
@@ -56,7 +57,7 @@ public class ViewController implements FrontEndExternalAPI {
     }
 
     @Override
-    public void setModelController(ModelController modelController) {
+    public void setModelController(BackEndExternalAPI modelController) {
         this.modelController = modelController;
     }
 
@@ -71,6 +72,15 @@ public class ViewController implements FrontEndExternalAPI {
         //print statement for debugging
         System.out.println(this.userCommandInputs);
         modelController.parseInput(userCommandInputs);
+    }
+
+    @Override
+    public void passInputFromBackendToFrontEnd(List<Double> parameters) {
+        // TODO implement and decide which class will get sent these parameters
+        for (Double go : parameters) {
+            System.out.println(go);
+        }
+        screenCreator.moveTurtle(parameters);
     }
 
 }

@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.provider.EnumSource.Mode;
 import slogo.controller.ModelController;
 import slogo.model.CommandParser;
 import slogo.model.InputCleaner;
@@ -84,6 +83,18 @@ public class CleanInputTester {
     expected.add(":size");
     expected.add("stop");
 //    assertEquals(cleaner.findCommandBlocks(input), expected);
+  }
+
+  /**
+   * Test all steps (remove commands and group blocks
+   */
+  @Test
+  void testXCor() {
+    String userInput = "xcor";
+    InputCleaner cleaner = makeInputCleaner(userInput);
+    List<String> expected = new ArrayList<>();
+    expected.add("XCoordinate");
+    assertEquals(cleaner.cleanString(), expected);
   }
 
   /**
