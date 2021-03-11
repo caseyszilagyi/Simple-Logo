@@ -3,9 +3,12 @@ package slogo.view;
 import java.io.File;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -60,6 +63,7 @@ public class ViewPane {
   private Button penColorPickerButton;
   private ComboBox<String> languages;
   private ResourceBundle languageOptions;
+  private String language;
 
   private double centerX = 362.0;
   private double centerY = 260.5;
@@ -105,20 +109,32 @@ public class ViewPane {
     languageOptions = ResourceBundle.getBundle(LANGUAGE_OPTIONS);
     String defaultLanguage = languageOptions.getString("English");
     ArrayList<String> allLanguages = new ArrayList<>(){{
-      add(languageOptions.getString("Chinese"));
-      add(languageOptions.getString("English"));
-      add(languageOptions.getString("French"));
-      add(languageOptions.getString("German"));
-      add(languageOptions.getString("Italian"));
-      add(languageOptions.getString("Portuguese"));
-      add(languageOptions.getString("Russian"));
-      add(languageOptions.getString("Spanish"));
+      add("Chinese"); add("English"); add("French"); add("German"); add("Italian");
+      add("Portuguese"); add("Russian"); add("Spanish"); add("Urdu");
+    }};
+    ArrayList<String> allLanguageDisplay = new ArrayList<>() {{
+      add(languageOptions.getString("Chinese")); add(languageOptions.getString("English"));
+      add(languageOptions.getString("French")); add(languageOptions.getString("German"));
+      add(languageOptions.getString("Italian")); add(languageOptions.getString("Portuguese"));
+      add(languageOptions.getString("Russian")); add(languageOptions.getString("Spanish"));
       add(languageOptions.getString("Urdu"));
     }};
     languages = new ComboBox();
-    languages.getItems().addAll(allLanguages);
+    languages.getItems().addAll(allLanguageDisplay);
     languages.setValue(defaultLanguage);
+    language = "English";
     choicePane.add(languages, 4, 0);
+    languages.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent event) {
+        int value = allLanguageDisplay.indexOf(languages.getValue());
+        language = allLanguages.get(value);
+      }
+    });
+  }
+
+  public String getLanguage() {
+    return language;
   }
 
   private void createPenColorPicker() {
