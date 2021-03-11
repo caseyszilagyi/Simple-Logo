@@ -1,6 +1,5 @@
 package slogo.model.turtle;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -169,9 +168,18 @@ public class Turtle implements TurtleState {
     return penState;
   }
 
+  /**
+   * Sets the parameter to clear the screen to a 1
+   */
+  public void clearScreen(){
+    clearScreen = 1;
+  }
 
-  public double clearScreen(){
-    return clearScreen;
+  /**
+   * Sets the parameter to clear the screen to a 0, which allows lines to be drawn
+   */
+  public void allowLines(){
+    clearScreen = 0;
   }
 
 
@@ -182,7 +190,7 @@ public class Turtle implements TurtleState {
    */
   public List<Double> getFrontEndParameters() {
     return Arrays
-        .asList(getXPosition(), getYPosition(), getAngle(), getPenState(), getVisibility(), clearScreen());
+        .asList(xPosition, yPosition, angle, penState, isVisible, clearScreen);
   }
 
 

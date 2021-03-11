@@ -6,11 +6,11 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * The sum command
+ * Difference command (calculates diff btwn 2 children)
  *
- * @author Casey Szilagyi
+ * @author jincho
  */
-public class Sum extends MathAndLogicCommand {
+public class Difference extends MathAndLogicCommand {
 
   private final double VALUE_1;
   private final double VALUE_2;
@@ -19,20 +19,21 @@ public class Sum extends MathAndLogicCommand {
    * Makes an instance of the sum command
    *
    * @param bundle Not used for this command
-   * @param children The TreeNodes to sum
+   * @param children The TreeNodes to difference
    */
-  public Sum(CommandInformationBundle bundle, List<TreeNode> children) {
+  public Difference(CommandInformationBundle bundle, List<TreeNode> children) {
     super(bundle);
     VALUE_1 = loadClass(bundle, children.get(0)).execute();
     VALUE_2 = loadClass(bundle, children.get(1)).execute();
   }
 
   /**
-   * Sums the two numbers
+   * calculate diff
    *
-   * @return The sum of the two numbers
+   * @return The difference btwn the two numbers
    */
   public double execute() {
-    return VALUE_1 + VALUE_2;
+    return VALUE_1 - VALUE_2;
   }
+
 }
