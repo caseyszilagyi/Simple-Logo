@@ -103,7 +103,7 @@ public class BasicCommandClassLoader {
   // Checks if the node is a constant
   private boolean isConstant(TreeNode node) {
     try {
-      Integer.parseInt(node.getValue());
+      Double.parseDouble(node.getValue());
       return true;
     } catch (Exception e) {
       return false;
