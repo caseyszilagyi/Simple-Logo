@@ -41,11 +41,11 @@ public class UserCommandPane {
   }
 
   private void createButtons() {
-    Button runButton = buttonCreation("Run");
+    Button runButton = makeButton("Run");
     runButton.setOnAction(event -> viewController.processUserCommandInput(textArea.getText()));
-    Button clearButton = buttonCreation("Clear");
+    Button clearButton = makeButton("Clear");
     clearButton.setOnAction(event -> textArea.clear());
-    helpButton = buttonCreation("Help");
+    helpButton = makeButton("Help");
     helpButton.setOnAction(event -> createHelpButton());
   }
 
@@ -68,13 +68,12 @@ public class UserCommandPane {
   }
 
   private void displayCommandInformation(String command) {
-    File file = new File(FILE_PATH + "/" + command);
-    String fname = FILE_PATH + "/" + command;
+    String fileName = FILE_PATH + "/" + command;
     String line = null;
     StringBuilder text = new StringBuilder();
     try
     {
-      FileReader fileReader = new FileReader(fname);
+      FileReader fileReader = new FileReader(fileName);
       BufferedReader bufferedReader = new BufferedReader(fileReader);
       while((line = bufferedReader.readLine()) != null)
       {
@@ -85,7 +84,7 @@ public class UserCommandPane {
     }
     catch(IOException ex)
     {
-      System.out.println("Error reading file named '" + fname + "'");
+      System.out.println("Error reading file named '" + fileName + "'");
     }
     Alert info = new Alert(AlertType.INFORMATION);
     info.setContentText(text.toString());
@@ -94,14 +93,13 @@ public class UserCommandPane {
     box.getChildren().add(helpButton);
   }
 
-  private Button buttonCreation(String text) {
+  private Button makeButton(String text) {
     Button button = new Button(text);
     button.setPrefHeight(HEIGHT);
     button.getStyleClass().add(BUTTON);
     box.getChildren().add(button);
     return button;
   }
-
 
   private void addTextField() {
     textArea = new TextArea();
