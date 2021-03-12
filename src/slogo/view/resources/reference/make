@@ -1,0 +1,13 @@
+Variable Commands:
+MAKE variable expr
+SET variable expr
+
+Description:
+Assigns the value of expr to given variable name, creating the variable if necessary
+
+Parameters:
+variable - name of variable
+expr - any expression
+
+Returns:
+Value of expr

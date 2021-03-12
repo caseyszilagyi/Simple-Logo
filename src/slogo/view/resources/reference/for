@@ -1,0 +1,15 @@
+Control Structure Commands:
+FOR [ variable start end increment ] [ command(s) ]
+
+Description:
+Runs command(s) for each value specified in the range, i.e., from (start - end), going by increment; variable is assigned to each succeeding value so that it can be accessed by the command(s).
+
+Parameters:
+variable - and variable name
+start - any expression
+end - any expression
+increment - any expression
+command(s) - any command
+
+Returns:
+Result of last command in the list executed; 0 if no commands are executed

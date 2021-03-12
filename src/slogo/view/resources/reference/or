@@ -1,0 +1,12 @@
+Boolean Operations:
+OR test1 test2
+
+Description:
+Reports whether one or more of the given tests are true (non-zero) 
+
+Parameters:
+test1 - any expression
+test2 - any expression
+
+Returns:
+1 if test1 or test2 are non-zero; 0 otherwise
