@@ -162,6 +162,14 @@ public class ModelController implements BackEndExternalAPI {
         return null;
     }
 
+    /**
+     * @return the language of the command input
+     */
+    @Override
+    public String getLanguage() {
+        return viewController.getLanguage();
+    }
+
     @Override
     public void setViewController(FrontEndExternalAPI viewController) {
         this.viewController = viewController;

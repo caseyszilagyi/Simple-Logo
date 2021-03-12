@@ -64,4 +64,8 @@ public class ScreenCreator {
     root.setCenter(viewPane.getBox());
 
   }
+
+  public String getLanguage(){
+    return viewPane.getLanguage();
+  }
 }

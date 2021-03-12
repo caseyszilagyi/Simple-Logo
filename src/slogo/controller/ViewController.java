@@ -38,9 +38,9 @@ public class ViewController implements FrontEndExternalAPI {
     /**
      * 
      */
-    public void setLanguage(String language) {
+    public String getLanguage() {
         // TODO implement here
-        screenCreator.
+        return screenCreator.getLanguage();
     }
 
     /**

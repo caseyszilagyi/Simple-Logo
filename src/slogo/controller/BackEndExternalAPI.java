@@ -79,6 +79,11 @@ public interface BackEndExternalAPI {
      */
     public List<Turtle> getAllTurtles();
 
+    /**
+     * @return the language of the command input
+     */
+    public String getLanguage();
+
     void setViewController(FrontEndExternalAPI viewController);
 
     void passInputToFrontEnd(List<Double> frontEndParameters);
