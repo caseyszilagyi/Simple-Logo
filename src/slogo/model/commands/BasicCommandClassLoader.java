@@ -2,8 +2,6 @@ package slogo.model.commands;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import java.util.Map;
-import java.util.function.ToDoubleBiFunction;
 import slogo.model.commands.basic_commands.BasicCommand;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
@@ -78,25 +76,27 @@ public class BasicCommandClassLoader {
   public BasicCommand makeCommand(CommandInformationBundle informationBundle, TreeNode node) {
 
     if (isConstant(node)) {
-      return makeConstant(Double.parseDouble(node.getValue()));
+      return makeConstant(Double.parseDouble(node.getCommand()));
     }
 
-    if (informationBundle.getCommandMap().containsKey(node.getValue())) {
-      node = informationBundle.getCommandMap().get(node.getValue());
+    if (informationBundle.getCommandMap().containsKey(node.getCommand())) {
+      node = informationBundle.getCommandMap().get(node.getCommand());
     }
 
-    if (informationBundle.getVariableMap().containsKey(node.getValue())) {
-      return makeConstant(informationBundle.getVariableMap().get(node.getValue()));
+    if (informationBundle.getVariableMap().containsKey(node.getCommand())) {
+      return makeConstant(informationBundle.getVariableMap().get(node.getCommand()));
     }
 
     BasicCommand myCommand = null;
     try {
-      Object command = CLASS_LOADER.loadClass(COMMAND_CLASSES_PACKAGE + node.getValue())
-          .getDeclaredConstructor(CommandInformationBundle.class, List.class).newInstance(informationBundle, (Object) node.getChildren());
+      Object command = CLASS_LOADER.loadClass(COMMAND_CLASSES_PACKAGE + node.getCommand())
+          .getDeclaredConstructor(CommandInformationBundle.class, List.class)
+          .newInstance(informationBundle, (Object) node.getChildren());
       myCommand = (BasicCommand) command;
-    } catch (Exception e) {
-      System.out.println("Command Doesn't exist!!!!");
+    } catch (InstantiationException | InvocationTargetException | NoSuchMethodException | IllegalAccessException | ClassNotFoundException e) {
+      e.printStackTrace();
     }
+
     return myCommand;
   }
 
