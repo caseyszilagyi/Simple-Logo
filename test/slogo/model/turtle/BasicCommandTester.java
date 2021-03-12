@@ -532,6 +532,35 @@ public class BasicCommandTester {
     assertEquals(60, commandBundle.getVariableMap().get("Awesome"), TOLERANCE);
   }
 
+  /**
+   * Tests the Repeat command
+   */
+  @Test
+  void testRepeat() {
+    TreeNode times = makeNode("5");
+    TreeNode distance = makeNode("60");
+    TreeNode forward = makeTree("Forward", distance);
+    TreeNode root = makeTree("Repeat", times, forward);
+    assertEquals(60, executeCommand(makeBasicCommand(root)), TOLERANCE);
+    assertEquals(300, commandBundle.getTurtle().getYPosition(), TOLERANCE);
+  }
+
+  /**
+   * Tests the If command
+   */
+  @Test
+  void testIf() {
+    TreeNode conditional = makeNode("5");
+    TreeNode distance = makeNode("60");
+    TreeNode forward = makeTree("Forward", distance);
+    TreeNode root = makeTree("If", conditional, forward);
+    assertEquals(60, executeCommand(makeBasicCommand(root)), TOLERANCE);
+    assertEquals(60, commandBundle.getTurtle().getYPosition(), TOLERANCE);
+    conditional = makeNode("0");
+    root = makeTree("If", conditional, forward);
+    assertEquals(0, executeCommand(makeBasicCommand(root)), TOLERANCE);
+  }
+
 
 
   // Helper methods below
