@@ -1,0 +1,13 @@
+Math Operations:
+QUOTIENT expr1 expr2
+/ expr1 expr2
+
+Description:
+Calculates the first value divided by the second value
+
+Parameters:
+expr1 - any expression
+expr2 - any expression
+
+Returns:
+Division of expr1 by expr2

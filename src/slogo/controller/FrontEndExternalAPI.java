@@ -22,7 +22,7 @@ public interface FrontEndExternalAPI {
     /**
      * Sets the language of the commands
      */
-    public void setLanguage(String language);
+    public String getLanguage();
 
     /**
      * Backend can call this method to relay information to be displayed to the frontend
@@ -40,5 +40,6 @@ public interface FrontEndExternalAPI {
 
     public void processUserCommandInput(String userCommandInput);
 
-     public void passInputFromBackendToFrontEnd(List<Double> parameters);
+    public void passInputFromBackendToFrontEnd(List<Double> parameters);
+
 }

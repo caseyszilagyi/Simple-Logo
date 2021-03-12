@@ -1,0 +1,11 @@
+Math Operations:
+TAN degrees
+
+Description:
+Calculates tangent of given degrees
+
+Parameters:
+degrees - any expression
+
+Returns:
+Tangent of degrees

@@ -1,0 +1,12 @@
+Turtle Commands:
+SETHEADING degrees
+SETH degrees
+
+Description:
+Turns turtle to an absolute heading
+
+Parameters:
+degrees - any expression
+
+Returns:
+Number of degrees turtle turned

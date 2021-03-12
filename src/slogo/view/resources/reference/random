@@ -1,0 +1,11 @@
+Math Operations:
+RANDOM max
+
+Description:
+Calculates a random value between 0 and the given max
+
+Parameters:
+max - any expression
+
+Returns:
+Random non-negative number strictly less than max

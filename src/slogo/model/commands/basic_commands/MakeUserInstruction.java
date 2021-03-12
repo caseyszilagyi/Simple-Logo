@@ -26,12 +26,13 @@ public class MakeUserInstruction extends ControlStructureCommand {
    * @param children Has the string of the command, the parameters the command takes, as well as the
    *                 block of commands to execute
    */
+
   public MakeUserInstruction(CommandInformationBundle bundle, List<TreeNode> children) {
     super(bundle);
     NAME = children.get(0).getCommand();
     USER_COMMAND = new UserDefinedCommand(bundle, children);
-
   }
+
   /**
    * Adds the command to the map that holds all user defined commands in the bundle
    *

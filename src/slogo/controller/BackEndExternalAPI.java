@@ -2,6 +2,8 @@ package slogo.controller;
 
 import java.util.*;
 import javax.swing.text.html.ImageView;
+import slogo.model.commands.basic_commands.UserDefinedCommand;
+import slogo.model.tree.TreeNode;
 import slogo.model.turtle.Turtle;
 
 /**
@@ -33,13 +35,18 @@ public interface BackEndExternalAPI {
     /**
      * Returns a variable
      */
-    public void getVariable();
+    public Double getSingleVariable(String var);
+
+    /**
+     * Returns a map of all the variable name to values mappings
+     */
+    public Map<String, Double> getVariables();
 
     /**
      * Returns a data structure containing user defined commands
      * @return
      */
-    public List<String> getUserDefinedCommands();
+    public Map<String, UserDefinedCommand> getUserDefinedCommands();
 
     /**
      * Adds a new user defined command to the
@@ -72,6 +79,11 @@ public interface BackEndExternalAPI {
      * @return list of all Turtle objects
      */
     public List<Turtle> getAllTurtles();
+
+    /**
+     * @return the language of the command input
+     */
+    public String getLanguage();
 
     void setViewController(FrontEndExternalAPI viewController);
 

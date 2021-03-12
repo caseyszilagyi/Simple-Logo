@@ -1,0 +1,13 @@
+Math Operations:
+SUM expr1 expr2
++ expr1 expr2
+
+Description:
+Calculates the first value added to the second value
+
+Parameters:
+expr1 - any expression
+expr2 - any expression
+
+Returns:
+Sum of expr1 and expr2

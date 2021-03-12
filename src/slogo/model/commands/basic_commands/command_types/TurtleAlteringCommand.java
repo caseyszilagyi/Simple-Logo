@@ -115,7 +115,7 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
     TURTLE.clearScreen();
     updateFrontEnd();
     TURTLE.allowLines();
-    updateFrontEnd();
+//    updateFrontEnd();
   }
 
   protected void updateFrontEnd(){

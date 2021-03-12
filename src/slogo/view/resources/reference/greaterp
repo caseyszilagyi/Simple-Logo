@@ -1,0 +1,13 @@
+Boolean Operations:
+GREATER? expr1 expr2
+GREATERP expr1 expr2
+
+Description:
+Reports whether first expression is striclty greater than second expression
+
+Parameters:
+expr1 - any expression
+expr2 - any expression
+
+Returns:
+1 if expr1 is strictly greater than expr2; 0 otherwise

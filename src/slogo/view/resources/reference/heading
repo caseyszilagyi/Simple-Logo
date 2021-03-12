@@ -1,0 +1,11 @@
+Turtle Queries:
+HEADING
+
+Description:
+Reports turtle's current heading
+
+Parameters:
+None
+
+Returns:
+Turtle's heading in degrees

@@ -1,0 +1,12 @@
+Control Structure Commands:
+IF expr [ command(s) ]
+
+Description:
+If expr is not 0, runs the command(s) given in the list
+
+Parameters:
+expr - any expression
+command(s) - any command
+
+Returns:
+Result of last command in the list executed; 0 if no commands are executed

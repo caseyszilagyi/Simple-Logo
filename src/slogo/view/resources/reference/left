@@ -1,0 +1,12 @@
+Turtle Commands:
+LEFT degrees
+LT degrees
+
+Description:
+Turns turtle counterclockwise by given angle
+
+Parameters:
+degrees - any expression
+
+Returns:
+Number of degress turtle turned
