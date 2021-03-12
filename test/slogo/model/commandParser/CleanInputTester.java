@@ -168,6 +168,48 @@ public class CleanInputTester {
     assertEquals(cleaner.commandParser.getParamCount("CommandBlock_2"), 1);
   }
 
+  /**
+   * Test two wrapped brackets
+   */
+  @Test
+  void testTwoWrappedBrackets() {
+    String userInput = "repeat 2 [ repeat 3 [ fd 100 ] ]";
+    InputCleaner cleaner = makeInputCleaner(userInput, "English");
+    List<String> expected = new ArrayList<>();
+    expected.add("Repeat");
+    expected.add("2");
+    expected.add("CommandBlock_1");
+    expected.add("Repeat");
+    expected.add("3");
+    expected.add("CommandBlock_2");
+    expected.add("Forward");
+    expected.add("100");
+    assertEquals(cleaner.cleanString(), expected);
+    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 1);
+    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_2"), 1);
+  }
+
+  /**
+   * Test mult wrapped brackets
+   */
+  @Test
+  void testMultWrappedBrackets() {
+    String userInput = "repeat 2 [ repeat 3 [ repeat 2 [ fd 100 ] ] ]";
+    InputCleaner cleaner = makeInputCleaner(userInput, "English");
+    List<String> expected = new ArrayList<>();
+    expected.add("Repeat");
+    expected.add("2");
+    expected.add("CommandBlock_1");
+    expected.add("Repeat");
+    expected.add("3");
+    expected.add("CommandBlock_2");
+    expected.add("Forward");
+    expected.add("100");
+    assertEquals(cleaner.cleanString(), expected);
+    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 1);
+    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_2"), 1);
+  }
+
   private InputCleaner makeInputCleaner(String userInput, String language){
     ModelController modelController = new ModelController();
     CommandParser commandParser = new CommandParser(userInput, language, modelController);

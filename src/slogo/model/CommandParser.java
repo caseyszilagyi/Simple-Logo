@@ -46,10 +46,12 @@ public class CommandParser implements Parser {
         for (String key : Collections.list(resources.getKeys())) {
             addSingleParamCount(key, resources.getString(key));
             parameters.put(key, resources.getString(key));
-            System.out.println("Key: " + key);
-            System.out.println("Number: " + resources.getString(key));
-            System.out.println();
+//            System.out.println("Key: " + key);
+//            System.out.println("Number: " + resources.getString(key));
+//            System.out.println();
         }
+        System.out.println(parameters);
+
     }
 
     /**

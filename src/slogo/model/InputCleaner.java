@@ -1,8 +1,10 @@
 package slogo.model;
 
 import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,18 +106,23 @@ public class InputCleaner {
 
   private List<String> findCommandBlocks(List<String> commands) {
     List<String> toRet = new ArrayList<>(commands);
-    int blockSize = 0;
+    Deque<String> commandBlocks = new ArrayDeque<>();
+    Deque<Integer> parameters = new ArrayDeque<>();
     String commandKey = "CommandBlock_";
-    String commandVal = "";
     int commandCount = 0;
+    int blockSize = 0;
+    String commandVal = "";
     for (int ind = 0; ind < toRet.size(); ind++) {
       String commandKeyNum = "";
-      if (isCommand(toRet.get(ind))) {
+      String curr = toRet.get(ind);
+      if (isCommand(curr)) {
         blockSize++;
       }
-      if (toRet.get(ind).equals("[")) {
+      if (curr.equals("[")) {
         commandCount++;
         commandKeyNum = commandKey + Integer.toString(commandCount);
+        commandBlocks.push(commandKeyNum);
+        parameters.push(blockSize);
         toRet.set(ind, commandKeyNum);
         blockSize = 0;
       }
@@ -123,7 +130,8 @@ public class InputCleaner {
         toRet.remove(ind);
         ind--;
         commandVal = blockSize + "";
-        commandKeyNum = commandKey + Integer.toString(commandCount);
+        commandKeyNum = commandBlocks.pop();
+        blockSize = parameters.pop();
         commandParser.addSingleParamCount(commandKeyNum, commandVal);
       }
     }
