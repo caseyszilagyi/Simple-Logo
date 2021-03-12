@@ -35,9 +35,13 @@
 }
 
 .HistoryPane {
-    -fx-background-radius: 10;
-    -fx-background-insets: 10;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-background-insets: 1;
+    -fx-border-width: 2;
+    -fx-padding: 5;
     -fx-background-color: #d3d3d3;
+    -fx-control-inner-background: #d3d3d3;
 }
 
 .ChoicePane {
