@@ -27,8 +27,8 @@ import javafx.stage.Stage;
  * @author Ji Yun Hyo
  */
 public class ViewPane {
-  private static final double TURTLE_WIDTH = 70.0;
-  private static final double TURTLE_HEIGHT = 70.0;
+  private static final double TURTLE_WIDTH = 50;
+  private static final double TURTLE_HEIGHT = 50;
 
   private static final double ICON_WIDTH = 20.0;
   private static final double ICON_HEIGHT = 20.0;
@@ -37,8 +37,8 @@ public class ViewPane {
   private static final String PEN_ICON = "PenIcon.gif";
   private static final String TURTLE_ICON = "TurtleT1.gif";
 
-  private static final int rows = 1010;
-  private static final int cols = 1010;
+  private static final int rows = 750;
+  private static final int cols = 650;
 
   private static final String VIEW_PANE_ID = "ViewPane";
   private static final String PANE_BOX_ID = "TurtleView";
@@ -60,12 +60,12 @@ public class ViewPane {
   private Stage stage;
   private Button backgroundColorPickerButton;
   private Button penColorPickerButton;
-  private ComboBox<String> languages;
+  private ComboBox languages;
   private ResourceBundle languageOptions;
   private String language;
 
-  private double centerX = 371.0;
-  private double centerY = 259.0;
+  private double centerX;
+  private double centerY;
   private boolean penUP = false;
   private Color penColor = Color.BLACK;
   private String turtleImageFile = "Turtle2.gif";
@@ -75,15 +75,32 @@ public class ViewPane {
   public ViewPane(Stage s) {
     stage = s;
     viewPane = new BorderPane();
+//
+//    viewPane.setMaxHeight(200);
+//    viewPane.setMaxWidth(200);
+
     viewPane.setId(VIEW_PANE_ID);
     viewPane.getStyleClass().add(VIEW_PANE_ID);
     turtleViewPane = new AnchorPane();
     viewPane.setCenter(turtleViewPane);
     turtleViewPane.setId(PANE_BOX_ID);
     turtleViewPane.getStyleClass().add(PANE_BOX_ID);
+
+    //set size of the ViewPane
+    turtleViewPane.setMaxHeight(cols);
+    turtleViewPane.setMaxWidth(rows);
+    turtleViewPane.setMinHeight(cols);
+    turtleViewPane.setMinWidth(rows);
+
+    //Get the center
+    centerX = rows/2 - TURTLE_HEIGHT / 2;
+    centerY = cols/2 - TURTLE_WIDTH / 2;
+
     createChoicePane();
     viewPane.setTop(choicePane);
     createTurtle();
+
+    System.out.println("Height of TurtlePane 2: " + turtleViewPane.getHeight());
   }
 
   private void createChoicePane() {
@@ -216,6 +233,9 @@ public class ViewPane {
     turtle.setFitWidth(TURTLE_WIDTH);
     turtle.setFitHeight(TURTLE_HEIGHT);
     turtleViewPane.getChildren().add(turtle);
+
+    System.out.println("Height of TurtlePane 3: " + turtleViewPane.getHeight());
+    System.out.println("CenterX" + centerX);
     turtle.setX(centerX);
     turtle.setY(centerY);
   }
@@ -233,8 +253,6 @@ public class ViewPane {
 
     double x = screenWidth / 2 + xCoordinate * coordinateWidth - turtleCenterX;
     double y = screenHeight / 2 - yCoordinate * coordinateHeight - turtleCenterY;
-    centerX = xCoordinate;
-    centerY = yCoordinate;
 
     if(!penUP) {
       createLine(x, y);
@@ -243,8 +261,8 @@ public class ViewPane {
     turtle.setX(x);
     turtle.setY(y);
 
-    System.out.println("x center: " + (screenWidth / 2 + 0 * coordinateWidth - turtleCenterX));
-    System.out.println("y center: " + (screenHeight / 2 - 0 * coordinateHeight - turtleCenterY));
+    System.out.println("x center: " + x);
+    System.out.println("y center: " + y);
   }
 
   private void createLine(double x, double y) {
@@ -262,8 +280,8 @@ public class ViewPane {
     return viewPane;
   }
 
-  public void switchPenState() {
-    penUP = !penUP;
+  public void setPenDown() {
+    penUP = false;
   }
 
   //These magic index values need to be processed in some other way
@@ -274,7 +292,9 @@ public class ViewPane {
     moveTurtle(parameters.get(0), parameters.get(1));
     turtle.setRotate(90 - parameters.get(2));
     if (parameters.get(3) == 1) {
-      switchPenState();
+      setPenDown();
+    } else {
+      setPenUp();
     }
     if (parameters.get(4) == 1) {
       turtle.setVisible(true);
@@ -285,5 +305,9 @@ public class ViewPane {
       turtleViewPane.getChildren().clear();
       createTurtle();
     }
+  }
+
+  private void setPenUp() {
+    penUP = true;
   }
 }

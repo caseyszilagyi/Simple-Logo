@@ -9,14 +9,14 @@ public class MakeUserInstruction extends ControlStructureCommand {
 
   private final String NAME;
   private final BasicCommand COMMANDS;
-  private final BasicCommand VALUES;
+  private final BasicCommand VARIABLES;
   /**
    * @param informationBundle The bundle that has the user defined variables/commands
    */
   public MakeUserInstruction(CommandInformationBundle informationBundle, List<TreeNode> nodes) {
     super(informationBundle);
     NAME = nodes.get(0).getValue();
-    VALUES = loadClass(informationBundle, nodes.get(1));
+    VARIABLES = loadClass(informationBundle, nodes.get(1));
 //    this is the CommandBundle that has the defined commands for this instruction
     COMMANDS = loadClass(informationBundle, nodes.get(2));
   }

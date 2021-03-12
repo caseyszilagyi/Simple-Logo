@@ -3,7 +3,6 @@ package slogo.controller;
 import java.util.*;
 import javax.swing.text.html.ImageView;
 import slogo.model.CommandParser;
-import slogo.model.InputCleaner;
 import slogo.model.commands.BasicCommandClassLoader;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
@@ -59,19 +58,32 @@ public class ModelController implements BackEndExternalAPI {
     }
 
     /**
+     * gives access to the value a variable represents
      *
+     * @param var variable name to get
      */
-    public void getVariable() {
+    public Double getSingleVariable(String var) {
         // TODO implement here
+        return commandInformationBundle.getVariableMap().get(var);
     }
 
     /**
+     * gives access to the value a variable represents
      *
-     * @return
      */
-    public List<String> getUserDefinedCommands() {
+    public Map<String, Double> getVariables() {
         // TODO implement here
-        return null;
+        return commandInformationBundle.getVariableMap();
+    }
+
+    /**
+     * gives "global" access to all user defined commands so that user can access every time they user input
+     *
+     * @return map of command names to their command tree root nodes
+     */
+    public Map<String, TreeNode> getUserDefinedCommands() {
+        // TODO implement here
+        return commandInformationBundle.getCommandMap();
     }
 
     /**
@@ -148,6 +160,14 @@ public class ModelController implements BackEndExternalAPI {
     public List<Turtle> getAllTurtles() {
         // TODO implement here
         return null;
+    }
+
+    /**
+     * @return the language of the command input
+     */
+    @Override
+    public String getLanguage() {
+        return viewController.getLanguage();
     }
 
     @Override

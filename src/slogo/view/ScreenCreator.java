@@ -15,7 +15,8 @@ import slogo.controller.FrontEndExternalAPI;
 public class ScreenCreator {
   private static final String TITLE = "SLogo";
   private static final double DEFAULT_X = 1000.0;
-  private static final double DEFAULT_Y = 860.0;
+  //private static final double DEFAULT_Y = 860.0;
+  private static final double DEFAULT_Y = 860;
 
   private BorderPane root;
   private Scene scene;
@@ -40,16 +41,17 @@ public class ScreenCreator {
     scene.getStylesheets().add(styleSheet);
 
     historyDisplayPane = new HistoryDisplayPane();
-    root.setRight(historyDisplayPane.getBox());
+    root.setCenter(historyDisplayPane.getBox());
 
     userCommand = new UserCommandPane(viewController);
     root.setBottom(userCommand.getBox());
 
     viewPane = new ViewPane(stage);
-    root.setCenter(viewPane.getBox());
+    root.setLeft(viewPane.getBox());
   }
 
   public void moveTurtle(List<Double> parameters){
+
     System.out.println("parameters: " + parameters);
     viewPane.updateTurtle(parameters);
 //    if(parameters.get(5) == 1){
@@ -63,5 +65,9 @@ public class ScreenCreator {
     viewPane = new ViewPane(stage);
     root.setCenter(viewPane.getBox());
 
+  }
+
+  public String getLanguage(){
+    return viewPane.getLanguage();
   }
 }
