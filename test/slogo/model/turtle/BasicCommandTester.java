@@ -412,7 +412,19 @@ public class BasicCommandTester {
   }
 
   /**
-   * Tests the pi
+   * Tests the random command
+   */
+  @Test
+  void testRandom() {
+    TreeNode max = makeNode("5");
+    TreeNode root = makeTree("RandomNumber", max);
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(2.5, val, 2.5);
+  }
+
+
+  /**
+   * Tests the pi command
    */
   @Test
   void testPi() {

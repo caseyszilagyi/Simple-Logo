@@ -11,7 +11,7 @@ import slogo.model.tree.TreeNode;
  *
  * @author Casey Szilagyi
  */
-public class Rando extends MathAndLogicCommand {
+public class RandomNumber extends MathAndLogicCommand {
 
   private final double MAX;
   private final Random RANDOM = new Random();
@@ -22,7 +22,7 @@ public class Rando extends MathAndLogicCommand {
    * @param bundle Not used for this command
    * @param children The TreeNodes to sum
    */
-  public Rando(CommandInformationBundle bundle, List<TreeNode> children) {
+  public RandomNumber(CommandInformationBundle bundle, List<TreeNode> children) {
     super(bundle);
     MAX = loadClass(bundle, children.get(0)).execute();
   }
