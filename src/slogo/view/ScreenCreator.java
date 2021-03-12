@@ -15,7 +15,8 @@ import slogo.controller.FrontEndExternalAPI;
 public class ScreenCreator {
   private static final String TITLE = "SLogo";
   private static final double DEFAULT_X = 1000.0;
-  private static final double DEFAULT_Y = 860.0;
+  //private static final double DEFAULT_Y = 860.0;
+  private static final double DEFAULT_Y = 860;
 
   private BorderPane root;
   private Scene scene;
@@ -50,6 +51,7 @@ public class ScreenCreator {
   }
 
   public void moveTurtle(List<Double> parameters){
+
     System.out.println("parameters: " + parameters);
     viewPane.updateTurtle(parameters);
 //    if(parameters.get(5) == 1){

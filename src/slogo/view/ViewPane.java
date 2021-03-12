@@ -64,8 +64,10 @@ public class ViewPane {
   private ResourceBundle languageOptions;
   private String language;
 
-  private double centerX = 371.0;
-  private double centerY = 259.0;
+  private double WIDTH = 800;
+  private double HEIGHT = 650;
+  private double centerX;
+  private double centerY;
   private boolean penUP = false;
   private Color penColor = Color.BLACK;
   private String turtleImageFile = "Turtle2.gif";
@@ -75,15 +77,32 @@ public class ViewPane {
   public ViewPane(Stage s) {
     stage = s;
     viewPane = new BorderPane();
+//
+//    viewPane.setMaxHeight(200);
+//    viewPane.setMaxWidth(200);
+
     viewPane.setId(VIEW_PANE_ID);
     viewPane.getStyleClass().add(VIEW_PANE_ID);
     turtleViewPane = new AnchorPane();
     viewPane.setCenter(turtleViewPane);
     turtleViewPane.setId(PANE_BOX_ID);
     turtleViewPane.getStyleClass().add(PANE_BOX_ID);
+
+    //set size of the ViewPane
+    turtleViewPane.setMaxHeight(HEIGHT);
+    turtleViewPane.setMaxWidth(WIDTH);
+    turtleViewPane.setMinHeight(HEIGHT);
+    turtleViewPane.setMinWidth(WIDTH);
+
+    //Get the center
+    centerX = WIDTH/2 - TURTLE_HEIGHT / 2;
+    centerY = HEIGHT/2 - TURTLE_HEIGHT / 2;
+
     createChoicePane();
     viewPane.setTop(choicePane);
     createTurtle();
+
+    System.out.println("Height of TurtlePane 2: " + turtleViewPane.getHeight());
   }
 
   private void createChoicePane() {
@@ -216,6 +235,9 @@ public class ViewPane {
     turtle.setFitWidth(TURTLE_WIDTH);
     turtle.setFitHeight(TURTLE_HEIGHT);
     turtleViewPane.getChildren().add(turtle);
+
+    System.out.println("Height of TurtlePane 3: " + turtleViewPane.getHeight());
+    System.out.println("CenterX" + centerX);
     turtle.setX(centerX);
     turtle.setY(centerY);
   }
@@ -241,8 +263,8 @@ public class ViewPane {
     turtle.setX(x);
     turtle.setY(y);
 
-    System.out.println("x center: " + (screenWidth / 2 + 0 * coordinateWidth - turtleCenterX));
-    System.out.println("y center: " + (screenHeight / 2 - 0 * coordinateHeight - turtleCenterY));
+    System.out.println("x center: " + x);
+    System.out.println("y center: " + y);
   }
 
   private void createLine(double x, double y) {
