@@ -27,10 +27,10 @@ public class CommandParser implements Parser {
 
 
 
-    public CommandParser(String rawInput, BackEndExternalAPI modelController){
+    public CommandParser(String rawInput, String language, BackEndExternalAPI modelController){
         this.modelController = modelController;
         parameters = new HashMap<>();
-        inputCleaner = new InputCleaner(rawInput, modelController, this);
+        inputCleaner = new InputCleaner(rawInput, language, modelController, this);
         cleanCommands = inputCleaner.cleanString();
         addParamCounts("Commands");
         commandTree = new TreeNode(null);

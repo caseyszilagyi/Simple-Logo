@@ -32,7 +32,7 @@ public class CommandParserTester {
      */
     @Test
     void testOneCommand() {
-        CommandParser tester = makeParser("fd 50");
+        CommandParser tester = makeParser("fd 50", "English");
         List<String> results = new ArrayList<>();
         results.add(null);
         results.add("Forward");
@@ -46,7 +46,7 @@ public class CommandParserTester {
     @Test
     void testMultCommand() {
         String userInput = "Forward 50 Backward 50 ";
-        CommandParser tester = makeParser(userInput);
+        CommandParser tester = makeParser(userInput, "English");
         List<String> results = new ArrayList<>();
         results.add(null);
         results.add("Forward");
@@ -61,7 +61,7 @@ public class CommandParserTester {
      */
     @Test
     void testVariable() {
-        CommandParser tester = makeParser(":size 50");
+        CommandParser tester = makeParser(":size 50", "English");
         List<String> results = new ArrayList<>();
         results.add(null);
         results.add(":size");
@@ -70,9 +70,9 @@ public class CommandParserTester {
     }
 
 
-    private CommandParser makeParser(String userInput){
+    private CommandParser makeParser(String userInput, String language){
         BackEndExternalAPI modelController = new ModelController();
-        CommandParser commandParser = new CommandParser(userInput, modelController);
+        CommandParser commandParser = new CommandParser(userInput, language, modelController);
         return commandParser;
     }
 

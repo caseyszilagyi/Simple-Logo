@@ -21,6 +21,7 @@ public class ModelController implements BackEndExternalAPI {
      * Default constructor
      */
     public ModelController() {
+
         commandInformationBundle = new CommandInformationBundle(this);
         basicCommandClassLoader = new BasicCommandClassLoader();
 
@@ -101,7 +102,8 @@ public class ModelController implements BackEndExternalAPI {
     public void parseInput(String input) {
         // TODO implement here
         System.out.println("ModelController received the following string as input: \n" + input);
-        CommandParser commandParser = new CommandParser(input, this);
+        String language = viewController.getLanguage();
+        CommandParser commandParser = new CommandParser(input, language, this);
         TreeNode inputRoot = commandParser.makeTree();
 
         //NEEDS TO BE REFACTORED TO MAKE SURE WE ADHERE TO DEPENDENCY INVERSION PRINCIPLE
@@ -167,7 +169,12 @@ public class ModelController implements BackEndExternalAPI {
      */
     @Override
     public String getLanguage() {
-        return viewController.getLanguage();
+        try{
+            return viewController.getLanguage();
+        } catch (Exception e){
+            System.out.println("View Controller doesn't exist!!");
+            throw e;
+        }
     }
 
     @Override

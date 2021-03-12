@@ -38,10 +38,10 @@ public class InputCleaner {
    * @param modelController ModelController associated with the current string input
    * @param commandParser CommandParser that will parse through this particular string
    */
-  public InputCleaner(String userInput, BackEndExternalAPI modelController, CommandParser commandParser) {
+  public InputCleaner(String userInput, String language, BackEndExternalAPI modelController, CommandParser commandParser) {
     symbols = new ArrayList<>();
     syntaxMap = new HashMap<>();
-    language = "English";
+    this.language = language;
     addLangPatterns(language);
     addRegExPatterns("Syntax");
     this.userInput = userInput;
@@ -140,7 +140,7 @@ public class InputCleaner {
       if(isVariable(toRet.get(ind))) {
         try {
           Double varVal = VARIABLES.get(toRet.get(ind).substring(1));
-          toRet.set(ind, toRet.get(ind).substring(1));
+          toRet.set(ind, toRet.get(ind));
         } catch (Exception e){
           System.out.println("Variable doesn't exist!!");
         }

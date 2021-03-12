@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.controller.ModelController;
+import slogo.controller.ViewController;
 import slogo.model.CommandParser;
 import slogo.model.InputCleaner;
 
@@ -28,7 +29,7 @@ public class CleanInputTester {
 
   void testTranslation() {
     String userInput = "fd 50 forward 10";
-    InputCleaner cleaner = makeInputCleaner(userInput);
+    InputCleaner cleaner = makeInputCleaner(userInput, "English");
     String expected = "Forward 50 Forward 10 ";
 //    assertEquals(cleaner.translateCommand(userInput), expected);
   }
@@ -69,7 +70,7 @@ public class CleanInputTester {
 
   void testCommandBlocks() {
     String userInput = "if :size < 5 [ forward :size back :size stop ]";
-    InputCleaner cleaner = makeInputCleaner(userInput);
+    InputCleaner cleaner = makeInputCleaner(userInput, "English");
     List<String> input = Arrays.asList(userInput.split(" "));
     List<String> expected = new ArrayList<>();
     expected.add("if");
@@ -86,14 +87,34 @@ public class CleanInputTester {
   }
 
   /**
-   * Test all steps (remove commands and group blocks
+   * Test specific command translation
    */
   @Test
   void testXCor() {
     String userInput = "xcor";
-    InputCleaner cleaner = makeInputCleaner(userInput);
+    InputCleaner cleaner = makeInputCleaner(userInput, "English");
     List<String> expected = new ArrayList<>();
     expected.add("XCoordinate");
+    assertEquals(cleaner.cleanString(), expected);
+  }
+
+  /**
+   * Test language translation
+   */
+  @Test
+  void testLanguage() {
+    String userInput = "# comment\nqianjin 50 ht 50 chongfu 5 [ qj 50 ]";
+    InputCleaner cleaner = makeInputCleaner(userInput, "Chinese");
+    List<String> expected = new ArrayList<>();
+    expected.add("Forward");
+    expected.add("50");
+    expected.add("Backward");
+    expected.add("50");
+    expected.add("Repeat");
+    expected.add("5");
+    expected.add("CommandBlock_1");
+    expected.add("Forward");
+    expected.add("50");
     assertEquals(cleaner.cleanString(), expected);
   }
 
@@ -103,7 +124,7 @@ public class CleanInputTester {
   @Test
   void testCleaningAll() {
     String userInput = "if :size < 5 \n#comment\n[ forward :size back :size stop ]";
-    InputCleaner cleaner = makeInputCleaner(userInput);
+    InputCleaner cleaner = makeInputCleaner(userInput, "English");
     List<String> expected = new ArrayList<>();
     expected.add("If");
     expected.add(":size");
@@ -125,7 +146,7 @@ public class CleanInputTester {
   @Test
   void testMultCommandBlocks() {
     String userInput = "if :size < 5 \n#comment\n[ forward :size back :size stop ] repeat 4 [ forward 5 ]";
-    InputCleaner cleaner = makeInputCleaner(userInput);
+    InputCleaner cleaner = makeInputCleaner(userInput, "English");
     List<String> expected = new ArrayList<>();
     expected.add("If");
     expected.add(":size");
@@ -145,13 +166,12 @@ public class CleanInputTester {
     assertEquals(cleaner.cleanString(), expected);
     assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 3);
     assertEquals(cleaner.commandParser.getParamCount("CommandBlock_2"), 1);
-
   }
 
-  private InputCleaner makeInputCleaner(String userInput){
+  private InputCleaner makeInputCleaner(String userInput, String language){
     ModelController modelController = new ModelController();
-    CommandParser commandParser = new CommandParser(userInput, modelController);
-    InputCleaner cleaner = new InputCleaner(userInput, modelController, commandParser);
+    CommandParser commandParser = new CommandParser(userInput, language, modelController);
+    InputCleaner cleaner = new InputCleaner(userInput, language, modelController, commandParser);
     return cleaner;
   }
 
