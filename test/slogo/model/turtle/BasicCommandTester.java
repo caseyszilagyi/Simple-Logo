@@ -595,6 +595,23 @@ public class BasicCommandTester {
   }
 
   /**
+   * Tests the DoTimes command
+   */
+  @Test
+  void testDoTimes() {
+    TreeNode times = makeNode("5");
+    TreeNode variable = makeNode(":size");
+    TreeNode control = makeTree("CommandBlock", variable, times);
+
+    TreeNode commandsInLoop = makeTree("Forward", variable);
+    TreeNode overallCommand = makeTree("DoTimes", control, commandsInLoop);
+
+    assertEquals(5, executeCommand(makeBasicCommand(overallCommand)), TOLERANCE);
+    assertEquals(15, commandBundle.getTurtle().getYPosition(), TOLERANCE);
+
+  }
+
+  /**
    * Tests the If command
    */
   @Test
