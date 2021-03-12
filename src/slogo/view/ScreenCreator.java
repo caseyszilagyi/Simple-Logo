@@ -41,13 +41,13 @@ public class ScreenCreator {
     scene.getStylesheets().add(styleSheet);
 
     historyDisplayPane = new HistoryDisplayPane();
-    root.setRight(historyDisplayPane.getBox());
+    root.setCenter(historyDisplayPane.getBox());
 
     userCommand = new UserCommandPane(viewController);
     root.setBottom(userCommand.getBox());
 
     viewPane = new ViewPane(stage);
-    root.setCenter(viewPane.getBox());
+    root.setLeft(viewPane.getBox());
   }
 
   public void moveTurtle(List<Double> parameters){
