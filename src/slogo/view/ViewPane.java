@@ -64,8 +64,6 @@ public class ViewPane {
   private ResourceBundle languageOptions;
   private String language;
 
-  private double WIDTH = rows;
-  private double HEIGHT = cols;
   private double centerX;
   private double centerY;
   private boolean penUP = false;
@@ -89,14 +87,14 @@ public class ViewPane {
     turtleViewPane.getStyleClass().add(PANE_BOX_ID);
 
     //set size of the ViewPane
-    turtleViewPane.setMaxHeight(HEIGHT);
-    turtleViewPane.setMaxWidth(WIDTH);
-    turtleViewPane.setMinHeight(HEIGHT);
-    turtleViewPane.setMinWidth(WIDTH);
+    turtleViewPane.setMaxHeight(cols);
+    turtleViewPane.setMaxWidth(rows);
+    turtleViewPane.setMinHeight(cols);
+    turtleViewPane.setMinWidth(rows);
 
     //Get the center
-    centerX = WIDTH/2 - TURTLE_HEIGHT / 2;
-    centerY = HEIGHT/2 - TURTLE_HEIGHT / 2;
+    centerX = rows/2 - TURTLE_HEIGHT / 2;
+    centerY = cols/2 - TURTLE_WIDTH / 2;
 
     createChoicePane();
     viewPane.setTop(choicePane);
