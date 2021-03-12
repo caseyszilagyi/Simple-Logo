@@ -27,8 +27,8 @@ import javafx.stage.Stage;
  * @author Ji Yun Hyo
  */
 public class ViewPane {
-  private static final double TURTLE_WIDTH = 70.0;
-  private static final double TURTLE_HEIGHT = 70.0;
+  private static final double TURTLE_WIDTH = 50;
+  private static final double TURTLE_HEIGHT = 50;
 
   private static final double ICON_WIDTH = 20.0;
   private static final double ICON_HEIGHT = 20.0;
@@ -37,8 +37,8 @@ public class ViewPane {
   private static final String PEN_ICON = "PenIcon.gif";
   private static final String TURTLE_ICON = "TurtleT1.gif";
 
-  private static final int rows = 1010;
-  private static final int cols = 1010;
+  private static final int rows = 800;
+  private static final int cols = 650;
 
   private static final String VIEW_PANE_ID = "ViewPane";
   private static final String PANE_BOX_ID = "TurtleView";
@@ -60,12 +60,12 @@ public class ViewPane {
   private Stage stage;
   private Button backgroundColorPickerButton;
   private Button penColorPickerButton;
-  private ComboBox<String> languages;
+  private ComboBox languages;
   private ResourceBundle languageOptions;
   private String language;
 
-  private double WIDTH = 800;
-  private double HEIGHT = 650;
+  private double WIDTH = rows;
+  private double HEIGHT = cols;
   private double centerX;
   private double centerY;
   private boolean penUP = false;
