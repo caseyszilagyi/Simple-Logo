@@ -561,6 +561,25 @@ public class BasicCommandTester {
     assertEquals(0, executeCommand(makeBasicCommand(root)), TOLERANCE);
   }
 
+  /**
+   * Tests the IfElse command
+   */
+  @Test
+  void testIfElse() {
+    TreeNode conditional = makeNode("5");
+    TreeNode distance = makeNode("60");
+    TreeNode ifBlock = makeTree("Forward", distance);
+    distance = makeNode("50");
+    TreeNode elseBlock = makeTree("Forward", distance);
+    TreeNode root = makeTree("IfElse", conditional, ifBlock, elseBlock);
+    assertEquals(60, executeCommand(makeBasicCommand(root)), TOLERANCE);
+    assertEquals(60, commandBundle.getTurtle().getYPosition(), TOLERANCE);
+    conditional = makeNode("0");
+    root = makeTree("IfElse", conditional, ifBlock, elseBlock);
+    assertEquals(50, executeCommand(makeBasicCommand(root)), TOLERANCE);
+    assertEquals(110, commandBundle.getTurtle().getYPosition(), TOLERANCE);
+  }
+
 
 
   // Helper methods below

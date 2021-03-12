@@ -16,10 +16,10 @@ public class If extends ControlStructureCommand {
   private final TreeNode COMMAND_BLOCK;
 
   /**
-   * Makes an instance of the Repeat loop
+   * Makes an instance of the if command
    *
-   * @param bundle The pieces of information, such as variables and user defined commands, that may
-   *               be needed to execute the the command
+   * @param bundle   The pieces of information, such as variables and user defined commands, that
+   *                 may be needed to execute the the command
    * @param children The children are the conditional, and block of commands to execute
    */
   public If(CommandInformationBundle bundle, List<TreeNode> children) {
@@ -29,13 +29,13 @@ public class If extends ControlStructureCommand {
   }
 
   /**
-   * Repeats the loop the specified number of times
+   * Executes the command if the conditional is nonzero
    *
-   * @return The value of the final command executed
+   * @return The value of the final command executed, or 0 if the conditional is not executed
    */
   public double execute() {
     double val = 0;
-    if(CONDITIONAL != 0){
+    if (CONDITIONAL != 0) {
       val = executeBlock(COMMAND_BLOCK);
     }
     return val;
