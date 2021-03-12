@@ -1,11 +1,15 @@
 package slogo.model.execution;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import slogo.controller.BackEndExternalAPI;
 import slogo.controller.ModelController;
 import slogo.model.commands.BasicCommandClassLoader;
 import slogo.model.commands.basic_commands.BasicCommand;
+import slogo.model.commands.basic_commands.MakeUserInstruction;
+import slogo.model.commands.basic_commands.UserDefinedCommand;
 import slogo.model.tree.TreeNode;
 import slogo.model.turtle.Turtle;
 
@@ -17,9 +21,10 @@ import slogo.model.turtle.Turtle;
 public class CommandInformationBundle {
 
   private final Turtle TURTLE = new Turtle();
+
   private final Map<String, Double> VARIABLES = new HashMap<>();
-  //Need to figure out what the second data type is, some kind of tree?
-  private final Map<String, TreeNode> COMMANDS = new HashMap<>();
+  private final Map<String, UserDefinedCommand> COMMANDS = new HashMap<>();
+  private final List<Map<String, Double>> PARAMETERS = new ArrayList<>();
 
   private final BasicCommandClassLoader CLASS_LOADER = new BasicCommandClassLoader();
   private final BackEndExternalAPI MODEL_CONTROLLER;
@@ -46,7 +51,7 @@ public class CommandInformationBundle {
    * Gets the map of commands
    * @return The command map
    */
-  public Map<String, TreeNode> getCommandMap(){
+  public Map<String, UserDefinedCommand> getCommandMap(){
     return COMMANDS;
   }
 
@@ -58,7 +63,13 @@ public class CommandInformationBundle {
     return VARIABLES;
   }
 
-
+  /**
+   * Gets the map of parameters. Each successive map is one deeper in the nested structure
+   * @return The list of maps
+   */
+  public List<Map<String, Double>> getParameterMap(){
+    return PARAMETERS;
+  }
 
   /**
    * Gets the turtle in this bundle

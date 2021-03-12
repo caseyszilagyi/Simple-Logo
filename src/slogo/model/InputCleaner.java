@@ -12,6 +12,7 @@ import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 import slogo.controller.BackEndExternalAPI;
+import slogo.model.commands.basic_commands.UserDefinedCommand;
 import slogo.model.tree.TreeNode;
 
 /**
@@ -25,7 +26,7 @@ public class InputCleaner {
   private static final String LANGUAGES_PACKAGE = InputCleaner.class.getPackageName()+".resources.languages.";
   private static final String WHITESPACE = "\\s+";
   private final Map<String, Double> VARIABLES;
-  private final Map<String, TreeNode> COMMANDS;
+  private final Map<String, UserDefinedCommand> COMMANDS;
 
   private String language;
   private List<Entry<String, Pattern>> symbols;
@@ -167,7 +168,7 @@ public class InputCleaner {
       if(isUserDefCommand(toRet.get(ind))) {
         //replace the name of command with the command block node with the children that are its params
         try {
-          TreeNode userDefCommand = COMMANDS.get(toRet.get(ind));
+          //TreeNode userDefCommand = COMMANDS.get(toRet.get(ind));
 
         } catch (Exception e) {
           System.out.println("User Defined Command doesn't exist!!!");
