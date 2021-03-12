@@ -3,6 +3,8 @@ package slogo.model.commands;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import slogo.model.commands.basic_commands.BasicCommand;
+import slogo.model.commands.basic_commands.UserDefinedCommand;
+import slogo.model.commands.basic_commands.command_types.Command;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
@@ -26,48 +28,6 @@ public class BasicCommandClassLoader {
 
 
   /**
-   * Makes a Variable BasicCommand. This needs to be done in a slightly different way because the
-   * constructor takes a string and an integer
-   *
-   * @param identifier The name of the variable
-   * @param number     The name of the basicCommand
-   * @return The BasicCommand object
-   */
-  public BasicCommand makeVariable(String identifier, Double number) {
-    BasicCommand myCommand = null;
-    try {
-      Object command = CLASS_LOADER.loadClass(COMMAND_CLASSES_PACKAGE + "MakeVariable")
-          .getDeclaredConstructor(String.class, Double.class).newInstance(identifier, number);
-      myCommand = (BasicCommand) command;
-    } catch (Exception e) {
-      System.out.println("Basic command class loader");
-    }
-
-    return myCommand;
-  }
-
-
-  /**
-   * Makes a Constant BasicCommand. This needs to be done in a slightly different way because the
-   * constructor takes integers rather than BasicCommands
-   *
-   * @param number The name of the basicCommand
-   * @return The BasicCommand object
-   */
-  public BasicCommand makeConstant(double number) {
-    BasicCommand myCommand = null;
-    try {
-      Object command = CLASS_LOADER.loadClass(COMMAND_CLASSES_PACKAGE + "Constant")
-          .getDeclaredConstructor(double.class).newInstance(number);
-      myCommand = (BasicCommand) command;
-    } catch (Exception e) {
-      System.out.println("Basic command class loader");
-    }
-
-    return myCommand;
-  }
-
-  /**
    * Makes a basicCommand with the given string name
    *
    * @param node The node to make the basic command with
@@ -75,16 +35,31 @@ public class BasicCommandClassLoader {
    */
   public BasicCommand makeCommand(CommandInformationBundle informationBundle, TreeNode node) {
 
+    // Checks if node is constant
     if (isConstant(node)) {
       return makeConstant(Double.parseDouble(node.getCommand()));
     }
 
+    // Checks if node is user defined command
     if (informationBundle.getCommandMap().containsKey(node.getCommand())) {
-      node = informationBundle.getCommandMap().get(node.getCommand());
+      return callUserDefinedCommand(informationBundle, node);
     }
 
-    if (informationBundle.getVariableMap().containsKey(node.getCommand())) {
-      return makeConstant(informationBundle.getVariableMap().get(node.getCommand()));
+    // Checks if node is user defined parameter/variable
+    if (node.getValue().charAt(0) - ':' == 0) {
+      // Checks for global variable
+
+      if (informationBundle.getVariableMap().containsKey(node.getCommand())) {
+        return makeConstant(informationBundle.getVariableMap().get(node.getCommand()));
+      }
+
+      // Checks for local parameter
+      for (int i = informationBundle.getParameterMap().size() - 1; i >= 0; i--) {
+        if (informationBundle.getParameterMap().get(i).containsKey(node.getCommand())) {
+          return makeConstant(informationBundle.getParameterMap().get(i).get(node.getCommand()));
+        }
+      }
+
     }
 
     BasicCommand myCommand = null;
@@ -99,6 +74,29 @@ public class BasicCommandClassLoader {
 
     return myCommand;
   }
+
+  //
+  private BasicCommand callUserDefinedCommand(CommandInformationBundle informationBundle, TreeNode node){
+    UserDefinedCommand command = informationBundle.getCommandMap().get(node.getCommand());
+    command.passParams(node.getChildren());
+    return command;
+  }
+
+  // Makes a constant BasicCommand
+  private BasicCommand makeConstant(double number) {
+    BasicCommand myCommand = null;
+    try {
+      Object command = CLASS_LOADER.loadClass(COMMAND_CLASSES_PACKAGE + "Constant")
+          .getDeclaredConstructor(double.class).newInstance(number);
+      myCommand = (BasicCommand) command;
+    } catch (Exception e) {
+      System.out.println("Basic command class loader");
+    }
+
+    return myCommand;
+  }
+
+
 
   // Checks if the node is a constant
   private boolean isConstant(TreeNode node) {

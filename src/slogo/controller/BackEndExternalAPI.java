@@ -2,6 +2,7 @@ package slogo.controller;
 
 import java.util.*;
 import javax.swing.text.html.ImageView;
+import slogo.model.commands.basic_commands.UserDefinedCommand;
 import slogo.model.tree.TreeNode;
 import slogo.model.turtle.Turtle;
 
@@ -45,7 +46,7 @@ public interface BackEndExternalAPI {
      * Returns a data structure containing user defined commands
      * @return
      */
-    public Map<String, TreeNode> getUserDefinedCommands();
+    public Map<String, UserDefinedCommand> getUserDefinedCommands();
 
     /**
      * Adds a new user defined command to the

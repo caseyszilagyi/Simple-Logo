@@ -19,7 +19,7 @@ public class ControllerTester {
     void setUp() {
         BackEndExternalAPI modelController = new ModelController();
         String userInput = "fd";
-        parser = new CommandParser(userInput, modelController);
+//        parser = new CommandParser(userInput, modelController);
     }
 
 

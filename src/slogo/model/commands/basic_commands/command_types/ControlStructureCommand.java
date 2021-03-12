@@ -1,8 +1,10 @@
 package slogo.model.commands.basic_commands.command_types;
 
+import java.lang.reflect.Parameter;
 import java.util.List;
 import java.util.Map;
 import slogo.model.commands.basic_commands.BasicCommand;
+import slogo.model.commands.basic_commands.UserDefinedCommand;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
@@ -14,7 +16,8 @@ import slogo.model.tree.TreeNode;
 public abstract class ControlStructureCommand extends Command {
 
   private final Map<String, Double> VARIABLE_MAP;
-  private final Map<String, TreeNode> COMMAND_MAP;
+  private final Map<String, UserDefinedCommand> COMMAND_MAP;
+  private final List<Map<String, Double>> PARAMETER_MAP;
   private final CommandInformationBundle INFORMATION_BUNDLE;
 
   /**
@@ -24,26 +27,70 @@ public abstract class ControlStructureCommand extends Command {
     COMMAND_MAP = informationBundle.getCommandMap();
     VARIABLE_MAP = informationBundle.getVariableMap();
     INFORMATION_BUNDLE = informationBundle;
+    PARAMETER_MAP = informationBundle.getParameterMap();
   }
 
   /**
-   * Gets the TreeNode representing a certain variable
+   * Gets the double value representing a certain variable
    *
    * @param name The variable name
-   * @return The TreeNode
+   * @return The double value
    */
-  protected Double getVariable(String name) {
+  protected double getVariable(String name) throws Exception {
+    if (!VARIABLE_MAP.containsKey(name)) {
+      throw new Exception("ParameterDNE");
+    }
     return VARIABLE_MAP.get(name);
   }
 
   /**
-   * Sets a variable name to a TreeNode
+   * Sets a variable name to a double
    *
    * @param name  The variable name
-   * @param value The TreeNode
+   * @param value The double value
    */
   protected void setVariable(String name, Double value) {
     VARIABLE_MAP.put(name, value);
+  }
+
+  /**
+   * Gets the Double representing a parameter
+   *
+   * @param name The parameter name
+   * @return The double value
+   */
+  protected double getParameter(String name) throws Exception {
+    for (int i = PARAMETER_MAP.size() - 1; i >= 0; i--) {
+      if (PARAMETER_MAP.get(i).containsKey(name)) {
+        return PARAMETER_MAP.get(i).get(name);
+      }
+    }
+    throw new Exception("ParameterDNE");
+  }
+
+  /**
+   * Sets a parameter name to a double value
+   *
+   * @param name  The variable name
+   * @param value The double value
+   */
+  protected void setParameter(String name, Double value) {
+    PARAMETER_MAP.get(PARAMETER_MAP.size() - 1).put(name, value);
+  }
+
+
+  /**
+   * Removes the last param map, used when a command with parameters is done executing
+   */
+  protected void removeParamMap() {
+    PARAMETER_MAP.remove(PARAMETER_MAP.size()-1);
+  }
+
+  /**
+   * Removes the last param map, used when a command with parameters is done executing
+   */
+  protected void addParamMap(Map map) {
+    PARAMETER_MAP.add(map);
   }
 
   /**
@@ -52,7 +99,7 @@ public abstract class ControlStructureCommand extends Command {
    * @param name The variable name
    * @return The TreeNode
    */
-  protected TreeNode getCommand(String name) {
+  protected UserDefinedCommand getCommand(String name) {
     return COMMAND_MAP.get(name);
   }
 
@@ -62,7 +109,7 @@ public abstract class ControlStructureCommand extends Command {
    * @param name    The command name
    * @param command The TreeNode that represents it
    */
-  protected void setCommand(String name, TreeNode command) {
+  protected void setCommand(String name, UserDefinedCommand command) {
     COMMAND_MAP.put(name, command);
   }
 

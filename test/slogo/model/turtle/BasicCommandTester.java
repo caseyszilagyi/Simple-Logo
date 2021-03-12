@@ -1,5 +1,6 @@
 package slogo.model.turtle;
 
+import com.sun.source.tree.Tree;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -412,7 +413,19 @@ public class BasicCommandTester {
   }
 
   /**
-   * Tests the pi
+   * Tests the random command
+   */
+  @Test
+  void testRandom() {
+    TreeNode max = makeNode("5");
+    TreeNode root = makeTree("RandomNumber", max);
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(2.5, val, 2.5);
+  }
+
+
+  /**
+   * Tests the pi command
    */
   @Test
   void testPi() {
@@ -525,11 +538,100 @@ public class BasicCommandTester {
    */
   @Test
   void testMakeVariable() {
-    TreeNode name = makeNode("Awesome");
+    TreeNode name = makeNode(":Awesome");
     TreeNode value = makeNode("60");
     TreeNode root = makeTree("MakeVariable", name, value);
     assertEquals(60, executeCommand(makeBasicCommand(root)), TOLERANCE);
-    assertEquals(60, commandBundle.getVariableMap().get("Awesome"), TOLERANCE);
+    assertEquals(60, commandBundle.getVariableMap().get(":Awesome"), TOLERANCE);
+    moveTurtle(":Awesome");
+    assertEquals(60, commandBundle.getTurtle().getYPosition(), TOLERANCE);
+  }
+
+  /**
+   * Tests the creation and execution of a user defined command
+   */
+  @Test
+  void testMakeUserInstruction() {
+    TreeNode name = makeNode("Movement");
+    TreeNode paramBlock = makeTree("CommandBlock", makeNode(":distance"));
+    TreeNode commandBlock = makeTree("Forward", makeNode(":distance"));
+
+    TreeNode userCommand = makeTree("MakeUserInstruction", name, paramBlock, commandBlock);
+    assertEquals(1, executeCommand(makeBasicCommand(userCommand)), TOLERANCE);
+
+    TreeNode useCommand = makeTree("Movement", makeNode("50"));
+    assertEquals(50, makeBasicCommand(useCommand).execute(), TOLERANCE);
+
+    useCommand = makeTree("Movement", makeNode("100"));
+    assertEquals(100, makeBasicCommand(useCommand).execute(), TOLERANCE);
+    assertEquals(150, commandBundle.getTurtle().getYPosition(), TOLERANCE);
+  }
+
+
+  /**
+   * Tests the Repeat command
+   */
+  @Test
+  void testRepeat() {
+    TreeNode times = makeNode("5");
+    TreeNode distance = makeNode("60");
+    TreeNode forward = makeTree("Forward", distance);
+    TreeNode root = makeTree("Repeat", times, forward);
+    assertEquals(60, executeCommand(makeBasicCommand(root)), TOLERANCE);
+    assertEquals(300, commandBundle.getTurtle().getYPosition(), TOLERANCE);
+  }
+
+  /**
+   * Tests the If command
+   */
+  @Test
+  void testIf() {
+    TreeNode conditional = makeNode("5");
+    TreeNode distance = makeNode("60");
+    TreeNode forward = makeTree("Forward", distance);
+    TreeNode root = makeTree("If", conditional, forward);
+    assertEquals(60, executeCommand(makeBasicCommand(root)), TOLERANCE);
+    assertEquals(60, commandBundle.getTurtle().getYPosition(), TOLERANCE);
+    conditional = makeNode("0");
+    root = makeTree("If", conditional, forward);
+    assertEquals(0, executeCommand(makeBasicCommand(root)), TOLERANCE);
+  }
+
+  /**
+   * Tests the IfElse command
+   */
+  @Test
+  void testIfElse() {
+    TreeNode conditional = makeNode("5");
+    TreeNode distance = makeNode("60");
+    TreeNode ifBlock = makeTree("Forward", distance);
+    distance = makeNode("50");
+    TreeNode elseBlock = makeTree("Forward", distance);
+    TreeNode root = makeTree("IfElse", conditional, ifBlock, elseBlock);
+    assertEquals(60, executeCommand(makeBasicCommand(root)), TOLERANCE);
+    assertEquals(60, commandBundle.getTurtle().getYPosition(), TOLERANCE);
+    conditional = makeNode("0");
+    root = makeTree("IfElse", conditional, ifBlock, elseBlock);
+    assertEquals(50, executeCommand(makeBasicCommand(root)), TOLERANCE);
+    assertEquals(110, commandBundle.getTurtle().getYPosition(), TOLERANCE);
+  }
+
+  /**
+   * Tests the Repeat command
+   * repeat 2 [ repeat 3 [ fd 100 ] ]
+   */
+  @Test
+  void testNestedRepeat() {
+    TreeNode child1 = makeNode("2");
+    TreeNode child_100 = makeNode("100");
+    TreeNode subChild1_1_1 = makeTree("Forward", child_100);
+    TreeNode subChild1_1 = makeNode("3");
+    TreeNode subChild1_2 = makeTree("CommandBlock", subChild1_1_1);
+    TreeNode subChild1 = makeTree("Repeat", subChild1_1, subChild1_2);
+    TreeNode child2 = makeTree("CommandBlock", subChild1);
+    TreeNode root = makeTree("Repeat", child1, child2);
+    assertEquals(100, executeCommand(makeBasicCommand(root)), TOLERANCE);
+    assertEquals(600, commandBundle.getTurtle().getYPosition());
   }
 
 
