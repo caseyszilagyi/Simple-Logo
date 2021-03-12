@@ -582,6 +582,19 @@ public class BasicCommandTester {
   }
 
   /**
+   * Tests the Repeat command with the :repcount variable
+   */
+  @Test
+  void testRepeatWithRepCount() {
+    TreeNode times = makeNode("5");
+    TreeNode distance = makeNode(":repcount");
+    TreeNode forward = makeTree("Forward", distance);
+    TreeNode root = makeTree("Repeat", times, forward);
+    assertEquals(5, executeCommand(makeBasicCommand(root)), TOLERANCE);
+    assertEquals(15, commandBundle.getTurtle().getYPosition(), TOLERANCE);
+  }
+
+  /**
    * Tests the If command
    */
   @Test
