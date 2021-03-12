@@ -51,6 +51,7 @@ public class InputCleaner {
     this.commandParser = commandParser;
     VARIABLES = modelController.getVariables();
     COMMANDS = modelController.getUserDefinedCommands();
+//    System.out.println(symbols);
   }
 
   private void addLangPatterns(String syntax) {
@@ -76,7 +77,8 @@ public class InputCleaner {
   public List<String> cleanString() {
     String noComments = removeComments();
     List<String> translated = translateCommand(noComments);
-    List<String> groupedCommands = findCommandBlocks(translated);
+    List<String> userDef = findUserDefCommands(translated);
+    List<String> groupedCommands = findCommandBlocks(userDef);
     groupedCommands.removeIf(command -> command.equals(""));
     List<String> variablesToValues = replaceVariables(groupedCommands);
     return variablesToValues;
@@ -105,6 +107,28 @@ public class InputCleaner {
     return translated;
   }
 
+  private List<String> findUserDefCommands(List<String> commands) {
+    List<String> toRet = new ArrayList<>(commands);
+    for(int ind=0; ind<toRet.size(); ind++) {
+      String curr = toRet.get(ind);
+      if(isCommand(curr) && !isDefined(curr)){
+        System.out.println(curr);
+        toRet.add(ind, "MakeUserInstruction");
+        ind++;
+      }
+    }
+    return toRet;
+  }
+
+  private boolean isDefined(String s) {
+    for(Entry e:symbols){
+      if(e.getKey().equals(s) || COMMANDS.containsKey(s)){
+        return true;
+      }
+    }
+    return false;
+  }
+
   private List<String> findCommandBlocks(List<String> commands) {
     List<String> toRet = new ArrayList<>(commands);
     Deque<String> commandBlocks = new ArrayDeque<>();
@@ -119,7 +143,7 @@ public class InputCleaner {
       if (isCommand(curr)) {
         blockSize++;
       }
-      if (curr.equals("[")) {
+      if (match(curr, syntaxMap.get("ListStart"))) {
         commandCount++;
         commandKeyNum = commandKey + Integer.toString(commandCount);
         commandBlocks.push(commandKeyNum);
@@ -127,7 +151,7 @@ public class InputCleaner {
         toRet.set(ind, commandKeyNum);
         blockSize = 0;
       }
-      if (toRet.get(ind).equals("]")) {
+      if (match(curr, syntaxMap.get("ListEnd"))) {
         toRet.remove(ind);
         ind--;
         commandVal = blockSize + "";
@@ -192,8 +216,8 @@ public class InputCleaner {
         System.out.println("invalid command");
       }
     }
+    return "NO MATCH";
     // FIXME: perhaps throw an exception instead
-    return null;
   }
 
   private boolean match (String text, Pattern regex) {

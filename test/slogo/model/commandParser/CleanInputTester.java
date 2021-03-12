@@ -11,6 +11,7 @@ import slogo.controller.ModelController;
 import slogo.controller.ViewController;
 import slogo.model.CommandParser;
 import slogo.model.InputCleaner;
+import slogo.model.tree.TreeNode;
 
 public class CleanInputTester {
 
@@ -123,7 +124,7 @@ public class CleanInputTester {
    */
   @Test
   void testCleaningAll() {
-    String userInput = "if :size < 5 \n#comment\n[ forward :size back :size stop ]";
+    String userInput = "if :size < 5 \n#comment\n[ forward :size back :size ]";
     InputCleaner cleaner = makeInputCleaner(userInput, "English");
     List<String> expected = new ArrayList<>();
     expected.add("If");
@@ -135,9 +136,8 @@ public class CleanInputTester {
     expected.add(":size");
     expected.add("Backward");
     expected.add(":size");
-    expected.add("stop");
     assertEquals(cleaner.cleanString(), expected);
-    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 3);
+    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 2);
   }
 
   /**
@@ -145,7 +145,7 @@ public class CleanInputTester {
    */
   @Test
   void testMultCommandBlocks() {
-    String userInput = "if :size < 5 \n#comment\n[ forward :size back :size stop ] repeat 4 [ forward 5 ]";
+    String userInput = "if :size < 5 \n#comment\n[ forward :size back :size ] repeat 4 [ forward 5 ]";
     InputCleaner cleaner = makeInputCleaner(userInput, "English");
     List<String> expected = new ArrayList<>();
     expected.add("If");
@@ -157,14 +157,13 @@ public class CleanInputTester {
     expected.add(":size");
     expected.add("Backward");
     expected.add(":size");
-    expected.add("stop");
     expected.add("Repeat");
     expected.add("4");
     expected.add("CommandBlock_2");
     expected.add("Forward");
     expected.add("5");
     assertEquals(cleaner.cleanString(), expected);
-    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 3);
+    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 2);
     assertEquals(cleaner.commandParser.getParamCount("CommandBlock_2"), 1);
   }
 
@@ -203,11 +202,41 @@ public class CleanInputTester {
     expected.add("Repeat");
     expected.add("3");
     expected.add("CommandBlock_2");
+    expected.add("Repeat");
+    expected.add("2");
+    expected.add("CommandBlock_3");
     expected.add("Forward");
     expected.add("100");
     assertEquals(cleaner.cleanString(), expected);
     assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 1);
     assertEquals(cleaner.commandParser.getParamCount("CommandBlock_2"), 1);
+  }
+
+  /**
+   * Tests the Repeat command
+   * repeat 2 [ repeat 3 [ fd 100 ] ]
+   */
+  @Test
+  void testUserDefCommands() {
+    String input = "Movement [ :distance ] [ fd :distance ]";
+    InputCleaner cleaner = makeInputCleaner(input, "English");
+    List<String> expected = new ArrayList<>();
+    expected.add("MakeUserInstruction");
+    expected.add("Movement");
+    expected.add("CommandBlock_1");
+    expected.add(":distance");
+    expected.add("CommandBlock_2");
+    expected.add("Forward");
+    expected.add(":distance");
+    assertEquals(expected, cleaner.cleanString());
+    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 1);
+    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_2"), 1);
+
+//    TreeNode useCommand = makeTree("Movement", makeNode("50"));
+//    assertEquals(50, makeBasicCommand(useCommand).execute(), TOLERANCE);
+//    useCommand = makeTree("Movement", makeNode("100"));
+//    assertEquals(100, makeBasicCommand(useCommand).execute(), TOLERANCE);
+//    assertEquals(150, commandBundle.getTurtle().getYPosition(), TOLERANCE);
   }
 
   private InputCleaner makeInputCleaner(String userInput, String language){

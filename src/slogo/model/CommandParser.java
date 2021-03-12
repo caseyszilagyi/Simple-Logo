@@ -70,8 +70,8 @@ public class CommandParser implements Parser {
     private void addUserDefParamCounts() {
         Map<String, UserDefinedCommand> userDefCommands= modelController.getUserDefinedCommands();
         for(String key : userDefCommands.keySet()) {
-            String paramCounts = userDefCommands.get(key).getParamCount();
-            parameters.put(key, paramCounts);
+            int paramCounts = userDefCommands.get(key).getParamCount();
+            parameters.put(key, String.valueOf(paramCounts));
         }
     }
     /**
