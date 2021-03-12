@@ -3,40 +3,45 @@ package slogo.model.commands.basic_commands;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import slogo.model.commands.basic_commands.command_types.Command;
 import slogo.model.commands.basic_commands.command_types.ControlStructureCommand;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * Runs a block of commands for each value from 1-range, and has a variable that is updated for each
- * loop
+ * Allows the user to specify an increment, start, and end. The command will increment the given
+ * variable by the specified increment amount each time the loop runs until it is finished
  *
  * @author Casey Szilagyi
  */
-public class DoTimes extends ControlStructureCommand {
+public class For extends ControlStructureCommand {
 
   private final String VARIABLE;
-  private final double LIMIT;
+  private final double START;
+  private final double END;
+  private final double INCREMENT;
   private final TreeNode COMMAND_BLOCK;
 
   /**
-   * Makes an instance of the DoTimes loop
+   * Makes an instance of the For loop
    *
    * @param bundle   The pieces of information, such as variables and user defined commands, that
    *                 may be needed to execute the the command
-   * @param children Has 2 nodes. One has the variable name and limit that it goes to, and the other
+   * @param children Has 2 nodes. One has the variable name, start, end, and increment, and the other
    *                 has the block of commands
    */
-  public DoTimes(CommandInformationBundle bundle, List<TreeNode> children) {
+  public For(CommandInformationBundle bundle, List<TreeNode> children) {
     super(bundle);
     VARIABLE = children.get(0).getChildren().get(0).getValue();
-    LIMIT = executeBlock(children.get(0).getChildren().get(1));
+    START = executeBlock(children.get(0).getChildren().get(1));
+    END = executeBlock(children.get(0).getChildren().get(2));
+    INCREMENT = executeBlock(children.get(0).getChildren().get(3));
     COMMAND_BLOCK = children.get(1);
   }
 
   /**
-   * Repeats the loop the specified number of times. The variable that is declared is stored as the
-   * loop # that is currently happening
+   * Repeats the loop, incrementing by the specified amount, until over the limit. The variable
+   * is updated with each loop
    *
    * @return The value of the final command executed
    */
@@ -44,7 +49,7 @@ public class DoTimes extends ControlStructureCommand {
     double val = 0;
     Map<String, Double> params = new HashMap<>();
     addParamMap(params);
-    for (double i = 1; i <= LIMIT; i += 1) {
+    for (double i = START; i <= END; i += INCREMENT) {
       params.put(VARIABLE, i);
       val = executeBlock(COMMAND_BLOCK);
     }

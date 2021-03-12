@@ -554,7 +554,8 @@ public class BasicCommandTester {
   void testMakeUserInstruction() {
     TreeNode name = makeNode("Movement");
     TreeNode paramBlock = makeTree("CommandBlock", makeNode(":distance"));
-    TreeNode commandBlock = makeTree("Forward", makeNode(":distance"));
+    TreeNode forward = makeTree("Forward", makeNode(":distance"));
+    TreeNode commandBlock = makeTree("CommandBlock", forward);
 
     TreeNode userCommand = makeTree("MakeUserInstruction", name, paramBlock, commandBlock);
     assertEquals(1, executeCommand(makeBasicCommand(userCommand)), TOLERANCE);
@@ -608,6 +609,25 @@ public class BasicCommandTester {
 
     assertEquals(5, executeCommand(makeBasicCommand(overallCommand)), TOLERANCE);
     assertEquals(15, commandBundle.getTurtle().getYPosition(), TOLERANCE);
+
+  }
+
+  /**
+   * Tests the For command
+   */
+  @Test
+  void testFor() {
+    TreeNode variable = makeNode(":distance");
+    TreeNode start = makeNode("3");
+    TreeNode end = makeNode("10");
+    TreeNode increment = makeNode("2");
+    TreeNode control = makeTree("CommandBlock", variable, start, end, increment);
+
+    TreeNode commandsInLoop = makeTree("Forward", variable);
+    TreeNode overallCommand = makeTree("For", control, commandsInLoop);
+
+    assertEquals(9, executeCommand(makeBasicCommand(overallCommand)), TOLERANCE);
+    assertEquals(24, commandBundle.getTurtle().getYPosition(), TOLERANCE);
 
   }
 
