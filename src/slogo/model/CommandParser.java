@@ -5,6 +5,7 @@ import java.util.*;
 import slogo.controller.BackEndExternalAPI;
 import slogo.controller.ModelController;
 import slogo.model.commands.basic_commands.BasicCommand;
+import slogo.model.commands.basic_commands.UserDefinedCommand;
 import slogo.model.tree.TreeNode;
 
 /**
@@ -67,7 +68,7 @@ public class CommandParser implements Parser {
     }
 
     private void addUserDefParamCounts() {
-        Map<String, BasicCommand> userDefCommands= modelController.getUserDefinedCommands();
+        Map<String, UserDefinedCommand> userDefCommands= modelController.getUserDefinedCommands();
         for(String key : userDefCommands.keySet()) {
             String paramCounts = userDefCommands.get(key).getParamCount();
             parameters.put(key, paramCounts);

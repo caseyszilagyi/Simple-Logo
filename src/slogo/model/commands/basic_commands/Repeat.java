@@ -37,7 +37,7 @@ public class Repeat extends ControlStructureCommand {
   public double execute() {
     double val = 0;
     for (int i = 0; i < LOOP_COUNT; i++) {
-      val += executeBlock(COMMAND_BLOCK);
+      val = executeBlock(COMMAND_BLOCK);
 
     }
     return val;
