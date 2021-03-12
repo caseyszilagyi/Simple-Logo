@@ -1,5 +1,6 @@
 package slogo.model.turtle;
 
+import com.sun.source.tree.Tree;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -530,6 +531,24 @@ public class BasicCommandTester {
     TreeNode root = makeTree("MakeVariable", name, value);
     assertEquals(60, executeCommand(makeBasicCommand(root)), TOLERANCE);
     assertEquals(60, commandBundle.getVariableMap().get("Awesome"), TOLERANCE);
+  }
+
+  /**
+   * Tests the Repeat command
+   * repeat 2 [ repeat 3 [ fd 100 ] ]
+   */
+  @Test
+  void testRepeat() {
+    TreeNode child1 = makeNode("2");
+    TreeNode child_100 = makeNode("100");
+    TreeNode subChild1_1_1 = makeTree("Forward", child_100);
+    TreeNode subChild1_1 = makeNode("3");
+    TreeNode subChild1_2 = makeTree("CommandBlock", subChild1_1_1);
+    TreeNode subChild1 = makeTree("Repeat", subChild1_1, subChild1_2);
+    TreeNode child2 = makeTree("CommandBlock", subChild1);
+    TreeNode root = makeTree("Repeat", child1, child2);
+    assertEquals(600, executeCommand(makeBasicCommand(root)), TOLERANCE);
+    assertEquals(600, commandBundle.getTurtle().getYPosition());
   }
 
 

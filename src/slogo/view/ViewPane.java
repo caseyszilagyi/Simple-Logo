@@ -272,10 +272,6 @@ public class ViewPane {
     turtleViewPane.getChildren().add(line1);
   }
 
-  public void turnTurtle(double d){
-    turtle.setRotate(turtle.getRotate() - d);
-  }
-
   public BorderPane getBox() {
     return viewPane;
   }
