@@ -4,6 +4,7 @@ import java.util.*;
 
 import slogo.controller.BackEndExternalAPI;
 import slogo.controller.ModelController;
+import slogo.model.commands.basic_commands.BasicCommand;
 import slogo.model.tree.TreeNode;
 
 /**
@@ -33,6 +34,7 @@ public class CommandParser implements Parser {
         inputCleaner = new InputCleaner(rawInput, language, modelController, this);
         cleanCommands = inputCleaner.cleanString();
         addParamCounts("Commands");
+        addUserDefParamCounts();
         commandTree = new TreeNode(null);
         System.out.println("Command Taken in by the parser: " + rawInput);
         System.out.println("Clean command: "+cleanCommands);
@@ -54,6 +56,7 @@ public class CommandParser implements Parser {
 
     }
 
+
     /**
      * adds a single command and parameter count pair to the map
      * @param command command type name
@@ -61,6 +64,14 @@ public class CommandParser implements Parser {
      */
     public void addSingleParamCount(String command, String paramCount){
         parameters.put(command, paramCount);
+    }
+
+    private void addUserDefParamCounts() {
+        Map<String, BasicCommand> userDefCommands= modelController.getUserDefinedCommands();
+        for(String key : userDefCommands.keySet()) {
+            String paramCounts = userDefCommands.get(key).getParamCount();
+            parameters.put(key, paramCounts);
+        }
     }
     /**
      * makes the tree at the tree root node commandTree
@@ -121,7 +132,6 @@ public class CommandParser implements Parser {
      * @return String rep of the number of params needed for command
      */
     public Integer getParamCount(String text) {
-        final String ERROR = "NO MATCH";
         try{
             return Integer.parseInt(parameters.get(text));
         }catch (Exception e){

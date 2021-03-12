@@ -4,6 +4,7 @@ import java.util.*;
 import javax.swing.text.html.ImageView;
 import slogo.model.CommandParser;
 import slogo.model.commands.BasicCommandClassLoader;
+import slogo.model.commands.basic_commands.BasicCommand;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 import slogo.model.turtle.Turtle;
@@ -82,7 +83,7 @@ public class ModelController implements BackEndExternalAPI {
      *
      * @return map of command names to their command tree root nodes
      */
-    public Map<String, TreeNode> getUserDefinedCommands() {
+    public Map<String, BasicCommand> getUserDefinedCommands() {
         // TODO implement here
         return commandInformationBundle.getCommandMap();
     }

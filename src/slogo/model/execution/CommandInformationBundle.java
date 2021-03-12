@@ -19,7 +19,7 @@ public class CommandInformationBundle {
   private final Turtle TURTLE = new Turtle();
   private final Map<String, Double> VARIABLES = new HashMap<>();
   //Need to figure out what the second data type is, some kind of tree?
-  private final Map<String, TreeNode> COMMANDS = new HashMap<>();
+  private final Map<String, BasicCommand> COMMANDS = new HashMap<>();
 
   private final BasicCommandClassLoader CLASS_LOADER = new BasicCommandClassLoader();
   private final BackEndExternalAPI MODEL_CONTROLLER;
@@ -46,7 +46,7 @@ public class CommandInformationBundle {
    * Gets the map of commands
    * @return The command map
    */
-  public Map<String, TreeNode> getCommandMap(){
+  public Map<String, BasicCommand> getCommandMap(){
     return COMMANDS;
   }
 

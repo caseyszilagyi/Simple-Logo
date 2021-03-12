@@ -1,5 +1,6 @@
 package slogo.model;
 
+import java.security.spec.ECField;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -12,6 +13,8 @@ import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 import slogo.controller.BackEndExternalAPI;
+//import slogo.model.commands.basic_commands.BasicCommand;
+import slogo.model.commands.basic_commands.BasicCommand;
 import slogo.model.tree.TreeNode;
 
 /**
@@ -25,7 +28,7 @@ public class InputCleaner {
   private static final String LANGUAGES_PACKAGE = InputCleaner.class.getPackageName()+".resources.languages.";
   private static final String WHITESPACE = "\\s+";
   private final Map<String, Double> VARIABLES;
-  private final Map<String, TreeNode> COMMANDS;
+  private final Map<String, BasicCommand> COMMANDS;
 
   private String language;
   private List<Entry<String, Pattern>> symbols;
@@ -167,7 +170,7 @@ public class InputCleaner {
       if(isUserDefCommand(toRet.get(ind))) {
         //replace the name of command with the command block node with the children that are its params
         try {
-          TreeNode userDefCommand = COMMANDS.get(toRet.get(ind));
+          BasicCommand userDefCommand = COMMANDS.get(toRet.get(ind));
 
         } catch (Exception e) {
           System.out.println("User Defined Command doesn't exist!!!");
@@ -182,14 +185,18 @@ public class InputCleaner {
   }
 
   private String getCommandKey (String text) {
-    final String ERROR = "NO MATCH";
+
     for (Entry<String, Pattern> e : symbols) {
-      if (match(text, e.getValue())) {
-        return e.getKey();
+      try {
+        if (match(text, e.getValue())) {
+          return e.getKey();
+        }
+      } catch (Exception ex){
+        System.out.println("invalid command");
       }
     }
     // FIXME: perhaps throw an exception instead
-    return ERROR;
+    return null;
   }
 
   private boolean match (String text, Pattern regex) {
