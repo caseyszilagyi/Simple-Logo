@@ -288,4 +288,6 @@ public class ViewPane {
   }
 
   private void setPenUp() {
-    
+    penUP = true;
+  }
+}
