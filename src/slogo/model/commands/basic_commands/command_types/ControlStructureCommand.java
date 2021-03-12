@@ -83,7 +83,7 @@ public abstract class ControlStructureCommand extends Command {
    * Removes the last param map, used when a command with parameters is done executing
    */
   protected void removeParamMap() {
-    PARAMETER_MAP.remove(PARAMETER_MAP.size());
+    PARAMETER_MAP.remove(PARAMETER_MAP.size()-1);
   }
 
   /**

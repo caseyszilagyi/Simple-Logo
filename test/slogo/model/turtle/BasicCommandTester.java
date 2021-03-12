@@ -537,12 +537,34 @@ public class BasicCommandTester {
    */
   @Test
   void testMakeVariable() {
-    TreeNode name = makeNode("Awesome");
+    TreeNode name = makeNode(":Awesome");
     TreeNode value = makeNode("60");
     TreeNode root = makeTree("MakeVariable", name, value);
     assertEquals(60, executeCommand(makeBasicCommand(root)), TOLERANCE);
-    assertEquals(60, commandBundle.getVariableMap().get("Awesome"), TOLERANCE);
+    assertEquals(60, commandBundle.getVariableMap().get(":Awesome"), TOLERANCE);
+    moveTurtle(":Awesome");
+    assertEquals(60, commandBundle.getTurtle().getYPosition(), TOLERANCE);
   }
+
+  /**
+   * Tests the creation and execution of a user defined command
+   */
+  @Test
+  void testMakeUserInstruction() {
+    TreeNode name = makeNode("Movement");
+    TreeNode paramBlock = makeTree("CommandBlock", makeNode(":distance"));
+    TreeNode commandBlock = makeTree("Forward", makeNode(":distance"));
+
+    TreeNode userCommand = makeTree("MakeUserInstruction", name, paramBlock, commandBlock);
+    assertEquals(1, executeCommand(makeBasicCommand(userCommand)), TOLERANCE);
+
+    TreeNode useCommand = makeTree("Movement", makeNode("50"));
+    assertEquals(50, makeBasicCommand(useCommand).execute(), TOLERANCE);
+
+    useCommand = makeTree("Movement", makeNode("100"));
+    assertEquals(150, makeBasicCommand(useCommand).execute(), TOLERANCE);
+  }
+
 
   /**
    * Tests the Repeat command
