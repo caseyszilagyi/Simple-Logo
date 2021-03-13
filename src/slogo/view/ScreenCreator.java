@@ -19,7 +19,7 @@ import slogo.model.commands.basic_commands.UserDefinedCommand;
  */
 public class ScreenCreator {
   private static final String TITLE = "SLogo";
-  private static final double DEFAULT_X = 1000.0;
+  private static final double DEFAULT_X = 1100;
   private static final double DEFAULT_Y = 800.0;
 
   private BorderPane root;
