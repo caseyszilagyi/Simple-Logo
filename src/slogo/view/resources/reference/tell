@@ -1,0 +1,11 @@
+Multiple Turtle Commands:
+TELL [ turtle(s) ]
+
+Description:
+Sets turtles that will follow commands hereafter to the given list. If turtle has not previously existed, it is created and placed at the home location.
+
+Parameters:
+turtle(s) - any expression
+
+Returns:
+Last value in turtles list

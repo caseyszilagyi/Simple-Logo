@@ -1,0 +1,14 @@
+Display Commands:
+SETPALETTE index r g b
+
+Description:
+Set color corresponding to given index to given r g b color values. Color component values are nonnegative integers less than 256 specifying an amount of red, green, and blue.
+
+Parameters:
+index - any expression
+r - any expression (with value between 0-255)
+g - any expression (with value between 0-255)
+b - any expression (with value between 0-255)
+
+Returns:
+Given index

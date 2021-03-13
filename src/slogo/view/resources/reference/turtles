@@ -1,0 +1,11 @@
+Multiple Turtle Commands:
+TURTLES
+
+Description:
+Reports number of turtles created
+
+Parameters:
+None
+
+Returns:
+Number of turtles created
