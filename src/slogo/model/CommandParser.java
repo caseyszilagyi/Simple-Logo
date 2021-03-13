@@ -2,6 +2,7 @@ package slogo.model;
 
 import java.util.*;
 
+import slogo.ErrorHandler;
 import slogo.controller.BackEndExternalAPI;
 import slogo.controller.ModelController;
 import slogo.model.commands.basic_commands.BasicCommand;
@@ -88,6 +89,10 @@ public class CommandParser implements Parser {
             child = checkCommandBlock(child);
             commandTree.addChild(child);
             insertNodeRecursive(commandQueue, child);
+        }
+        printPreOrder(commandTree);
+        if(preOrderResults.size() != cleanCommands.size()+1){
+            throw new ErrorHandler("WrongParamNum");
         }
         return commandTree;
     }

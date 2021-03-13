@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import slogo.ErrorHandler;
 import slogo.controller.ModelController;
 import slogo.model.CommandParser;
 import slogo.model.InputCleaner;
@@ -25,7 +26,6 @@ public class CleanInputTester {
   /**
    * Tests translating english to simple commands recognizable by backend
    */
-
   void testTranslation() {
     String userInput = "fd 50 forward 10";
     InputCleaner cleaner = makeInputCleaner(userInput, "English");
@@ -208,6 +208,16 @@ public class CleanInputTester {
     assertEquals(cleaner.cleanString(), expected);
     assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 1);
     assertEquals(cleaner.commandParser.getParamCount("CommandBlock_2"), 1);
+  }
+
+  /**
+   * Test wrong num brackets
+   */
+  @Test
+  void testWrongBrackets() {
+    String userInput = "repeat 2 [ repeat 3 [ repeat 2 [ fd 100 ] ] ";
+    InputCleaner cleaner = makeInputCleaner(userInput, "English");
+    assertEquals(cleaner.cleanString(), new ErrorHandler("WrongParamNum"));
   }
 
   /**

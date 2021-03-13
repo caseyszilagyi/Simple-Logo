@@ -36,6 +36,8 @@ public class InputCleaner {
   private String userInput;
   private int commandCount;
   public CommandParser commandParser;
+  private int paramCountsActual = 0;
+  private int paramCountsExpected = 0;
 
   /**
    * create instance of InputCleaner and initializes lists for "translating" the string into strings recognizable by backend classes and parser
@@ -83,6 +85,9 @@ public class InputCleaner {
     List<String> varBlocks = findVariableBlocks(translated);
     List<String> groupedCommands = findCommandBlocks(varBlocks);
     groupedCommands.removeIf(command -> command.equals(""));
+    if(paramCountsActual != paramCountsExpected){
+      throw new ErrorHandler("WrongParamNum");
+    }
     return groupedCommands;
   }
 
@@ -145,7 +150,6 @@ public class InputCleaner {
   }
 
   private List<String> findCommandBlocks(List<String> commands) {
-
     List<String> toRet = new ArrayList<>(commands);
     Deque<String> commandBlocks = new ArrayDeque<>();
     Deque<Integer> parameters = new ArrayDeque<>();
@@ -175,15 +179,14 @@ public class InputCleaner {
         commandParser.addSingleParamCount(commandKeyNum, commandVal);
       }
     }
+    if(!commandBlocks.isEmpty()){
+      throw new ErrorHandler("WrongParamNum");
+    }
     return toRet;
   }
 
   private boolean isCommand(String s) {
     return match(s, syntaxMap.get("Command"));
-  }
-
-  private boolean isVariable(String s) {
-    return match(s, syntaxMap.get("Variable"));
   }
 
   private String getCommandKey (String text) {
