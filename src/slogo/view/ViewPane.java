@@ -20,6 +20,10 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import slogo.controller.BackEndExternalAPI;
+import slogo.controller.FrontEndExternalAPI;
+import slogo.controller.ModelController;
+import slogo.controller.ViewController;
 
 /**
  * Creates the view for where the turtle will be displayed
@@ -47,6 +51,7 @@ public class ViewPane {
   private static final String PEN_COLOR_PICKER_ID = "PenColorPicker";
   private static final String COLOR_PICKER = "color-picker";
   private static final String ICON = "icon";
+  private static final String BUTTON = "regular-button";
 
   private static final String LANGUAGE_OPTIONS = "slogo.model.resources.languages.LangaugeOptions";
 
@@ -119,6 +124,18 @@ public class ViewPane {
     turtleImageButton.setOnAction(event -> uploadTurtleImage());
 
     createLanguageComboBox();
+
+    Button addNewScreen = new Button("New Screen");
+    addNewScreen.getStyleClass().add(BUTTON);
+    choicePane.add(addNewScreen, 3, 0);
+    addNewScreen.setOnAction(event -> createNewScreen());
+  }
+
+  private void createNewScreen() {
+    FrontEndExternalAPI viewController = new ViewController();
+    BackEndExternalAPI modelController = new ModelController();
+    viewController.setModelController(modelController);
+    modelController.setViewController(viewController);
   }
 
   private void createLanguageComboBox() {
@@ -139,7 +156,7 @@ public class ViewPane {
     languages.getItems().addAll(allLanguageDisplay);
     languages.setValue(defaultLanguage);
     language = "English";
-    choicePane.add(languages, 4, 0);
+    choicePane.add(languages, 10, 0);
     languages.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
