@@ -1,7 +1,9 @@
 package slogo.view;
 
+import java.util.Deque;
 import java.util.List;
 
+import java.util.Queue;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -72,7 +74,7 @@ public class ScreenCreator {
   }
 
 
-  public void updateCommandHistory(List<String> commandHistory) {
+  public void updateCommandHistory(Deque<String> commandHistory) {
     historyDisplayPane.updateCommandHistory(commandHistory);
   }
 }

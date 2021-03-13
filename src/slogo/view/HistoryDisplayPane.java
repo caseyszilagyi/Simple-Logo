@@ -1,6 +1,7 @@
 package slogo.view;
 
-import java.util.List;
+import java.util.Deque;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
@@ -17,13 +18,22 @@ public class HistoryDisplayPane {
   private static final String HISTORY_DISPLAY_PANE_ID = "HistoryDisplayPane";
   private static final String HISTORY_DISPLAY_PANE_TEXT = "HistoryDisplayPaneText";
   private static final String HISTORY_PANE_ID = "HistoryPane";
+  private static final double HEIGHT = 50;
+  private static final String BUTTON = "button";
+  private static final String HISTORY_DISPLAY_PANE = "HistoryDisplayPane";
 
   private GridPane basePane;
   private ScrollPane historyPane;
+  private HBox box;
+
+  private Button clearButton;
 
   public HistoryDisplayPane() {
     basePane = new GridPane();
     basePane.getStyleClass().add(HISTORY_DISPLAY_PANE_ID);
+    box = new HBox();
+    box.getStyleClass().add(HISTORY_DISPLAY_PANE);
+
     displayTitle();
     createHistoryPane();
     createVariablePane();
@@ -34,6 +44,10 @@ public class HistoryDisplayPane {
   }
 
   private void createVariablePane() {
+  }
+
+  private void createClearButton(){
+    clearButton = makeButton("Clear History");
   }
 
   private void createHistoryPane() {
@@ -57,12 +71,20 @@ public class HistoryDisplayPane {
     return basePane;
   }
 
-  public void updateCommandHistory(List<String> commandHistory) {
-    int count = 1;
+  public void updateCommandHistory(Deque<String> commandHistory) {
+    VBox vBox = new VBox();
+    historyPane.setContent(vBox);
     for(String command : commandHistory){
       Label label = new Label(command, new Rectangle(50, 50));
-      basePane.add(label,0,count);
-      count++;
+      vBox.getChildren().add(label);
     }
+  }
+
+  private Button makeButton(String text) {
+    Button button = new Button(text);
+    button.setPrefHeight(HEIGHT);
+    button.getStyleClass().add(BUTTON);
+    box.getChildren().add(button);
+    return button;
   }
 }

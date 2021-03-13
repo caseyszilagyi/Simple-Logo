@@ -13,14 +13,14 @@ public class ViewController implements FrontEndExternalAPI {
     BackEndExternalAPI modelController;
     ScreenCreator screenCreator;
     private String userCommandInputs;
-    private List<String> commandHistory;
+    private Deque<String> commandHistory;
 
     /**
      * Default constructor
      */
     public ViewController() {
         screenCreator = new ScreenCreator(this);
-        commandHistory = new ArrayList<>();
+        commandHistory = new ArrayDeque<>();
     }
 
     /**
@@ -48,7 +48,7 @@ public class ViewController implements FrontEndExternalAPI {
     /**
      * 
      */
-    public List<String> getCommandHistory() {
+    public Deque<String> getCommandHistory() {
         // TODO implement here
         return commandHistory;
     }
@@ -72,7 +72,7 @@ public class ViewController implements FrontEndExternalAPI {
 
     @Override
     public void processUserCommandInput(String userCommandInputs) {
-        commandHistory.add(userCommandInputs);
+        commandHistory.offerFirst(userCommandInputs);
         screenCreator.updateCommandHistory(commandHistory);
         this.userCommandInputs = userCommandInputs;
         //print statement for debugging

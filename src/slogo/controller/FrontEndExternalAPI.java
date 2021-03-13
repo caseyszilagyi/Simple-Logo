@@ -27,7 +27,7 @@ public interface FrontEndExternalAPI {
     /**
      * Backend can call this method to relay information to be displayed to the frontend
      */
-    public List<String> getCommandHistory();
+    public Queue<String> getCommandHistory();
 
     /**
      * Displays error message
