@@ -1,0 +1,12 @@
+Display Commands:
+PENCOLOR
+PC
+
+Description:
+Reports turtle's current pen color
+
+Parameters:
+None
+
+Returns:
+Turtle's current color as an index

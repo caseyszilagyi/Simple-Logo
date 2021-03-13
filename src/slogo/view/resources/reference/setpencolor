@@ -1,0 +1,12 @@
+Display Commands:
+SETPENCOLOR index
+SETPC index
+
+Description:
+Sets color of the pen to that represented by index
+
+Parameters:
+index - any expression
+
+Returns:
+Given index

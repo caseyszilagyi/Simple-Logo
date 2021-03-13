@@ -1,0 +1,12 @@
+Display Commands:
+SETBACKGROUND index
+SETBG index
+
+Description:
+Sets background color of screen to that represented by index
+
+Parameters:
+index - any expression
+
+Returns:
+Given index

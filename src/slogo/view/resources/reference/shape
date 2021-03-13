@@ -1,0 +1,12 @@
+Display Commands:
+SHAPE
+SH
+
+Description:
+Reports turtle's current shape
+
+Parameters:
+None
+
+Returns:
+Turtle's current shape as an index
