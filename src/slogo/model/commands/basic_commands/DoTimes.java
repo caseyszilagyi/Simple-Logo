@@ -3,37 +3,40 @@ package slogo.model.commands.basic_commands;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import slogo.model.commands.basic_commands.command_types.Command;
 import slogo.model.commands.basic_commands.command_types.ControlStructureCommand;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * This command repeats the given BasicCommands a certain number of times
+ * Runs a block of commands for each value from 1-range, and has a variable that is updated for each
+ * loop
  *
  * @author Casey Szilagyi
  */
-public class Repeat extends ControlStructureCommand {
+public class DoTimes extends ControlStructureCommand {
 
-  private final double LOOP_COUNT;
+  private final String VARIABLE;
+  private final double LIMIT;
   private final TreeNode COMMAND_BLOCK;
 
   /**
-   * Makes an instance of the Repeat loop
+   * Makes an instance of the DoTimes loop
    *
    * @param bundle   The pieces of information, such as variables and user defined commands, that
    *                 may be needed to execute the the command
-   * @param children Has 2 nodes, which is the loop count and the block of commands to execute
+   * @param children Has 2 nodes. One has the variable name and limit that it goes to, and the other
+   *                 has the block of commands
    */
-  public Repeat(CommandInformationBundle bundle, List<TreeNode> children) {
+  public DoTimes(CommandInformationBundle bundle, List<TreeNode> children) {
     super(bundle);
-    LOOP_COUNT = loadClass(bundle, children.get(0)).execute();
+    VARIABLE = children.get(0).getChildren().get(0).getValue();
+    LIMIT = executeBlock(children.get(0).getChildren().get(1));
     COMMAND_BLOCK = children.get(1);
   }
 
   /**
-   * Repeats the loop the specified number of times. The variable :repcount is stored during the
-   * loop as the # loop that it is currently on
+   * Repeats the loop the specified number of times. The variable that is declared is stored as the
+   * loop # that is currently happening
    *
    * @return The value of the final command executed
    */
@@ -41,8 +44,8 @@ public class Repeat extends ControlStructureCommand {
     double val = 0;
     Map<String, Double> params = new HashMap<>();
     addParamMap(params);
-    for (double i = 1; i <= LOOP_COUNT; i += 1) {
-      params.put(":repcount", i);
+    for (double i = 1; i <= LIMIT; i += 1) {
+      params.put(VARIABLE, i);
       val = executeBlock(COMMAND_BLOCK);
     }
     removeParamMap();
