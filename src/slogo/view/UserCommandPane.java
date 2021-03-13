@@ -17,7 +17,7 @@ import java.util.Collections;
  */
 public class UserCommandPane {
   private static final double WIDTH = 600.0;
-  private static final double HEIGHT = 100.0;
+  private static final double HEIGHT = 90.0;
   private static final String USER_COMMAND_PANE_ID = "UserCommandPane";
   private static final String TEXT_AREA = "text-area";
   private static final String BUTTON = "regular-button";
@@ -84,7 +84,7 @@ public class UserCommandPane {
     }
     catch(IOException ex)
     {
-      System.out.println("Error reading file named '" + fileName + "'");
+      System.out.println("Error reading references");
     }
     Alert info = new Alert(AlertType.INFORMATION);
     info.setContentText(text.toString());

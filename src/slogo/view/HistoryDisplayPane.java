@@ -67,10 +67,6 @@ public class HistoryDisplayPane {
     varPane = makeScrollPane(varBox);
   }
 
-  private void createClearButton(){
-    clearButton = makeButton("Clear History", BUTTON);
-  }
-
   private void createHistoryPane() {
     historyBox = makeBox();
     historyPane = makeScrollPane(historyBox);
@@ -106,15 +102,16 @@ public class HistoryDisplayPane {
 
   public void updateCommandHistory(Deque<String> commandHistory) {
     for(String command : commandHistory){
-      Button button = makeButton(command, HISTORY_BUTTON);
+      Button button = makeButton(command, historyBox);
       //Label label = new Label(command, new Rectangle(50, 50));
       historyBox.getChildren().add(button);
     }
   }
 
-  private Button makeButton(String text, String styleClass) {
+  private Button makeButton(String text, VBox vBox) {
     Button button = new Button(text);
     button.setWrapText(true);
+    button.setPrefWidth(vBox.getWidth());
     button.getStyleClass().add(HISTORY_BUTTON);
     return button;
   }

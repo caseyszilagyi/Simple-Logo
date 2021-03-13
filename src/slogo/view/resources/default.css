@@ -73,6 +73,7 @@
 .history-button {
     -fx-background-radius: 20;
     -fx-background-color: #d3d3d3;
+    -fx-text-alignment: CENTER;
 }
 
 .history-button:hover {
