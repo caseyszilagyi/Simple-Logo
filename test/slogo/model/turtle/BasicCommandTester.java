@@ -554,7 +554,8 @@ public class BasicCommandTester {
   void testMakeUserInstruction() {
     TreeNode name = makeNode("Movement");
     TreeNode paramBlock = makeTree("CommandBlock", makeNode(":distance"));
-    TreeNode commandBlock = makeTree("Forward", makeNode(":distance"));
+    TreeNode forward = makeTree("Forward", makeNode(":distance"));
+    TreeNode commandBlock = makeTree("CommandBlock", forward);
 
     TreeNode userCommand = makeTree("MakeUserInstruction", name, paramBlock, commandBlock);
     assertEquals(1, executeCommand(makeBasicCommand(userCommand)), TOLERANCE);
@@ -579,6 +580,55 @@ public class BasicCommandTester {
     TreeNode root = makeTree("Repeat", times, forward);
     assertEquals(60, executeCommand(makeBasicCommand(root)), TOLERANCE);
     assertEquals(300, commandBundle.getTurtle().getYPosition(), TOLERANCE);
+  }
+
+  /**
+   * Tests the Repeat command with the :repcount variable
+   */
+  @Test
+  void testRepeatWithRepCount() {
+    TreeNode times = makeNode("5");
+    TreeNode distance = makeNode(":repcount");
+    TreeNode forward = makeTree("Forward", distance);
+    TreeNode root = makeTree("Repeat", times, forward);
+    assertEquals(5, executeCommand(makeBasicCommand(root)), TOLERANCE);
+    assertEquals(15, commandBundle.getTurtle().getYPosition(), TOLERANCE);
+  }
+
+  /**
+   * Tests the DoTimes command
+   */
+  @Test
+  void testDoTimes() {
+    TreeNode times = makeNode("5");
+    TreeNode variable = makeNode(":size");
+    TreeNode control = makeTree("CommandBlock", variable, times);
+
+    TreeNode commandsInLoop = makeTree("Forward", variable);
+    TreeNode overallCommand = makeTree("DoTimes", control, commandsInLoop);
+
+    assertEquals(5, executeCommand(makeBasicCommand(overallCommand)), TOLERANCE);
+    assertEquals(15, commandBundle.getTurtle().getYPosition(), TOLERANCE);
+
+  }
+
+  /**
+   * Tests the For command
+   */
+  @Test
+  void testFor() {
+    TreeNode variable = makeNode(":distance");
+    TreeNode start = makeNode("3");
+    TreeNode end = makeNode("10");
+    TreeNode increment = makeNode("2");
+    TreeNode control = makeTree("CommandBlock", variable, start, end, increment);
+
+    TreeNode commandsInLoop = makeTree("Forward", variable);
+    TreeNode overallCommand = makeTree("For", control, commandsInLoop);
+
+    assertEquals(9, executeCommand(makeBasicCommand(overallCommand)), TOLERANCE);
+    assertEquals(24, commandBundle.getTurtle().getYPosition(), TOLERANCE);
+
   }
 
   /**
