@@ -8,10 +8,8 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.controller.ModelController;
-import slogo.controller.ViewController;
 import slogo.model.CommandParser;
 import slogo.model.InputCleaner;
-import slogo.model.tree.TreeNode;
 
 public class CleanInputTester {
 
@@ -230,7 +228,7 @@ public class CleanInputTester {
     expected.add(":distance");
     assertEquals(expected, cleaner.cleanString());
     assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 1);
-//    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_2"), 1);
+    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_2"), 1);
  }
 
   private InputCleaner makeInputCleaner(String userInput, String language){

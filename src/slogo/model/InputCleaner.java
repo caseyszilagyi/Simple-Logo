@@ -1,6 +1,5 @@
 package slogo.model;
 
-import java.security.spec.ECField;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
-import javax.sound.midi.SysexMessage;
+import slogo.ErrorHandler;
 import slogo.controller.BackEndExternalAPI;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
 
@@ -81,12 +80,10 @@ public class InputCleaner {
   public List<String> cleanString() {
     String noComments = removeComments();
     List<String> translated = translateCommand(noComments);
-//    List<String> userDef = findUserDefCommands(translated);
     List<String> varBlocks = findVariableBlocks(translated);
     List<String> groupedCommands = findCommandBlocks(varBlocks);
     groupedCommands.removeIf(command -> command.equals(""));
-    List<String> variablesToValues = replaceVariables(groupedCommands);
-    return variablesToValues;
+    return groupedCommands;
   }
 
   private String removeComments() {
@@ -187,46 +184,11 @@ public class InputCleaner {
     return match(s, syntaxMap.get("Command"));
   }
 
-  private List<String> replaceVariables(List<String> commands) {
-    List<String> toRet = new ArrayList<>(commands);
-    for (int ind = 0; ind < toRet.size(); ind++) {
-      if(isVariable(toRet.get(ind))) {
-        try {
-          Double varVal = VARIABLES.get(toRet.get(ind).substring(1));
-          toRet.set(ind, toRet.get(ind));
-        } catch (Exception e){
-          System.out.println("Variable doesn't exist!!");
-        }
-      }
-    }
-    return toRet;
-  }
-
   private boolean isVariable(String s) {
     return match(s, syntaxMap.get("Variable"));
   }
 
-  private List<String> replaceUserDefCommands(List<String> commands) {
-    List<String> toRet = new ArrayList<>(commands);
-    for (int ind = 0; ind < toRet.size(); ind++) {
-      if(isUserDefCommand(toRet.get(ind))) {
-        //replace the name of command with the command block node with the children that are its params
-        try {
-          UserDefinedCommand userDefCommand = COMMANDS.get(toRet.get(ind));
-        } catch (Exception e) {
-          System.out.println("User Defined Command doesn't exist!!!");
-        }
-      }
-    }
-    return toRet;
-  }
-
-  private boolean isUserDefCommand(String s) {
-    return COMMANDS.containsKey(s);
-  }
-
   private String getCommandKey (String text) {
-
     for (Entry<String, Pattern> e : symbols) {
       try {
         if (match(text, e.getValue())) {
@@ -234,10 +196,10 @@ public class InputCleaner {
         }
       } catch (Exception ex){
         System.out.println("invalid command");
+        throw new ErrorHandler("InvalidCommand");
       }
     }
     return "NO MATCH";
-    // FIXME: perhaps throw an exception instead
   }
 
   private boolean match (String text, Pattern regex) {
