@@ -7,8 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import slogo.ErrorHandler;
 import slogo.controller.ModelController;
-import slogo.controller.ViewController;
 import slogo.model.CommandParser;
 import slogo.model.InputCleaner;
 
@@ -26,7 +26,6 @@ public class CleanInputTester {
   /**
    * Tests translating english to simple commands recognizable by backend
    */
-
   void testTranslation() {
     String userInput = "fd 50 forward 10";
     InputCleaner cleaner = makeInputCleaner(userInput, "English");
@@ -123,7 +122,7 @@ public class CleanInputTester {
    */
   @Test
   void testCleaningAll() {
-    String userInput = "if :size < 5 \n#comment\n[ forward :size back :size stop ]";
+    String userInput = "if :size < 5 \n#comment\n[ forward :size back :size ]";
     InputCleaner cleaner = makeInputCleaner(userInput, "English");
     List<String> expected = new ArrayList<>();
     expected.add("If");
@@ -135,9 +134,8 @@ public class CleanInputTester {
     expected.add(":size");
     expected.add("Backward");
     expected.add(":size");
-    expected.add("stop");
     assertEquals(cleaner.cleanString(), expected);
-    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 3);
+    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 2);
   }
 
   /**
@@ -145,7 +143,7 @@ public class CleanInputTester {
    */
   @Test
   void testMultCommandBlocks() {
-    String userInput = "if :size < 5 \n#comment\n[ forward :size back :size stop ] repeat 4 [ forward 5 ]";
+    String userInput = "if :size < 5 \n#comment\n[ forward :size back :size ] repeat 4 [ forward 5 ]";
     InputCleaner cleaner = makeInputCleaner(userInput, "English");
     List<String> expected = new ArrayList<>();
     expected.add("If");
@@ -157,14 +155,13 @@ public class CleanInputTester {
     expected.add(":size");
     expected.add("Backward");
     expected.add(":size");
-    expected.add("stop");
     expected.add("Repeat");
     expected.add("4");
     expected.add("CommandBlock_2");
     expected.add("Forward");
     expected.add("5");
     assertEquals(cleaner.cleanString(), expected);
-    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 3);
+    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 2);
     assertEquals(cleaner.commandParser.getParamCount("CommandBlock_2"), 1);
   }
 
@@ -203,11 +200,79 @@ public class CleanInputTester {
     expected.add("Repeat");
     expected.add("3");
     expected.add("CommandBlock_2");
+    expected.add("Repeat");
+    expected.add("2");
+    expected.add("CommandBlock_3");
     expected.add("Forward");
     expected.add("100");
     assertEquals(cleaner.cleanString(), expected);
     assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 1);
     assertEquals(cleaner.commandParser.getParamCount("CommandBlock_2"), 1);
+  }
+
+  /**
+   * Test wrong num brackets
+   */
+  @Test
+  void testWrongBrackets() {
+    String userInput = "repeat 2 [ repeat 3 [ repeat 2 [ fd 100 ] ] ";
+    InputCleaner cleaner = makeInputCleaner(userInput, "English");
+    assertEquals(cleaner.cleanString(), new ErrorHandler("WrongParamNum"));
+  }
+
+  /**
+   * Tests the Repeat command
+   * repeat 2 [ repeat 3 [ fd 100 ] ]
+   */
+  @Test
+  void testUserDefCommands() {
+    String input = "to Movement [ :distance ] [ fd :distance ]";
+    InputCleaner cleaner = makeInputCleaner(input, "English");
+    List<String> expected = new ArrayList<>();
+    expected.add("MakeUserInstruction");
+    expected.add("Movement");
+    expected.add("CommandBlock_1");
+    expected.add(":distance");
+    expected.add("CommandBlock_2");
+    expected.add("Forward");
+    expected.add(":distance");
+    assertEquals(expected, cleaner.cleanString());
+    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 1);
+    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_2"), 1);
+ }
+
+  /**
+   * Tests the do times
+   * dotimes [ :size 10 ] [ fd :size right 5 ]
+   */
+  @Test
+  void testDoTimes() {
+    String input = "dotimes [ :size 10 ] [ fd :size right 5 ]";
+    InputCleaner cleaner = makeInputCleaner(input, "English");
+    List<String> expected = new ArrayList<>();
+    expected.add("DoTimes");
+    expected.add("CommandBlock_1");
+    expected.add(":size");
+    expected.add("10");
+    expected.add("CommandBlock_2");
+    expected.add("Forward");
+    expected.add(":size");
+    expected.add("Right");
+    expected.add("5");
+    assertEquals(expected, cleaner.cleanString());
+    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 2);
+    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_2"), 2);
+  }
+
+  /**
+   * Tests the wrong input
+   * fd 50 60
+   */
+  @Test
+  void testSimpleWrongInput() {
+    String input = "fd 50 60";
+    InputCleaner cleaner = makeInputCleaner(input, "English");
+    assertEquals(new ErrorHandler("WrongParamNum"), cleaner.cleanString());
   }
 
   private InputCleaner makeInputCleaner(String userInput, String language){

@@ -30,6 +30,7 @@ public class DoTimes extends ControlStructureCommand {
   public DoTimes(CommandInformationBundle bundle, List<TreeNode> children) {
     super(bundle);
     VARIABLE = children.get(0).getChildren().get(0).getValue();
+    System.out.println(children.get(0).getChildren().size());
     LIMIT = executeBlock(children.get(0).getChildren().get(1));
     COMMAND_BLOCK = children.get(1);
   }

@@ -26,6 +26,7 @@ public class CommandInformationBundle {
   private final Map<String, UserDefinedCommand> COMMANDS = new HashMap<>();
   private final List<Map<String, Double>> PARAMETERS = new ArrayList<>();
 
+
   private final BasicCommandClassLoader CLASS_LOADER = new BasicCommandClassLoader();
   private final BackEndExternalAPI MODEL_CONTROLLER;
 

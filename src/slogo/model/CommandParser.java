@@ -2,8 +2,9 @@ package slogo.model;
 
 import java.util.*;
 
+import slogo.ErrorHandler;
 import slogo.controller.BackEndExternalAPI;
-import slogo.controller.ModelController;
+import slogo.model.commands.basic_commands.UserDefinedCommand;
 import slogo.model.tree.TreeNode;
 
 /**
@@ -33,6 +34,7 @@ public class CommandParser implements Parser {
         inputCleaner = new InputCleaner(rawInput, language, modelController, this);
         cleanCommands = inputCleaner.cleanString();
         addParamCounts("Commands");
+        addUserDefParamCounts();
         commandTree = new TreeNode(null);
         System.out.println("Command Taken in by the parser: " + rawInput);
         System.out.println("Clean command: "+cleanCommands);
@@ -45,14 +47,12 @@ public class CommandParser implements Parser {
         ResourceBundle resources = ResourceBundle.getBundle(RESOURCES_PACKAGE + syntax);
         for (String key : Collections.list(resources.getKeys())) {
             addSingleParamCount(key, resources.getString(key));
-            parameters.put(key, resources.getString(key));
 //            System.out.println("Key: " + key);
 //            System.out.println("Number: " + resources.getString(key));
 //            System.out.println();
         }
-        System.out.println(parameters);
-
     }
+
 
     /**
      * adds a single command and parameter count pair to the map
@@ -61,6 +61,14 @@ public class CommandParser implements Parser {
      */
     public void addSingleParamCount(String command, String paramCount){
         parameters.put(command, paramCount);
+    }
+
+    private void addUserDefParamCounts() {
+        Map<String, UserDefinedCommand> userDefCommands= modelController.getUserDefinedCommands();
+        for(String key : userDefCommands.keySet()) {
+            int paramCounts = userDefCommands.get(key).getParamCount();
+            parameters.put(key, String.valueOf(paramCounts));
+        }
     }
     /**
      * makes the tree at the tree root node commandTree
@@ -76,6 +84,10 @@ public class CommandParser implements Parser {
             child = checkCommandBlock(child);
             commandTree.addChild(child);
             insertNodeRecursive(commandQueue, child);
+        }
+        printPreOrder(commandTree);
+        if(preOrderResults.size() != cleanCommands.size()+1){
+            throw new ErrorHandler("WrongParamNum");
         }
         return commandTree;
     }
@@ -121,7 +133,6 @@ public class CommandParser implements Parser {
      * @return String rep of the number of params needed for command
      */
     public Integer getParamCount(String text) {
-        final String ERROR = "NO MATCH";
         try{
             return Integer.parseInt(parameters.get(text));
         }catch (Exception e){

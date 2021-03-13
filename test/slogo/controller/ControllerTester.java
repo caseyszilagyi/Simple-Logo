@@ -22,41 +22,4 @@ public class ControllerTester {
 //        parser = new CommandParser(userInput, modelController);
     }
 
-
-    /**
-     * Tests one parameters count
-     */
-    @Test
-    void testOneCommand() {
-        assertEquals(parser.getParamCount("Forward"), 1);
-    }
-
-    /**
-     * Tests multiple parameters count
-     */
-    @Test
-    void testMultCommand() {
-        String userInput = "Forward Backward";
-        List<String> input = Arrays.asList(userInput.split(" "));
-        for (String s : input) {
-            assertEquals(parser.getParamCount(s), 1);
-        }
-    }
-
-    /**
-     * Tests one parameters count
-     */
-    @Test
-    void testTranslation() {
-        String userInput = "fd 50 forward 10";
-        List<String> input = Arrays.asList(userInput.split(" "));
-        List<String> expected = new ArrayList<>();
-        expected.add("Forward");
-        expected.add("50");
-        expected.add("Forward");
-        expected.add("10");
-        assertEquals(parser.translateCommand(input), expected);
-    }
-
-
 }

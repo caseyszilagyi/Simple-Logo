@@ -2,7 +2,6 @@ package slogo.model.commandParser;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.provider.EnumSource.Mode;
 import slogo.controller.BackEndExternalAPI;
 import slogo.controller.ModelController;
 import slogo.model.CommandParser;
@@ -33,6 +32,21 @@ public class CommandParserTester {
     @Test
     void testOneCommand() {
         CommandParser tester = makeParser("fd 50", "English");
+        TreeNode root = tester.makeTree();
+        List<String> results = new ArrayList<>();
+        results.add(null);
+        results.add("Forward");
+        results.add("50");
+        assertEquals(results, tester.preOrderResults);
+    }
+
+    /**
+     * Tests one parameters count
+     */
+    @Test
+    void testOneWrongCommand() {
+        CommandParser tester = makeParser("fd 50 60", "English");
+        TreeNode root = tester.makeTree();
         List<String> results = new ArrayList<>();
         results.add(null);
         results.add("Forward");
@@ -47,6 +61,7 @@ public class CommandParserTester {
     void testMultCommand() {
         String userInput = "Forward 50 Backward 50 ";
         CommandParser tester = makeParser(userInput, "English");
+        TreeNode root = tester.makeTree();
         List<String> results = new ArrayList<>();
         results.add(null);
         results.add("Forward");
@@ -62,10 +77,11 @@ public class CommandParserTester {
     @Test
     void testVariable() {
         CommandParser tester = makeParser(":size 50", "English");
+        TreeNode root = tester.makeTree();
         List<String> results = new ArrayList<>();
         results.add(null);
         results.add(":size");
-        results.add("40");
+        results.add("50");
         assertEquals(results, tester.preOrderResults);
     }
 
