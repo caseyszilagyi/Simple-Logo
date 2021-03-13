@@ -323,4 +323,23 @@ public class ViewPane {
   private void setPenUp() {
     penUP = true;
   }
+
+  public void moveTurtleByDistance(double distance){
+    // do the calculations to make the turtle go forward
+    // THIS WAS WAY HARDER THAN I THOGUGHT
+    // because the angles/getrotate are all messed up
+    double turtleX;
+    double turtleY;
+    double turtleAngle = ((-turtle.getRotate() - 90) * Math.PI) / (180);
+    turtleX = turtle.getX() - Math.cos(turtleAngle) * distance;
+    turtleY = turtle.getY() + Math.sin(turtleAngle) * distance;
+    if(!penUP){
+      createLine(turtleX, turtleY);
+    }
+
+    turtle.setX(turtleX);
+    turtle.setY(turtleY);
+
+  }
+
 }
