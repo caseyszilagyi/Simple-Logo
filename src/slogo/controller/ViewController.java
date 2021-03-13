@@ -73,6 +73,7 @@ public class ViewController implements FrontEndExternalAPI {
     @Override
     public void processUserCommandInput(String userCommandInputs) {
         commandHistory.add(userCommandInputs);
+        screenCreator.updateCommandHistory(commandHistory);
         this.userCommandInputs = userCommandInputs;
         //print statement for debugging
         System.out.println(this.userCommandInputs);

@@ -72,4 +72,7 @@ public class ScreenCreator {
   }
 
 
+  public void updateCommandHistory(List<String> commandHistory) {
+    historyDisplayPane.updateCommandHistory(commandHistory);
+  }
 }

@@ -1,8 +1,11 @@
 package slogo.view;
 
+import java.util.List;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 
@@ -52,5 +55,14 @@ public class HistoryDisplayPane {
 
   public GridPane getBox() {
     return basePane;
+  }
+
+  public void updateCommandHistory(List<String> commandHistory) {
+    int count = 1;
+    for(String command : commandHistory){
+      Label label = new Label(command, new Rectangle(50, 50));
+      basePane.add(label,0,count);
+      count++;
+    }
   }
 }
