@@ -20,6 +20,10 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import slogo.controller.BackEndExternalAPI;
+import slogo.controller.FrontEndExternalAPI;
+import slogo.controller.ModelController;
+import slogo.controller.ViewController;
 
 /**
  * Creates the view for where the turtle will be displayed
@@ -37,8 +41,8 @@ public class ViewPane {
   private static final String PEN_ICON = "PenIcon.gif";
   private static final String TURTLE_ICON = "TurtleT1.gif";
 
-  private static final int rows = 750;
-  private static final int cols = 650;
+  private static final int rows = 700;
+  private static final int cols = 600;
 
   private static final String VIEW_PANE_ID = "ViewPane";
   private static final String PANE_BOX_ID = "TurtleView";
@@ -47,6 +51,7 @@ public class ViewPane {
   private static final String PEN_COLOR_PICKER_ID = "PenColorPicker";
   private static final String COLOR_PICKER = "color-picker";
   private static final String ICON = "icon";
+  private static final String BUTTON = "regular-button";
 
   private static final String LANGUAGE_OPTIONS = "slogo.model.resources.languages.LangaugeOptions";
 
@@ -119,6 +124,18 @@ public class ViewPane {
     turtleImageButton.setOnAction(event -> uploadTurtleImage());
 
     createLanguageComboBox();
+
+    Button addNewScreen = new Button("New Screen");
+    addNewScreen.getStyleClass().add(BUTTON);
+    choicePane.add(addNewScreen, 3, 0);
+    addNewScreen.setOnAction(event -> createNewScreen());
+  }
+
+  private void createNewScreen() {
+    FrontEndExternalAPI viewController = new ViewController();
+    BackEndExternalAPI modelController = new ModelController();
+    viewController.setModelController(modelController);
+    modelController.setViewController(viewController);
   }
 
   private void createLanguageComboBox() {
@@ -139,7 +156,7 @@ public class ViewPane {
     languages.getItems().addAll(allLanguageDisplay);
     languages.setValue(defaultLanguage);
     language = "English";
-    choicePane.add(languages, 4, 0);
+    choicePane.add(languages, 10, 0);
     languages.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
@@ -306,4 +323,23 @@ public class ViewPane {
   private void setPenUp() {
     penUP = true;
   }
+
+  public void moveTurtleByDistance(double distance){
+    // do the calculations to make the turtle go forward
+    // THIS WAS WAY HARDER THAN I THOGUGHT
+    // because the angles/getrotate are all messed up
+    double turtleX;
+    double turtleY;
+    double turtleAngle = ((-turtle.getRotate() - 90) * Math.PI) / (180);
+    turtleX = turtle.getX() - Math.cos(turtleAngle) * distance;
+    turtleY = turtle.getY() + Math.sin(turtleAngle) * distance;
+    if(!penUP){
+      createLine(turtleX, turtleY);
+    }
+
+    turtle.setX(turtleX);
+    turtle.setY(turtleY);
+
+  }
+
 }

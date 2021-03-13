@@ -2,8 +2,8 @@ package slogo.controller;
 
 import java.util.*;
 import javax.swing.text.html.ImageView;
+import slogo.model.commands.basic_commands.UserDefinedCommand;
 import slogo.model.turtle.Turtle;
-import slogo.view.FrontEndInternalAPI;
 import slogo.view.ScreenCreator;
 
 /**
@@ -13,12 +13,16 @@ public class ViewController implements FrontEndExternalAPI {
     BackEndExternalAPI modelController;
     ScreenCreator screenCreator;
     private String userCommandInputs;
+    private Deque<String> commandHistory;
+    private Map<String, String> userDefinedHistory;
 
     /**
      * Default constructor
      */
     public ViewController() {
         screenCreator = new ScreenCreator(this);
+        commandHistory = new ArrayDeque<>();
+        userDefinedHistory = new HashMap<>();
     }
 
     /**
@@ -46,8 +50,9 @@ public class ViewController implements FrontEndExternalAPI {
     /**
      * 
      */
-    public void displayCommandResult(List<String> resultsOfCommandExecution) {
+    public Deque<String> getCommandHistory() {
         // TODO implement here
+        return commandHistory;
     }
 
     /**
@@ -69,6 +74,8 @@ public class ViewController implements FrontEndExternalAPI {
 
     @Override
     public void processUserCommandInput(String userCommandInputs) {
+        commandHistory.offerFirst(userCommandInputs);
+        screenCreator.updateCommandHistory(commandHistory);
         this.userCommandInputs = userCommandInputs;
         //print statement for debugging
         System.out.println(this.userCommandInputs);
@@ -83,5 +90,40 @@ public class ViewController implements FrontEndExternalAPI {
         }
         screenCreator.moveTurtle(parameters);
     }
+
+    @Override
+    public void displayCommandStringOnTextArea(String command) {
+        screenCreator.displayCommandStringOnTextArea(command);
+    }
+
+    @Override
+    public Map<String, Double> getVariables() {
+        return modelController.getVariables();
+    }
+
+    @Override
+    public void updateFrontEnd(Map<String, Double> variables, Map<String, UserDefinedCommand> userDefinedCommands) {
+        parseUserDefinedCommands(userDefinedCommands);
+        screenCreator.updateCommandHistory(variables, userDefinedHistory);
+    }
+
+    private void parseUserDefinedCommands(Map<String, UserDefinedCommand> userDefinedCommands) {
+        for(Map.Entry<String, UserDefinedCommand> entry : userDefinedCommands.entrySet()){
+            System.out.println(entry.getKey());
+            for(String command : commandHistory){
+                List<String> split = Arrays.asList(command.split(" "));
+                if(split.get(1).equals(entry.getKey()) && !userDefinedHistory.containsKey(command)){
+                    StringBuilder stringBuilder = new StringBuilder();
+                    stringBuilder.append(split.get(1));
+                    for(int i = 0; i < entry.getValue().getParamCount(); i++){
+                        stringBuilder.append(" 50");
+                    }
+                    userDefinedHistory.put(commandHistory.getFirst(), stringBuilder.toString());
+                }
+            }
+
+        }
+    }
+
 
 }

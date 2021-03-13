@@ -19,6 +19,7 @@ public class UserDefinedCommand extends ControlStructureCommand {
   private final String NAME;
   private final List<TreeNode> PARAMETERS;
   private final TreeNode COMMAND_BLOCK;
+  private final List<TreeNode> CHILDREN;
 
   private Map<String, Double> paramMap = new HashMap<>();
 
@@ -32,6 +33,7 @@ public class UserDefinedCommand extends ControlStructureCommand {
    */
   public UserDefinedCommand(CommandInformationBundle bundle, List<TreeNode> children) {
     super(bundle);
+    CHILDREN = children;
     NAME = children.get(0).getValue();
     PARAMETERS = children.get(1).getChildren();
     COMMAND_BLOCK = children.get(2);
@@ -68,5 +70,9 @@ public class UserDefinedCommand extends ControlStructureCommand {
     for(int i = 0; i<PARAMETERS.size(); i++){
       paramMap.put(PARAMETERS.get(i).getCommand(), executeBlock(parameterValues.get(i)));
     }
+  }
+
+  public List<TreeNode> getChildren(){
+    return CHILDREN;
   }
 }

@@ -2,9 +2,8 @@ package slogo.model;
 
 import java.util.*;
 
+import slogo.ErrorHandler;
 import slogo.controller.BackEndExternalAPI;
-import slogo.controller.ModelController;
-import slogo.model.commands.basic_commands.BasicCommand;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
 import slogo.model.tree.TreeNode;
 
@@ -48,13 +47,10 @@ public class CommandParser implements Parser {
         ResourceBundle resources = ResourceBundle.getBundle(RESOURCES_PACKAGE + syntax);
         for (String key : Collections.list(resources.getKeys())) {
             addSingleParamCount(key, resources.getString(key));
-            parameters.put(key, resources.getString(key));
 //            System.out.println("Key: " + key);
 //            System.out.println("Number: " + resources.getString(key));
 //            System.out.println();
         }
-        System.out.println(parameters);
-
     }
 
 
@@ -88,6 +84,10 @@ public class CommandParser implements Parser {
             child = checkCommandBlock(child);
             commandTree.addChild(child);
             insertNodeRecursive(commandQueue, child);
+        }
+        printPreOrder(commandTree);
+        if(preOrderResults.size() != cleanCommands.size()+1){
+            throw new ErrorHandler("WrongParamNum");
         }
         return commandTree;
     }

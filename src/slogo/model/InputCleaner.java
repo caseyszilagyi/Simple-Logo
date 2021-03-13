@@ -1,6 +1,5 @@
 package slogo.model;
 
-import java.security.spec.ECField;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
-import javax.sound.midi.SysexMessage;
+import slogo.ErrorHandler;
 import slogo.controller.BackEndExternalAPI;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
 
@@ -26,17 +25,18 @@ import slogo.model.commands.basic_commands.UserDefinedCommand;
 public class InputCleaner {
 
   private static final String LANGUAGES_PACKAGE = InputCleaner.class.getPackageName()+".resources.languages.";
+  private static final String COMMANDS_PACKAGE = InputCleaner.class.getPackageName()+".resources.commands.";
   private static final String WHITESPACE = "\\s+";
   private static final ArrayList<String> VARIABLE_BLOCK_COMMANDS = new ArrayList<>(Arrays.asList("DoTimes", "MakeUserInstruction"));
   private final Map<String, Double> VARIABLES;
   private final Map<String, UserDefinedCommand> COMMANDS;
-
-  private String language;
   private List<Entry<String, Pattern>> symbols;
   private Map<String, Pattern> syntaxMap;
+  private Map<String, Integer> commandParam;
   private String userInput;
   private int commandCount;
   public CommandParser commandParser;
+  private int paramCountsExpected = 0;
 
   /**
    * create instance of InputCleaner and initializes lists for "translating" the string into strings recognizable by backend classes and parser
@@ -48,10 +48,11 @@ public class InputCleaner {
   public InputCleaner(String userInput, String language, BackEndExternalAPI modelController, CommandParser commandParser) {
     symbols = new ArrayList<>();
     syntaxMap = new HashMap<>();
-    this.language = language;
+    commandParam = new HashMap<>();
     commandCount = 0;
     addLangPatterns(language);
     addRegExPatterns("Syntax");
+    addCommandParamCounts("Commands");
     this.userInput = userInput;
     this.commandParser = commandParser;
     VARIABLES = modelController.getVariables();
@@ -74,6 +75,14 @@ public class InputCleaner {
     }
   }
 
+  private void addCommandParamCounts(String syntax){
+    ResourceBundle resources = ResourceBundle.getBundle(COMMANDS_PACKAGE + syntax);
+    for (String key : Collections.list(resources.getKeys())) {
+      commandParam.put(key, Integer.parseInt(resources.getString(key)));
+    }
+  }
+
+
   /**
    * method that actually cleans the string input
    * @return list of strings without comments, translated to backend recognizable, and commandblocks grouped
@@ -81,12 +90,15 @@ public class InputCleaner {
   public List<String> cleanString() {
     String noComments = removeComments();
     List<String> translated = translateCommand(noComments);
-//    List<String> userDef = findUserDefCommands(translated);
     List<String> varBlocks = findVariableBlocks(translated);
     List<String> groupedCommands = findCommandBlocks(varBlocks);
     groupedCommands.removeIf(command -> command.equals(""));
-    List<String> variablesToValues = replaceVariables(groupedCommands);
-    return variablesToValues;
+//    countParamMatch(groupedCommands);
+//    System.out.println(groupedCommands);
+//    if(groupedCommands.size() != paramCountsExpected){
+//      throw new ErrorHandler("WrongParamNum");
+//    }
+    return groupedCommands;
   }
 
   private String removeComments() {
@@ -122,10 +134,8 @@ public class InputCleaner {
     for (int ind = 0; ind < toRet.size(); ind++) {
       String commandKeyNum = "";
       String curr = toRet.get(ind);
-      if (isVariable(curr) && canCount) {
-        blockSize++;
-      }
-      if (match(curr, syntaxMap.get("ListStart")) && hasVarBlocks(toRet.get(ind-2))) {
+      blockSize++;
+      if (match(curr, syntaxMap.get("ListStart")) && (hasVarBlocks(toRet.get(ind-1)) || hasVarBlocks(toRet.get(ind-2)))) {
         commandCount++;
         commandKeyNum = commandKey + Integer.toString(commandCount);
         toRet.set(ind, commandKeyNum);
@@ -135,22 +145,23 @@ public class InputCleaner {
       if (match(curr, syntaxMap.get("ListEnd")) && canCount) {
         toRet.remove(ind);
         ind--;
-        commandVal = blockSize + "";
+        commandVal = blockSize-1 + "";
         commandKeyNum = commandKey + Integer.toString(commandCount);
         commandParser.addSingleParamCount(commandKeyNum, commandVal);
         canCount = false;
       }
     }
+    if(canCount){
+      throw new ErrorHandler("WrongParamNum");
+    }
     return toRet;
   }
 
   private boolean hasVarBlocks(String s) {
-    System.out.println(s);
     return VARIABLE_BLOCK_COMMANDS.contains(s);
   }
 
   private List<String> findCommandBlocks(List<String> commands) {
-
     List<String> toRet = new ArrayList<>(commands);
     Deque<String> commandBlocks = new ArrayDeque<>();
     Deque<Integer> parameters = new ArrayDeque<>();
@@ -176,9 +187,13 @@ public class InputCleaner {
         ind--;
         commandVal = blockSize + "";
         commandKeyNum = commandBlocks.pop();
-        blockSize = parameters.pop();
+        commandParam.put(commandKeyNum, blockSize);
         commandParser.addSingleParamCount(commandKeyNum, commandVal);
+        blockSize = parameters.pop();
       }
+    }
+    if(!commandBlocks.isEmpty()){
+      throw new ErrorHandler("WrongParamNum");
     }
     return toRet;
   }
@@ -187,57 +202,25 @@ public class InputCleaner {
     return match(s, syntaxMap.get("Command"));
   }
 
-  private List<String> replaceVariables(List<String> commands) {
-    List<String> toRet = new ArrayList<>(commands);
-    for (int ind = 0; ind < toRet.size(); ind++) {
-      if(isVariable(toRet.get(ind))) {
-        try {
-          Double varVal = VARIABLES.get(toRet.get(ind).substring(1));
-          toRet.set(ind, toRet.get(ind));
-        } catch (Exception e){
-          System.out.println("Variable doesn't exist!!");
-        }
-      }
-    }
-    return toRet;
-  }
-
-  private boolean isVariable(String s) {
-    return match(s, syntaxMap.get("Variable"));
-  }
-
-  private List<String> replaceUserDefCommands(List<String> commands) {
-    List<String> toRet = new ArrayList<>(commands);
-    for (int ind = 0; ind < toRet.size(); ind++) {
-      if(isUserDefCommand(toRet.get(ind))) {
-        //replace the name of command with the command block node with the children that are its params
-        try {
-          UserDefinedCommand userDefCommand = COMMANDS.get(toRet.get(ind));
-        } catch (Exception e) {
-          System.out.println("User Defined Command doesn't exist!!!");
-        }
-      }
-    }
-    return toRet;
-  }
-
-  private boolean isUserDefCommand(String s) {
-    return COMMANDS.containsKey(s);
-  }
+//  private void countParamMatch(List<String> finalCommands) {
+//    for (String s : finalCommands) {
+//      if(isCommand(s)) {
+//        paramCountsExpected += commandParam.get(s);
+//      }
+//    }
+//  }
 
   private String getCommandKey (String text) {
-
     for (Entry<String, Pattern> e : symbols) {
       try {
         if (match(text, e.getValue())) {
           return e.getKey();
         }
       } catch (Exception ex){
-        System.out.println("invalid command");
+        throw new ErrorHandler("InvalidCommand");
       }
     }
     return "NO MATCH";
-    // FIXME: perhaps throw an exception instead
   }
 
   private boolean match (String text, Pattern regex) {

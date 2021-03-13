@@ -684,6 +684,10 @@ public class BasicCommandTester {
     assertEquals(600, commandBundle.getTurtle().getYPosition());
   }
 
+  // Combining methods
+
+
+
 
 
   // Helper methods below

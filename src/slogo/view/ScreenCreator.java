@@ -1,11 +1,16 @@
 package slogo.view;
 
+import java.util.Deque;
 import java.util.List;
 
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import slogo.controller.FrontEndExternalAPI;
+import slogo.model.commands.basic_commands.UserDefinedCommand;
 
 /**
  * Create the main screen where visuals and panes will be displayed
@@ -14,9 +19,8 @@ import slogo.controller.FrontEndExternalAPI;
  */
 public class ScreenCreator {
   private static final String TITLE = "SLogo";
-  private static final double DEFAULT_X = 1000.0;
-  //private static final double DEFAULT_Y = 860.0;
-  private static final double DEFAULT_Y = 860;
+  private static final double DEFAULT_X = 1100;
+  private static final double DEFAULT_Y = 800.0;
 
   private BorderPane root;
   private Scene scene;
@@ -40,7 +44,7 @@ public class ScreenCreator {
     styleSheet = "slogo/view/resources/default.css";
     scene.getStylesheets().add(styleSheet);
 
-    historyDisplayPane = new HistoryDisplayPane();
+    historyDisplayPane = new HistoryDisplayPane(viewController);
     root.setCenter(historyDisplayPane.getBox());
 
     userCommand = new UserCommandPane(viewController);
@@ -54,6 +58,7 @@ public class ScreenCreator {
 
     System.out.println("parameters: " + parameters);
     viewPane.updateTurtle(parameters);
+
 //    if(parameters.get(5) == 1){
 //      reset();
 //    }
@@ -69,5 +74,18 @@ public class ScreenCreator {
 
   public String getLanguage(){
     return viewPane.getLanguage();
+  }
+
+  public void updateCommandHistory(Queue<String> commandHistory){
+    historyDisplayPane.updateCommandHistory(commandHistory);
+  }
+
+
+  public void updateCommandHistory(Map<String, Double> variables, Map<String, String> userDefinedCommands) {
+    historyDisplayPane.updateDisplayOfInformation(variables, userDefinedCommands);
+  }
+
+  public void displayCommandStringOnTextArea(String command) {
+    userCommand.displayCommandStringOnTextArea(command);
   }
 }

@@ -2,6 +2,7 @@ package slogo.controller;
 
 import java.util.*;
 import javax.swing.text.html.ImageView;
+import slogo.model.commands.basic_commands.UserDefinedCommand;
 import slogo.model.turtle.Turtle;
 
 /**
@@ -27,7 +28,7 @@ public interface FrontEndExternalAPI {
     /**
      * Backend can call this method to relay information to be displayed to the frontend
      */
-    public void displayCommandResult(List<String> resultsOfCommandExecution);
+    public Queue<String> getCommandHistory();
 
     /**
      * Displays error message
@@ -42,4 +43,9 @@ public interface FrontEndExternalAPI {
 
     public void passInputFromBackendToFrontEnd(List<Double> parameters);
 
+    public void displayCommandStringOnTextArea(String command);
+
+    public Map<String, Double> getVariables();
+
+    public void updateFrontEnd(Map<String, Double> variables, Map<String, UserDefinedCommand> userDefinedCommands);
 }

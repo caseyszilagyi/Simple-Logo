@@ -35,9 +35,16 @@
 }
 
 .HistoryPane {
-    -fx-background-radius: 10;
-    -fx-background-insets: 10;
+    -fx-background-radius: 20;
     -fx-background-color: #d3d3d3;
+    -fx-alignment: CENTER;
+}
+
+.HistoryBox {
+    -fx-background-radius: 10;
+    -fx-background-color: #d3d3d3;
+    -fx-alignment: TOP_CENTER;
+    -fx-hgap: 5.0;
 }
 
 .ChoicePane {
@@ -49,7 +56,7 @@
     -fx-hgap: 5.0;
 }
 
-.button {
+.regular-button {
     -fx-border-radius: 20;
     -fx-background-radius: 20;
     -fx-background-insets: 1;
@@ -59,7 +66,17 @@
     -fx-border-color: #000000;
 }
 
-.button:hover {
+.regular-button:hover {
+    -fx-background-color: linear-gradient(#808080, #dcdcdc);
+}
+
+.history-button {
+    -fx-background-radius: 20;
+    -fx-background-color: #d3d3d3;
+    -fx-text-alignment: CENTER;
+}
+
+.history-button:hover {
     -fx-background-color: linear-gradient(#808080, #dcdcdc);
 }
 
@@ -112,5 +129,5 @@
 
 .HistoryDisplayPaneText{
     -fx-text-alignment: CENTER;
-    -fx-fill: #f8f8ff;
+    -fx-text-fill: #f8f8ff;
 }
