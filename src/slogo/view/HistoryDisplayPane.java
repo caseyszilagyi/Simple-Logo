@@ -101,6 +101,7 @@ public class HistoryDisplayPane {
   }
 
   public void updateCommandHistory(Deque<String> commandHistory) {
+    historyBox.getChildren().clear();
     for(String command : commandHistory){
       Button button = makeButton(command, historyBox);
       //Label label = new Label(command, new Rectangle(50, 50));
