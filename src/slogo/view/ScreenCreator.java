@@ -5,6 +5,7 @@ import java.util.List;
 
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -75,9 +76,13 @@ public class ScreenCreator {
     return viewPane.getLanguage();
   }
 
+  public void updateCommandHistory(Queue<String> commandHistory){
+    historyDisplayPane.updateCommandHistory(commandHistory);
+  }
 
-  public void updateCommandHistory(Queue<String> commandHistory, Map<String, Double> variables, Map<String, UserDefinedCommand> userDefinedCommands) {
-    historyDisplayPane.updateDisplayOfInformation(commandHistory, variables, userDefinedCommands);
+
+  public void updateCommandHistory(Map<String, Double> variables, Map<String, String> userDefinedCommands) {
+    historyDisplayPane.updateDisplayOfInformation(variables, userDefinedCommands);
   }
 
   public void displayCommandStringOnTextArea(String command) {

@@ -1,9 +1,12 @@
 package slogo.view;
 
+import com.sun.source.tree.Tree;
 import java.util.Deque;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -12,6 +15,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import slogo.controller.FrontEndExternalAPI;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
+import slogo.model.tree.TreeNode;
 
 
 /**
@@ -106,12 +110,24 @@ public class HistoryDisplayPane {
     return basePane;
   }
 
-  public void updateDisplayOfInformation(Queue<String> commandHistory, Map<String, Double> variables, Map<String, UserDefinedCommand> userDefinedCommands) {
-    updateCommandHistory(commandHistory);
+  public void updateDisplayOfInformation(Map<String, Double> variables, Map<String, String> userDefinedCommands) {
     updateVariableDisplay(variables);
+    updateUserDefinedCommands(userDefinedCommands);
   }
 
-  private void updateCommandHistory(Queue<String> commandHistory) {
+  private void updateUserDefinedCommands(Map<String, String> userDefinedCommands) {
+    userBox.getChildren().clear();
+    for(Map.Entry<String, String> command : userDefinedCommands.entrySet()){
+      Button button = makeButton(command.getKey(), userBox);
+      //Label label = new Label(command, new Rectangle(50, 50));
+      userBox.getChildren().add(button);
+      button.setOnAction(event -> viewController.displayCommandStringOnTextArea(command.getValue()));
+    }
+  }
+
+
+
+  public void updateCommandHistory(Queue<String> commandHistory) {
     historyBox.getChildren().clear();
     for(String command : commandHistory){
       Button button = makeButton(command, historyBox);
@@ -124,7 +140,7 @@ public class HistoryDisplayPane {
   public void updateVariableDisplay(Map<String, Double> variables) {
     varBox.getChildren().clear();
     for(Map.Entry<String, Double> entry : variables.entrySet()){
-      Button button = makeButton(entry.getKey() + " = " + entry.getValue(), historyBox);
+      Button button = makeButton(entry.getKey() + " = " + entry.getValue(), varBox);
       varBox.getChildren().add(button);
     }
   }

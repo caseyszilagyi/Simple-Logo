@@ -47,5 +47,5 @@ public interface FrontEndExternalAPI {
 
     public Map<String, Double> getVariables();
 
-    public void updateFrontEnd(Queue<String> commandHistory, Map<String, Double> variables, Map<String, UserDefinedCommand> userDefinedCommands);
+    public void updateFrontEnd(Map<String, Double> variables, Map<String, UserDefinedCommand> userDefinedCommands);
 }
