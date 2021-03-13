@@ -112,4 +112,8 @@ public class UserCommandPane {
   public HBox getBox() {
     return box;
   }
+
+  public void displayCommandStringOnTextArea(String command) {
+    textArea.setText(command);
+  }
 }

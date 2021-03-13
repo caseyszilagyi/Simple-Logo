@@ -8,6 +8,7 @@ import javafx.scene.layout.*;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import slogo.controller.FrontEndExternalAPI;
 
 
 /**
@@ -31,13 +32,14 @@ public class HistoryDisplayPane {
   private VBox varBox;
   private ScrollPane userPane;
   private VBox userBox;
+  private FrontEndExternalAPI viewController;
 
   private Button clearButton;
 
-  public HistoryDisplayPane() {
+  public HistoryDisplayPane(FrontEndExternalAPI viewController) {
     basePane = new BorderPane();
     basePane.getStyleClass().add(HISTORY_DISPLAY_PANE_ID);
-
+    this.viewController = viewController;
     displayTitle();
     createHistoryPane();
     createVariablePane();
@@ -106,6 +108,7 @@ public class HistoryDisplayPane {
       Button button = makeButton(command, historyBox);
       //Label label = new Label(command, new Rectangle(50, 50));
       historyBox.getChildren().add(button);
+      button.setOnAction(event -> viewController.displayCommandStringOnTextArea(command));
     }
   }
 

@@ -42,4 +42,5 @@ public interface FrontEndExternalAPI {
 
     public void passInputFromBackendToFrontEnd(List<Double> parameters);
 
+    public void displayCommandStringOnTextArea(String command);
 }

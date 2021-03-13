@@ -41,7 +41,7 @@ public class ScreenCreator {
     styleSheet = "slogo/view/resources/default.css";
     scene.getStylesheets().add(styleSheet);
 
-    historyDisplayPane = new HistoryDisplayPane();
+    historyDisplayPane = new HistoryDisplayPane(viewController);
     root.setCenter(historyDisplayPane.getBox());
 
     userCommand = new UserCommandPane(viewController);
@@ -75,5 +75,9 @@ public class ScreenCreator {
 
   public void updateCommandHistory(Deque<String> commandHistory) {
     historyDisplayPane.updateCommandHistory(commandHistory);
+  }
+
+  public void displayCommandStringOnTextArea(String command) {
+    userCommand.displayCommandStringOnTextArea(command);
   }
 }

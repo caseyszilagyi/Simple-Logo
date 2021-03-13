@@ -89,4 +89,9 @@ public class ViewController implements FrontEndExternalAPI {
         screenCreator.moveTurtle(parameters);
     }
 
+    @Override
+    public void displayCommandStringOnTextArea(String command) {
+        screenCreator.displayCommandStringOnTextArea(command);
+    }
+
 }
