@@ -4,8 +4,6 @@ import java.util.*;
 
 import slogo.ErrorHandler;
 import slogo.controller.BackEndExternalAPI;
-import slogo.controller.ModelController;
-import slogo.model.commands.basic_commands.BasicCommand;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
 import slogo.model.tree.TreeNode;
 
@@ -49,13 +47,10 @@ public class CommandParser implements Parser {
         ResourceBundle resources = ResourceBundle.getBundle(RESOURCES_PACKAGE + syntax);
         for (String key : Collections.list(resources.getKeys())) {
             addSingleParamCount(key, resources.getString(key));
-            parameters.put(key, resources.getString(key));
 //            System.out.println("Key: " + key);
 //            System.out.println("Number: " + resources.getString(key));
 //            System.out.println();
         }
-        System.out.println(parameters);
-
     }
 
 

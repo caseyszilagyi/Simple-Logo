@@ -25,18 +25,17 @@ import slogo.model.commands.basic_commands.UserDefinedCommand;
 public class InputCleaner {
 
   private static final String LANGUAGES_PACKAGE = InputCleaner.class.getPackageName()+".resources.languages.";
+  private static final String COMMANDS_PACKAGE = InputCleaner.class.getPackageName()+".resources.commands.";
   private static final String WHITESPACE = "\\s+";
   private static final ArrayList<String> VARIABLE_BLOCK_COMMANDS = new ArrayList<>(Arrays.asList("DoTimes", "MakeUserInstruction"));
   private final Map<String, Double> VARIABLES;
   private final Map<String, UserDefinedCommand> COMMANDS;
-
-  private String language;
   private List<Entry<String, Pattern>> symbols;
   private Map<String, Pattern> syntaxMap;
+  private Map<String, Integer> commandParam;
   private String userInput;
   private int commandCount;
   public CommandParser commandParser;
-  private int paramCountsActual = 0;
   private int paramCountsExpected = 0;
 
   /**
@@ -49,10 +48,11 @@ public class InputCleaner {
   public InputCleaner(String userInput, String language, BackEndExternalAPI modelController, CommandParser commandParser) {
     symbols = new ArrayList<>();
     syntaxMap = new HashMap<>();
-    this.language = language;
+    commandParam = new HashMap<>();
     commandCount = 0;
     addLangPatterns(language);
     addRegExPatterns("Syntax");
+    addCommandParamCounts("Commands");
     this.userInput = userInput;
     this.commandParser = commandParser;
     VARIABLES = modelController.getVariables();
@@ -75,6 +75,14 @@ public class InputCleaner {
     }
   }
 
+  private void addCommandParamCounts(String syntax){
+    ResourceBundle resources = ResourceBundle.getBundle(COMMANDS_PACKAGE + syntax);
+    for (String key : Collections.list(resources.getKeys())) {
+      commandParam.put(key, Integer.parseInt(resources.getString(key)));
+    }
+  }
+
+
   /**
    * method that actually cleans the string input
    * @return list of strings without comments, translated to backend recognizable, and commandblocks grouped
@@ -85,9 +93,11 @@ public class InputCleaner {
     List<String> varBlocks = findVariableBlocks(translated);
     List<String> groupedCommands = findCommandBlocks(varBlocks);
     groupedCommands.removeIf(command -> command.equals(""));
-    if(paramCountsActual != paramCountsExpected){
-      throw new ErrorHandler("WrongParamNum");
-    }
+//    countParamMatch(groupedCommands);
+//    System.out.println(groupedCommands);
+//    if(groupedCommands.size() != paramCountsExpected){
+//      throw new ErrorHandler("WrongParamNum");
+//    }
     return groupedCommands;
   }
 
@@ -141,11 +151,13 @@ public class InputCleaner {
         canCount = false;
       }
     }
+    if(canCount){
+      throw new ErrorHandler("WrongParamNum");
+    }
     return toRet;
   }
 
   private boolean hasVarBlocks(String s) {
-    System.out.println(s);
     return VARIABLE_BLOCK_COMMANDS.contains(s);
   }
 
@@ -175,8 +187,9 @@ public class InputCleaner {
         ind--;
         commandVal = blockSize + "";
         commandKeyNum = commandBlocks.pop();
-        blockSize = parameters.pop();
+        commandParam.put(commandKeyNum, blockSize);
         commandParser.addSingleParamCount(commandKeyNum, commandVal);
+        blockSize = parameters.pop();
       }
     }
     if(!commandBlocks.isEmpty()){
@@ -189,6 +202,14 @@ public class InputCleaner {
     return match(s, syntaxMap.get("Command"));
   }
 
+//  private void countParamMatch(List<String> finalCommands) {
+//    for (String s : finalCommands) {
+//      if(isCommand(s)) {
+//        paramCountsExpected += commandParam.get(s);
+//      }
+//    }
+//  }
+
   private String getCommandKey (String text) {
     for (Entry<String, Pattern> e : symbols) {
       try {
@@ -196,7 +217,6 @@ public class InputCleaner {
           return e.getKey();
         }
       } catch (Exception ex){
-        System.out.println("invalid command");
         throw new ErrorHandler("InvalidCommand");
       }
     }

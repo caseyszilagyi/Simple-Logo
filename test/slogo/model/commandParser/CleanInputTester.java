@@ -264,6 +264,17 @@ public class CleanInputTester {
     assertEquals(cleaner.commandParser.getParamCount("CommandBlock_2"), 2);
   }
 
+  /**
+   * Tests the wrong input
+   * fd 50 60
+   */
+  @Test
+  void testSimpleWrongInput() {
+    String input = "fd 50 60";
+    InputCleaner cleaner = makeInputCleaner(input, "English");
+    assertEquals(new ErrorHandler("WrongParamNum"), cleaner.cleanString());
+  }
+
   private InputCleaner makeInputCleaner(String userInput, String language){
     ModelController modelController = new ModelController();
     CommandParser commandParser = new CommandParser(userInput, language, modelController);
