@@ -119,10 +119,8 @@ public class InputCleaner {
     for (int ind = 0; ind < toRet.size(); ind++) {
       String commandKeyNum = "";
       String curr = toRet.get(ind);
-      if (isVariable(curr) && canCount) {
-        blockSize++;
-      }
-      if (match(curr, syntaxMap.get("ListStart")) && hasVarBlocks(toRet.get(ind-2))) {
+      blockSize++;
+      if (match(curr, syntaxMap.get("ListStart")) && (hasVarBlocks(toRet.get(ind-1)) || hasVarBlocks(toRet.get(ind-2)))) {
         commandCount++;
         commandKeyNum = commandKey + Integer.toString(commandCount);
         toRet.set(ind, commandKeyNum);
@@ -132,7 +130,7 @@ public class InputCleaner {
       if (match(curr, syntaxMap.get("ListEnd")) && canCount) {
         toRet.remove(ind);
         ind--;
-        commandVal = blockSize + "";
+        commandVal = blockSize-1 + "";
         commandKeyNum = commandKey + Integer.toString(commandCount);
         commandParser.addSingleParamCount(commandKeyNum, commandVal);
         canCount = false;

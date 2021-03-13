@@ -231,6 +231,29 @@ public class CleanInputTester {
     assertEquals(cleaner.commandParser.getParamCount("CommandBlock_2"), 1);
  }
 
+  /**
+   * Tests the do times
+   * dotimes [ :size 10 ] [ fd :size right 5 ]
+   */
+  @Test
+  void testDoTimes() {
+    String input = "dotimes [ :size 10 ] [ fd :size right 5 ]";
+    InputCleaner cleaner = makeInputCleaner(input, "English");
+    List<String> expected = new ArrayList<>();
+    expected.add("DoTimes");
+    expected.add("CommandBlock_1");
+    expected.add(":size");
+    expected.add("10");
+    expected.add("CommandBlock_2");
+    expected.add("Forward");
+    expected.add(":size");
+    expected.add("Right");
+    expected.add("5");
+    assertEquals(expected, cleaner.cleanString());
+    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 2);
+    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_2"), 2);
+  }
+
   private InputCleaner makeInputCleaner(String userInput, String language){
     ModelController modelController = new ModelController();
     CommandParser commandParser = new CommandParser(userInput, language, modelController);
