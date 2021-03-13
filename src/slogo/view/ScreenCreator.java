@@ -17,8 +17,7 @@ import slogo.controller.FrontEndExternalAPI;
 public class ScreenCreator {
   private static final String TITLE = "SLogo";
   private static final double DEFAULT_X = 1000.0;
-  //private static final double DEFAULT_Y = 860.0;
-  private static final double DEFAULT_Y = 860;
+  private static final double DEFAULT_Y = 800.0;
 
   private BorderPane root;
   private Scene scene;

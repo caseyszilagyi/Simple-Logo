@@ -37,8 +37,8 @@ public class ViewPane {
   private static final String PEN_ICON = "PenIcon.gif";
   private static final String TURTLE_ICON = "TurtleT1.gif";
 
-  private static final int rows = 750;
-  private static final int cols = 650;
+  private static final int rows = 700;
+  private static final int cols = 600;
 
   private static final String VIEW_PANE_ID = "ViewPane";
   private static final String PANE_BOX_ID = "TurtleView";

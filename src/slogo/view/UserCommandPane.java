@@ -20,7 +20,7 @@ public class UserCommandPane {
   private static final double HEIGHT = 100.0;
   private static final String USER_COMMAND_PANE_ID = "UserCommandPane";
   private static final String TEXT_AREA = "text-area";
-  private static final String BUTTON = "button";
+  private static final String BUTTON = "regular-button";
   private static final String FILE_PATH = "src/slogo/view/resources/reference";
   private static final String COMBO_BOX = "combo-box";
   private static final String DEFAULT_MESSAGE = "Choose command";

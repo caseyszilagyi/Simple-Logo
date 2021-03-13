@@ -1,90 +1,121 @@
 package slogo.view;
 
 import java.util.Deque;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 
 /**
  * Create the HBox for the display for history of commands, variables, and user commands
  */
 public class HistoryDisplayPane {
-  private static final String TITLE = "HISTORY, VARIABLES,\nAND USER COMMANDS";
+  private static final String TITLE = "HISTORY, VARIABLES, AND USER COMMANDS";
   private static final String HISTORY_DISPLAY_PANE_ID = "HistoryDisplayPane";
   private static final String HISTORY_DISPLAY_PANE_TEXT = "HistoryDisplayPaneText";
   private static final String HISTORY_PANE_ID = "HistoryPane";
-  private static final double HEIGHT = 50;
+  private static final String HISTORY_BOX_ID = "HistoryBox";
   private static final String BUTTON = "button";
-  private static final String HISTORY_DISPLAY_PANE = "HistoryDisplayPane";
+  private static final String HISTORY_BUTTON = "history-button";
+  private static final double TABS_HEIGHT = 600.0;
 
-  private GridPane basePane;
+  private BorderPane basePane;
   private ScrollPane historyPane;
-  private HBox box;
+  private TabPane tabPane;
+  private VBox historyBox;
+  private ScrollPane varPane;
+  private VBox varBox;
+  private ScrollPane userPane;
+  private VBox userBox;
 
   private Button clearButton;
 
   public HistoryDisplayPane() {
-    basePane = new GridPane();
+    basePane = new BorderPane();
     basePane.getStyleClass().add(HISTORY_DISPLAY_PANE_ID);
-    box = new HBox();
-    box.getStyleClass().add(HISTORY_DISPLAY_PANE);
 
     displayTitle();
     createHistoryPane();
     createVariablePane();
     createUserCommandsPane();
+    createTabPane();
+  }
+
+  private void createTabPane() {
+    tabPane = new TabPane();
+    Tab history = new Tab("History");
+    history.setContent(historyPane);
+    Tab var = new Tab("Variables");
+    var.setContent(varPane);
+    Tab user = new Tab("User Defined Commands");
+    user.setContent(userPane);
+    tabPane.getTabs().addAll(history, var, user);
+    basePane.setCenter(tabPane);
   }
 
   private void createUserCommandsPane() {
+    userBox = makeBox();
+    userPane = makeScrollPane(userBox);
   }
 
   private void createVariablePane() {
+    varBox = makeBox();
+    varPane = makeScrollPane(varBox);
   }
 
   private void createClearButton(){
-    clearButton = makeButton("Clear History");
+    clearButton = makeButton("Clear History", BUTTON);
   }
 
   private void createHistoryPane() {
-    historyPane = new ScrollPane();
-    historyPane.setFitToWidth(true);
-    historyPane.setFitToHeight(true);
-    historyPane.setHbarPolicy(ScrollBarPolicy.NEVER);
-    historyPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
-    HBox.setHgrow(historyPane, Priority.ALWAYS);
-    historyPane.getStyleClass().add(HISTORY_PANE_ID);
-    basePane.add(historyPane, 0, 1);
+    historyBox = makeBox();
+    historyPane = makeScrollPane(historyBox);
+  }
+
+  private VBox makeBox() {
+    VBox box = new VBox();
+    box.setPrefHeight(TABS_HEIGHT);
+    box.getStyleClass().add(HISTORY_BOX_ID);
+    return box;
+  }
+
+  private ScrollPane makeScrollPane(VBox vBox) {
+    ScrollPane scrollPane = new ScrollPane(vBox);
+    scrollPane.setFitToWidth(true);
+    scrollPane.setFitToHeight(true);
+    scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
+    scrollPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+    scrollPane.getStyleClass().add(HISTORY_PANE_ID);
+    return scrollPane;
   }
 
   private void displayTitle() {
-    Text title = new Text(TITLE);
+    Label title = new Label(TITLE);
+    title.setWrapText(true);
     title.getStyleClass().add(HISTORY_DISPLAY_PANE_TEXT);
-    basePane.add(title, 0, 0);
+    basePane.setTop(title);
   }
 
-  public GridPane getBox() {
+  public BorderPane getBox() {
     return basePane;
   }
 
   public void updateCommandHistory(Deque<String> commandHistory) {
-    VBox vBox = new VBox();
-    historyPane.setContent(vBox);
     for(String command : commandHistory){
-      Label label = new Label(command, new Rectangle(50, 50));
-      vBox.getChildren().add(label);
+      Button button = makeButton(command, HISTORY_BUTTON);
+      //Label label = new Label(command, new Rectangle(50, 50));
+      historyBox.getChildren().add(button);
     }
   }
 
-  private Button makeButton(String text) {
+  private Button makeButton(String text, String styleClass) {
     Button button = new Button(text);
-    button.setPrefHeight(HEIGHT);
-    button.getStyleClass().add(BUTTON);
-    box.getChildren().add(button);
+    button.setWrapText(true);
+    button.getStyleClass().add(HISTORY_BUTTON);
     return button;
   }
 }
