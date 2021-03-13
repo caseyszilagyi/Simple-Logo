@@ -115,6 +115,7 @@ public class ModelController implements BackEndExternalAPI {
             System.out.println("Value of child of root: " + child.getValue());
             basicCommandClassLoader.makeCommand(commandInformationBundle,child).execute();
         }
+        viewController.updateFrontEnd(viewController.getCommandHistory(),getVariables(),getUserDefinedCommands());
     }
 
     /**

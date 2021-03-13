@@ -2,6 +2,8 @@ package slogo.view;
 
 import java.util.Deque;
 
+import java.util.Map;
+import java.util.Queue;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -9,6 +11,7 @@ import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import slogo.controller.FrontEndExternalAPI;
+import slogo.model.commands.basic_commands.UserDefinedCommand;
 
 
 /**
@@ -67,6 +70,7 @@ public class HistoryDisplayPane {
   private void createVariablePane() {
     varBox = makeBox();
     varPane = makeScrollPane(varBox);
+
   }
 
   private void createHistoryPane() {
@@ -102,13 +106,26 @@ public class HistoryDisplayPane {
     return basePane;
   }
 
-  public void updateCommandHistory(Deque<String> commandHistory) {
+  public void updateDisplayOfInformation(Queue<String> commandHistory, Map<String, Double> variables, Map<String, UserDefinedCommand> userDefinedCommands) {
+    updateCommandHistory(commandHistory);
+    updateVariableDisplay(variables);
+  }
+
+  private void updateCommandHistory(Queue<String> commandHistory) {
     historyBox.getChildren().clear();
     for(String command : commandHistory){
       Button button = makeButton(command, historyBox);
       //Label label = new Label(command, new Rectangle(50, 50));
       historyBox.getChildren().add(button);
       button.setOnAction(event -> viewController.displayCommandStringOnTextArea(command));
+    }
+  }
+
+  public void updateVariableDisplay(Map<String, Double> variables) {
+    varBox.getChildren().clear();
+    for(Map.Entry<String, Double> entry : variables.entrySet()){
+      Button button = makeButton(entry.getKey() + " = " + entry.getValue(), historyBox);
+      varBox.getChildren().add(button);
     }
   }
 

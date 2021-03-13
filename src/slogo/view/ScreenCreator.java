@@ -3,11 +3,13 @@ package slogo.view;
 import java.util.Deque;
 import java.util.List;
 
+import java.util.Map;
 import java.util.Queue;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import slogo.controller.FrontEndExternalAPI;
+import slogo.model.commands.basic_commands.UserDefinedCommand;
 
 /**
  * Create the main screen where visuals and panes will be displayed
@@ -55,6 +57,7 @@ public class ScreenCreator {
 
     System.out.println("parameters: " + parameters);
     viewPane.updateTurtle(parameters);
+
 //    if(parameters.get(5) == 1){
 //      reset();
 //    }
@@ -73,8 +76,8 @@ public class ScreenCreator {
   }
 
 
-  public void updateCommandHistory(Deque<String> commandHistory) {
-    historyDisplayPane.updateCommandHistory(commandHistory);
+  public void updateCommandHistory(Queue<String> commandHistory, Map<String, Double> variables, Map<String, UserDefinedCommand> userDefinedCommands) {
+    historyDisplayPane.updateDisplayOfInformation(commandHistory, variables, userDefinedCommands);
   }
 
   public void displayCommandStringOnTextArea(String command) {

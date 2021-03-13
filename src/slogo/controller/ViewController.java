@@ -2,8 +2,8 @@ package slogo.controller;
 
 import java.util.*;
 import javax.swing.text.html.ImageView;
+import slogo.model.commands.basic_commands.UserDefinedCommand;
 import slogo.model.turtle.Turtle;
-import slogo.view.FrontEndInternalAPI;
 import slogo.view.ScreenCreator;
 
 /**
@@ -73,7 +73,6 @@ public class ViewController implements FrontEndExternalAPI {
     @Override
     public void processUserCommandInput(String userCommandInputs) {
         commandHistory.offerFirst(userCommandInputs);
-        screenCreator.updateCommandHistory(commandHistory);
         this.userCommandInputs = userCommandInputs;
         //print statement for debugging
         System.out.println(this.userCommandInputs);
@@ -92,6 +91,16 @@ public class ViewController implements FrontEndExternalAPI {
     @Override
     public void displayCommandStringOnTextArea(String command) {
         screenCreator.displayCommandStringOnTextArea(command);
+    }
+
+    @Override
+    public Map<String, Double> getVariables() {
+        return modelController.getVariables();
+    }
+
+    @Override
+    public void updateFrontEnd(Queue<String> commandHistory, Map<String, Double> variables, Map<String, UserDefinedCommand> userDefinedCommands) {
+        screenCreator.updateCommandHistory(commandHistory, variables, userDefinedCommands);
     }
 
 }
