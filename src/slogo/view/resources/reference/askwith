@@ -1,0 +1,13 @@
+Multiple Turtle Commands:
+ASKWITH [ condition ] [  command(s) ]
+
+Description:
+Turtles matching given condition run commands given in the second list.
+After commands are run, currently active list of turtles returns to that set by the last TELL command (or default active turtle if TELL never given).
+
+Parameters:
+condition - any condition
+command(s) - any command 
+
+Returns:
+Result of last command in the list executed; 0 if no commands are executed

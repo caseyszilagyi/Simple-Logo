@@ -1,0 +1,12 @@
+Display Commands:
+SETSHAPE index
+SETSH index
+
+Description:
+Sets shape of turtle to that represented by index
+
+Parameters:
+index - any expression
+
+Returns:
+Given index

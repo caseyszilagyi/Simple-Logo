@@ -1,0 +1,12 @@
+Display Commands:
+SETPENSIZE pixels
+SETPS pixels
+
+Description:
+Sets size of the pen to given pixels thickness
+
+Parameters:
+pixels - any expression
+
+Returns:
+Given pixels

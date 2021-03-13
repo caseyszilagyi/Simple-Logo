@@ -1,0 +1,3 @@
+( FD 50 ( SUM 50 50 50 ) )
+# to make sure the turtle goes back to the origin
+BK 200
