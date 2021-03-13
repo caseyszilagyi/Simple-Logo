@@ -218,7 +218,7 @@ public class CleanInputTester {
    */
   @Test
   void testUserDefCommands() {
-    String input = "Movement [ :distance ] [ fd :distance ]";
+    String input = "to Movement [ :distance ] [ fd :distance ]";
     InputCleaner cleaner = makeInputCleaner(input, "English");
     List<String> expected = new ArrayList<>();
     expected.add("MakeUserInstruction");
@@ -230,14 +230,8 @@ public class CleanInputTester {
     expected.add(":distance");
     assertEquals(expected, cleaner.cleanString());
     assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 1);
-    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_2"), 1);
-
-//    TreeNode useCommand = makeTree("Movement", makeNode("50"));
-//    assertEquals(50, makeBasicCommand(useCommand).execute(), TOLERANCE);
-//    useCommand = makeTree("Movement", makeNode("100"));
-//    assertEquals(100, makeBasicCommand(useCommand).execute(), TOLERANCE);
-//    assertEquals(150, commandBundle.getTurtle().getYPosition(), TOLERANCE);
-  }
+//    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_2"), 1);
+ }
 
   private InputCleaner makeInputCleaner(String userInput, String language){
     ModelController modelController = new ModelController();

@@ -4,6 +4,7 @@ import java.security.spec.ECField;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ public class InputCleaner {
 
   private static final String LANGUAGES_PACKAGE = InputCleaner.class.getPackageName()+".resources.languages.";
   private static final String WHITESPACE = "\\s+";
+  private static final ArrayList<String> VARIABLE_BLOCK_COMMANDS = new ArrayList<>(Arrays.asList("DoTimes", "MakeUserInstruction"));
   private final Map<String, Double> VARIABLES;
   private final Map<String, UserDefinedCommand> COMMANDS;
 
@@ -54,7 +56,6 @@ public class InputCleaner {
     this.commandParser = commandParser;
     VARIABLES = modelController.getVariables();
     COMMANDS = modelController.getUserDefinedCommands();
-//    System.out.println(symbols);
   }
 
   private void addLangPatterns(String syntax) {
@@ -80,9 +81,8 @@ public class InputCleaner {
   public List<String> cleanString() {
     String noComments = removeComments();
     List<String> translated = translateCommand(noComments);
-
-    List<String> userDef = findUserDefCommands(translated);
-    List<String> varBlocks = findVariableBlocks(userDef);
+//    List<String> userDef = findUserDefCommands(translated);
+    List<String> varBlocks = findVariableBlocks(translated);
     List<String> groupedCommands = findCommandBlocks(varBlocks);
     groupedCommands.removeIf(command -> command.equals(""));
     List<String> variablesToValues = replaceVariables(groupedCommands);
@@ -112,29 +112,8 @@ public class InputCleaner {
     return translated;
   }
 
-  private List<String> findUserDefCommands(List<String> commands) {
-    List<String> toRet = new ArrayList<>(commands);
-    for(int ind=0; ind<toRet.size(); ind++) {
-      String curr = toRet.get(ind);
-      if(isCommand(curr) && !isDefined(curr)){
-        System.out.println(curr);
-        toRet.add(ind, "MakeUserInstruction");
-        ind++;
-      }
-    }
-    return toRet;
-  }
-
-  private boolean isDefined(String s) {
-    for(Entry e:symbols){
-      if(e.getKey().equals(s) || COMMANDS.containsKey(s)){
-        return true;
-      }
-    }
-    return false;
-  }
-
   private List<String> findVariableBlocks(List<String> commands) {
+    System.out.println(commands);
     List<String> toRet = new ArrayList<>(commands);
     String commandKey = "CommandBlock_";
     int blockSize = 0;
@@ -146,7 +125,7 @@ public class InputCleaner {
       if (isVariable(curr) && canCount) {
         blockSize++;
       }
-      if (match(curr, syntaxMap.get("ListStart")) && toRet.get(ind-2).equals("MakeUserInstruction")) {
+      if (match(curr, syntaxMap.get("ListStart")) && hasVarBlocks(toRet.get(ind-2))) {
         commandCount++;
         commandKeyNum = commandKey + Integer.toString(commandCount);
         toRet.set(ind, commandKeyNum);
@@ -163,6 +142,11 @@ public class InputCleaner {
       }
     }
     return toRet;
+  }
+
+  private boolean hasVarBlocks(String s) {
+    System.out.println(s);
+    return VARIABLE_BLOCK_COMMANDS.contains(s);
   }
 
   private List<String> findCommandBlocks(List<String> commands) {
