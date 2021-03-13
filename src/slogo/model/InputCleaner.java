@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
+import javax.sound.midi.SysexMessage;
 import slogo.controller.BackEndExternalAPI;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
 
@@ -32,6 +33,7 @@ public class InputCleaner {
   private List<Entry<String, Pattern>> symbols;
   private Map<String, Pattern> syntaxMap;
   private String userInput;
+  private int commandCount;
   public CommandParser commandParser;
 
   /**
@@ -45,6 +47,7 @@ public class InputCleaner {
     symbols = new ArrayList<>();
     syntaxMap = new HashMap<>();
     this.language = language;
+    commandCount = 0;
     addLangPatterns(language);
     addRegExPatterns("Syntax");
     this.userInput = userInput;
@@ -77,8 +80,10 @@ public class InputCleaner {
   public List<String> cleanString() {
     String noComments = removeComments();
     List<String> translated = translateCommand(noComments);
+
     List<String> userDef = findUserDefCommands(translated);
-    List<String> groupedCommands = findCommandBlocks(userDef);
+    List<String> varBlocks = findVariableBlocks(userDef);
+    List<String> groupedCommands = findCommandBlocks(varBlocks);
     groupedCommands.removeIf(command -> command.equals(""));
     List<String> variablesToValues = replaceVariables(groupedCommands);
     return variablesToValues;
@@ -129,12 +134,43 @@ public class InputCleaner {
     return false;
   }
 
+  private List<String> findVariableBlocks(List<String> commands) {
+    List<String> toRet = new ArrayList<>(commands);
+    String commandKey = "CommandBlock_";
+    int blockSize = 0;
+    String commandVal = "";
+    boolean canCount = false;
+    for (int ind = 0; ind < toRet.size(); ind++) {
+      String commandKeyNum = "";
+      String curr = toRet.get(ind);
+      if (isVariable(curr) && canCount) {
+        blockSize++;
+      }
+      if (match(curr, syntaxMap.get("ListStart")) && toRet.get(ind-2).equals("MakeUserInstruction")) {
+        commandCount++;
+        commandKeyNum = commandKey + Integer.toString(commandCount);
+        toRet.set(ind, commandKeyNum);
+        blockSize = 0;
+        canCount = true;
+      }
+      if (match(curr, syntaxMap.get("ListEnd")) && canCount) {
+        toRet.remove(ind);
+        ind--;
+        commandVal = blockSize + "";
+        commandKeyNum = commandKey + Integer.toString(commandCount);
+        commandParser.addSingleParamCount(commandKeyNum, commandVal);
+        canCount = false;
+      }
+    }
+    return toRet;
+  }
+
   private List<String> findCommandBlocks(List<String> commands) {
+
     List<String> toRet = new ArrayList<>(commands);
     Deque<String> commandBlocks = new ArrayDeque<>();
     Deque<Integer> parameters = new ArrayDeque<>();
     String commandKey = "CommandBlock_";
-    int commandCount = 0;
     int blockSize = 0;
     String commandVal = "";
     for (int ind = 0; ind < toRet.size(); ind++) {
