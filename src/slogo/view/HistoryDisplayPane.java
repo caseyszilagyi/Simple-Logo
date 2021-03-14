@@ -1,21 +1,11 @@
 package slogo.view;
 
-import com.sun.source.tree.Tree;
-import java.util.Deque;
-
-import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.Set;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import slogo.controller.FrontEndExternalAPI;
-import slogo.model.commands.basic_commands.UserDefinedCommand;
-import slogo.model.tree.TreeNode;
 
 
 /**
@@ -27,13 +17,12 @@ public class HistoryDisplayPane {
   private static final String HISTORY_DISPLAY_PANE_TEXT = "HistoryDisplayPaneText";
   private static final String HISTORY_PANE_ID = "HistoryPane";
   private static final String HISTORY_BOX_ID = "HistoryBox";
-  private static final String BUTTON = "button";
+  private static final String BUTTON = "regular-button";
   private static final String HISTORY_BUTTON = "history-button";
-  private static final double TABS_HEIGHT = 600.0;
+  private static final double TABS_HEIGHT = 570.0;
 
   private BorderPane basePane;
   private ScrollPane historyPane;
-  private TabPane tabPane;
   private VBox historyBox;
   private ScrollPane varPane;
   private VBox varBox;
@@ -55,7 +44,8 @@ public class HistoryDisplayPane {
   }
 
   private void createTabPane() {
-    tabPane = new TabPane();
+    TabPane tabPane = new TabPane();
+    tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
     Tab history = new Tab("History");
     history.setContent(historyPane);
     Tab var = new Tab("Variables");
@@ -118,20 +108,16 @@ public class HistoryDisplayPane {
   private void updateUserDefinedCommands(Map<String, String> userDefinedCommands) {
     userBox.getChildren().clear();
     for(Map.Entry<String, String> command : userDefinedCommands.entrySet()){
-      Button button = makeButton(command.getKey(), userBox);
-      //Label label = new Label(command, new Rectangle(50, 50));
+      Button button = makeButton(command.getKey(), userBox, HISTORY_BUTTON);
       userBox.getChildren().add(button);
       button.setOnAction(event -> viewController.displayCommandStringOnTextArea(command.getValue()));
     }
   }
 
-
-
   public void updateCommandHistory(Queue<String> commandHistory) {
     historyBox.getChildren().clear();
     for(String command : commandHistory){
-      Button button = makeButton(command, historyBox);
-      //Label label = new Label(command, new Rectangle(50, 50));
+      Button button = makeButton(command, historyBox, HISTORY_BUTTON);
       historyBox.getChildren().add(button);
       button.setOnAction(event -> viewController.displayCommandStringOnTextArea(command));
     }
@@ -140,16 +126,16 @@ public class HistoryDisplayPane {
   public void updateVariableDisplay(Map<String, Double> variables) {
     varBox.getChildren().clear();
     for(Map.Entry<String, Double> entry : variables.entrySet()){
-      Button button = makeButton(entry.getKey() + " = " + entry.getValue(), varBox);
+      Button button = makeButton(entry.getKey() + " = " + entry.getValue(), varBox, HISTORY_BUTTON);
       varBox.getChildren().add(button);
     }
   }
 
-  private Button makeButton(String text, VBox vBox) {
+  private Button makeButton(String text, VBox vBox, String styleClass) {
     Button button = new Button(text);
     button.setWrapText(true);
     button.setPrefWidth(vBox.getWidth());
-    button.getStyleClass().add(HISTORY_BUTTON);
+    button.getStyleClass().add(styleClass);
     return button;
   }
 }

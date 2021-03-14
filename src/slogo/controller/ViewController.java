@@ -112,7 +112,7 @@ public class ViewController implements FrontEndExternalAPI {
             System.out.println(entry.getKey());
             for(String command : commandHistory){
                 List<String> split = Arrays.asList(command.split(" "));
-                if(split.get(1).equals(entry.getKey()) && !userDefinedHistory.containsKey(command)){
+                if(split.size() > 1 && split.get(1).equals(entry.getKey()) && !userDefinedHistory.containsKey(command)){
                     StringBuilder stringBuilder = new StringBuilder();
                     stringBuilder.append(split.get(1));
                     for(int i = 0; i < entry.getValue().getParamCount(); i++){
