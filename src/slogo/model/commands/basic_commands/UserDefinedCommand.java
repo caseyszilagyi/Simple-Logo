@@ -1,7 +1,5 @@
 package slogo.model.commands.basic_commands;
 
-import com.sun.source.tree.Tree;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +22,8 @@ public class UserDefinedCommand extends ControlStructureCommand {
   private Map<String, Double> paramMap = new HashMap<>();
 
   /**
-   * Is created by the MakeUserInstruction command and stored in a map, can be executed
-   * if it is passed parameters
+   * Is created by the MakeUserInstruction command and stored in a map, can be executed if it is
+   * passed parameters
    *
    * @param bundle   Contains the map of command names to commands
    * @param children Has the string of the command, the parameters the command takes, as well as the
@@ -40,11 +38,12 @@ public class UserDefinedCommand extends ControlStructureCommand {
   }
 
   /**
-   * Gets the parameter count for this user defined command. Used in tree parsing to know
-   * how many arguments to expect
+   * Gets the parameter count for this user defined command. Used in tree parsing to know how many
+   * arguments to expect
+   *
    * @return The number of parameters to expect
    */
-  public int getParamCount(){
+  public int getParamCount() {
     return PARAMETERS.size();
   }
 
@@ -63,16 +62,17 @@ public class UserDefinedCommand extends ControlStructureCommand {
 
   /**
    * Stores the parameter values in a map
+   *
    * @param parameterValues The given set of parameter values
    */
-  public void passParams(List<TreeNode> parameterValues){
+  public void passParams(List<TreeNode> parameterValues) {
     paramMap = new HashMap<>();
-    for(int i = 0; i<PARAMETERS.size(); i++){
+    for (int i = 0; i < PARAMETERS.size(); i++) {
       paramMap.put(PARAMETERS.get(i).getCommand(), executeBlock(parameterValues.get(i)));
     }
   }
 
-  public List<TreeNode> getChildren(){
+  public List<TreeNode> getChildren() {
     return CHILDREN;
   }
 }

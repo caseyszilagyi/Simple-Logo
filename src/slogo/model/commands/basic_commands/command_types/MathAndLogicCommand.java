@@ -1,9 +1,6 @@
 package slogo.model.commands.basic_commands.command_types;
 
-import java.util.List;
-import slogo.model.commands.basic_commands.BasicCommand;
 import slogo.model.execution.CommandInformationBundle;
-import slogo.model.tree.TreeNode;
 
 /**
  * This abstract class is meant to be implemented by any math/logic command that doesn't need any

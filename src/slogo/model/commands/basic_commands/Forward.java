@@ -1,7 +1,6 @@
 package slogo.model.commands.basic_commands;
 
 import java.util.List;
-import slogo.model.commands.BasicCommandClassLoader;
 import slogo.model.commands.basic_commands.command_types.TurtleAlteringCommand;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
@@ -19,9 +18,9 @@ public class Forward extends TurtleAlteringCommand {
    * Makes an instance of the forward command
    *
    * @param bundle Contains the turtle that will neeed to be altered for this command
-   * @param nodes All of the children nodes needed for this command
+   * @param nodes  All of the children nodes needed for this command
    */
-  public Forward(CommandInformationBundle bundle ,List<TreeNode> nodes) {
+  public Forward(CommandInformationBundle bundle, List<TreeNode> nodes) {
     super(bundle);
     DISTANCE = loadClass(bundle, nodes.get(0)).execute();
   }

@@ -18,7 +18,7 @@ public class Quotient extends MathAndLogicCommand {
   /**
    * Makes an instance of the quotient command
    *
-   * @param bundle Not used for this command
+   * @param bundle   Not used for this command
    * @param children The TreeNodes to take the quotient of
    */
   public Quotient(CommandInformationBundle bundle, List<TreeNode> children) {

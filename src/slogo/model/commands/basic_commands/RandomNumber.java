@@ -19,7 +19,7 @@ public class RandomNumber extends MathAndLogicCommand {
   /**
    * Makes an instance of the sum command
    *
-   * @param bundle Not used for this command
+   * @param bundle   Not used for this command
    * @param children The TreeNodes to sum
    */
   public RandomNumber(CommandInformationBundle bundle, List<TreeNode> children) {
@@ -33,6 +33,6 @@ public class RandomNumber extends MathAndLogicCommand {
    * @return The sum of the two numbers
    */
   public double execute() {
-    return RANDOM.nextDouble()*MAX;
+    return RANDOM.nextDouble() * MAX;
   }
 }

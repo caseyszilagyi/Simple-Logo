@@ -15,7 +15,7 @@ public class XCoordinate extends TurtleQueryCommand {
   /**
    * Makes an instance of the XCoordinate Command
    *
-   * @param bundle Has the turtle that will need to be accessed
+   * @param bundle   Has the turtle that will need to be accessed
    * @param children The basic commands. This will be null since it is a query
    */
   public XCoordinate(CommandInformationBundle bundle, List<TreeNode> children) {

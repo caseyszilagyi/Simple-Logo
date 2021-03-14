@@ -17,7 +17,7 @@ public class Sine extends MathAndLogicCommand {
   /**
    * Makes an instance of the sine command
    *
-   * @param bundle Not used for this command
+   * @param bundle   Not used for this command
    * @param children The TreeNode to taake the sine of
    */
   public Sine(CommandInformationBundle bundle, List<TreeNode> children) {

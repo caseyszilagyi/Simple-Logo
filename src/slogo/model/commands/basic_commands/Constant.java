@@ -1,7 +1,5 @@
 package slogo.model.commands.basic_commands;
 
-import slogo.model.execution.CommandInformationBundle;
-
 /**
  * This is the Constant BasicCommand. Note that the constructor is different because it is the
  * lowest level command and therefore can't be constructed out of other commands. Therefore, it must

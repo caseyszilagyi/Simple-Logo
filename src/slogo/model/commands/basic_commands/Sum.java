@@ -18,7 +18,7 @@ public class Sum extends MathAndLogicCommand {
   /**
    * Makes an instance of the sum command
    *
-   * @param bundle Not used for this command
+   * @param bundle   Not used for this command
    * @param children The TreeNodes to sum
    */
   public Sum(CommandInformationBundle bundle, List<TreeNode> children) {

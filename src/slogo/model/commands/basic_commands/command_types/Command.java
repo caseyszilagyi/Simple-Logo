@@ -12,11 +12,12 @@ public abstract class Command implements BasicCommand {
   public abstract double execute();
 
   /**
-   * This method loads the BasicCommand class represented by the TreeNode that is passed in.
-   * Is used for loading the BasicCommands of the subtrees of any given BasicCommand
+   * This method loads the BasicCommand class represented by the TreeNode that is passed in. Is used
+   * for loading the BasicCommands of the subtrees of any given BasicCommand
+   *
    * @return The BasicCommand represented by the TreeNode
    */
-  public BasicCommand loadClass(CommandInformationBundle informationBundle, TreeNode node){
+  public BasicCommand loadClass(CommandInformationBundle informationBundle, TreeNode node) {
     return CLASS_LOADER.makeCommand(informationBundle, node);
   }
 

@@ -1,21 +1,27 @@
 package slogo.view;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.HBox;
-import slogo.controller.FrontEndExternalAPI;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.HBox;
+import slogo.controller.FrontEndExternalAPI;
 
 /**
  * Creates the pane where the user will input their commands and run them
  */
 public class UserCommandPane {
+
   private static final double WIDTH = 600.0;
   private static final double HEIGHT = 90.0;
   private static final String USER_COMMAND_PANE_ID = "UserCommandPane";
@@ -71,19 +77,15 @@ public class UserCommandPane {
     String fileName = FILE_PATH + "/" + command;
     String line = null;
     StringBuilder text = new StringBuilder();
-    try
-    {
+    try {
       FileReader fileReader = new FileReader(fileName);
       BufferedReader bufferedReader = new BufferedReader(fileReader);
-      while((line = bufferedReader.readLine()) != null)
-      {
+      while ((line = bufferedReader.readLine()) != null) {
         text.append(line);
         text.append("\n");
       }
       bufferedReader.close();
-    }
-    catch(IOException ex)
-    {
+    } catch (IOException ex) {
       System.out.println("Error reading references");
     }
     Alert info = new Alert(AlertType.INFORMATION);

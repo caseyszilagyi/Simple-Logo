@@ -3,7 +3,6 @@ package slogo.model.commands.basic_commands;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import slogo.model.commands.basic_commands.command_types.Command;
 import slogo.model.commands.basic_commands.command_types.ControlStructureCommand;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
@@ -27,8 +26,8 @@ public class For extends ControlStructureCommand {
    *
    * @param bundle   The pieces of information, such as variables and user defined commands, that
    *                 may be needed to execute the the command
-   * @param children Has 2 nodes. One has the variable name, start, end, and increment, and the other
-   *                 has the block of commands
+   * @param children Has 2 nodes. One has the variable name, start, end, and increment, and the
+   *                 other has the block of commands
    */
   public For(CommandInformationBundle bundle, List<TreeNode> children) {
     super(bundle);
@@ -40,8 +39,8 @@ public class For extends ControlStructureCommand {
   }
 
   /**
-   * Repeats the loop, incrementing by the specified amount, until over the limit. The variable
-   * is updated with each loop
+   * Repeats the loop, incrementing by the specified amount, until over the limit. The variable is
+   * updated with each loop
    *
    * @return The value of the final command executed
    */

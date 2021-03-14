@@ -18,7 +18,7 @@ public class Remainder extends MathAndLogicCommand {
   /**
    * Makes an instance of the remainder command
    *
-   * @param bundle Not used for this command
+   * @param bundle   Not used for this command
    * @param children The TreeNodes to take the remainder of
    */
   public Remainder(CommandInformationBundle bundle, List<TreeNode> children) {

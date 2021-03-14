@@ -17,35 +17,41 @@ import slogo.controller.BackEndExternalAPI;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
 
 /**
- * Cleans the raw string input from the user into a list of strings that the CommandParser can use will recognize as commands and command parameters
- * removes comments, bundles series of commands in [] into a CommandBundle, adds CommandBundle param counts to parameters cound in CommandParser
+ * Cleans the raw string input from the user into a list of strings that the CommandParser can use
+ * will recognize as commands and command parameters removes comments, bundles series of commands in
+ * [] into a CommandBundle, adds CommandBundle param counts to parameters cound in CommandParser
  *
  * @author jincho
  */
 public class InputCleaner {
 
-  private static final String LANGUAGES_PACKAGE = InputCleaner.class.getPackageName()+".resources.languages.";
-  private static final String COMMANDS_PACKAGE = InputCleaner.class.getPackageName()+".resources.commands.";
+  private static final String LANGUAGES_PACKAGE =
+      InputCleaner.class.getPackageName() + ".resources.languages.";
+  private static final String COMMANDS_PACKAGE =
+      InputCleaner.class.getPackageName() + ".resources.commands.";
   private static final String WHITESPACE = "\\s+";
-  private static final ArrayList<String> VARIABLE_BLOCK_COMMANDS = new ArrayList<>(Arrays.asList("DoTimes", "MakeUserInstruction"));
+  private static final ArrayList<String> VARIABLE_BLOCK_COMMANDS = new ArrayList<>(
+      Arrays.asList("DoTimes", "MakeUserInstruction"));
   private final Map<String, Double> VARIABLES;
   private final Map<String, UserDefinedCommand> COMMANDS;
+  public CommandParser commandParser;
   private List<Entry<String, Pattern>> symbols;
   private Map<String, Pattern> syntaxMap;
   private Map<String, Integer> commandParam;
   private String userInput;
   private int commandCount;
-  public CommandParser commandParser;
   private int paramCountsExpected = 0;
 
   /**
-   * create instance of InputCleaner and initializes lists for "translating" the string into strings recognizable by backend classes and parser
+   * create instance of InputCleaner and initializes lists for "translating" the string into strings
+   * recognizable by backend classes and parser
    *
-   * @param userInput raw string of commands
+   * @param userInput       raw string of commands
    * @param modelController ModelController associated with the current string input
-   * @param commandParser CommandParser that will parse through this particular string
+   * @param commandParser   CommandParser that will parse through this particular string
    */
-  public InputCleaner(String userInput, String language, BackEndExternalAPI modelController, CommandParser commandParser) {
+  public InputCleaner(String userInput, String language, BackEndExternalAPI modelController,
+      CommandParser commandParser) {
     symbols = new ArrayList<>();
     syntaxMap = new HashMap<>();
     commandParam = new HashMap<>();
@@ -75,7 +81,7 @@ public class InputCleaner {
     }
   }
 
-  private void addCommandParamCounts(String syntax){
+  private void addCommandParamCounts(String syntax) {
     ResourceBundle resources = ResourceBundle.getBundle(COMMANDS_PACKAGE + syntax);
     for (String key : Collections.list(resources.getKeys())) {
       commandParam.put(key, Integer.parseInt(resources.getString(key)));
@@ -85,7 +91,9 @@ public class InputCleaner {
 
   /**
    * method that actually cleans the string input
-   * @return list of strings without comments, translated to backend recognizable, and commandblocks grouped
+   *
+   * @return list of strings without comments, translated to backend recognizable, and commandblocks
+   * grouped
    */
   public List<String> cleanString() {
     String noComments = removeComments();
@@ -105,7 +113,7 @@ public class InputCleaner {
     StringBuffer removedComments = new StringBuffer(userInput);
     while (removedComments.indexOf("#") != -1) {
       int indBeforeComment = removedComments.indexOf("#");
-      int indAfterComment = removedComments.indexOf("\n", indBeforeComment)+1;
+      int indAfterComment = removedComments.indexOf("\n", indBeforeComment) + 1;
       removedComments.replace(indBeforeComment, indAfterComment, " ");
     }
     return removedComments.toString();
@@ -135,7 +143,8 @@ public class InputCleaner {
       String commandKeyNum = "";
       String curr = toRet.get(ind);
       blockSize++;
-      if (match(curr, syntaxMap.get("ListStart")) && (hasVarBlocks(toRet.get(ind-1)) || hasVarBlocks(toRet.get(ind-2)))) {
+      if (match(curr, syntaxMap.get("ListStart")) && (hasVarBlocks(toRet.get(ind - 1))
+          || hasVarBlocks(toRet.get(ind - 2)))) {
         commandCount++;
         commandKeyNum = commandKey + Integer.toString(commandCount);
         toRet.set(ind, commandKeyNum);
@@ -145,13 +154,13 @@ public class InputCleaner {
       if (match(curr, syntaxMap.get("ListEnd")) && canCount) {
         toRet.remove(ind);
         ind--;
-        commandVal = blockSize-1 + "";
+        commandVal = blockSize - 1 + "";
         commandKeyNum = commandKey + Integer.toString(commandCount);
         commandParser.addSingleParamCount(commandKeyNum, commandVal);
         canCount = false;
       }
     }
-    if(canCount){
+    if (canCount) {
       throw new ErrorHandler("WrongParamNum");
     }
     return toRet;
@@ -192,7 +201,7 @@ public class InputCleaner {
         blockSize = parameters.pop();
       }
     }
-    if(!commandBlocks.isEmpty()){
+    if (!commandBlocks.isEmpty()) {
       throw new ErrorHandler("WrongParamNum");
     }
     return toRet;
@@ -210,20 +219,20 @@ public class InputCleaner {
 //    }
 //  }
 
-  private String getCommandKey (String text) {
+  private String getCommandKey(String text) {
     for (Entry<String, Pattern> e : symbols) {
       try {
         if (match(text, e.getValue())) {
           return e.getKey();
         }
-      } catch (Exception ex){
+      } catch (Exception ex) {
         throw new ErrorHandler("InvalidCommand");
       }
     }
     return "NO MATCH";
   }
 
-  private boolean match (String text, Pattern regex) {
+  private boolean match(String text, Pattern regex) {
     return regex.matcher(text).matches();
   }
 }

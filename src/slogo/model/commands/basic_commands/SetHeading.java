@@ -19,7 +19,7 @@ public class SetHeading extends TurtleAlteringCommand {
    * Makes an instance of the right command
    *
    * @param bundle Contains the turtle that will need to be altered for this command
-   * @param nodes All of the children nodes needed for this command
+   * @param nodes  All of the children nodes needed for this command
    */
   public SetHeading(CommandInformationBundle bundle, List<TreeNode> nodes) {
     super(bundle);

@@ -18,9 +18,9 @@ public class Left extends TurtleAlteringCommand {
    * Makes an instance of the right command
    *
    * @param bundle Contains the turtle that will need to be altered for this command
-   * @param nodes All of the children nodes needed for this command
+   * @param nodes  All of the children nodes needed for this command
    */
-  public Left(CommandInformationBundle bundle ,List<TreeNode> nodes) {
+  public Left(CommandInformationBundle bundle, List<TreeNode> nodes) {
     super(bundle);
     ANGLE = loadClass(bundle, nodes.get(0)).execute();
   }

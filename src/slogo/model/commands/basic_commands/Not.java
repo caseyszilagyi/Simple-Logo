@@ -1,7 +1,6 @@
 package slogo.model.commands.basic_commands;
 
 import java.util.List;
-import slogo.model.commands.basic_commands.command_types.Command;
 import slogo.model.commands.basic_commands.command_types.MathAndLogicCommand;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
@@ -19,7 +18,7 @@ public class Not extends MathAndLogicCommand {
    * Makes an instance of the not command
    *
    * @param bundle Not used for this command type
-   * @param nodes The child node to be checked
+   * @param nodes  The child node to be checked
    */
   public Not(CommandInformationBundle bundle, List<TreeNode> nodes) {
     super(bundle);

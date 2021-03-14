@@ -7,19 +7,19 @@ import java.util.*;
  */
 public interface FrontEndInternalAPI {
 
-    /**
-     * Sets background of the GUI
-     */
-    public void setBackgroundColor(String color);
+  /**
+   * Sets background of the GUI
+   */
+  public void setBackgroundColor(String color);
 
-    /**
-     * updates the screen for the movemnt of the turtle
-     */
-    public void updateScreen();
+  /**
+   * updates the screen for the movemnt of the turtle
+   */
+  public void updateScreen();
 
-    /**
-     * displays specific error thrown by controller on teh screen
-     */
-    public void displayError(String errorMessage);
+  /**
+   * displays specific error thrown by controller on teh screen
+   */
+  public void displayError(String errorMessage);
 
 }

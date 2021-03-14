@@ -1,91 +1,93 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-<modelVersion>4.0.0</modelVersion>
-<groupId>CompSci308_2021Spring</groupId>
-<artifactId>slogo_team01</artifactId>
-<version>master-SNAPSHOT</version>
-<packaging>jar</packaging>
-
-<properties>
-    <project.build.sourceEncoding>iso-8859-1</project.build.sourceEncoding>
-</properties>
-
-<dependencies>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <artifactId>slogo_team01</artifactId>
+  <build>
+    <!-- use simple names for folders instead of maven's prerferred ones -->
+    <plugins>
+      <!-- compiles project source code using correct version and flags -->
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <compilerArgs>
+            <arg>--enable-preview</arg>
+          </compilerArgs>
+          <encoding>iso-8859-1</encoding>
+          <includes>
+            <include>src/**/*.java</include>
+          </includes>
+          <source>15</source>
+          <target>15</target>
+        </configuration>
+        <groupId>org.apache.maven.plugins</groupId>
+        <version>3.8.0</version>
+      </plugin>
+      <!-- check for violations of code style -->
+      <plugin>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <configLocation>google_checks.xml</configLocation>
+          <consoleOutput>true</consoleOutput>
+          <encoding>UTF-8</encoding>
+          <linkXRef>false</linkXRef>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <artifactId>checkstyle</artifactId>
+            <groupId>com.puppycrawl.tools</groupId>
+            <version>8.40</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <id>validate</id>
+            <phase>validate</phase>
+          </execution>
+        </executions>
+        <groupId>org.apache.maven.plugins</groupId>
+        <version>3.1.2</version>
+      </plugin>
+    </plugins>
+    <resources>
+      <!-- external data files -->
+      <resource>
+        <directory>data</directory>
+      </resource>
+      <!-- internal resource files also need to be included, but not directly -->
+      <resource>
+        <directory>src</directory>
+      </resource>
+    </resources>
+    <sourceDirectory>src</sourceDirectory>
+    <testSourceDirectory>test</testSourceDirectory>
+  </build>
+  <dependencies>
     <!-- framework for writing repeatable tests by using assertions about your code's values -->
     <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter</artifactId>
-        <version>5.7.1</version>
-        <scope>test</scope>
+      <artifactId>junit-jupiter</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <scope>test</scope>
+      <version>5.7.1</version>
     </dependency>
     <!-- provides testing for JavaFX by simulating user interactions and checking using JUnit assertions -->
     <dependency>
-        <groupId>org.testfx</groupId>
-        <artifactId>testfx-junit5</artifactId>
-        <version>4.0.16-alpha</version>
-        <scope>test</scope>
+      <artifactId>testfx-junit5</artifactId>
+      <groupId>org.testfx</groupId>
+      <scope>test</scope>
+      <version>4.0.16-alpha</version>
     </dependency>
-</dependencies>
+  </dependencies>
+  <groupId>CompSci308_2021Spring</groupId>
+  <modelVersion>4.0.0</modelVersion>
 
-<build>
-    <!-- use simple names for folders instead of maven's prerferred ones -->
-    <sourceDirectory>src</sourceDirectory>
-    <testSourceDirectory>test</testSourceDirectory>
-    <resources>
-        <!-- external data files -->
-        <resource>
-            <directory>data</directory>
-        </resource>
-        <!-- internal resource files also need to be included, but not directly -->
-        <resource>
-            <directory>src</directory>
-        </resource>
-    </resources>
-    <plugins>
-        <!-- compiles project source code using correct version and flags -->
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.8.0</version>
-            <configuration>
-                <encoding>iso-8859-1</encoding>
-                <includes>
-                    <include>src/**/*.java</include>
-                </includes>
-                <source>15</source>
-                <target>15</target>
-                <compilerArgs>
-                    <arg>--enable-preview</arg>
-                </compilerArgs>
-            </configuration>
-        </plugin>
-        <!-- check for violations of code style -->
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-checkstyle-plugin</artifactId>
-            <version>3.1.2</version>
-            <dependencies>
-                <dependency>
-                    <groupId>com.puppycrawl.tools</groupId>
-                    <artifactId>checkstyle</artifactId>
-                    <version>8.40</version>
-                </dependency>
-            </dependencies>
-            <configuration>
-                <configLocation>google_checks.xml</configLocation>
-                <encoding>UTF-8</encoding>
-                <consoleOutput>true</consoleOutput>
-                <linkXRef>false</linkXRef>
-            </configuration>
-            <executions>
-                <execution>
-                    <id>validate</id>
-                    <phase>validate</phase>
-                    <goals>
-                        <goal>check</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
-    </plugins>
-</build>
+  <packaging>jar</packaging>
+
+  <properties>
+    <project.build.sourceEncoding>iso-8859-1</project.build.sourceEncoding>
+  </properties>
+
+  <version>master-SNAPSHOT</version>
 </project>

@@ -21,12 +21,12 @@ public class CommandBlock extends ControlStructureCommand {
    * Makes an instance of the CommandBlock command
    *
    * @param informationBundle The information that could be needed to execute a command
-   * @param nodes All of the children to be executed
+   * @param nodes             All of the children to be executed
    */
   public CommandBlock(CommandInformationBundle informationBundle, List<TreeNode> nodes) {
     super(informationBundle);
     CHILDREN = new ArrayList<>();
-    for(int i = 0; i<nodes.size(); i++){
+    for (int i = 0; i < nodes.size(); i++) {
       CHILDREN.add(loadClass(informationBundle, nodes.get(i)));
     }
   }

@@ -58,23 +58,9 @@ public class Turtle implements TurtleState {
   public void setAngle(double newAngle) {
     angle = newAngle;
     angle = angle % 360;
-    if(angle<0){
-      angle+=360;
+    if (angle < 0) {
+      angle += 360;
     }
-  }
-
-  /**
-   * Sets the X position of the turtle
-   */
-  public void setXPosition(double newXPosition) {
-    xPosition = newXPosition;
-  }
-
-  /**
-   * Sets the Y position of the turtle
-   */
-  public void setYPosition(double newYPosition) {
-    yPosition = newYPosition;
   }
 
   /**
@@ -87,6 +73,13 @@ public class Turtle implements TurtleState {
   }
 
   /**
+   * Sets the X position of the turtle
+   */
+  public void setXPosition(double newXPosition) {
+    xPosition = newXPosition;
+  }
+
+  /**
    * Gets the Y position of the turtle
    *
    * @return The Y position of the turtle
@@ -95,6 +88,12 @@ public class Turtle implements TurtleState {
     return yPosition;
   }
 
+  /**
+   * Sets the Y position of the turtle
+   */
+  public void setYPosition(double newYPosition) {
+    yPosition = newYPosition;
+  }
 
   /**
    * Changes the X position of the turtle by a certain amount
@@ -124,7 +123,7 @@ public class Turtle implements TurtleState {
   public void rotateCounterClockwise(double rotate) {
     angle += rotate;
     angle = angle % 360;
-    if(angle<0){
+    if (angle < 0) {
       angle += 360;
     }
   }
@@ -151,15 +150,6 @@ public class Turtle implements TurtleState {
   }
 
   /**
-   * Sets the pen state
-   *
-   * @param userPenState The pen state
-   */
-  public void setPenState(double userPenState) {
-    penState = userPenState;
-  }
-
-  /**
    * Gets the current pen state
    *
    * @return The pen state
@@ -169,16 +159,25 @@ public class Turtle implements TurtleState {
   }
 
   /**
+   * Sets the pen state
+   *
+   * @param userPenState The pen state
+   */
+  public void setPenState(double userPenState) {
+    penState = userPenState;
+  }
+
+  /**
    * Sets the parameter to clear the screen to a 1
    */
-  public void clearScreen(){
+  public void clearScreen() {
     clearScreen = 1;
   }
 
   /**
    * Sets the parameter to clear the screen to a 0, which allows lines to be drawn
    */
-  public void allowLines(){
+  public void allowLines() {
     clearScreen = 0;
   }
 
