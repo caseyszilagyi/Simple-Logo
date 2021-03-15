@@ -19,8 +19,8 @@ public class ViewController implements FrontEndExternalAPI {
   BackEndExternalAPI modelController;
   ScreenCreator screenCreator;
   private String userCommandInputs;
-  private Deque<String> commandHistory;
-  private Map<String, String> userDefinedHistory;
+  private final Deque<String> commandHistory;
+  private final Map<String, String> userDefinedHistory;
 
   /**
    * Default constructor
