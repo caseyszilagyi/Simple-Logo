@@ -142,10 +142,9 @@ public class CommandInformationBundle {
    * Adds a parameter map to the list of parameter maps. This will be removed when a loop/command is
    * done and the parameters are no longer needed
    *
-   * @param paramMap The parameter map to be added
    */
-  public void addParameterMap(Map<String, Double> paramMap) {
-    PARAMETERS.add(paramMap);
+  public void addParameterMap() {
+    PARAMETERS.add(new HashMap<String, Double>());
   }
 
   /**

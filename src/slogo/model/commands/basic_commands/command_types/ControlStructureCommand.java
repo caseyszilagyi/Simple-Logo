@@ -23,6 +23,16 @@ public abstract class ControlStructureCommand extends Command {
   }
 
   /**
+   * Gets a command name to a TreeNode that represents it
+   *
+   * @param name    The command name
+   * @param command The TreeNode that represents it
+   */
+  protected void setCommand(String name, UserDefinedCommand command) {
+    INFORMATION_BUNDLE.addCommand(name, command);
+  }
+
+  /**
    * Sets a variable name to a double
    *
    * @param name  The variable name
@@ -33,30 +43,28 @@ public abstract class ControlStructureCommand extends Command {
   }
 
   /**
-   * Gets a command name to a TreeNode that represents it
+   * Sets a parameter name to a double
    *
-   * @param name    The command name
-   * @param command The TreeNode that represents it
+   * @param name  The name of the parameter
+   * @param value The value of the parameter
    */
-  protected void setCommand(String name, UserDefinedCommand command) {
-    INFORMATION_BUNDLE.addCommand(name, command);
+  protected void setParameter(String name, Double value) {
+    INFORMATION_BUNDLE.addParameter(name, value);
   }
-
 
   /**
    * Removes the last param map, used when a command with parameters is done executing
    */
-  protected void removeParamMap() {
+  protected void removeParameterMap() {
     INFORMATION_BUNDLE.removeParameterMap();
   }
 
   /**
    * Removes the last param map, used when a command with parameters is done executing
    */
-  protected void addParamMap(Map map) {
-    INFORMATION_BUNDLE.addParameterMap(map);
+  protected void addParameterMap() {
+    INFORMATION_BUNDLE.addParameterMap();
   }
-
 
   /**
    * Executes a block of commands. This is used for looping/conditionals
