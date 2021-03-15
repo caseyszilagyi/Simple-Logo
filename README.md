@@ -1,34 +1,30 @@
 SLogo
 ====
 
-This project implements a development environment that helps users write programs to draw using a turtle.
+This project implements a development environment that helps users write programs to draw using a
+turtle.
 
 Names:
 
-
 ### Timeline
 
-Start Date: 
+Start Date:
 
-Finish Date: 
+Finish Date:
 
 Hours Spent:
 
 ### Primary Roles
 
-
 ### Resources Used
-
 
 ### Running the Program
 
 Main class:
 
-Data files needed: 
+Data files needed:
 
 Features implemented:
-
-
 
 ### Notes/Assumptions
 
@@ -39,7 +35,6 @@ Interesting data files:
 Known Bugs:
 
 Extra credit:
-
 
 ### Impressions
 

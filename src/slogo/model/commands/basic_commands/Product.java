@@ -18,7 +18,7 @@ public class Product extends MathAndLogicCommand {
   /**
    * Makes an instance of the sum command
    *
-   * @param bundle Not used for this command
+   * @param bundle   Not used for this command
    * @param children The TreeNodes to sum
    */
   public Product(CommandInformationBundle bundle, List<TreeNode> children) {

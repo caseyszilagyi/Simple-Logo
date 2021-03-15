@@ -17,7 +17,7 @@ public class NaturalLog extends MathAndLogicCommand {
   /**
    * Makes an instance of the NaturalLog command
    *
-   * @param bundle Not used for this command
+   * @param bundle   Not used for this command
    * @param children The TreeNode to take the natural log of
    */
   public NaturalLog(CommandInformationBundle bundle, List<TreeNode> children) {

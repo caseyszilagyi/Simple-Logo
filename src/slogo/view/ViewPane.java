@@ -1,11 +1,9 @@
 package slogo.view;
 
 import java.io.File;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -14,7 +12,12 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
@@ -27,10 +30,12 @@ import slogo.controller.ViewController;
 
 /**
  * Creates the view for where the turtle will be displayed
+ *
  * @author Kathleen Chen
  * @author Ji Yun Hyo
  */
 public class ViewPane {
+
   private static final double TURTLE_WIDTH = 50;
   private static final double TURTLE_HEIGHT = 50;
 
@@ -54,7 +59,8 @@ public class ViewPane {
   private static final String BUTTON = "regular-button";
 
   private static final String LANGUAGE_OPTIONS = "slogo.model.resources.languages.LangaugeOptions";
-
+  private final double centerX;
+  private final double centerY;
   private BorderPane viewPane;
   private AnchorPane turtleViewPane;
   private ImageView turtle;
@@ -68,9 +74,6 @@ public class ViewPane {
   private ComboBox languages;
   private ResourceBundle languageOptions;
   private String language;
-
-  private double centerX;
-  private double centerY;
   private boolean penUP = false;
   private Color penColor = Color.BLACK;
   private String turtleImageFile = "Turtle2.gif";
@@ -98,8 +101,8 @@ public class ViewPane {
     turtleViewPane.setMinWidth(rows);
 
     //Get the center
-    centerX = rows/2 - TURTLE_HEIGHT / 2;
-    centerY = cols/2 - TURTLE_WIDTH / 2;
+    centerX = rows / 2 - TURTLE_HEIGHT / 2;
+    centerY = cols / 2 - TURTLE_WIDTH / 2;
 
     createChoicePane();
     viewPane.setTop(choicePane);
@@ -141,15 +144,26 @@ public class ViewPane {
   private void createLanguageComboBox() {
     languageOptions = ResourceBundle.getBundle(LANGUAGE_OPTIONS);
     String defaultLanguage = languageOptions.getString("English");
-    ArrayList<String> allLanguages = new ArrayList<>(){{
-      add("Chinese"); add("English"); add("French"); add("German"); add("Italian");
-      add("Portuguese"); add("Russian"); add("Spanish"); add("Urdu");
+    ArrayList<String> allLanguages = new ArrayList<>() {{
+      add("Chinese");
+      add("English");
+      add("French");
+      add("German");
+      add("Italian");
+      add("Portuguese");
+      add("Russian");
+      add("Spanish");
+      add("Urdu");
     }};
     ArrayList<String> allLanguageDisplay = new ArrayList<>() {{
-      add(languageOptions.getString("Chinese")); add(languageOptions.getString("English"));
-      add(languageOptions.getString("French")); add(languageOptions.getString("German"));
-      add(languageOptions.getString("Italian")); add(languageOptions.getString("Portuguese"));
-      add(languageOptions.getString("Russian")); add(languageOptions.getString("Spanish"));
+      add(languageOptions.getString("Chinese"));
+      add(languageOptions.getString("English"));
+      add(languageOptions.getString("French"));
+      add(languageOptions.getString("German"));
+      add(languageOptions.getString("Italian"));
+      add(languageOptions.getString("Portuguese"));
+      add(languageOptions.getString("Russian"));
+      add(languageOptions.getString("Spanish"));
       add(languageOptions.getString("Urdu"));
     }};
     languages = new ComboBox();
@@ -184,7 +198,7 @@ public class ViewPane {
     penColorPicker = new ColorPicker(currentPenColor);
     penColorPicker.setId(PEN_COLOR_PICKER_ID);
     penColorPicker.getStyleClass().add(COLOR_PICKER);
-    choicePane.add(penColorPicker,1, 0);
+    choicePane.add(penColorPicker, 1, 0);
     penColorPicker.setOnAction(event -> changePenColor());
   }
 
@@ -224,9 +238,9 @@ public class ViewPane {
     Paint fill = backgroundColorPicker.getValue();
     currentBackgroundColor = fill.toString();
     BackgroundFill backgroundFill =
-            new BackgroundFill(fill,
-                    new CornerRadii(10),
-                    new Insets(10));
+        new BackgroundFill(fill,
+            new CornerRadii(10),
+            new Insets(10));
     Background background = new Background(backgroundFill);
     turtleViewPane.setBackground(background);
     choicePane.getChildren().remove(backgroundColorPicker);
@@ -271,7 +285,7 @@ public class ViewPane {
     double x = screenWidth / 2 + xCoordinate * coordinateWidth - turtleCenterX;
     double y = screenHeight / 2 - yCoordinate * coordinateHeight - turtleCenterY;
 
-    if(!penUP) {
+    if (!penUP) {
       createLine(x, y);
     }
 
@@ -284,7 +298,7 @@ public class ViewPane {
 
   private void createLine(double x, double y) {
     Line line1 = new Line(turtle.getX() + TURTLE_WIDTH / 2, turtle.getY() + TURTLE_WIDTH / 2,
-            x + TURTLE_HEIGHT / 2, y + TURTLE_HEIGHT / 2);
+        x + TURTLE_HEIGHT / 2, y + TURTLE_HEIGHT / 2);
     line1.setStroke(penColor);
     turtleViewPane.getChildren().add(line1);
   }
@@ -324,7 +338,7 @@ public class ViewPane {
     penUP = true;
   }
 
-  public void moveTurtleByDistance(double distance){
+  public void moveTurtleByDistance(double distance) {
     // do the calculations to make the turtle go forward
     // THIS WAS WAY HARDER THAN I THOGUGHT
     // because the angles/getrotate are all messed up
@@ -333,7 +347,7 @@ public class ViewPane {
     double turtleAngle = ((-turtle.getRotate() - 90) * Math.PI) / (180);
     turtleX = turtle.getX() - Math.cos(turtleAngle) * distance;
     turtleY = turtle.getY() + Math.sin(turtleAngle) * distance;
-    if(!penUP){
+    if (!penUP) {
       createLine(turtleX, turtleY);
     }
 

@@ -1,9 +1,6 @@
 package slogo.model.commands.basic_commands.command_types;
 
-import java.util.List;
-import slogo.model.commands.basic_commands.BasicCommand;
 import slogo.model.execution.CommandInformationBundle;
-import slogo.model.tree.TreeNode;
 import slogo.model.turtle.Turtle;
 
 /**
@@ -118,7 +115,7 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
 //    updateFrontEnd();
   }
 
-  protected void updateFrontEnd(){
+  protected void updateFrontEnd() {
     BUNDLE.updateTurtle();
   }
 

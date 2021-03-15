@@ -2,9 +2,14 @@ package slogo.view;
 
 import java.util.Map;
 import java.util.Queue;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import slogo.controller.FrontEndExternalAPI;
 
 
@@ -12,6 +17,7 @@ import slogo.controller.FrontEndExternalAPI;
  * Create the HBox for the display for history of commands, variables, and user commands
  */
 public class HistoryDisplayPane {
+
   private static final String TITLE = "HISTORY, VARIABLES, AND USER COMMANDS";
   private static final String HISTORY_DISPLAY_PANE_ID = "HistoryDisplayPane";
   private static final String HISTORY_DISPLAY_PANE_TEXT = "HistoryDisplayPaneText";
@@ -100,23 +106,25 @@ public class HistoryDisplayPane {
     return basePane;
   }
 
-  public void updateDisplayOfInformation(Map<String, Double> variables, Map<String, String> userDefinedCommands) {
+  public void updateDisplayOfInformation(Map<String, Double> variables,
+      Map<String, String> userDefinedCommands) {
     updateVariableDisplay(variables);
     updateUserDefinedCommands(userDefinedCommands);
   }
 
   private void updateUserDefinedCommands(Map<String, String> userDefinedCommands) {
     userBox.getChildren().clear();
-    for(Map.Entry<String, String> command : userDefinedCommands.entrySet()){
+    for (Map.Entry<String, String> command : userDefinedCommands.entrySet()) {
       Button button = makeButton(command.getKey(), userBox, HISTORY_BUTTON);
       userBox.getChildren().add(button);
-      button.setOnAction(event -> viewController.displayCommandStringOnTextArea(command.getValue()));
+      button
+          .setOnAction(event -> viewController.displayCommandStringOnTextArea(command.getValue()));
     }
   }
 
   public void updateCommandHistory(Queue<String> commandHistory) {
     historyBox.getChildren().clear();
-    for(String command : commandHistory){
+    for (String command : commandHistory) {
       Button button = makeButton(command, historyBox, HISTORY_BUTTON);
       historyBox.getChildren().add(button);
       button.setOnAction(event -> viewController.displayCommandStringOnTextArea(command));
@@ -125,7 +133,7 @@ public class HistoryDisplayPane {
 
   public void updateVariableDisplay(Map<String, Double> variables) {
     varBox.getChildren().clear();
-    for(Map.Entry<String, Double> entry : variables.entrySet()){
+    for (Map.Entry<String, Double> entry : variables.entrySet()) {
       Button button = makeButton(entry.getKey() + " = " + entry.getValue(), varBox, HISTORY_BUTTON);
       varBox.getChildren().add(button);
     }

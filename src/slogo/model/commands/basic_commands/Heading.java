@@ -11,6 +11,7 @@ import slogo.model.tree.TreeNode;
  * @author jincho
  */
 public class Heading extends TurtleQueryCommand {
+
   /**
    * Makes the BasicCommand and saves the Turtle
    *

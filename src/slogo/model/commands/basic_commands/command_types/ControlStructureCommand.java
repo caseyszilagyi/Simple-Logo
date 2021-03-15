@@ -1,9 +1,7 @@
 package slogo.model.commands.basic_commands.command_types;
 
-import java.lang.reflect.Parameter;
 import java.util.List;
 import java.util.Map;
-import slogo.model.commands.basic_commands.BasicCommand;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
@@ -83,7 +81,7 @@ public abstract class ControlStructureCommand extends Command {
    * Removes the last param map, used when a command with parameters is done executing
    */
   protected void removeParamMap() {
-    PARAMETER_MAP.remove(PARAMETER_MAP.size()-1);
+    PARAMETER_MAP.remove(PARAMETER_MAP.size() - 1);
   }
 
   /**

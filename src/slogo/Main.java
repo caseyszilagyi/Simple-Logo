@@ -1,16 +1,14 @@
 package slogo;
 
-import java.util.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import slogo.controller.BackEndExternalAPI;
 import slogo.controller.FrontEndExternalAPI;
 import slogo.controller.ModelController;
 import slogo.controller.ViewController;
-import slogo.view.ScreenCreator;
 
 /**
- * 
+ *
  */
 public class Main extends Application {
 
@@ -20,9 +18,9 @@ public class Main extends Application {
   public Main() {
   }
 
-  public static void main(String[] args){
-        launch(args);
-    }
+  public static void main(String[] args) {
+    launch(args);
+  }
 
   /**
    * The main entry point for all JavaFX applications. The start method is called after the init

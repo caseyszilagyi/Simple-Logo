@@ -1,10 +1,6 @@
 package slogo.model.commands.basic_commands;
 
-import com.sun.source.tree.Tree;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import slogo.model.commands.basic_commands.command_types.ControlStructureCommand;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
