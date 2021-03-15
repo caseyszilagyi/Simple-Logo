@@ -221,8 +221,7 @@ public class CleanInputTester {
   }
 
   /**
-   * Tests the Repeat command
-   * repeat 2 [ repeat 3 [ fd 100 ] ]
+   * Tests the Repeat command repeat 2 [ repeat 3 [ fd 100 ] ]
    */
   @Test
   void testUserDefCommands() {
@@ -239,11 +238,10 @@ public class CleanInputTester {
     assertEquals(expected, cleaner.cleanString());
     assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 1);
     assertEquals(cleaner.commandParser.getParamCount("CommandBlock_2"), 1);
- }
+  }
 
   /**
-   * Tests the do times
-   * dotimes [ :size 10 ] [ fd :size right 5 ]
+   * Tests the do times dotimes [ :size 10 ] [ fd :size right 5 ]
    */
   @Test
   void testDoTimes() {
@@ -265,8 +263,7 @@ public class CleanInputTester {
   }
 
   /**
-   * Tests the wrong input
-   * fd 50 60
+   * Tests the wrong input fd 50 60
    */
   @Test
   void testSimpleWrongInput() {
@@ -275,14 +272,12 @@ public class CleanInputTester {
     assertEquals(new ErrorHandler("WrongParamNum"), cleaner.cleanString());
   }
 
-  private InputCleaner makeInputCleaner(String userInput, String language){
+  private InputCleaner makeInputCleaner(String userInput, String language) {
     ModelController modelController = new ModelController();
     CommandParser commandParser = new CommandParser(userInput, language, modelController);
     InputCleaner cleaner = new InputCleaner(userInput, language, modelController, commandParser);
     return cleaner;
   }
-
-
 
 
 }

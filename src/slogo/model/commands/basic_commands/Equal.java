@@ -1,7 +1,6 @@
 package slogo.model.commands.basic_commands;
 
 import java.util.List;
-import slogo.model.commands.basic_commands.command_types.Command;
 import slogo.model.commands.basic_commands.command_types.MathAndLogicCommand;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
@@ -20,7 +19,7 @@ public class Equal extends MathAndLogicCommand {
    * Makes an instance of the equal command
    *
    * @param bundle Not used for this command type
-   * @param nodes The two children to be compared
+   * @param nodes  The two children to be compared
    */
   public Equal(CommandInformationBundle bundle, List<TreeNode> nodes) {
     super(bundle);

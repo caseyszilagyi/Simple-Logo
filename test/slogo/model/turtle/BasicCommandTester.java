@@ -1,21 +1,17 @@
 package slogo.model.turtle;
 
-import com.sun.source.tree.Tree;
-import java.util.ArrayList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Arrays;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.controller.BackEndExternalAPI;
 import slogo.controller.FrontEndExternalAPI;
 import slogo.controller.ModelController;
-import slogo.controller.ViewController;
 import slogo.model.commands.BasicCommandClassLoader;
-import slogo.model.commands.basic_commands.*;
+import slogo.model.commands.basic_commands.BasicCommand;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
@@ -25,11 +21,11 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class BasicCommandTester {
 
+  static final double TOLERANCE = 0.05;
   private CommandInformationBundle commandBundle;
   private BasicCommandClassLoader loader;
   private BackEndExternalAPI modelController;
   private FrontEndExternalAPI viewController;
-  static final double TOLERANCE = 0.05;
 
   /**
    * Sets up the turtle and the classloader
@@ -207,8 +203,6 @@ public class BasicCommandTester {
     assertEquals(0, commandBundle.getTurtle().getXPosition());
     assertEquals(0, commandBundle.getTurtle().getYPosition());
   }
-
-
 
   // Turtle Queries
 
@@ -667,8 +661,7 @@ public class BasicCommandTester {
   }
 
   /**
-   * Tests the Repeat command
-   * repeat 2 [ repeat 3 [ fd 100 ] ]
+   * Tests the Repeat command repeat 2 [ repeat 3 [ fd 100 ] ]
    */
   @Test
   void testNestedRepeat() {
@@ -685,10 +678,6 @@ public class BasicCommandTester {
   }
 
   // Combining methods
-
-
-
-
 
   // Helper methods below
 

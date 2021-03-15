@@ -55,10 +55,12 @@ public class TreeNode {
     return val;
   }
 
-  public String getCommand(){
-    return commandClass;
+  public void setValue(String command) {
+    val = command;
   }
 
-  public void setValue(String command){ val = command; }
+  public String getCommand() {
+    return commandClass;
+  }
 
 }

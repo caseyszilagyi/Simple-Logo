@@ -18,7 +18,7 @@ public class Difference extends MathAndLogicCommand {
   /**
    * Makes an instance of the sum command
    *
-   * @param bundle Not used for this command
+   * @param bundle   Not used for this command
    * @param children The TreeNodes to difference
    */
   public Difference(CommandInformationBundle bundle, List<TreeNode> children) {

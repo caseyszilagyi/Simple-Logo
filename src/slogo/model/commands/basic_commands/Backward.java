@@ -4,7 +4,6 @@ import java.util.List;
 import slogo.model.commands.basic_commands.command_types.TurtleAlteringCommand;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
-import slogo.model.turtle.Turtle;
 
 /**
  * The backward command

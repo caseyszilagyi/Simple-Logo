@@ -1,23 +1,21 @@
 package slogo.view;
 
-import java.util.Deque;
 import java.util.List;
-
 import java.util.Map;
 import java.util.Queue;
-import java.util.Set;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import slogo.controller.FrontEndExternalAPI;
-import slogo.model.commands.basic_commands.UserDefinedCommand;
 
 /**
  * Create the main screen where visuals and panes will be displayed
+ *
  * @author Kathleen Chen
  * @author Ji Yun Hyo
  */
 public class ScreenCreator {
+
   private static final String TITLE = "SLogo";
   private static final double DEFAULT_X = 1150.0;
   private static final double DEFAULT_Y = 800.0;
@@ -54,7 +52,7 @@ public class ScreenCreator {
     root.setLeft(viewPane.getBox());
   }
 
-  public void moveTurtle(List<Double> parameters){
+  public void moveTurtle(List<Double> parameters) {
 
     System.out.println("parameters: " + parameters);
     viewPane.updateTurtle(parameters);
@@ -65,23 +63,24 @@ public class ScreenCreator {
   }
 
   //TODO: REMOVE LATER THIS IS ONLY FOR DEBUGGING
-  private void reset(){
+  private void reset() {
 
     viewPane = new ViewPane(stage);
     root.setCenter(viewPane.getBox());
 
   }
 
-  public String getLanguage(){
+  public String getLanguage() {
     return viewPane.getLanguage();
   }
 
-  public void updateCommandHistory(Queue<String> commandHistory){
+  public void updateCommandHistory(Queue<String> commandHistory) {
     historyDisplayPane.updateCommandHistory(commandHistory);
   }
 
 
-  public void updateCommandHistory(Map<String, Double> variables, Map<String, String> userDefinedCommands) {
+  public void updateCommandHistory(Map<String, Double> variables,
+      Map<String, String> userDefinedCommands) {
     historyDisplayPane.updateDisplayOfInformation(variables, userDefinedCommands);
   }
 

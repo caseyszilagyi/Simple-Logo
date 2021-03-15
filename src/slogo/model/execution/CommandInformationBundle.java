@@ -5,10 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import slogo.controller.BackEndExternalAPI;
-import slogo.controller.ModelController;
 import slogo.model.commands.BasicCommandClassLoader;
 import slogo.model.commands.basic_commands.BasicCommand;
-import slogo.model.commands.basic_commands.MakeUserInstruction;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
 import slogo.model.tree.TreeNode;
 import slogo.model.turtle.Turtle;
@@ -32,6 +30,7 @@ public class CommandInformationBundle {
 
   /**
    * Makes our information bundle
+   *
    * @param modelController
    */
   public CommandInformationBundle(BackEndExternalAPI modelController) {
@@ -50,25 +49,28 @@ public class CommandInformationBundle {
 
   /**
    * Gets the map of commands
+   *
    * @return The command map
    */
-  public Map<String, UserDefinedCommand> getCommandMap(){
+  public Map<String, UserDefinedCommand> getCommandMap() {
     return COMMANDS;
   }
 
   /**
    * Gets the map of variables
+   *
    * @return The variable map
    */
-  public Map<String, Double> getVariableMap(){
+  public Map<String, Double> getVariableMap() {
     return VARIABLES;
   }
 
   /**
    * Gets the map of parameters. Each successive map is one deeper in the nested structure
+   *
    * @return The list of maps
    */
-  public List<Map<String, Double>> getParameterMap(){
+  public List<Map<String, Double>> getParameterMap() {
     return PARAMETERS;
   }
 
@@ -81,7 +83,9 @@ public class CommandInformationBundle {
     return TURTLE;
   }
 
-  public void updateTurtle() { MODEL_CONTROLLER.passInputToFrontEnd(TURTLE.getFrontEndParameters());}
+  public void updateTurtle() {
+    MODEL_CONTROLLER.passInputToFrontEnd(TURTLE.getFrontEndParameters());
+  }
 
   /**
    * Makes a Basic command using the given node

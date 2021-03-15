@@ -1,93 +1,93 @@
 .root {
-    -fx-font-size: 10pt;
-    -fx-font-family: "Futura";
-    -fx-background: #a9a9a9;
+  -fx-font-size: 10pt;
+  -fx-font-family: "Futura";
+  -fx-background: #a9a9a9;
 }
 
 .ViewPane {
-    -fx-background-radius: 10;
-    -fx-background-insets: 5;
-    -fx-background-color: #696969;
+  -fx-background-radius: 10;
+  -fx-background-insets: 5;
+  -fx-background-color: #696969;
 }
 
 .UserCommandPane {
-    -fx-padding: 15;
-    -fx-background-radius: 10;
-    -fx-background-insets: 5;
-    -fx-background-color: #696969;
-    -fx-alignment: CENTER_LEFT;
-    -fx-spacing: 5.0;
+  -fx-padding: 15;
+  -fx-background-radius: 10;
+  -fx-background-insets: 5;
+  -fx-background-color: #696969;
+  -fx-alignment: CENTER_LEFT;
+  -fx-spacing: 5.0;
 }
 
 .HistoryDisplayPane {
-    -fx-padding: 15;
-    -fx-background-radius: 10;
-    -fx-background-insets: 5;
-    -fx-background-color: #696969;
-    -fx-alignment: TOP_CENTER;
-    -fx-vgap: 5.0;
+  -fx-padding: 15;
+  -fx-background-radius: 10;
+  -fx-background-insets: 5;
+  -fx-background-color: #696969;
+  -fx-alignment: TOP_CENTER;
+  -fx-vgap: 5.0;
 }
 
 .TurtleView {
-    -fx-background-radius: 10;
-    -fx-background-insets: 10;
-    -fx-background-color: #d3d3d3;
+  -fx-background-radius: 10;
+  -fx-background-insets: 10;
+  -fx-background-color: #d3d3d3;
 }
 
 .HistoryPane {
-    -fx-background-radius: 20;
-    -fx-background-color: #d3d3d3;
-    -fx-alignment: CENTER;
+  -fx-background-radius: 20;
+  -fx-background-color: #d3d3d3;
+  -fx-alignment: CENTER;
 }
 
 .HistoryBox {
-    -fx-background-radius: 10;
-    -fx-background-color: #d3d3d3;
-    -fx-alignment: TOP_CENTER;
-    -fx-hgap: 5.0;
+  -fx-background-radius: 10;
+  -fx-background-color: #d3d3d3;
+  -fx-alignment: TOP_CENTER;
+  -fx-hgap: 5.0;
 }
 
 .ChoicePane {
-    -fx-padding: 15;
-    -fx-background-radius: 10;
-    -fx-background-insets: 10;
-    -fx-background-color: #d3d3d3;
-    -fx-alignment: CENTER;
-    -fx-hgap: 5.0;
+  -fx-padding: 15;
+  -fx-background-radius: 10;
+  -fx-background-insets: 10;
+  -fx-background-color: #d3d3d3;
+  -fx-alignment: CENTER;
+  -fx-hgap: 5.0;
 }
 
 .regular-button {
-    -fx-border-radius: 20;
-    -fx-background-radius: 20;
-    -fx-background-insets: 1;
-    -fx-border-width: 2;
-    -fx-padding: 5;
-    -fx-background-color: #d3d3d3;
-    -fx-border-color: #000000;
+  -fx-border-radius: 20;
+  -fx-background-radius: 20;
+  -fx-background-insets: 1;
+  -fx-border-width: 2;
+  -fx-padding: 5;
+  -fx-background-color: #d3d3d3;
+  -fx-border-color: #000000;
 }
 
 .regular-button:hover {
-    -fx-background-color: linear-gradient(#808080, #dcdcdc);
+  -fx-background-color: linear-gradient(#808080, #dcdcdc);
 }
 
 .history-button {
-    -fx-background-radius: 20;
-    -fx-background-color: #d3d3d3;
-    -fx-text-alignment: CENTER;
+  -fx-background-radius: 20;
+  -fx-background-color: #d3d3d3;
+  -fx-text-alignment: CENTER;
 }
 
 .history-button:hover {
-    -fx-background-color: linear-gradient(#808080, #dcdcdc);
+  -fx-background-color: linear-gradient(#808080, #dcdcdc);
 }
 
 .icon {
-    -fx-border-radius: 20;
-    -fx-background-radius: 20;
-    -fx-background-insets: 1;
-    -fx-border-width: 2;
-    -fx-padding: 10 20 10 20;
-    -fx-background-color: #d3d3d3;
-    -fx-border-color: #000000;
+  -fx-border-radius: 20;
+  -fx-background-radius: 20;
+  -fx-background-insets: 1;
+  -fx-border-width: 2;
+  -fx-padding: 10 20 10 20;
+  -fx-background-color: #d3d3d3;
+  -fx-border-color: #000000;
 }
 
 .icon:hover {
@@ -95,43 +95,43 @@
 }
 
 .color-picker {
-    -fx-border-radius: 20;
-    -fx-background-radius: 20;
-    -fx-background-insets: 1;
-    -fx-border-width: 2;
-    -fx-background-color: #d3d3d3;
-    -fx-border-color: #000000;
+  -fx-border-radius: 20;
+  -fx-background-radius: 20;
+  -fx-background-insets: 1;
+  -fx-border-width: 2;
+  -fx-background-color: #d3d3d3;
+  -fx-border-color: #000000;
 }
 
 .color-picker:hover {
-    -fx-background-color: linear-gradient(#808080, #dcdcdc);
+  -fx-background-color: linear-gradient(#808080, #dcdcdc);
 }
 
 .text-area {
-    -fx-border-radius: 20;
-    -fx-background-radius: 20;
-    -fx-background-insets: 1;
-    -fx-border-width: 2;
-    -fx-padding: 5;
-    -fx-background-color: #d3d3d3;
-    -fx-control-inner-background: #d3d3d3;
-    -fx-border-color: #000000;
+  -fx-border-radius: 20;
+  -fx-background-radius: 20;
+  -fx-background-insets: 1;
+  -fx-border-width: 2;
+  -fx-padding: 5;
+  -fx-background-color: #d3d3d3;
+  -fx-control-inner-background: #d3d3d3;
+  -fx-border-color: #000000;
 }
 
 .combo-box {
-    -fx-border-radius: 20;
-    -fx-background-radius: 20;
-    -fx-background-insets: 1;
-    -fx-border-width: 2;
-    -fx-background-color: #d3d3d3;
-    -fx-border-color: #000000;
+  -fx-border-radius: 20;
+  -fx-background-radius: 20;
+  -fx-background-insets: 1;
+  -fx-border-width: 2;
+  -fx-background-color: #d3d3d3;
+  -fx-border-color: #000000;
 }
 
 .combo-box:hover {
-    -fx-background-color: linear-gradient(#808080, #dcdcdc);
+  -fx-background-color: linear-gradient(#808080, #dcdcdc);
 }
 
-.HistoryDisplayPaneText{
-    -fx-text-alignment: CENTER;
-    -fx-text-fill: #f8f8ff;
+.HistoryDisplayPaneText {
+  -fx-text-alignment: CENTER;
+  -fx-text-fill: #f8f8ff;
 }
