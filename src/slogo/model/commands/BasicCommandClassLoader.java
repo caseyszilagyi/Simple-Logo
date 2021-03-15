@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import slogo.model.commands.basic_commands.BasicCommand;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
+import slogo.model.commands.basic_commands.command_types.Command;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
@@ -34,6 +35,28 @@ public class BasicCommandClassLoader {
    */
   public BasicCommand makeCommand(CommandInformationBundle informationBundle, TreeNode node) {
 
+    BasicCommand specialCases = checkSpecialCases(informationBundle, node);
+    if(specialCases != null){
+      return specialCases;
+    }
+
+    BasicCommand myCommand = null;
+    try {
+      Object command = CLASS_LOADER.loadClass(COMMAND_CLASSES_PACKAGE + node.getCommand())
+          .getDeclaredConstructor(CommandInformationBundle.class, List.class)
+          .newInstance(informationBundle, (Object) node.getChildren());
+      myCommand = (BasicCommand) command;
+    } catch (InstantiationException | InvocationTargetException | NoSuchMethodException | IllegalAccessException | ClassNotFoundException e) {
+      e.printStackTrace();
+    }
+
+    return myCommand;
+  }
+
+  // Checks for constant, user defined command, or variable. These are not part of the
+  // default commands so they need special cases to check them
+  private BasicCommand checkSpecialCases(CommandInformationBundle informationBundle, TreeNode node){
+
     // Checks if node is constant
     if (isConstant(node)) {
       return makeConstant(Double.parseDouble(node.getCommand()));
@@ -58,20 +81,8 @@ public class BasicCommandClassLoader {
           return makeConstant(informationBundle.getParameterMap().get(i).get(node.getCommand()));
         }
       }
-
     }
-
-    BasicCommand myCommand = null;
-    try {
-      Object command = CLASS_LOADER.loadClass(COMMAND_CLASSES_PACKAGE + node.getCommand())
-          .getDeclaredConstructor(CommandInformationBundle.class, List.class)
-          .newInstance(informationBundle, (Object) node.getChildren());
-      myCommand = (BasicCommand) command;
-    } catch (InstantiationException | InvocationTargetException | NoSuchMethodException | IllegalAccessException | ClassNotFoundException e) {
-      e.printStackTrace();
-    }
-
-    return myCommand;
+    return null;
   }
 
   //
