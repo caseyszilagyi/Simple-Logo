@@ -1,6 +1,5 @@
 package slogo.model.execution;
 
-import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,10 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import slogo.ErrorHandler;
 import slogo.controller.BackEndExternalAPI;
-import slogo.model.commands.BasicCommandClassLoader;
-import slogo.model.commands.basic_commands.BasicCommand;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
-import slogo.model.tree.TreeNode;
 import slogo.model.turtle.Turtle;
 
 /**
@@ -35,7 +31,8 @@ public class CommandInformationBundle {
   /**
    * Makes our information bundle
    *
-   * @param modelController
+   * @param modelController The model controller that the bundle communicates with to pass
+   *                        information to the front end
    */
   public CommandInformationBundle(BackEndExternalAPI modelController) {
     MODEL_CONTROLLER = modelController;
@@ -52,12 +49,13 @@ public class CommandInformationBundle {
 
   /**
    * Gets a command with a specific name from the map
+   *
    * @param commandName The name of the command
    * @return The command
    * @throws ErrorHandler If the command doesn't exist, this error is thrown
    */
   public UserDefinedCommand getCommand(String commandName) throws ErrorHandler {
-    if(COMMANDS.get(commandName) == null){
+    if (COMMANDS.get(commandName) == null) {
       throw new ErrorHandler("InvalidCommandName");
     }
     return COMMANDS.get(commandName);
@@ -66,11 +64,20 @@ public class CommandInformationBundle {
   /**
    * Adds a command to the map
    *
-   * @param name  The command name
+   * @param name    The command name
    * @param command The command
    */
   public void addCommand(String name, UserDefinedCommand command) {
     COMMANDS.put(name, command);
+  }
+
+  /**
+   * Checks if a command is in the map
+   *
+   * @param name    The command name
+   */
+  public boolean hasCommand(String name) {
+    return COMMANDS.containsKey(name);
   }
 
 
@@ -85,12 +92,13 @@ public class CommandInformationBundle {
 
   /**
    * Gets a variable with a specific name from the map
+   *
    * @param variableName The name of the variable
    * @return The variable value
    * @throws ErrorHandler If the variable doesn't exist, this error is thrown
    */
   public double getVariable(String variableName) throws ErrorHandler {
-    if(VARIABLES.get(variableName) == null){
+    if (VARIABLES.get(variableName) == null) {
       throw new ErrorHandler("InvalidVariableName");
     }
     return VARIABLES.get(variableName);
@@ -106,6 +114,15 @@ public class CommandInformationBundle {
     VARIABLES.put(name, value);
   }
 
+  /**
+   * Checks if a variable is in the map
+   *
+   * @param name    The variable name
+   */
+  public boolean hasVariable(String name) {
+    return VARIABLES.containsKey(name);
+  }
+
 
   /**
    * Gets the map of parameters. Each successive map is one deeper in the nested structure
@@ -114,7 +131,7 @@ public class CommandInformationBundle {
    */
   public List<Map<String, Double>> getParameterMap() {
     List<Map<String, Double>> unmodifiableParameterCopy = PARAMETERS;
-    for(Map paramMap: PARAMETERS){
+    for (Map paramMap : PARAMETERS) {
       Map<String, Double> unmodifiableMap = Collections.unmodifiableMap(paramMap);
       unmodifiableParameterCopy.add(unmodifiableMap);
     }
@@ -123,13 +140,14 @@ public class CommandInformationBundle {
 
   /**
    * Gets a parameter with a specific name from the list holding the maps
+   *
    * @param parameterName The name of the parameter
    * @return The parameter value
    * @throws ErrorHandler If the parameter doesn't exist, this error is thrown
    */
-  public Double getParameter(String parameterName) throws ErrorHandler {
-    for(int i = PARAMETERS.size() - 1; i>=0; i--){
-      if(PARAMETERS.get(i).get(parameterName) != null){
+  public Double getParameter(String parameterName) {
+    for (int i = PARAMETERS.size() - 1; i >= 0; i--) {
+      if (PARAMETERS.get(i).get(parameterName) != null) {
         return PARAMETERS.get(i).get(parameterName);
       }
     }
@@ -137,15 +155,24 @@ public class CommandInformationBundle {
   }
 
   /**
-   * Adds a parameter to the last map in the parameter list, because the last map is the
-   * most inner map
+   * Adds a parameter to the last map in the parameter list, because the last map is the most inner
+   * map
    *
    * @param name  The parameter name
    * @param value The value of the parameter
    */
   public void addParameter(String name, Double value) {
     PARAMETERS_LIST.add(name);
-    PARAMETERS.get(PARAMETERS.size()-1).put(name, value);
+    PARAMETERS.get(PARAMETERS.size() - 1).put(name, value);
+  }
+
+  /**
+   * Checks if a parameter is in the map
+   *
+   * @param name    The parameter name
+   */
+  public boolean hasParameter(String name) {
+    return PARAMETERS_LIST.contains(name);
   }
 
 
