@@ -74,7 +74,7 @@ public class CommandInformationBundle {
   /**
    * Checks if a command is in the map
    *
-   * @param name    The command name
+   * @param name The command name
    */
   public boolean hasCommand(String name) {
     return COMMANDS.containsKey(name);
@@ -117,7 +117,7 @@ public class CommandInformationBundle {
   /**
    * Checks if a variable is in the map
    *
-   * @param name    The variable name
+   * @param name The variable name
    */
   public boolean hasVariable(String name) {
     return VARIABLES.containsKey(name);
@@ -136,6 +136,24 @@ public class CommandInformationBundle {
       unmodifiableParameterCopy.add(unmodifiableMap);
     }
     return Collections.unmodifiableList(unmodifiableParameterCopy);
+  }
+
+  /**
+   * Adds a parameter map to the list of parameter maps. This will be removed when a loop/command is
+   * done and the parameters are no longer needed
+   *
+   * @param paramMap The parameter map to be added
+   */
+  public void addParameterMap(Map<String, Double> paramMap) {
+    PARAMETERS.add(paramMap);
+  }
+
+  /**
+   * Removes a parameter map from the list of parameter maps. This is done when a loop/command is
+   * done and the parameters are no longer needed
+   */
+  public void removeParameterMap() {
+    PARAMETERS.remove(PARAMETERS.size() - 1);
   }
 
   /**
@@ -169,7 +187,7 @@ public class CommandInformationBundle {
   /**
    * Checks if a parameter is in the map
    *
-   * @param name    The parameter name
+   * @param name The parameter name
    */
   public boolean hasParameter(String name) {
     return PARAMETERS_LIST.contains(name);
