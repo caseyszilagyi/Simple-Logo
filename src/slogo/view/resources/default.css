@@ -90,6 +90,10 @@
     -fx-border-color: #000000;
 }
 
+.icon:hover {
+    -fx-background-color: linear-gradient(#808080, #dcdcdc);
+}
+
 .color-picker {
     -fx-border-radius: 20;
     -fx-background-radius: 20;

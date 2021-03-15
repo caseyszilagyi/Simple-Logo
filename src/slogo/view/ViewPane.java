@@ -39,7 +39,8 @@ public class ViewPane {
 
   private static final String BACKGROUND_ICON = "BackgroundIcon.gif";
   private static final String PEN_ICON = "PenIcon.gif";
-  private static final String TURTLE_ICON = "TurtleT1.gif";
+  private static final String TURTLE_ICON = "TurtleIcon.gif";
+  private static final String NEW_WINDOW_ICON = "NewWindow.gif";
 
   private static final int rows = 700;
   private static final int cols = 600;
@@ -117,16 +118,18 @@ public class ViewPane {
     createPenColorPicker();
 
     Button turtleImageButton = new Button();
-    ImageView icon = setIcon(TURTLE_ICON);
-    turtleImageButton.setGraphic(icon);
+    ImageView turtleIcon = setIcon(TURTLE_ICON);
+    turtleImageButton.setGraphic(turtleIcon);
     turtleImageButton.getStyleClass().add(ICON);
     choicePane.add(turtleImageButton, 2, 0);
     turtleImageButton.setOnAction(event -> uploadTurtleImage());
 
     createLanguageComboBox();
 
-    Button addNewScreen = new Button("New Screen");
-    addNewScreen.getStyleClass().add(BUTTON);
+    Button addNewScreen = new Button();
+    ImageView addIcon = setIcon(NEW_WINDOW_ICON);
+    addNewScreen.setGraphic(addIcon);
+    addNewScreen.getStyleClass().add(ICON);
     choicePane.add(addNewScreen, 3, 0);
     addNewScreen.setOnAction(event -> createNewScreen());
   }
