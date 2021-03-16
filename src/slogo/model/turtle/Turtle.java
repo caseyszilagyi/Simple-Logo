@@ -9,23 +9,25 @@ import java.util.List;
  */
 public class Turtle implements TurtleState {
 
-  private double angle;
-  private double xPosition;
-  private double yPosition;
-  private double isVisible;
-  private double penState;
-  private double clearScreen;
+  private double angle = 90;
+  private double xPosition = 0;
+  private double yPosition = 0;
+  private double isVisible = 1;
+  private double penState = 1;
+  private double clearScreen = 0;
+  private int ID;
 
   /**
    * Default constructor
    */
   public Turtle() {
-    xPosition = 0;
-    yPosition = 0;
-    angle = 90;
-    isVisible = 1;
-    penState = 1;
-    clearScreen = 0;
+  }
+
+  /**
+   * Default constructor
+   */
+  public Turtle(int turtleID) {
+    ID = turtleID;
   }
 
   /**

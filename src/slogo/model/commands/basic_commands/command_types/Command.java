@@ -17,7 +17,7 @@ public abstract class Command implements BasicCommand {
    *
    * @return The BasicCommand represented by the TreeNode
    */
-  public BasicCommand loadClass(CommandInformationBundle informationBundle, TreeNode node) {
+  protected BasicCommand loadClass(CommandInformationBundle informationBundle, TreeNode node) {
     return CLASS_LOADER.makeCommand(informationBundle, node);
   }
 
