@@ -28,8 +28,9 @@ public class PenDown extends TurtleAlteringCommand {
    * @return 1, because the pen is drawing
    */
   public double execute() {
-    changePenState(1);
-    updateFrontEnd();
+    updateTurtle(turtle -> {
+      changePenState(1);
+    });
     return 1;
   }
 }

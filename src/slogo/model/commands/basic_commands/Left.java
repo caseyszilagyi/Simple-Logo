@@ -31,9 +31,9 @@ public class Left extends TurtleAlteringCommand {
    * @return The angle that it rotated
    */
   public double execute() {
-    return updateTurtle(turtle -> {
+    updateTurtle(turtle -> {
       changeTurtleAngle(ANGLE);
-      return ANGLE;
     });
+    return ANGLE;
   }
 }

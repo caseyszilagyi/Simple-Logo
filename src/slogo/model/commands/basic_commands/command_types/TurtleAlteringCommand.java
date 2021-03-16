@@ -2,6 +2,7 @@ package slogo.model.commands.basic_commands.command_types;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.ToDoubleFunction;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.turtle.Turtle;
@@ -140,10 +141,9 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    * Although not sure how useful that is. I guess so that the logic of only
    * doing it on certain turtles is contained up here rather than in the subclasses
    */
-  protected double updateTurtle(ToDoubleFunction<Turtle> action){
-    double result = action.applyAsDouble(TURTLE);
+  protected void updateTurtle(Consumer<Turtle> turtleAction){
+    turtleAction.accept(TURTLE);
     updateFrontEnd();
-    return result;
   }
 
 

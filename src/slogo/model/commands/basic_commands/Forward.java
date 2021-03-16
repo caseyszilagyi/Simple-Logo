@@ -31,18 +31,10 @@ public class Forward extends TurtleAlteringCommand {
    * @return The distance forward that it moved
    */
   public double execute() {
-    return updateTurtle(turtle -> {
+    updateTurtle(turtle -> {
       changeTurtleX(DISTANCE * Math.cos(getAngle() / 360 * Math.PI * 2));
       changeTurtleY(DISTANCE * Math.sin(getAngle() / 360 * Math.PI * 2));
-      return DISTANCE;
     });
-  }
-
-  //old execute method
-  /*
-  changeTurtleX(DISTANCE * Math.cos(getAngle() / 360 * Math.PI * 2));
-    changeTurtleY(DISTANCE * Math.sin(getAngle() / 360 * Math.PI * 2));
-    updateFrontEnd();
     return DISTANCE;
-   */
+  }
 }
