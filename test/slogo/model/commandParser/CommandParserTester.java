@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import slogo.ErrorHandler;
 import slogo.controller.BackEndExternalAPI;
 import slogo.controller.ModelController;
 import slogo.model.CommandParser;
@@ -119,6 +120,33 @@ public class CommandParserTester {
     results.add(":size");
     results.add("50");
     assertEquals(results, tester.preOrderResults);
+  }
+
+  /**
+   * Tests wrong param input
+   */
+  @Test
+  void testWrongNumParam() {
+    CommandParser tester = makeParser("to x y", "English");
+    assertEquals(tester.makeTree(), new ErrorHandler("WrongParamNum"));
+  }
+
+  /**
+   * Tests wrong param input. more complex
+   */
+  @Test
+  void testWrongNumParamComplex() {
+    CommandParser tester = makeParser("to x [ :y ] [ sum 50 ]", "English");
+    assertEquals(tester.makeTree(), new ErrorHandler("WrongParamNum"));
+  }
+
+  /**
+   * Tests wrong input type for command param
+   */
+  @Test
+  void testWrongParamInput() {
+    CommandParser tester = makeParser("sum [ fd 50 ]", "English");
+    assertEquals(tester.makeTree(), new ErrorHandler("WrongParamNum"));
   }
 
 

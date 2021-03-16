@@ -31,7 +31,7 @@ public class CommandParser implements Parser {
   // "types" and the regular expression patterns that recognize those types
   // note, it is a list because order matters (some patterns may be more generic)
   private Map<String, List<String>> parameters;
-  private Map<String, Pattern> syntaxMap;
+  public static Map<String, Pattern> syntaxMap;
   private TreeNode commandTree;
   private List<String> cleanCommands;
   private BackEndExternalAPI modelController;
@@ -145,12 +145,17 @@ public class CommandParser implements Parser {
     int paramCount = getParamCount(root.getValue());
     System.out.println(paramCount);
     for (int i = 0; i < getParamCount(root.getValue()); i++) {
-      String command = splitCommands.removeFirst();
+      String command;
+      try{
+        command = splitCommands.removeFirst();
+      } catch (Exception e) {
+        throw new ErrorHandler("WrongParamNum");
+      }
       TreeNode dummy = new TreeNode(command);
       dummy = checkCommandBlock(dummy);
       root.addChild(dummy);
-//      System.out.println("Parent: " + root.getCommand());
-//      System.out.println("Child: " + dummy.getCommand());
+      System.out.println("Parent: " + root.getCommand());
+      System.out.println("Child: " + dummy.getCommand());
       insertNodeRecursive(splitCommands, dummy);
     }
     System.out.println(root.getCommand());
