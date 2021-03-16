@@ -53,9 +53,8 @@ public class UserDefinedCommand extends ControlStructureCommand {
    * @return The variable value
    */
   public double execute() {
-    addParamMap(paramMap);
     double result = executeBlock(COMMAND_BLOCK);
-    removeParamMap();
+    removeParameterMap();
     return result;
   }
 
@@ -66,9 +65,9 @@ public class UserDefinedCommand extends ControlStructureCommand {
    * @param parameterValues The given set of parameter values
    */
   public void passParams(List<TreeNode> parameterValues) {
-    paramMap = new HashMap<>();
+    addParameterMap();
     for (int i = 0; i < PARAMETERS.size(); i++) {
-      paramMap.put(PARAMETERS.get(i).getCommand(), executeBlock(parameterValues.get(i)));
+      setParameter(PARAMETERS.get(i).getCommand(), executeBlock(parameterValues.get(i)));
     }
   }
 
