@@ -23,13 +23,13 @@ public class SetTowards extends TurtleAlteringCommand {
    * Makes the BasicCommand and saves the Turtle
    *
    * @param informationBundle The bundle of information that contains the turtle
-   * @param children
+   * @param children The x and y position that the turtle will be facing
    */
   public SetTowards(CommandInformationBundle informationBundle, List<TreeNode> children) {
     super(informationBundle);
-    PREV_ANGLE = informationBundle.getTurtle().getAngle();
-    CURR_X = informationBundle.getTurtle().getXPosition();
-    CURR_Y = informationBundle.getTurtle().getXPosition();
+    PREV_ANGLE = getAngle();
+    CURR_X = getXCoordinate();
+    CURR_Y = getYCoordinate();
     X_HEADING = loadClass(informationBundle, children.get(0)).execute();
     Y_HEADING = loadClass(informationBundle, children.get(1)).execute();
   }
