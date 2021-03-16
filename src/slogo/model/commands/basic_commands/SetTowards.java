@@ -34,13 +34,14 @@ public class SetTowards extends TurtleAlteringCommand {
     Y_HEADING = loadClass(informationBundle, children.get(1)).execute();
   }
 
+  // Calculates the new angle that the turtle should be facing
   private double newAngle() {
     double x_diff = Math.toRadians(X_HEADING - CURR_X);
     double y_diff = Math.toRadians(Y_HEADING - CURR_Y);
     return Math.toDegrees(Math.atan(x_diff / y_diff));
   }
 
-
+  // Calculates the change in angle to return
   private double angleChange() {
     return Math.abs(newAngle() - PREV_ANGLE);
   }
@@ -52,8 +53,9 @@ public class SetTowards extends TurtleAlteringCommand {
    */
   @Override
   public double execute() {
-    setAngle(newAngle());
-    updateFrontEnd();
-    return angleChange();
+    return updateTurtle(turtle -> {
+      setAngle(newAngle());
+      return angleChange();
+    });
   }
 }
