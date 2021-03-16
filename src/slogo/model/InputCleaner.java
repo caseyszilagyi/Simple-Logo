@@ -133,11 +133,10 @@ public class InputCleaner {
   }
 
   private List<String> findVariableBlocks(List<String> commands) {
-    System.out.println(commands);
     List<String> toRet = new ArrayList<>(commands);
     String commandKey = "CommandBlock_";
     int blockSize = 0;
-    String commandVal = "";
+    int commandVal = 0;
     boolean canCount = false;
     for (int ind = 0; ind < toRet.size(); ind++) {
       String commandKeyNum = "";
@@ -154,9 +153,9 @@ public class InputCleaner {
       if (match(curr, syntaxMap.get("ListEnd")) && canCount) {
         toRet.remove(ind);
         ind--;
-        commandVal = blockSize - 1 + "";
+        commandVal = blockSize - 1;
         commandKeyNum = commandKey + Integer.toString(commandCount);
-        commandParser.addSingleParamCount(commandKeyNum, commandVal);
+        commandParser.addSingleParamCount(commandKeyNum, makeStringParam(commandVal));
         canCount = false;
       }
     }
@@ -164,6 +163,14 @@ public class InputCleaner {
       throw new ErrorHandler("WrongParamNum");
     }
     return toRet;
+  }
+
+  private List<String> makeStringParam(int countNum) {
+    List<String> ret = new ArrayList<>();
+    for(int i=0; i< countNum; i++) {
+      ret.add("NUM");
+    }
+    return ret;
   }
 
   private boolean hasVarBlocks(String s) {
@@ -176,7 +183,6 @@ public class InputCleaner {
     Deque<Integer> parameters = new ArrayDeque<>();
     String commandKey = "CommandBlock_";
     int blockSize = 0;
-    String commandVal = "";
     for (int ind = 0; ind < toRet.size(); ind++) {
       String commandKeyNum = "";
       String curr = toRet.get(ind);
@@ -194,10 +200,9 @@ public class InputCleaner {
       if (match(curr, syntaxMap.get("ListEnd"))) {
         toRet.remove(ind);
         ind--;
-        commandVal = blockSize + "";
         commandKeyNum = commandBlocks.pop();
         commandParam.put(commandKeyNum, blockSize);
-        commandParser.addSingleParamCount(commandKeyNum, commandVal);
+        commandParser.addSingleParamCount(commandKeyNum, makeStringParam(blockSize));
         blockSize = parameters.pop();
       }
     }
@@ -211,13 +216,6 @@ public class InputCleaner {
     return match(s, syntaxMap.get("Command"));
   }
 
-//  private void countParamMatch(List<String> finalCommands) {
-//    for (String s : finalCommands) {
-//      if(isCommand(s)) {
-//        paramCountsExpected += commandParam.get(s);
-//      }
-//    }
-//  }
 
   private String getCommandKey(String text) {
     for (Entry<String, Pattern> e : symbols) {

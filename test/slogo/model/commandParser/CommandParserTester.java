@@ -71,6 +71,43 @@ public class CommandParserTester {
   }
 
   /**
+   * Tests multiple parameters count
+   */
+  @Test
+  void testMultParamCommand() {
+    String userInput = "Sum 50 50 ";
+    CommandParser tester = makeParser(userInput, "English");
+    TreeNode root = tester.makeTree();
+    List<String> results = new ArrayList<>();
+    results.add(null);
+    results.add("Sum");
+    results.add("50");
+    results.add("50");
+    assertEquals(results, tester.preOrderResults);
+  }
+
+  /**
+   * Tests multiple parameters count
+   */
+  @Test
+  void testBracketCommand() {
+    String userInput = "To x [ :dist ] [ sum :dist 5 ] ";
+    CommandParser tester = makeParser(userInput, "English");
+    TreeNode root = tester.makeTree();
+    List<String> results = new ArrayList<>();
+    results.add(null);
+    results.add("MakeUserInstruction");
+    results.add("x");
+    results.add("CommandBlock_1");
+    results.add(":dist");
+    results.add("CommandBlock_2");
+    results.add("Sum");
+    results.add(":dist");
+    results.add("5");
+    assertEquals(results, tester.preOrderResults);
+  }
+
+  /**
    * Tests one parameters count
    */
   @Test
