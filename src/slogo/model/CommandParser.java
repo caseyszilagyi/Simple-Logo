@@ -1,6 +1,7 @@
 package slogo.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ public class CommandParser implements Parser {
   public List<String> preOrderResults = new ArrayList<>();
   // "types" and the regular expression patterns that recognize those types
   // note, it is a list because order matters (some patterns may be more generic)
-  private Map<String, String> parameters;
+  private Map<String, List<String>> parameters;
   private TreeNode commandTree;
   private List<String> cleanCommands;
   private BackEndExternalAPI modelController;
@@ -38,7 +39,7 @@ public class CommandParser implements Parser {
     parameters = new HashMap<>();
     inputCleaner = new InputCleaner(rawInput, language, modelController, this);
     cleanCommands = inputCleaner.cleanString();
-    addParamCounts("Commands");
+    addParamCounts("CommandsParam");
     addUserDefParamCounts();
     commandTree = new TreeNode(null);
     System.out.println("Command Taken in by the parser: " + rawInput);
@@ -51,10 +52,10 @@ public class CommandParser implements Parser {
   public void addParamCounts(String syntax) {
     ResourceBundle resources = ResourceBundle.getBundle(RESOURCES_PACKAGE + syntax);
     for (String key : Collections.list(resources.getKeys())) {
-      addSingleParamCount(key, resources.getString(key));
-//            System.out.println("Key: " + key);
-//            System.out.println("Number: " + resources.getString(key));
-//            System.out.println();
+      addSingleParamCount(key, Arrays.asList(resources.getString(key).split(" ")));
+            System.out.println("Key: " + key);
+            System.out.println("Number: " + resources.getString(key).split(" "));
+            System.out.println();
     }
   }
 
@@ -65,7 +66,7 @@ public class CommandParser implements Parser {
    * @param command    command type name
    * @param paramCount number of parameters command will take in
    */
-  public void addSingleParamCount(String command, String paramCount) {
+  public void addSingleParamCount(String command, List<String> paramCount) {
     parameters.put(command, paramCount);
   }
 
@@ -73,7 +74,11 @@ public class CommandParser implements Parser {
     Map<String, UserDefinedCommand> userDefCommands = modelController.getUserDefinedCommands();
     for (String key : userDefCommands.keySet()) {
       int paramCounts = userDefCommands.get(key).getParamCount();
-      parameters.put(key, String.valueOf(paramCounts));
+      List<String> paramString = new ArrayList<>();
+      for(int i=0; i<paramCounts; i++) {
+        paramString.add("NUM");
+      }
+      parameters.put(key, paramString);
     }
   }
 
