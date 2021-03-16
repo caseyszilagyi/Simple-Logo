@@ -46,13 +46,12 @@ public class For extends ControlStructureCommand {
    */
   public double execute() {
     double val = 0;
-    Map<String, Double> params = new HashMap<>();
-    addParamMap(params);
+    addParameterMap();
     for (double i = START; i <= END; i += INCREMENT) {
-      params.put(VARIABLE, i);
+      setParameter(VARIABLE, i);
       val = executeBlock(COMMAND_BLOCK);
     }
-    removeParamMap();
+    removeParameterMap();
     return val;
   }
 }

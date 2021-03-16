@@ -43,13 +43,12 @@ public class DoTimes extends ControlStructureCommand {
    */
   public double execute() {
     double val = 0;
-    Map<String, Double> params = new HashMap<>();
-    addParamMap(params);
+    addParameterMap();
     for (double i = 1; i <= LIMIT; i += 1) {
-      params.put(VARIABLE, i);
+      setParameter(VARIABLE, i);
       val = executeBlock(COMMAND_BLOCK);
     }
-    removeParamMap();
+    removeParameterMap();
     return val;
   }
 }

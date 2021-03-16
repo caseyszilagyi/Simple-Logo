@@ -38,13 +38,12 @@ public class Repeat extends ControlStructureCommand {
    */
   public double execute() {
     double val = 0;
-    Map<String, Double> params = new HashMap<>();
-    addParamMap(params);
+    addParameterMap();
     for (double i = 1; i <= LOOP_COUNT; i += 1) {
-      params.put(":repcount", i);
+      setParameter(":repcount", i);
       val = executeBlock(COMMAND_BLOCK);
     }
-    removeParamMap();
+    removeParameterMap();
     return val;
   }
 }
