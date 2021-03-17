@@ -3,6 +3,7 @@ package slogo.model.commands.basic_commands.command_types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import slogo.controller.BackEndExternalAPI;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.execution.Turtle;
 
@@ -16,6 +17,7 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
 
   private final Turtle TURTLE;
   private final CommandInformationBundle BUNDLE;
+  private final BackEndExternalAPI MODEL_CONTROLLER;
   private final List<Turtle> ACTIVE_TURTLES = new ArrayList<>();
 
   /**
@@ -27,6 +29,7 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
     super(informationBundle);
     TURTLE = informationBundle.getTurtle();
     BUNDLE = informationBundle;
+    MODEL_CONTROLLER = informationBundle.getModelController();
   }
 
   /**
@@ -44,6 +47,7 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    */
   protected void changeTurtleX(double change) {
     TURTLE.changeXPosition(change);
+    MODEL_CONTROLLER.setTurtlePosition(getXCoordinate(), getYCoordinate());
   }
 
   /**

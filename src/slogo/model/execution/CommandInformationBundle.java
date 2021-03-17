@@ -19,6 +19,7 @@ import slogo.model.commands.basic_commands.UserDefinedCommand;
 public class CommandInformationBundle {
 
   private final Turtle TURTLE = new Turtle();
+  private final DisplayInformation DISPLAY_INFORMATION = new DisplayInformation();
 
   private final Map<String, Double> VARIABLES = new HashMap<>();
   private final Map<String, UserDefinedCommand> COMMANDS = new HashMap<>();
@@ -211,6 +212,16 @@ public class CommandInformationBundle {
 
   public void updateTurtle() {
     MODEL_CONTROLLER.passInputToFrontEnd(TURTLE.getFrontEndParameters());
+  }
+
+
+  /**
+   * Gets the display information
+   *
+   * @return The display information
+   */
+  public DisplayInformation getDisplayInformation() {
+    return DISPLAY_INFORMATION;
   }
 
 
