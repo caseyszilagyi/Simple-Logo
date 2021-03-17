@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,7 +11,6 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
-import javafx.scene.effect.SepiaTone;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -75,7 +73,7 @@ public class ViewPane {
   private Stage stage;
   private Button backgroundColorPickerButton;
   private Button penColorPickerButton;
-  private ComboBox languages;
+  private ComboBox<String> languages;
   private ResourceBundle languageOptions;
   private String language;
   private boolean penUP = false;
@@ -150,46 +148,24 @@ public class ViewPane {
   private void createLanguageComboBox() {
     languageOptions = ResourceBundle.getBundle(LANGUAGE_OPTIONS);
     String defaultLanguage = languageOptions.getString("English");
-//    ArrayList<String> allLanguages = new ArrayList<>() {{
-//      add("Chinese");
-//      add("English");
-//      add("French");
-//      add("German");
-//      add("Italian");
-//      add("Portuguese");
-//      add("Russian");
-//      add("Spanish");
-//      add("Urdu");
-//    }};
     Object[] allLanguages = languageOptions.keySet().toArray();
-    languages = new ComboBox();
+    List<String> displayLanguages = new ArrayList<>();
+    languages = new ComboBox<>();
     for (int i = 0; i < allLanguages.length; i ++) {
-      languages.getItems().add(languageOptions.getString(allLanguages[i].toString()));
+      displayLanguages.add(languageOptions.getString(allLanguages[i].toString()));
     }
-//
-//    ArrayList<String> allLanguageDisplay = new ArrayList<>() {{
-//      add(languageOptions.getString("Chinese"));
-//      add(languageOptions.getString("English"));
-//      add(languageOptions.getString("French"));
-//      add(languageOptions.getString("German"));
-//      add(languageOptions.getString("Italian"));
-//      add(languageOptions.getString("Portuguese"));
-//      add(languageOptions.getString("Russian"));
-//      add(languageOptions.getString("Spanish"));
-//      add(languageOptions.getString("Urdu"));
-//    }};
-//    languages = new ComboBox();
-//    languages.getItems().addAll(allLanguageDisplay);
+    languages.getItems().addAll(displayLanguages);
     languages.setValue(defaultLanguage);
     language = "English";
     choicePane.add(languages, 10, 0);
-//    languages.setOnAction(new EventHandler<ActionEvent>() {
-//      @Override
-//      public void handle(ActionEvent event) {
-//        int value = allLanguageDisplay.indexOf(languages.getValue());
-//        language = allLanguages.(value);
-//      }
-//    });
+    languages.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent event) {
+        int value = displayLanguages.indexOf(languages.getValue());
+        language = allLanguages[value].toString();
+        System.out.println(language);
+      }
+    });
   }
 
   public String getLanguage() {
