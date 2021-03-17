@@ -10,7 +10,6 @@ import java.util.Set;
 import slogo.ErrorHandler;
 import slogo.controller.BackEndExternalAPI;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
-import slogo.model.turtle.Turtle;
 
 /**
  * This class stores all of the information that will be needed to execute a command. Will be passed
@@ -36,6 +35,15 @@ public class CommandInformationBundle {
    */
   public CommandInformationBundle(BackEndExternalAPI modelController) {
     MODEL_CONTROLLER = modelController;
+  }
+
+  /**
+   * Gets the model controller. Used for the commands to pass information to the front end
+   *
+   * @return The model controller
+   */
+  public BackEndExternalAPI getModelController() {
+    return MODEL_CONTROLLER;
   }
 
   /**
@@ -141,7 +149,6 @@ public class CommandInformationBundle {
   /**
    * Adds a parameter map to the list of parameter maps. This will be removed when a loop/command is
    * done and the parameters are no longer needed
-   *
    */
   public void addParameterMap() {
     PARAMETERS.add(new HashMap<String, Double>());
@@ -205,7 +212,6 @@ public class CommandInformationBundle {
   public void updateTurtle() {
     MODEL_CONTROLLER.passInputToFrontEnd(TURTLE.getFrontEndParameters());
   }
-
 
 
 }

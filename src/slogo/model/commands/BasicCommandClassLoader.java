@@ -17,7 +17,7 @@ import slogo.model.tree.TreeNode;
 public class BasicCommandClassLoader {
 
   private final ClassLoader CLASS_LOADER;
-  private final String COMMAND_CLASSES_PACKAGE = "slogo.model.commands.basic_commands.";
+  private final String COMMAND_CLASSES_PACKAGE = BasicCommand.class.getPackageName();
 
   /**
    * Instantiates the ClassLoader

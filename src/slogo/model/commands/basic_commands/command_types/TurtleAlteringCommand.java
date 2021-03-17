@@ -3,9 +3,8 @@ package slogo.model.commands.basic_commands.command_types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.ToDoubleFunction;
 import slogo.model.execution.CommandInformationBundle;
-import slogo.model.turtle.Turtle;
+import slogo.model.execution.Turtle;
 
 /**
  * This abstract class is designed to be implemented by any BasicCommand that alters the state of
