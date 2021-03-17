@@ -1,8 +1,6 @@
 package slogo.model.commands.basic_commands;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import slogo.model.commands.basic_commands.command_types.ControlStructureCommand;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
@@ -46,13 +44,12 @@ public class For extends ControlStructureCommand {
    */
   public double execute() {
     double val = 0;
-    Map<String, Double> params = new HashMap<>();
-    addParamMap(params);
+    addParameterMap();
     for (double i = START; i <= END; i += INCREMENT) {
-      params.put(VARIABLE, i);
+      setParameter(VARIABLE, i);
       val = executeBlock(COMMAND_BLOCK);
     }
-    removeParamMap();
+    removeParameterMap();
     return val;
   }
 }

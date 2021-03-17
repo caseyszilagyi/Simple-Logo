@@ -28,8 +28,9 @@ public class PenUp extends TurtleAlteringCommand {
    * @return 0, because the pen is not drawing
    */
   public double execute() {
-    changePenState(0);
-    updateFrontEnd();
+    updateTurtle(turtle -> {
+      changePenState(0);
+    });
     return 0;
   }
 }
