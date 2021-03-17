@@ -7,11 +7,11 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * The set background command
+ * The set pen color command
  *
  * @author Casey Szilagyi
  */
-public class SetBackground extends DisplayAlteringCommand {
+public class SetPenColor extends DisplayAlteringCommand {
 
   private final double INDEX;
 
@@ -21,7 +21,7 @@ public class SetBackground extends DisplayAlteringCommand {
    * @param bundle Contains the model controller that the command is sent through
    * @param nodes  1 child, which is the index corresponding to the color
    */
-  public SetBackground(CommandInformationBundle bundle, List<TreeNode> nodes) {
+  public SetPenColor(CommandInformationBundle bundle, List<TreeNode> nodes) {
     super(bundle);
     INDEX = loadClass(bundle, nodes.get(0)).execute();
   }
@@ -32,7 +32,7 @@ public class SetBackground extends DisplayAlteringCommand {
    * @return The index of the chosen background color
    */
   public double execute() {
-    setBackgroundColor((int) INDEX);
+    setPenColor((int) INDEX);
     return INDEX;
   }
 }

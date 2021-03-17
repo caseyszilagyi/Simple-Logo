@@ -262,7 +262,7 @@ public class ModelController implements BackEndExternalAPI {
    *
    * @param index The index corresponding to the shape
    */
-  public void setShape(int index) {
+  public void setTurtleShape(int index) {
 
   }
 

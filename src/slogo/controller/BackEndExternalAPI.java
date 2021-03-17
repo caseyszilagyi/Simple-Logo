@@ -159,7 +159,7 @@ public interface BackEndExternalAPI {
    *
    * @param index The index corresponding to the shape
    */
-  public void setShape(int index);
+  public void setTurtleShape(int index);
 
   /**
    * Alters an index of the color palette to hold a new color value
