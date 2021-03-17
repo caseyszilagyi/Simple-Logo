@@ -105,4 +105,10 @@ public class TurtleDisplayPane {
   private void setPenState(boolean penState) {
     penUP = penState;
   }
+
+  public void setTurtleImage(Image turtleImage) {
+    turtle.setImage(turtleImage);
+    turtle.setFitWidth(TURTLE_WIDTH);
+    turtle.setFitHeight(TURTLE_HEIGHT);
+  }
 }
