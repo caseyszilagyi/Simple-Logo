@@ -32,6 +32,7 @@ public class SetBackground extends DisplayAlteringCommand {
    * @return The index of the chosen background color
    */
   public double execute() {
-    return 1;
+    setBackgroundColor(INDEX);
+    return INDEX;
   }
 }

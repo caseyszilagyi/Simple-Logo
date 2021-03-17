@@ -8,7 +8,7 @@ import slogo.model.commands.BasicCommandClassLoader;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
-import slogo.model.turtle.Turtle;
+import slogo.model.execution.Turtle;
 
 /**
  * @author Ji Yun Hyo
