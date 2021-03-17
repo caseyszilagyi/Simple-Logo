@@ -9,8 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.ErrorHandler;
 import slogo.controller.ModelController;
-import slogo.model.CommandParser;
-import slogo.model.InputCleaner;
+import slogo.model.parse.CommandParser;
+import slogo.model.parse.InputCleaner;
 
 public class CleanInputTester {
 

@@ -1,11 +1,9 @@
-package slogo.model;
+package slogo.model.parse;
 
 import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,10 +23,8 @@ import slogo.model.commands.basic_commands.UserDefinedCommand;
  */
 public class InputCleaner {
 
-  private static final String LANGUAGES_PACKAGE =
-      InputCleaner.class.getPackageName() + ".resources.languages.";
-  private static final String COMMANDS_PACKAGE =
-      InputCleaner.class.getPackageName() + ".resources.commands.";
+  private static final String LANGUAGES_PACKAGE = "slogo.model.resources.languages.";
+  private static final String COMMANDS_PACKAGE = "slogo.model.resources.commands.";
   private static final String WHITESPACE = "\\s+";
   private static final ArrayList<String> VARIABLE_BLOCK_COMMANDS = new ArrayList<>(
       Arrays.asList("DoTimes", "MakeUserInstruction"));

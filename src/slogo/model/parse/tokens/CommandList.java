@@ -1,7 +1,4 @@
-package slogo.model.tokens;
-
-import java.util.regex.Pattern;
-import slogo.model.CommandParser;
+package slogo.model.parse.tokens;
 
 public class CommandList extends ListToken{
 

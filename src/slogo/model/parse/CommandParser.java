@@ -1,4 +1,4 @@
-package slogo.model;
+package slogo.model.parse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,9 +24,8 @@ public class CommandParser implements Parser {
 
   // where to find resources specifically for this class
   private static final String RESOURCES_PACKAGE =
-      CommandParser.class.getPackageName() + ".resources.commands.";
-  private static final String LANGUAGES_PACKAGE =
-      InputCleaner.class.getPackageName() + ".resources.languages.";
+      "slogo.model.resources.commands.";
+  private static final String LANGUAGES_PACKAGE = "slogo.model.resources.languages.";
   public List<String> preOrderResults = new ArrayList<>();
   // "types" and the regular expression patterns that recognize those types
   // note, it is a list because order matters (some patterns may be more generic)

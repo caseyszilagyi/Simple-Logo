@@ -1,8 +1,7 @@
-package slogo.model.tokens;
+package slogo.model.parse.tokens;
 
 
 import java.util.regex.Pattern;
-import slogo.model.CommandParser;
 
 public class VariableList extends ListToken {
 

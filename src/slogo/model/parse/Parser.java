@@ -1,4 +1,4 @@
-package slogo.model;
+package slogo.model.parse;
 
 import java.util.List;
 

@@ -1,4 +1,6 @@
-package slogo.model.tokens;
+package slogo.model.parse.tokens;
+
+import slogo.ErrorHandler;
 
 public class ConstantList extends ListToken{
 
@@ -8,6 +10,7 @@ public class ConstantList extends ListToken{
 
   @Override
   public int incrementParamCount(int blockSize, String command) {
+    if(!isConstant(command)){ throw new ErrorHandler("WrongInputType"); }
     return blockSize++;
   }
 }
