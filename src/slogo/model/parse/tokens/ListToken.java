@@ -5,12 +5,12 @@ import slogo.model.parse.CommandParser;
 
 public abstract class ListToken extends Token{
 
+  private int paramCount;
 
 
   public ListToken(String command) {
-    super(command);
-
-
+    super("CommandBlock");
+    paramCount = 0;
   }
 
   public abstract int incrementParamCount(int blockSize, String command);

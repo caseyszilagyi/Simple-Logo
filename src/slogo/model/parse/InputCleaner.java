@@ -215,7 +215,7 @@ public class InputCleaner {
 //    return toRet;
 //  }
 
-  private String getCommandKey(String text) {
+  public String getCommandKey(String text) {
     for (Entry<String, Pattern> e : symbols) {
       try {
         if (match(text, e.getValue())) {
