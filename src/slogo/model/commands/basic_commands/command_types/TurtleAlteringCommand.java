@@ -47,7 +47,6 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    */
   protected void changeTurtleX(double change) {
     TURTLE.changeXPosition(change);
-    MODEL_CONTROLLER.setTurtlePosition(getXCoordinate(), getYCoordinate());
   }
 
   /**
@@ -93,6 +92,7 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    */
   protected void setAngle(double angle) {
     TURTLE.setAngle(angle);
+    MODEL_CONTROLLER.setTurtleAngle(getAngle());
   }
 
   /**
@@ -102,6 +102,7 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    */
   protected void changePenState(double penState) {
     TURTLE.setPenState(penState);
+    MODEL_CONTROLLER.setPenState(penState);
   }
 
   /**
@@ -111,6 +112,7 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    */
   protected void changeTurtleVisibility(double visibility) {
     TURTLE.setVisibility(visibility);
+    MODEL_CONTROLLER.setTurtleVisibility(visibility);
   }
 
   /**
@@ -120,10 +122,12 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
     TURTLE.clearScreen();
     updateFrontEnd();
     TURTLE.allowLines();
+    MODEL_CONTROLLER.clearScreen();
   }
 
   protected void updateFrontEnd() {
     BUNDLE.updateTurtle();
+    MODEL_CONTROLLER.setTurtlePosition(getXCoordinate(), getYCoordinate());
   }
 
 
