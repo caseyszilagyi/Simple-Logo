@@ -17,7 +17,7 @@ import slogo.model.tree.TreeNode;
 public class BasicCommandClassLoader {
 
   private final ClassLoader CLASS_LOADER;
-  private final String COMMAND_CLASSES_PACKAGE = "slogo.model.commands.basic_commands.";
+  private final String COMMAND_CLASSES_PACKAGE = BasicCommand.class.getPackageName();
 
   /**
    * Instantiates the ClassLoader
@@ -43,7 +43,7 @@ public class BasicCommandClassLoader {
     }
 
     try {
-      Object command = CLASS_LOADER.loadClass(COMMAND_CLASSES_PACKAGE + node.getCommand())
+      Object command = CLASS_LOADER.loadClass(COMMAND_CLASSES_PACKAGE + "." + node.getCommand())
           .getDeclaredConstructor(CommandInformationBundle.class, List.class)
           .newInstance(informationBundle, (Object) node.getChildren());
       myCommand = (BasicCommand) command;
@@ -107,7 +107,7 @@ public class BasicCommandClassLoader {
   private BasicCommand makeConstant(double number) {
     BasicCommand myCommand = null;
     try {
-      Object command = CLASS_LOADER.loadClass(COMMAND_CLASSES_PACKAGE + "Constant")
+      Object command = CLASS_LOADER.loadClass(COMMAND_CLASSES_PACKAGE + "." + "Constant")
           .getDeclaredConstructor(double.class).newInstance(number);
       myCommand = (BasicCommand) command;
     } catch (Exception e) {

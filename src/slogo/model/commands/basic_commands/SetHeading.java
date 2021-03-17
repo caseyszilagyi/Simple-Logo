@@ -23,10 +23,11 @@ public class SetHeading extends TurtleAlteringCommand {
    */
   public SetHeading(CommandInformationBundle bundle, List<TreeNode> nodes) {
     super(bundle);
-    PREV_ANGLE = bundle.getTurtle().getAngle();
+    PREV_ANGLE = getAngle();
     ANGLE = loadClass(bundle, nodes.get(0)).execute();
   }
 
+  // calculates the number of degrees the turtle rotated
   private double degreesMoved() {
     return Math.abs(PREV_ANGLE - ANGLE);
   }
@@ -38,8 +39,9 @@ public class SetHeading extends TurtleAlteringCommand {
    */
   @Override
   public double execute() {
-    setAngle(ANGLE);
-    updateFrontEnd();
+    updateTurtle(turtle -> {
+      setAngle(ANGLE);
+    });
     return degreesMoved();
   }
 }

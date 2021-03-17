@@ -31,8 +31,9 @@ public class Right extends TurtleAlteringCommand {
    * @return The angle that it rotated
    */
   public double execute() {
-    changeTurtleAngle(-1 * ANGLE);
-    updateFrontEnd();
+    updateTurtle(turtle -> {
+      changeTurtleAngle(-1 * ANGLE);
+    });
     return ANGLE;
   }
 }

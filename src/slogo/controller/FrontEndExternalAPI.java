@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Queue;
 import javax.swing.text.html.ImageView;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
-import slogo.model.turtle.Turtle;
+import slogo.model.execution.Turtle;
 
 /**
  * @author Ji Yun Hyo

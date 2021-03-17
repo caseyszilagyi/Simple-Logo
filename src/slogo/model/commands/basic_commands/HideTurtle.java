@@ -28,7 +28,9 @@ public class HideTurtle extends TurtleAlteringCommand {
    * @return 0, because the turtle is not visible
    */
   public double execute() {
-    changeTurtleVisibility(0);
+    updateTurtle(turtle -> {
+      changeTurtleVisibility(0);
+    });
     return 0;
   }
 }
