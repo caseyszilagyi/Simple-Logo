@@ -33,8 +33,6 @@ public class ViewChoicePane {
   private static final String NEW_WINDOW_ICON = "NewWindow.gif";
 
   private static final String CHOICE_PANE_ID = "ChoicePane";
-  private static final String BACKGROUND_COLOR_PICKER_ID = "BackgroundColorPicker";
-  private static final String BACKGROUND_BUTTON_ID = "BackgroundButton";
   private static final String PEN_COLOR_PICKER_ID = "PenColorPicker";
   private static final String COLOR_PICKER = "color-picker";
   private static final String ICON = "icon";
@@ -48,8 +46,7 @@ public class ViewChoicePane {
   private Stage stage;
   private Button backgroundColorPickerButton;
   private Button penColorPickerButton;
-  private ComboBox<String> languages;
-  private ResourceBundle languageOptions;
+  private ComboBox<String> languageComboBox;
   private String language;
   private Color penColor = Color.BLACK;
   private Color currentPenColor = Color.BLACK;
@@ -171,22 +168,22 @@ public class ViewChoicePane {
   }
 
   private void createLanguageComboBox() {
-    languageOptions = ResourceBundle.getBundle(LANGUAGE_OPTIONS);
+    ResourceBundle languageOptions = ResourceBundle.getBundle(LANGUAGE_OPTIONS);
     Object[] allLanguages = languageOptions.keySet().toArray();
     List<String> displayLanguages = new ArrayList<>();
     for (Object allLanguage : allLanguages) {
       displayLanguages.add(languageOptions.getString(allLanguage.toString()));
     }
-    languages = new ComboBox<String>();
-    languages.getItems().addAll(displayLanguages);
-    languages.setId(idsForTesting.getString("LanguageComboBox"));
+    languageComboBox = new ComboBox<String>();
+    languageComboBox.getItems().addAll(displayLanguages);
+    languageComboBox.setId(idsForTesting.getString("LanguageComboBox"));
     language = "English";
-    languages.setValue(languageOptions.getString(language));
-    choicePane.add(languages, 10, 0);
-    languages.setOnAction(new EventHandler<ActionEvent>() {
+    languageComboBox.setValue(languageOptions.getString(language));
+    choicePane.add(languageComboBox, 10, 0);
+    languageComboBox.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
-        int value = displayLanguages.indexOf(languages.getValue());
+        int value = displayLanguages.indexOf(languageComboBox.getValue());
         language = allLanguages[value].toString();
       }
     });

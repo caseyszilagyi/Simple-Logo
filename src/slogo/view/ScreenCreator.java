@@ -3,6 +3,8 @@ package slogo.view;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.ResourceBundle;
+
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -19,6 +21,7 @@ public class ScreenCreator {
   private static final String TITLE = "SLogo";
   private static final double DEFAULT_X = 1150.0;
   private static final double DEFAULT_Y = 800.0;
+  private static final String RESOURCE_PATH = "slogo.view.resources.languages";
 
   private BorderPane root;
   private Scene scene;
@@ -28,6 +31,7 @@ public class ScreenCreator {
   private ViewPane viewPane;
   private FrontEndExternalAPI viewController;
   private String styleSheet;
+  private ResourceBundle languageResource;
 
   public ScreenCreator(FrontEndExternalAPI viewController) {
     this.viewController = viewController;
@@ -38,6 +42,9 @@ public class ScreenCreator {
     stage.setScene(scene);
     stage.setTitle(TITLE);
     stage.show();
+
+    String defaultLanguage = "English";
+    languageResource = ResourceBundle.getBundle(RESOURCE_PATH + "." + defaultLanguage);
 
     styleSheet = "slogo/view/resources/default.css";
     scene.getStylesheets().add(styleSheet);
@@ -62,16 +69,13 @@ public class ScreenCreator {
 //    }
   }
 
-  //TODO: REMOVE LATER THIS IS ONLY FOR DEBUGGING
-  private void reset() {
-
-    viewPane = new ViewPane(stage);
-    root.setCenter(viewPane.getBox());
-
-  }
-
   public String getLanguage() {
     return viewPane.getLanguage();
+  }
+
+  public void updateLanguage() {
+    String language = viewPane.getLanguage();
+    languageResource = ResourceBundle.getBundle(RESOURCE_PATH + "." + language);
   }
 
   public void updateCommandHistory(Queue<String> commandHistory) {

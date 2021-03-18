@@ -27,6 +27,7 @@ public class HistoryDisplayPane {
   private static final String HISTORY_BUTTON = "history-button";
   private static final double TABS_HEIGHT = 570.0;
   private static final String BUTTON_ID = "previousCommandButton";
+  private static final String CLEAR_BUTTON_TEXT = "Clear History";
 
   private BorderPane basePane;
   private ScrollPane historyPane;
@@ -36,6 +37,7 @@ public class HistoryDisplayPane {
   private ScrollPane userPane;
   private VBox userBox;
   private FrontEndExternalAPI viewController;
+  private VBox topBox;
 
   private Button clearButton;
 
@@ -43,11 +45,25 @@ public class HistoryDisplayPane {
     basePane = new BorderPane();
     basePane.getStyleClass().add(HISTORY_DISPLAY_PANE_ID);
     this.viewController = viewController;
+    topBox = new VBox();
+    basePane.setTop(topBox);
     displayTitle();
     createHistoryPane();
     createVariablePane();
     createUserCommandsPane();
     createTabPane();
+    createClearHistoryButton();
+  }
+
+  private void createClearHistoryButton() {
+    Button clearButton = new Button(CLEAR_BUTTON_TEXT);
+    clearButton.getStyleClass().add(BUTTON);
+    clearButton.setOnAction(event -> clearHistory());
+    topBox.getChildren().add(clearButton);
+  }
+
+  private void clearHistory() {
+    historyBox.getChildren().clear();
   }
 
   private void createTabPane() {
@@ -100,7 +116,8 @@ public class HistoryDisplayPane {
     Label title = new Label(TITLE);
     title.setWrapText(true);
     title.getStyleClass().add(HISTORY_DISPLAY_PANE_TEXT);
-    basePane.setTop(title);
+    topBox.getChildren().add(title);
+    topBox.getStyleClass().add(HISTORY_PANE_ID);
   }
 
   public BorderPane getBox() {
