@@ -18,24 +18,31 @@ import slogo.model.commands.basic_commands.UserDefinedCommand;
  */
 public class CommandInformationBundle {
 
-  private final Turtle TURTLE = new Turtle();
-  private final DisplayInformation DISPLAY_INFORMATION = new DisplayInformation();
-
   private final Map<String, Double> VARIABLES = new HashMap<>();
   private final Map<String, UserDefinedCommand> COMMANDS = new HashMap<>();
   private final List<Map<String, Double>> PARAMETERS = new ArrayList<>();
   private final Set<String> PARAMETERS_LIST = new HashSet<>();
 
   private final BackEndExternalAPI MODEL_CONTROLLER;
+  private final DisplayInformation DISPLAY_INFORMATION = new DisplayInformation();
+
+  private final List<Turtle> ALL_TURTLES = new ArrayList<>();
+  private final List<Set<Integer>> CURRENT_ACTIVE_TURTLES = new ArrayList<>();
+  private Turtle activeTurtle;
+
 
   /**
-   * Makes our information bundle
+   * Makes our information bundle, and initializes the first turtle and sets it as the
+   * active one
    *
    * @param modelController The model controller that the bundle communicates with to pass
    *                        information to the front end
    */
   public CommandInformationBundle(BackEndExternalAPI modelController) {
     MODEL_CONTROLLER = modelController;
+    Turtle initialTurtle = new Turtle();
+    ALL_TURTLES.add(initialTurtle);
+    activeTurtle = initialTurtle;
   }
 
   /**
@@ -207,13 +214,78 @@ public class CommandInformationBundle {
    * @return the turtle
    */
   public Turtle getTurtle() {
-    return TURTLE;
+    return activeTurtle;
   }
 
+  /**
+   * Updates the front end with the current active turtle's information
+   */
   public void updateTurtle() {
-    MODEL_CONTROLLER.passInputToFrontEnd(TURTLE.getFrontEndParameters());
+    MODEL_CONTROLLER.passInputToFrontEnd(activeTurtle.getFrontEndParameters());
   }
 
+  /**
+   * Adds a turtle. This adds it to the list of all turtles, as well as adding
+   * the ID to the current map of ID values of active turtles. This is because
+   * the only way to add a turtle is to make it using the tell command, which
+   * makes it active
+   * @param turtle The turtle to add
+   */
+  public void addTurtle(Turtle turtle){
+    ALL_TURTLES.add(turtle);
+    CURRENT_ACTIVE_TURTLES.get(CURRENT_ACTIVE_TURTLES.size()-1).add(ALL_TURTLES.size());
+  }
+
+  /**
+   * Gets the turtle with the given ID
+   * @param ID integer that is the ID
+   * @return The turtle
+   */
+  public Turtle getTurtle(int ID){
+    return ALL_TURTLES.get(ID-1);
+  }
+
+  /**
+   * Gets a list of all the turtles that exist
+   * @return The list of all the turtles
+   *
+   *
+   * MAYBE DO THIS WITH AN ITERATOR?
+   */
+  public List<Turtle> getAllTurtles(){
+    return ALL_TURTLES;
+  }
+
+  /**
+   * Adds an empty map to the current active turtles to delegate a new inner nesting
+   * of active turtles
+   */
+  public void addActiveTurtleLayer(){
+    CURRENT_ACTIVE_TURTLES.add(new HashSet<Integer>());
+  }
+
+  /**
+   * Removes an inner nested active turtle layer.
+   */
+  public void removeActiveTurtleLayer(){
+    CURRENT_ACTIVE_TURTLES.remove(CURRENT_ACTIVE_TURTLES.size()-1);
+  }
+
+  /**
+   * Replaces the current active turtle layer with an empty layer.
+   */
+  public void replaceActiveTurtleLayer(){
+    removeActiveTurtleLayer();
+    addActiveTurtleLayer();
+  }
+
+  /**
+   * Gets the set of all IDs that correlate to the currently active turtles
+   * @return The set of turtle IDs
+   */
+  public Set<Integer> getActiveTurtles(){
+    return CURRENT_ACTIVE_TURTLES.get(CURRENT_ACTIVE_TURTLES.size()-1);
+  }
 
   /**
    * Gets the display information
