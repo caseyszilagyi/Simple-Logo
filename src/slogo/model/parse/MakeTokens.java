@@ -50,9 +50,14 @@ public class MakeTokens {
     }
   }
 
-  public void tokenize() {
+  public void tokenString() {
+    tokenize();
+    commandBlockParams();
+  }
+
+  private void tokenize() {
     Deque<List<String>> listCommandParams = new ArrayDeque<>();
-    String expected = null; //next expected if list command
+    String expected = null;
     boolean inList = false;
     for (String s : cleanedString) {
       System.out.println(s);
@@ -130,12 +135,18 @@ public class MakeTokens {
     Deque<Token> commandBlocks = new ArrayDeque<>();
     Deque<Integer> parameters = new ArrayDeque<>();
     String commandKey = "CommandBlock_";
-    String currBlock = "";
     int commandCount = 0;
     int blockSize = 0;
     for (int ind = 0; ind < tokens.size(); ind++) {
       String commandKeyNum = "";
       Token curr = tokens.get(ind);
+      if (curr instanceof ListEndToken) {
+        tokens.remove(ind);
+        ind--;
+        Token popped = commandBlocks.pop();
+        commandParser.addSingleParamCount(popped.getValue(), makeStringParam(blockSize));
+        blockSize = parameters.pop();
+      }
       if(!commandBlocks.isEmpty()) {
         blockSize = commandBlocks.peek().incrementParamCount(blockSize, curr);
       }
@@ -146,13 +157,6 @@ public class MakeTokens {
         commandBlocks.push(curr);
         parameters.push(blockSize);
         blockSize = 0;
-      }
-      if (curr instanceof ListEndToken) {
-        tokens.remove(ind);
-        ind--;
-        Token popped = commandBlocks.pop();
-        commandParser.addSingleParamCount(popped.getValue(), makeStringParam(blockSize));
-        blockSize = parameters.pop();
       }
     }
     if (!commandBlocks.isEmpty()) {

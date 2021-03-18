@@ -16,9 +16,7 @@ import slogo.model.commands.basic_commands.UserDefinedCommand;
 
 /**
  * Cleans the raw string input from the user into a list of strings that the CommandParser can use
- * will recognize as commands and command parameters removes comments, bundles series of commands in
- * [] into a CommandBundle, adds CommandBundle param counts to parameters cound in CommandParser
- *
+ * will recognize as commands and command parameters removes comments
  * @author jincho
  */
 public class InputCleaner {
@@ -26,17 +24,11 @@ public class InputCleaner {
   private static final String LANGUAGES_PACKAGE = "slogo.model.resources.languages.";
   private static final String COMMANDS_PACKAGE = "slogo.model.resources.commands.";
   private static final String WHITESPACE = "\\s+";
-  private static final ArrayList<String> VARIABLE_BLOCK_COMMANDS = new ArrayList<>(
-      Arrays.asList("DoTimes", "MakeUserInstruction"));
-  private final Map<String, Double> VARIABLES;
-  private final Map<String, UserDefinedCommand> COMMANDS;
   public CommandParser commandParser;
   private List<Entry<String, Pattern>> symbols;
   private Map<String, Pattern> syntaxMap;
   private Map<String, List<String>> commandParam;
   private String userInput;
-  private int commandCount;
-  private int paramCountsExpected = 0;
 
   /**
    * create instance of InputCleaner and initializes lists for "translating" the string into strings
@@ -51,14 +43,11 @@ public class InputCleaner {
     symbols = new ArrayList<>();
     syntaxMap = new HashMap<>();
     commandParam = new HashMap<>();
-    commandCount = 0;
     addLangPatterns(language);
     addRegExPatterns("Syntax");
     addParamCounts("CommandsParam");
     this.userInput = userInput;
     this.commandParser = commandParser;
-    VARIABLES = modelController.getVariables();
-    COMMANDS = modelController.getUserDefinedCommands();
   }
 
   private void addLangPatterns(String syntax) {
@@ -97,14 +86,7 @@ public class InputCleaner {
   public List<String> cleanString() {
     String noComments = removeComments();
     List<String> translated = translateCommand(noComments);
-//    List<String> varBlocks = findVariableBlocks(translated);
-//    List<String> groupedCommands = findCommandBlocks(varBlocks);
     translated.removeIf(command -> command.equals(""));
-//    countParamMatch(groupedCommands);
-//    System.out.println(groupedCommands);
-//    if(groupedCommands.size() != paramCountsExpected){
-//      throw new ErrorHandler("WrongParamNum");
-//    }
     return translated;
   }
 
@@ -130,84 +112,6 @@ public class InputCleaner {
     }
     return translated;
   }
-
-//  private List<String> findVariableBlocks(List<String> commands) {
-//    List<String> toRet = new ArrayList<>(commands);
-//    String commandKey = "CommandBlock_";
-//    int blockSize = 0;
-//    int commandVal = 0;
-//    boolean canCount = false;
-//    for (int ind = 0; ind < toRet.size(); ind++) {
-//      String commandKeyNum = "";
-//      String curr = toRet.get(ind);
-//      blockSize++;
-//      if (match(curr, syntaxMap.get("ListStart")) && (hasVarBlocks(toRet.get(ind - 1))
-//          || hasVarBlocks(toRet.get(ind - 2)))) {
-//        commandCount++;
-//        commandKeyNum = commandKey + Integer.toString(commandCount);
-//        toRet.set(ind, commandKeyNum);
-//        blockSize = 0;
-//        canCount = true;
-//      }
-//      if (match(curr, syntaxMap.get("ListEnd")) && canCount) {
-//        toRet.remove(ind);
-//        ind--;
-//        commandVal = blockSize - 1;
-//        commandKeyNum = commandKey + Integer.toString(commandCount);
-//        commandParser.addSingleParamCount(commandKeyNum, makeStringParam(commandVal));
-//        canCount = false;
-//      }
-//    }
-//    if (canCount) {
-//      throw new ErrorHandler("WrongParamNum");
-//    }
-//    return toRet;
-//  }
-
-
-
-  private boolean hasBlocks(String s) {
-    return commandParam.get(s).contains("LIST");
-  }
-
-//  private List<String> findCommandBlocks(List<String> commands) {
-//    List<String> toRet = new ArrayList<>(commands);
-//    Deque<String> commandBlocks = new ArrayDeque<>();
-//    Deque<Integer> parameters = new ArrayDeque<>();
-//    Deque<String> listCommands = new ArrayDeque<>();
-//    String commandKey = "CommandBlock_";
-//    String currBlock = "";
-//    int blockSize = 0;
-//    for (int ind = 0; ind < toRet.size(); ind++) {
-//      String commandKeyNum = "";
-//      String curr = toRet.get(ind);
-//      if(hasBlocks(curr)) {
-//        currBlock = curr;
-//        listCommands.push(curr);
-//      }
-//      blockSize = countBlockParam(currBlock, blockSize);
-//      if (match(curr, syntaxMap.get("ListStart"))) {
-//        commandCount++;
-//        commandKeyNum = commandKey + Integer.toString(commandCount);
-//        commandBlocks.push(commandKeyNum);
-//        parameters.push(blockSize);
-//        toRet.set(ind, commandKeyNum);
-//        blockSize = 0;
-//      }
-//      if (match(curr, syntaxMap.get("ListEnd"))) {
-//        toRet.remove(ind);
-//        ind--;
-//        commandKeyNum = commandBlocks.pop();
-//        commandParam.put(commandKeyNum, makeStringParam(blockSize));
-//        commandParser.addSingleParamCount(commandKeyNum, makeStringParam(blockSize));
-//        blockSize = parameters.pop();
-//      }
-//    }
-//    if (!commandBlocks.isEmpty()) {
-//      throw new ErrorHandler("WrongParamNum");
-//    }
-//    return toRet;
-//  }
 
   public String getCommandKey(String text) {
     for (Entry<String, Pattern> e : symbols) {
