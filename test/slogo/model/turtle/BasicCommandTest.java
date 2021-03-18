@@ -19,7 +19,7 @@ import slogo.model.tree.TreeNode;
  * guarantee that it is working before trying to concatenate them together or have them rely on each
  * other
  */
-public class BasicCommandTester {
+public class BasicCommandTest {
 
   static final double TOLERANCE = 0.05;
   private CommandInformationBundle commandBundle;
