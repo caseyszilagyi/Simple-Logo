@@ -3,6 +3,7 @@ package slogo.view;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
@@ -87,4 +88,16 @@ public class viewTester extends DukeApplicationTest {
     Paint fill = line.getStroke();
     assertEquals(Color.DEEPPINK.toString(), fill.toString());
   }
+
+//  @Test
+//  void uploadTurtle() {
+//    clickOn(lookup("#TurtleButton").query());
+//
+//    String expected = "Turtle1.gif";
+//    clickOn(lookup(".dialog-box").query());
+//
+//    ImageView turtle = lookup("#Turtle").query();
+//    String turtleImage = turtle.getImage().toString();
+//    assertEquals(expected, turtleImage);
+//  }
 }

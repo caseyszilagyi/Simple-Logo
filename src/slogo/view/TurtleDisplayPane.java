@@ -112,5 +112,6 @@ public class TurtleDisplayPane {
     turtle.setImage(turtleImage);
     turtle.setFitWidth(TURTLE_WIDTH);
     turtle.setFitHeight(TURTLE_HEIGHT);
+    turtle.setId("Turtle");
   }
 }
