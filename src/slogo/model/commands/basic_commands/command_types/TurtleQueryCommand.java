@@ -1,7 +1,7 @@
 package slogo.model.commands.basic_commands.command_types;
 
 import slogo.model.execution.CommandInformationBundle;
-import slogo.model.turtle.Turtle;
+import slogo.model.execution.Turtle;
 
 /**
  * This abstract class is designed to be implemented by any BasicCommand that needs any data from

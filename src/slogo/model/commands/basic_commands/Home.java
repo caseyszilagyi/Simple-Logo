@@ -12,6 +12,9 @@ import slogo.model.tree.TreeNode;
  */
 public class Home extends TurtleAlteringCommand {
 
+  private final double PREV_X;
+  private final double PREV_Y;
+
   /**
    * Makes an instance of the Home command
    *
@@ -19,7 +22,15 @@ public class Home extends TurtleAlteringCommand {
    * @param nodes  This command has no children, so this will be null
    */
   public Home(CommandInformationBundle bundle, List<TreeNode> nodes) {
+
     super(bundle);
+    PREV_X = getXCoordinate();
+    PREV_Y = getYCoordinate();
+  }
+
+  // Gets the distance that the turtle traveled
+  private double getDistance(){
+    return Math.sqrt(Math.pow(PREV_X, 2) + Math.pow(PREV_Y, 2));
   }
 
   /**
@@ -28,11 +39,11 @@ public class Home extends TurtleAlteringCommand {
    * @return The distance that the turtle had to move to get there
    */
   public double execute() {
-    double distance = Math.sqrt(Math.pow(getXCoordinate(), 2) + Math.pow(getYCoordinate(), 2));
-    setTurtleX(0);
-    setTurtleY(0);
-    setAngle(90);
-    updateFrontEnd();
-    return distance;
+    updateTurtle(turtle -> {
+      setTurtleX(0);
+      setTurtleY(0);
+      setAngle(90);
+    });
+    return getDistance();
   }
 }

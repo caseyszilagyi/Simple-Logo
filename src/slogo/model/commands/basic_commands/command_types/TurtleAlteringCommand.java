@@ -1,7 +1,11 @@
 package slogo.model.commands.basic_commands.command_types;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+import slogo.controller.BackEndExternalAPI;
 import slogo.model.execution.CommandInformationBundle;
-import slogo.model.turtle.Turtle;
+import slogo.model.execution.Turtle;
 
 /**
  * This abstract class is designed to be implemented by any BasicCommand that alters the state of
@@ -13,6 +17,8 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
 
   private final Turtle TURTLE;
   private final CommandInformationBundle BUNDLE;
+  private final BackEndExternalAPI MODEL_CONTROLLER;
+  private final List<Turtle> ACTIVE_TURTLES = new ArrayList<>();
 
   /**
    * Makes the BasicCommand and saves the turtle
@@ -23,6 +29,7 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
     super(informationBundle);
     TURTLE = informationBundle.getTurtle();
     BUNDLE = informationBundle;
+    MODEL_CONTROLLER = informationBundle.getModelController();
   }
 
   /**
@@ -85,6 +92,7 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    */
   protected void setAngle(double angle) {
     TURTLE.setAngle(angle);
+    MODEL_CONTROLLER.setTurtleAngle(getAngle());
   }
 
   /**
@@ -94,6 +102,7 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    */
   protected void changePenState(double penState) {
     TURTLE.setPenState(penState);
+    MODEL_CONTROLLER.setPenState(penState);
   }
 
   /**
@@ -103,6 +112,7 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    */
   protected void changeTurtleVisibility(double visibility) {
     TURTLE.setVisibility(visibility);
+    MODEL_CONTROLLER.setTurtleVisibility(visibility);
   }
 
   /**
@@ -112,11 +122,35 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
     TURTLE.clearScreen();
     updateFrontEnd();
     TURTLE.allowLines();
-//    updateFrontEnd();
+    MODEL_CONTROLLER.clearScreen();
   }
 
   protected void updateFrontEnd() {
     BUNDLE.updateTurtle();
+    MODEL_CONTROLLER.setTurtlePosition(getXCoordinate(), getYCoordinate());
+  }
+
+
+  /**
+   * Will need to change this to take in a hashset of all the active turtles (individual
+   * method different for a single turtle?) and then the actions to execute on those
+   * turtles. In the java example, the roster is something that will already be in this
+   * class, so this method will take two parameters
+   *
+   * Actually I guess my "roster" is the set of currently active turtle IDs
+   *
+   * Can we make it so that the turtle itself accepts the lambda expression
+   * rather than doing it in this class? seems tricky. I'm not exactly sure
+   * how it would work to call specific methods in the turtle class
+   *
+   * Actually the tester is the same for every method that would call this, so
+   * not sure if that part would be useful. Can still maybe pass up these methods?
+   * Although not sure how useful that is. I guess so that the logic of only
+   * doing it on certain turtles is contained up here rather than in the subclasses
+   */
+  protected void updateTurtle(Consumer<Turtle> turtleAction){
+    turtleAction.accept(TURTLE);
+    updateFrontEnd();
   }
 
 
