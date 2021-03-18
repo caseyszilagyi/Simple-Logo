@@ -677,6 +677,95 @@ public class BasicCommandTester {
     assertEquals(600, commandBundle.getTurtle().getYPosition());
   }
 
+  /**
+   * Tests the Set Background method
+   */
+  @Test
+  void testSetBackground() {
+    TreeNode color = makeNode("9");
+    TreeNode root = makeTree("SetBackground", color);
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(9, val, TOLERANCE);
+    assertEquals(9, commandBundle.getDisplayInformation().getBackgroundColor(), TOLERANCE);
+  }
+
+  /**
+   * Tests the set pen color method
+   */
+  @Test
+  void testSetPenColor() {
+    TreeNode color = makeNode("8");
+    TreeNode root = makeTree("SetPenColor", color);
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(8, val, TOLERANCE);
+    assertEquals(8, commandBundle.getDisplayInformation().getPenColor(), TOLERANCE);
+  }
+
+  /**
+   * Tests the set turtle shape method
+   */
+  @Test
+  void testSetTurtleShape() {
+    TreeNode shape = makeNode("6");
+    TreeNode root = makeTree("SetTurtleShape", shape);
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(6, val, TOLERANCE);
+    assertEquals(6, commandBundle.getDisplayInformation().getTurtleShape(), TOLERANCE);
+  }
+
+  /**
+   * Tests the set pen size method
+   */
+  @Test
+  void testSetPenSize() {
+    TreeNode color = makeNode("5");
+    TreeNode root = makeTree("SetPenSize", color);
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(5, val, TOLERANCE);
+    assertEquals(5, commandBundle.getDisplayInformation().getPenSize(), TOLERANCE);
+  }
+
+  /**
+   * Tests the set palette command
+   */
+  @Test
+  void testSetPalette() {
+    TreeNode index = makeNode("4");
+    TreeNode red = makeNode("34");
+    TreeNode green = makeNode("212");
+    TreeNode blue = makeNode("132");
+    TreeNode root = makeTree("SetPalette", index, red, green, blue);
+    double val = executeCommand(makeBasicCommand(root));
+    assertEquals(4, val, TOLERANCE);
+  }
+
+  /**
+   * Tests the pen color command
+   */
+  @Test
+  void testPenColor() {
+    TreeNode color = makeNode("1");
+    TreeNode root = makeTree("SetPenColor", color);
+    executeCommand(makeBasicCommand(root));
+    TreeNode getColor = makeNode("PenColor");
+    double val = executeCommand(makeBasicCommand(getColor));
+    assertEquals(1, val, TOLERANCE);
+  }
+
+  /**
+   * Tests the pen color command
+   */
+  @Test
+  void testShape() {
+    TreeNode shape = makeNode("2");
+    TreeNode root = makeTree("SetTurtleShape", shape);
+    executeCommand(makeBasicCommand(root));
+    TreeNode getShape = makeNode("TurtleShape");
+    double val = executeCommand(makeBasicCommand(getShape));
+    assertEquals(2, val, TOLERANCE);
+  }
+
+
   // Combining methods
 
   // Helper methods below
