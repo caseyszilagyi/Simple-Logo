@@ -12,9 +12,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 import slogo.ErrorHandler;
-import slogo.model.parse.tokens.ListToken;
 import slogo.model.parse.tokens.Token;
-import slogo.model.tree.TreeNode;
 
 public class MakeTokens {
 
@@ -51,34 +49,32 @@ public class MakeTokens {
   public void tokenize() {
     Deque<List<String>> listCommandParams = new ArrayDeque<>();
     String expected = null; //next expected if list command
+    boolean inList = false;
     for (String s : cleanedString) {
+      System.out.println(s);
       Token toAdd;
       if (regexMap.get("ListStart").matcher(s).matches()) {
         System.out.println("Start of list type: "+listCommandParams.peek().get(0));
         toAdd = makeToken(listCommandParams.peek().get(0));
-      } else {
-        toAdd = makeToken(s);
-      }
+        inList = true;
+      } else { toAdd = makeToken(s); }
       if (listParams.containsKey(s)) {
         listCommandParams.push(new ArrayList<>(Arrays.asList(listParams.getString(s).split(" "))));
         expected = listCommandParams.peek().get(0);
         tokens.add(toAdd);
         continue;
       }
-
       if (expected != null) {
         System.out.println("expected: "+expected);
-        if(!getClassName(toAdd).equals(expected)) {
+        if(!getClassName(toAdd).equals(expected) && !inList) {
           System.out.println("Error. Class name is: " + getClassName(toAdd));
           throw new ErrorHandler("WrongCommandArg");
-        } else {
+        } else if (!expected.contains("List") || getClassName(toAdd).equals("ListEndToken")){
           listCommandParams.peek().remove(0);
           if (listCommandParams.peek().isEmpty()) {
             listCommandParams.pop();
             expected = null;
-          } else {
-            expected = listCommandParams.peek().get(0);
-          }
+          } else { expected = listCommandParams.peek().get(0); }
         }
       }
       tokens.add(toAdd);
