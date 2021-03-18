@@ -50,9 +50,10 @@ public class MakeTokens {
     }
   }
 
-  public void tokenString() {
+  public List<String> tokenString() {
     tokenize();
     commandBlockParams();
+    return tokensToString();
   }
 
   private void tokenize() {
@@ -122,7 +123,7 @@ public class MakeTokens {
     return token.getClass().getName().replace(TOKEN_PACKAGE, "");
   }
 
-  public List<String> tokensToString() {
+  private List<String> tokensToString() {
     List<String> ret = new ArrayList<>();
     for(Token t : tokens) {
       ret.add(t.getCommand());

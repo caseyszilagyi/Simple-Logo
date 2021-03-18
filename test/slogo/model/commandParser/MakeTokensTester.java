@@ -30,8 +30,7 @@ public class MakeTokensTester {
   void testSimpleTokenizer() {
     String userInput = "xcor";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    tokenMaker.tokenString();
-    List<String> actual = tokenMaker.tokensToString();
+    List<String> actual = tokenMaker.tokenString();
     List<String> expected = new ArrayList<>();
     expected.add("XCoordinate");
     assertEquals(actual, expected);
@@ -44,8 +43,7 @@ public class MakeTokensTester {
   void testNumParamTokenizer() {
     String userInput = "sum 50 50";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    tokenMaker.tokenString();
-    List<String> actual = tokenMaker.tokensToString();
+    List<String> actual = tokenMaker.tokenString();
     List<String> expected = new ArrayList<>();
     expected.add("Sum");
     expected.add("50");
@@ -60,8 +58,7 @@ public class MakeTokensTester {
   void testEnclosedNumParamTokenizer() {
     String userInput = "fd sum 50 50";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    tokenMaker.tokenString();
-    List<String> actual = tokenMaker.tokensToString();
+    List<String> actual = tokenMaker.tokenString();
     List<String> expected = new ArrayList<>();
     expected.add("Forward");
     expected.add("Sum");
@@ -77,8 +74,7 @@ public class MakeTokensTester {
   void testBracketTokenizer() {
     String userInput = "repeat 4 [ fd 50 ]";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    tokenMaker.tokenString();
-    List<String> actual = tokenMaker.tokensToString();
+    List<String> actual = tokenMaker.tokenString();
     List<String> expected = new ArrayList<>();
     expected.add("Repeat");
     expected.add("4");
@@ -97,8 +93,7 @@ public class MakeTokensTester {
   void testNestedBracketTokenizer() {
     String userInput = "to move [ :x ] [ repeat 4 [ fd :x ] ]";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    tokenMaker.tokenString();
-    List<String> actual = tokenMaker.tokensToString();
+    List<String> actual = tokenMaker.tokenString();
     List<String> expected = new ArrayList<>();
     expected.add("MakeUserInstruction");
     expected.add("move");
@@ -123,8 +118,7 @@ public class MakeTokensTester {
   void testMoreNestedBracketTokenizer() {
     String userInput = "to move [ :x ] [ repeat 4 [ repeat 2 [ fd :x ] ] ]";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    tokenMaker.tokenString();
-    List<String> actual = tokenMaker.tokensToString();
+    List<String> actual = tokenMaker.tokenString();
     List<String> expected = new ArrayList<>();
     expected.add("MakeUserInstruction");
     expected.add("move");
@@ -144,7 +138,6 @@ public class MakeTokensTester {
     assertEquals(commandParser.getParamCount("CommandBlock_2"), 2);
     assertEquals(commandParser.getParamCount("CommandBlock_3"), 2);
     assertEquals(commandParser.getParamCount("CommandBlock_4"), 1);
-
   }
 
   /*
