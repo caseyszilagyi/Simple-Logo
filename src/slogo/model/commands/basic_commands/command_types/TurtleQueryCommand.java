@@ -17,7 +17,7 @@ public abstract class TurtleQueryCommand extends Command {
    * @param informationBundle The bundle of information that contains the turtle
    */
   public TurtleQueryCommand(CommandInformationBundle informationBundle) {
-    TURTLE = informationBundle.getTurtle();
+    TURTLE = informationBundle.getActiveTurtle();
   }
 
   /**

@@ -1,6 +1,5 @@
 package slogo.model.commands.basic_commands.command_types;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import slogo.controller.BackEndExternalAPI;
@@ -15,10 +14,10 @@ import slogo.model.execution.Turtle;
  */
 public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
 
-  private final Turtle TURTLE;
+  private final Turtle activeTurtle;
   private final CommandInformationBundle BUNDLE;
   private final BackEndExternalAPI MODEL_CONTROLLER;
-  private final List<Turtle> ACTIVE_TURTLES = new ArrayList<>();
+  private final List<Turtle> ALL_TURTLES;
 
   /**
    * Makes the BasicCommand and saves the turtle
@@ -27,9 +26,11 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    */
   public TurtleAlteringCommand(CommandInformationBundle informationBundle) {
     super(informationBundle);
-    TURTLE = informationBundle.getTurtle();
+    activeTurtle = informationBundle.getActiveTurtle();
+    ALL_TURTLES = informationBundle.getAllTurtles();
     BUNDLE = informationBundle;
     MODEL_CONTROLLER = informationBundle.getModelController();
+
   }
 
   /**
@@ -46,7 +47,7 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    * @param change The change in X position
    */
   protected void changeTurtleX(double change) {
-    TURTLE.changeXPosition(change);
+    activeTurtle.changeXPosition(change);
   }
 
   /**
@@ -55,7 +56,7 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    * @param change The change in Y position
    */
   protected void changeTurtleY(double change) {
-    TURTLE.changeYPosition(change);
+    activeTurtle.changeYPosition(change);
   }
 
   /**
@@ -64,7 +65,7 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    * @param change The change in angle in degrees, in the counter clockwise direction
    */
   protected void changeTurtleAngle(double change) {
-    TURTLE.rotateCounterClockwise(change);
+    activeTurtle.rotateCounterClockwise(change);
   }
 
   /**
@@ -73,7 +74,7 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    * @param position The X position
    */
   protected void setTurtleX(double position) {
-    TURTLE.setXPosition(position);
+    activeTurtle.setXPosition(position);
   }
 
   /**
@@ -82,7 +83,7 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    * @param position The Y position
    */
   protected void setTurtleY(double position) {
-    TURTLE.setYPosition(position);
+    activeTurtle.setYPosition(position);
   }
 
   /**
@@ -91,7 +92,7 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    * @param angle The angle
    */
   protected void setAngle(double angle) {
-    TURTLE.setAngle(angle);
+    activeTurtle.setAngle(angle);
     MODEL_CONTROLLER.setTurtleAngle(getAngle());
   }
 
@@ -101,7 +102,7 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    * @param penState The pen state
    */
   protected void changePenState(double penState) {
-    TURTLE.setPenState(penState);
+    activeTurtle.setPenState(penState);
     MODEL_CONTROLLER.setPenState(penState);
   }
 
@@ -111,7 +112,7 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    * @param visibility The visibility
    */
   protected void changeTurtleVisibility(double visibility) {
-    TURTLE.setVisibility(visibility);
+    activeTurtle.setVisibility(visibility);
     MODEL_CONTROLLER.setTurtleVisibility(visibility);
   }
 
@@ -119,9 +120,9 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    * Resets the screen
    */
   protected void reset() {
-    TURTLE.clearScreen();
+    activeTurtle.clearScreen();
     updateFrontEnd();
-    TURTLE.allowLines();
+    activeTurtle.allowLines();
     MODEL_CONTROLLER.clearScreen();
   }
 
@@ -149,7 +150,7 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    * doing it on certain turtles is contained up here rather than in the subclasses
    */
   protected void updateTurtle(Consumer<Turtle> turtleAction){
-    turtleAction.accept(TURTLE);
+    turtleAction.accept(activeTurtle);
     updateFrontEnd();
   }
 

@@ -39,11 +39,13 @@ public class Repeat extends ControlStructureCommand {
   public double execute() {
     double val = 0;
     addParameterMap();
+    addTurtleLayer();
     for (double i = 1; i <= LOOP_COUNT; i += 1) {
       setParameter(":repcount", i);
       val = executeBlock(COMMAND_BLOCK);
     }
     removeParameterMap();
+    removeTurtleLayer();
     return val;
   }
 }

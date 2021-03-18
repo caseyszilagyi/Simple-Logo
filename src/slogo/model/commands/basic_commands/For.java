@@ -45,11 +45,13 @@ public class For extends ControlStructureCommand {
   public double execute() {
     double val = 0;
     addParameterMap();
+    addTurtleLayer();
     for (double i = START; i <= END; i += INCREMENT) {
       setParameter(VARIABLE, i);
       val = executeBlock(COMMAND_BLOCK);
     }
     removeParameterMap();
+    removeTurtleLayer();
     return val;
   }
 }
