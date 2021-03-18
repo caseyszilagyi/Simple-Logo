@@ -34,6 +34,7 @@ public class ViewChoicePane {
 
   private static final String CHOICE_PANE_ID = "ChoicePane";
   private static final String BACKGROUND_COLOR_PICKER_ID = "BackgroundColorPicker";
+  private static final String BACKGROUND_BUTTON_ID = "BackgroundButton";
   private static final String PEN_COLOR_PICKER_ID = "PenColorPicker";
   private static final String COLOR_PICKER = "color-picker";
   private static final String ICON = "icon";
@@ -73,6 +74,7 @@ public class ViewChoicePane {
 
   private void createBackgroundColorPicker() {
     backgroundColorPickerButton = new Button();
+    backgroundColorPickerButton.setId(BACKGROUND_BUTTON_ID);
     ImageView icon = setIcon(BACKGROUND_ICON);
     backgroundColorPickerButton.setGraphic(icon);
     backgroundColorPickerButton.setOnAction(event -> changeBackgroundButton());
