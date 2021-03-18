@@ -47,7 +47,7 @@ public class BasicCommandTester {
     TreeNode child = makeNode("50");
     TreeNode root = makeTree("Forward", child);
     executeCommand(makeBasicCommand(root));
-    assertEquals(50, commandBundle.getTurtle().getYPosition(), TOLERANCE);
+    assertEquals(50, commandBundle.getActiveTurtle().getYPosition(), TOLERANCE);
   }
 
   /**
@@ -58,7 +58,7 @@ public class BasicCommandTester {
     TreeNode child = makeNode("60");
     TreeNode root = makeTree("Backward", child);
     executeCommand(makeBasicCommand(root));
-    assertEquals(-60, commandBundle.getTurtle().getYPosition(), TOLERANCE);
+    assertEquals(-60, commandBundle.getActiveTurtle().getYPosition(), TOLERANCE);
   }
 
   /**
@@ -69,7 +69,7 @@ public class BasicCommandTester {
     TreeNode child = makeNode("100");
     TreeNode root = makeTree("Right", child);
     executeCommand(makeBasicCommand(root));
-    assertEquals(350, commandBundle.getTurtle().getAngle(), TOLERANCE);
+    assertEquals(350, commandBundle.getActiveTurtle().getAngle(), TOLERANCE);
   }
 
   /**
@@ -80,7 +80,7 @@ public class BasicCommandTester {
     TreeNode child = makeNode("60");
     TreeNode root = makeTree("Left", child);
     executeCommand(makeBasicCommand(root));
-    assertEquals(150, commandBundle.getTurtle().getAngle(), TOLERANCE);
+    assertEquals(150, commandBundle.getActiveTurtle().getAngle(), TOLERANCE);
   }
 
   /**
@@ -93,8 +93,8 @@ public class BasicCommandTester {
     TreeNode root = makeTree("Right", child);
     executeCommand(makeBasicCommand(root));
     moveTurtle("10");
-    assertEquals(7.07, commandBundle.getTurtle().getXPosition(), TOLERANCE);
-    assertEquals(7.07, commandBundle.getTurtle().getXPosition(), TOLERANCE);
+    assertEquals(7.07, commandBundle.getActiveTurtle().getXPosition(), TOLERANCE);
+    assertEquals(7.07, commandBundle.getActiveTurtle().getXPosition(), TOLERANCE);
   }
 
   /**
@@ -107,7 +107,7 @@ public class BasicCommandTester {
     TreeNode sum = makeTree("Sum", child, child2);
     TreeNode root = makeTree("Forward", sum);
     executeCommand(makeBasicCommand(root));
-    assertEquals(15, commandBundle.getTurtle().getYPosition());
+    assertEquals(15, commandBundle.getActiveTurtle().getYPosition());
   }
 
   /**
@@ -120,8 +120,8 @@ public class BasicCommandTester {
     TreeNode root = makeTree("SetPosition", child, child2);
     double distance = executeCommand(makeBasicCommand(root));
     assertEquals(7.07, distance, TOLERANCE);
-    assertEquals(5, commandBundle.getTurtle().getXPosition());
-    assertEquals(5, commandBundle.getTurtle().getYPosition());
+    assertEquals(5, commandBundle.getActiveTurtle().getXPosition());
+    assertEquals(5, commandBundle.getActiveTurtle().getYPosition());
   }
 
   /**
@@ -133,7 +133,7 @@ public class BasicCommandTester {
     TreeNode root = makeTree("SetHeading", child);
     double degreeChange = executeCommand(makeBasicCommand(root));
     assertEquals(80, degreeChange);
-    assertEquals(10, commandBundle.getTurtle().getAngle());
+    assertEquals(10, commandBundle.getActiveTurtle().getAngle());
   }
 
   /**
@@ -141,14 +141,14 @@ public class BasicCommandTester {
    */
   @Test
   void testTowards() {
-    commandBundle.getTurtle().setXPosition(-10);
-    commandBundle.getTurtle().setYPosition(-10);
+    commandBundle.getActiveTurtle().setXPosition(-10);
+    commandBundle.getActiveTurtle().setYPosition(-10);
     TreeNode child1 = makeNode("0");
     TreeNode child2 = makeNode("0");
     TreeNode root = makeTree("SetTowards", child1, child2);
     double degreeChange = executeCommand(makeBasicCommand(root));
     assertEquals(45, degreeChange);
-    assertEquals(45, commandBundle.getTurtle().getAngle());
+    assertEquals(45, commandBundle.getActiveTurtle().getAngle());
   }
 
   /**
@@ -158,10 +158,10 @@ public class BasicCommandTester {
   void testPenUpAndDown() {
     TreeNode up = makeNode("PenUp");
     assertEquals(0, executeCommand(makeBasicCommand(up)));
-    assertEquals(0, commandBundle.getTurtle().getPenState());
+    assertEquals(0, commandBundle.getActiveTurtle().getPenState());
     TreeNode down = makeNode("PenDown");
     assertEquals(1, executeCommand(makeBasicCommand(down)));
-    assertEquals(1, commandBundle.getTurtle().getPenState());
+    assertEquals(1, commandBundle.getActiveTurtle().getPenState());
   }
 
   /**
@@ -171,10 +171,10 @@ public class BasicCommandTester {
   void testShowAndHideTurtle() {
     TreeNode up = makeNode("HideTurtle");
     assertEquals(0, executeCommand(makeBasicCommand(up)));
-    assertEquals(0, commandBundle.getTurtle().getVisibility());
+    assertEquals(0, commandBundle.getActiveTurtle().getVisibility());
     TreeNode down = makeNode("ShowTurtle");
     assertEquals(1, executeCommand(makeBasicCommand(down)));
-    assertEquals(1, commandBundle.getTurtle().getVisibility());
+    assertEquals(1, commandBundle.getActiveTurtle().getVisibility());
 
   }
 
@@ -187,8 +187,8 @@ public class BasicCommandTester {
     moveTurtle("10");
     TreeNode home = makeNode("Home");
     assertEquals(10, executeCommand(makeBasicCommand(home)));
-    assertEquals(0, commandBundle.getTurtle().getXPosition());
-    assertEquals(0, commandBundle.getTurtle().getYPosition());
+    assertEquals(0, commandBundle.getActiveTurtle().getXPosition());
+    assertEquals(0, commandBundle.getActiveTurtle().getYPosition());
   }
 
   /**
@@ -200,8 +200,8 @@ public class BasicCommandTester {
     moveTurtle("10");
     TreeNode home = makeNode("ClearScreen");
     assertEquals(10, executeCommand(makeBasicCommand(home)));
-    assertEquals(0, commandBundle.getTurtle().getXPosition());
-    assertEquals(0, commandBundle.getTurtle().getYPosition());
+    assertEquals(0, commandBundle.getActiveTurtle().getXPosition());
+    assertEquals(0, commandBundle.getActiveTurtle().getYPosition());
   }
 
   // Turtle Queries
@@ -538,7 +538,7 @@ public class BasicCommandTester {
     assertEquals(60, executeCommand(makeBasicCommand(root)), TOLERANCE);
     assertEquals(60, commandBundle.getVariableMap().get(":Awesome"), TOLERANCE);
     moveTurtle(":Awesome");
-    assertEquals(60, commandBundle.getTurtle().getYPosition(), TOLERANCE);
+    assertEquals(60, commandBundle.getActiveTurtle().getYPosition(), TOLERANCE);
   }
 
   /**
@@ -559,7 +559,7 @@ public class BasicCommandTester {
 
     useCommand = makeTree("Movement", makeNode("100"));
     assertEquals(100, makeBasicCommand(useCommand).execute(), TOLERANCE);
-    assertEquals(150, commandBundle.getTurtle().getYPosition(), TOLERANCE);
+    assertEquals(150, commandBundle.getActiveTurtle().getYPosition(), TOLERANCE);
   }
 
 
@@ -573,7 +573,7 @@ public class BasicCommandTester {
     TreeNode forward = makeTree("Forward", distance);
     TreeNode root = makeTree("Repeat", times, forward);
     assertEquals(60, executeCommand(makeBasicCommand(root)), TOLERANCE);
-    assertEquals(300, commandBundle.getTurtle().getYPosition(), TOLERANCE);
+    assertEquals(300, commandBundle.getActiveTurtle().getYPosition(), TOLERANCE);
   }
 
   /**
@@ -586,7 +586,7 @@ public class BasicCommandTester {
     TreeNode forward = makeTree("Forward", distance);
     TreeNode root = makeTree("Repeat", times, forward);
     assertEquals(5, executeCommand(makeBasicCommand(root)), TOLERANCE);
-    assertEquals(15, commandBundle.getTurtle().getYPosition(), TOLERANCE);
+    assertEquals(15, commandBundle.getActiveTurtle().getYPosition(), TOLERANCE);
   }
 
   /**
@@ -602,7 +602,7 @@ public class BasicCommandTester {
     TreeNode overallCommand = makeTree("DoTimes", control, commandsInLoop);
 
     assertEquals(5, executeCommand(makeBasicCommand(overallCommand)), TOLERANCE);
-    assertEquals(15, commandBundle.getTurtle().getYPosition(), TOLERANCE);
+    assertEquals(15, commandBundle.getActiveTurtle().getYPosition(), TOLERANCE);
 
   }
 
@@ -621,7 +621,7 @@ public class BasicCommandTester {
     TreeNode overallCommand = makeTree("For", control, commandsInLoop);
 
     assertEquals(9, executeCommand(makeBasicCommand(overallCommand)), TOLERANCE);
-    assertEquals(24, commandBundle.getTurtle().getYPosition(), TOLERANCE);
+    assertEquals(24, commandBundle.getActiveTurtle().getYPosition(), TOLERANCE);
 
   }
 
@@ -635,7 +635,7 @@ public class BasicCommandTester {
     TreeNode forward = makeTree("Forward", distance);
     TreeNode root = makeTree("If", conditional, forward);
     assertEquals(60, executeCommand(makeBasicCommand(root)), TOLERANCE);
-    assertEquals(60, commandBundle.getTurtle().getYPosition(), TOLERANCE);
+    assertEquals(60, commandBundle.getActiveTurtle().getYPosition(), TOLERANCE);
     conditional = makeNode("0");
     root = makeTree("If", conditional, forward);
     assertEquals(0, executeCommand(makeBasicCommand(root)), TOLERANCE);
@@ -653,11 +653,11 @@ public class BasicCommandTester {
     TreeNode elseBlock = makeTree("Forward", distance);
     TreeNode root = makeTree("IfElse", conditional, ifBlock, elseBlock);
     assertEquals(60, executeCommand(makeBasicCommand(root)), TOLERANCE);
-    assertEquals(60, commandBundle.getTurtle().getYPosition(), TOLERANCE);
+    assertEquals(60, commandBundle.getActiveTurtle().getYPosition(), TOLERANCE);
     conditional = makeNode("0");
     root = makeTree("IfElse", conditional, ifBlock, elseBlock);
     assertEquals(50, executeCommand(makeBasicCommand(root)), TOLERANCE);
-    assertEquals(110, commandBundle.getTurtle().getYPosition(), TOLERANCE);
+    assertEquals(110, commandBundle.getActiveTurtle().getYPosition(), TOLERANCE);
   }
 
   /**
@@ -674,7 +674,7 @@ public class BasicCommandTester {
     TreeNode child2 = makeTree("CommandBlock", subChild1);
     TreeNode root = makeTree("Repeat", child1, child2);
     assertEquals(100, executeCommand(makeBasicCommand(root)), TOLERANCE);
-    assertEquals(600, commandBundle.getTurtle().getYPosition());
+    assertEquals(600, commandBundle.getActiveTurtle().getYPosition());
   }
 
   /**
