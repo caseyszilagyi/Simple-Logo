@@ -114,6 +114,36 @@ public class MakeTokensTester {
     assertEquals(actual, expected);
   }
 
+  /**
+   * Test command with more nested brackets
+   */
+  @Test
+  void testMoreNestedBracketTokenizer() {
+    String userInput = "to move [ :x ] [ repeat 4 [ repeat 2 [ fd :x ] ] ]";
+    MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
+    tokenMaker.tokenize();
+    List<String> actual = tokenMaker.tokensToString();
+    List<String> expected = new ArrayList<>();
+    expected.add("MakeUserInstruction");
+    expected.add("move");
+    expected.add("CommandBlock");
+    expected.add(":x");
+    expected.add("]");
+    expected.add("CommandBlock");
+    expected.add("Repeat");
+    expected.add("4");
+    expected.add("CommandBlock");
+    expected.add("Repeat");
+    expected.add("2");
+    expected.add("CommandBlock");
+    expected.add("Forward");
+    expected.add(":x");
+    expected.add("]");
+    expected.add("]");
+    expected.add("]");
+    assertEquals(actual, expected);
+  }
+
   /*
 
   Helper Methods
@@ -125,7 +155,7 @@ public class MakeTokensTester {
     CommandParser commandParser = new CommandParser(input, language, modelController);
     InputCleaner cleaner = new InputCleaner(input, language, modelController, commandParser);
     List<String> cleanedString = cleaner.cleanString();
-    return new MakeTokens(cleanedString);
+    return new MakeTokens(cleanedString, commandParser);
   }
 
 }

@@ -12,7 +12,7 @@ public class VariableList extends ListToken {
   }
 
   @Override
-  public int incrementParamCount(int blockSize, String command) {
+  public int incrementParamCount(int blockSize, Token command) {
     return blockSize++;
   }
 }

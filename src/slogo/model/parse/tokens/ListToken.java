@@ -13,7 +13,6 @@ public abstract class ListToken extends Token{
     paramCount = 0;
   }
 
-  public abstract int incrementParamCount(int blockSize, String command);
 
 
 

@@ -164,13 +164,7 @@ public class InputCleaner {
 //    return toRet;
 //  }
 
-  private List<String> makeStringParam(int countNum) {
-    List<String> ret = new ArrayList<>();
-    for(int i=0; i< countNum; i++) {
-      ret.add("NUM");
-    }
-    return ret;
-  }
+
 
   private boolean hasBlocks(String s) {
     return commandParam.get(s).contains("LIST");
