@@ -7,6 +7,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,6 +22,7 @@ public class viewTester extends DukeApplicationTest {
   private Button clearButton;
   private Button backgroundButton;
   private AnchorPane turtleDisplay;
+  private Button penButton;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -32,6 +34,7 @@ public class viewTester extends DukeApplicationTest {
     clearButton = lookup("#clearButton").query();
     backgroundButton = lookup("#BackgroundButton").query();
     turtleDisplay = lookup("#TurtleView").query();
+    penButton = lookup("#PenButton").query();
   }
 
   @Test
@@ -69,5 +72,19 @@ public class viewTester extends DukeApplicationTest {
     Paint fill = turtleDisplay.getBackground().getFills().get(0).getFill();
     String backgroundColor = fill.toString();
     assertEquals(Color.BLUE.toString(), backgroundColor);
+  }
+
+  @Test
+  void changePenColor() {
+    clickOn(penButton);
+    ColorPicker penColorPicker = lookup("#PenColorPicker").query();
+    setValue(penColorPicker, Color.DEEPPINK);
+
+    writeTo(codeInputBox, "forward 100");
+    clickOn(runButton);
+
+    Line line = lookup("#Line").query();
+    Paint fill = line.getStroke();
+    assertEquals(Color.DEEPPINK.toString(), fill.toString());
   }
 }

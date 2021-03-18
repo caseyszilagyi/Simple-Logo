@@ -18,6 +18,7 @@ public class TurtleDisplayPane {
   private static final int cols = 600;
 
   private static final String PANE_BOX_ID = "TurtleView";
+  private static final String LINE_ID = "Line";
   private final double centerX;
   private final double centerY;
   private BorderPane viewPane;
@@ -81,6 +82,7 @@ public class TurtleDisplayPane {
     Line line1 = new Line(turtle.getX() + TURTLE_WIDTH / 2, turtle.getY() + TURTLE_WIDTH / 2,
       x + TURTLE_HEIGHT / 2, y + TURTLE_HEIGHT / 2);
     line1.setStroke(penColor);
+    line1.setId(LINE_ID);
     turtleViewPane.getChildren().add(line1);
   }
 

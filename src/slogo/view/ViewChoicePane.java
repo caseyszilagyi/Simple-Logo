@@ -39,6 +39,7 @@ public class ViewChoicePane {
   private static final String COLOR_PICKER = "color-picker";
   private static final String ICON = "icon";
   private static final String LANGUAGE_OPTIONS = "slogo.model.resources.languages.LangaugeOptions";
+  private static final String IDS_FOR_TESTING = "slogo.view.resources.IDsforTesting";
 
   private GridPane choicePane;
   private BorderPane viewPane;
@@ -53,8 +54,8 @@ public class ViewChoicePane {
   private Color penColor = Color.BLACK;
   private Color currentPenColor = Color.BLACK;
   private String currentBackgroundColor = "d3d3d3";
-  private ImageView turtle;
   private TurtleDisplayPane turtleDisplay;
+  private ResourceBundle idsForTesting;
 
   public ViewChoicePane(Stage s, BorderPane root, TurtleDisplayPane turtleDisplayPane) {
     stage = s;
@@ -65,6 +66,8 @@ public class ViewChoicePane {
     choicePane.getStyleClass().add(CHOICE_PANE_ID);
     viewPane.setTop(choicePane);
 
+    idsForTesting = ResourceBundle.getBundle(IDS_FOR_TESTING);
+
     createBackgroundColorPicker();
     createPenColorPicker();
     createTurtleImageButton();
@@ -74,7 +77,7 @@ public class ViewChoicePane {
 
   private void createBackgroundColorPicker() {
     backgroundColorPickerButton = new Button();
-    backgroundColorPickerButton.setId(BACKGROUND_BUTTON_ID);
+    backgroundColorPickerButton.setId(idsForTesting.getString("ChangeBackgroundButton"));
     ImageView icon = setIcon(BACKGROUND_ICON);
     backgroundColorPickerButton.setGraphic(icon);
     backgroundColorPickerButton.setOnAction(event -> changeBackgroundButton());
@@ -85,7 +88,7 @@ public class ViewChoicePane {
   private void changeBackgroundButton() {
     choicePane.getChildren().remove(backgroundColorPickerButton);
     backgroundColorPicker = new ColorPicker(Color.valueOf(currentBackgroundColor));
-    backgroundColorPicker.setId(BACKGROUND_COLOR_PICKER_ID);
+    backgroundColorPicker.setId(idsForTesting.getString("ChangeBackgroundColorPicker"));
     backgroundColorPicker.getStyleClass().add(COLOR_PICKER);
     choicePane.add(backgroundColorPicker, 0, 0);
     backgroundColorPicker.setOnAction(event -> changeBackgroundColor());
@@ -103,6 +106,7 @@ public class ViewChoicePane {
 
     private void createPenColorPicker() {
     penColorPickerButton = new Button();
+    penColorPickerButton.setId(idsForTesting.getString("ChangePenButton"));
     ImageView icon = setIcon(PEN_ICON);
     penColorPickerButton.setGraphic(icon);
     penColorPickerButton.getStyleClass().add(ICON);
@@ -113,6 +117,7 @@ public class ViewChoicePane {
   private void changePenButton() {
     choicePane.getChildren().remove(penColorPickerButton);
     penColorPicker = new ColorPicker(currentPenColor);
+    penColorPicker.setId(idsForTesting.getString("ChangePenColorPicker"));
     penColorPicker.setId(PEN_COLOR_PICKER_ID);
     penColorPicker.getStyleClass().add(COLOR_PICKER);
     choicePane.add(penColorPicker, 1, 0);
@@ -132,6 +137,7 @@ public class ViewChoicePane {
 
     private void createTurtleImageButton() {
     Button turtleImageButton = new Button();
+    turtleImageButton.setId(idsForTesting.getString("TurtleIconButton"));
     ImageView turtleIcon = setIcon(TURTLE_ICON);
     turtleImageButton.setGraphic(turtleIcon);
     turtleImageButton.getStyleClass().add(ICON);
@@ -149,6 +155,7 @@ public class ViewChoicePane {
 
   private void createNewWindowButton() {
     Button addNewScreen = new Button();
+    addNewScreen.setId(idsForTesting.getString("NewWindowButton"));
     ImageView addIcon = setIcon(NEW_WINDOW_ICON);
     addNewScreen.setGraphic(addIcon);
     addNewScreen.getStyleClass().add(ICON);
@@ -170,8 +177,9 @@ public class ViewChoicePane {
     for (Object allLanguage : allLanguages) {
       displayLanguages.add(languageOptions.getString(allLanguage.toString()));
     }
-    languages = new ComboBox<>();
+    languages = new ComboBox<String>();
     languages.getItems().addAll(displayLanguages);
+    languages.setId(idsForTesting.getString("LanguageComboBox"));
     language = "English";
     languages.setValue(languageOptions.getString(language));
     choicePane.add(languages, 10, 0);
