@@ -27,22 +27,21 @@ public class CommandInformationBundle {
   private final DisplayInformation DISPLAY_INFORMATION = new DisplayInformation();
 
   private final List<Turtle> ALL_TURTLES = new ArrayList<>();
-  private final List<Set<Integer>> CURRENT_ACTIVE_TURTLES = new ArrayList<>();
-  private Turtle activeTurtle;
+  // used to keep track of nested tell/ask statements
+  private final List<List<Integer>> CURRENT_ACTIVE_TURTLES = new ArrayList<>();
+  // used to keep track of which turtle is currently being used in nested tell/ask statements
+  private List<Integer> ACTIVE_TURTLE_INDEXES = new ArrayList<>();
 
 
   /**
-   * Makes our information bundle, and initializes the first turtle and sets it as the
-   * active one
+   * Makes our information bundle, and initializes the first turtle
    *
    * @param modelController The model controller that the bundle communicates with to pass
    *                        information to the front end
    */
   public CommandInformationBundle(BackEndExternalAPI modelController) {
     MODEL_CONTROLLER = modelController;
-    Turtle initialTurtle = new Turtle();
-    ALL_TURTLES.add(initialTurtle);
-    activeTurtle = initialTurtle;
+    addFirstTurtleLayer();
   }
 
   /**
@@ -208,83 +207,103 @@ public class CommandInformationBundle {
   }
 
 
+  private void addFirstTurtleLayer(){
+    List<Integer> firstLayer = new ArrayList<Integer>();
+    CURRENT_ACTIVE_TURTLES.add(firstLayer);
+    ACTIVE_TURTLE_INDEXES.add(0);
+    addActiveTurtle(1);
+  }
+
   /**
-   * Gets the turtle in this bundle
+   * Gets the active turtle in this bundle
    *
    * @return the turtle
    */
-  public Turtle getTurtle() {
-    return activeTurtle;
+  public Turtle getActiveTurtle() {
+    int activeIndex = getActiveIndex();
+    List<Integer> activeList= getCurrentActiveTurtleList();
+    return ALL_TURTLES.get(activeList.get(activeIndex)-1);
+  }
+
+  /**
+   * Increments the counter that references the active turtle
+   *
+   * @return true if done successfully, false if we were on the last turtle
+   */
+  public boolean incrementActiveTurtle() {
+    int activeIndex = getActiveIndex();
+    List<Integer> activeList= getCurrentActiveTurtleList();
+    if(activeList.size()>activeIndex){
+      activeIndex++;
+      return true;
+    }
+    return false;
+  }
+
+  // Gets the index of the active turtle of the most deeply nested list of active turtle IDs
+  private int getActiveIndex(){
+    return ACTIVE_TURTLE_INDEXES.get(ACTIVE_TURTLE_INDEXES.size()-1);
+  }
+
+  // Gets the list of IDs corresponding to the most deeply nested list of active turtles
+  private List<Integer> getCurrentActiveTurtleList(){
+    return CURRENT_ACTIVE_TURTLES.get(CURRENT_ACTIVE_TURTLES.size()-1);
   }
 
   /**
    * Updates the front end with the current active turtle's information
    */
   public void updateTurtle() {
-    MODEL_CONTROLLER.passInputToFrontEnd(activeTurtle.getFrontEndParameters());
+    MODEL_CONTROLLER.passInputToFrontEnd(getActiveTurtle().getFrontEndParameters());
   }
 
-  /**
-   * Adds a turtle. This adds it to the list of all turtles, as well as adding
-   * the ID to the current map of ID values of active turtles. This is because
-   * the only way to add a turtle is to make it using the tell command, which
-   * makes it active
-   * @param turtle The turtle to add
-   */
-  public void addTurtle(Turtle turtle){
-    ALL_TURTLES.add(turtle);
-    CURRENT_ACTIVE_TURTLES.get(CURRENT_ACTIVE_TURTLES.size()-1).add(ALL_TURTLES.size());
+
+  public void addActiveTurtle(int ID) {
+    if (ID > ALL_TURTLES.size()) {
+      makeNewTurtles(ID);
+    }
+    getCurrentActiveTurtleList().add(ID);
   }
 
-  /**
-   * Gets the turtle with the given ID
-   * @param ID integer that is the ID
-   * @return The turtle
-   */
-  public Turtle getTurtle(int ID){
-    return ALL_TURTLES.get(ID-1);
+
+  // Makes new turtles up to the given ID. Automatically called when the user
+  // tries to add turtles that don't exist yet
+  private void makeNewTurtles(int ID) {
+    for (int i = ALL_TURTLES.size()+1; i <= ID; i++) {
+      ALL_TURTLES.add(new Turtle(i));
+    }
   }
 
   /**
    * Gets a list of all the turtles that exist
+   *
    * @return The list of all the turtles
-   *
-   *
-   * MAYBE DO THIS WITH AN ITERATOR?
+   * <p>
+   * <p>
+   * MAYBE DO THIS WITH AN ITERATOR? Might not need this command, I think that this
+   * class should be doint management with the turtles? commands don't need this
    */
-  public List<Turtle> getAllTurtles(){
+  public List<Turtle> getAllTurtles() {
     return ALL_TURTLES;
   }
 
   /**
-   * Adds an empty map to the current active turtles to delegate a new inner nesting
-   * of active turtles
+   * Adds a new list and copies the previous list for a nested loop. Also makes the current
+   * active turtle index for this new list equal to 0, so that the commands in the loop
+   * execute for each turtle.
    */
-  public void addActiveTurtleLayer(){
-    CURRENT_ACTIVE_TURTLES.add(new HashSet<Integer>());
+  public void addActiveTurtleLayer() {
+    List<Integer> nextLayer = new ArrayList<>();
+    nextLayer.addAll(CURRENT_ACTIVE_TURTLES.get(CURRENT_ACTIVE_TURTLES.size()-1));
+    CURRENT_ACTIVE_TURTLES.add(nextLayer);
+    ACTIVE_TURTLE_INDEXES.add(0);
   }
 
   /**
    * Removes an inner nested active turtle layer.
    */
-  public void removeActiveTurtleLayer(){
-    CURRENT_ACTIVE_TURTLES.remove(CURRENT_ACTIVE_TURTLES.size()-1);
-  }
-
-  /**
-   * Replaces the current active turtle layer with an empty layer.
-   */
-  public void replaceActiveTurtleLayer(){
-    removeActiveTurtleLayer();
-    addActiveTurtleLayer();
-  }
-
-  /**
-   * Gets the set of all IDs that correlate to the currently active turtles
-   * @return The set of turtle IDs
-   */
-  public Set<Integer> getActiveTurtles(){
-    return CURRENT_ACTIVE_TURTLES.get(CURRENT_ACTIVE_TURTLES.size()-1);
+  public void removeActiveTurtleLayer() {
+    CURRENT_ACTIVE_TURTLES.remove(CURRENT_ACTIVE_TURTLES.size() - 1);
   }
 
   /**
