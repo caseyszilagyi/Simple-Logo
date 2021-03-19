@@ -2,7 +2,11 @@ package slogo.view;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -12,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 import java.util.List;
+import javafx.util.Duration;
 
 public class TurtleDisplayPane {
   private static final double TURTLE_WIDTH = 50;
@@ -28,7 +33,6 @@ public class TurtleDisplayPane {
   private AnchorPane turtleViewPane;
   private ImageView turtle;
   private boolean penUP = false;
-  private AnimationTimer animationTimer;
   double x;
   double y;
   private int frameDelay = 0;
@@ -38,11 +42,12 @@ public class TurtleDisplayPane {
   private Deque<Double> yPosition;
   private Deque<Double> angles;
   private Deque<String> typeToBeUpdated;
-  private int incrementFactor = 1;
+  private int INCREMENT_FACTOR = 10;
   private double lastXPosition = 0;
   private double lastYPosition = 0;
   private boolean canUpdateAngle = false;
   private double lastAngle = 90;
+  private Timeline timeline;
 
   public TurtleDisplayPane(BorderPane root) {
     viewPane = root;
@@ -69,30 +74,17 @@ public class TurtleDisplayPane {
 
     createTurtle();
 
-    runSimulation();
-    animationTimer.start();
+//    animationTimer.start();
   }
 
-  private void runSimulation() {
-      animationTimer = new AnimationTimer() {
-        @Override
-        public void handle(long now) {
-          if (sleepTimer < frameDelay) {
-            sleepTimer++;
-            return;
-          }
-          updateTurtlePosition();
-          sleepTimer = 0;
-        }
-      };
-  }
 
-  private void updateTurtlePosition() {
+
+  public void updateTurtlePosition() {
     String nextUpdate = "";
-    if(!typeToBeUpdated.isEmpty()){
+    if(!typeToBeUpdated.isEmpty()) {
       nextUpdate = typeToBeUpdated.removeFirst();
-    }
-      if(!xPosition.isEmpty() && !yPosition.isEmpty() && nextUpdate.equals("Positions")){
+
+      if (!xPosition.isEmpty() && !yPosition.isEmpty() && nextUpdate.equals("Positions")) {
         double nextX = xPosition.pop();
         double nextY = yPosition.pop();
 //
@@ -106,20 +98,13 @@ public class TurtleDisplayPane {
         }
         turtle.setX(nextX);
         turtle.setY(nextY);
-      }
-      else if(!angles.isEmpty() && nextUpdate.equals("Angles")){
+      } else if (!angles.isEmpty() && nextUpdate.equals("Angles")) {
 
         turtle.setRotate(angles.pop());
       }
-
-
-  }
-
-  public void setSimulationSpeed(int s) {
-    if (frameDelay >= 0) {
-      frameDelay = 60 - s;
     }
   }
+
 
   private void createTurtle() {
     String turtleImageFile = "Turtle2.gif";
@@ -152,16 +137,14 @@ public class TurtleDisplayPane {
 
 
 
-    incrementFactor = 1;
+    double xIncrement = (x - lastXPosition)/ INCREMENT_FACTOR;
+    double yIncrement = (y - lastYPosition)/ INCREMENT_FACTOR;
 
-    double xIncrement = (x - lastXPosition)/incrementFactor;
-    double yIncrement = (y - lastYPosition)/incrementFactor;
+//    System.out.println("X Increment: " + xIncrement);
 
-    System.out.println("X Increment: " + xIncrement);
-
-      for(int i = 1; i <= incrementFactor; i++){
-        System.out.println(turtle.getX() + xIncrement * i);
-        System.out.println(turtle.getY() + yIncrement * i);
+      for(int i = 1; i <= INCREMENT_FACTOR; i++){
+//        System.out.println(turtle.getX() + xIncrement * i);
+//        System.out.println(turtle.getY() + yIncrement * i);
         xPosition.add(lastXPosition + xIncrement * i);
         yPosition.add(lastYPosition + yIncrement * i);
         typeToBeUpdated.add("Positions");
@@ -200,6 +183,7 @@ public class TurtleDisplayPane {
 
   public void updateTurtle(List<Double> parameters) {
     if(lastAngle != parameters.get(2)){
+      lastAngle = parameters.get(2);
       angles.add(90 - parameters.get(2));
       typeToBeUpdated.add("Angles");
     }

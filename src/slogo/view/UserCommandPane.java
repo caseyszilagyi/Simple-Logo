@@ -13,6 +13,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
 import slogo.controller.FrontEndExternalAPI;
@@ -39,6 +40,7 @@ public class UserCommandPane {
   private FrontEndExternalAPI viewController;
   private ComboBox<String> helpComboBox;
   private Button helpButton;
+  private Slider slider;
 
   public UserCommandPane(FrontEndExternalAPI viewController) {
     this.viewController = viewController;
@@ -46,6 +48,12 @@ public class UserCommandPane {
     box.getStyleClass().add(USER_COMMAND_PANE_ID);
     addTextField();
     createButtons();
+    slider = new Slider(10, 1000, 100);
+    box.getChildren().add(slider);
+  }
+
+  public double getAnimationSpeed(){
+    return slider.getValue();
   }
 
   private void createButtons() {

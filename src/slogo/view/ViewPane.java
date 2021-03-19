@@ -55,8 +55,17 @@ public class ViewPane {
   // prior knowledge about the order of these parameters
   public void updateTurtle(List<Double> parameters) {
     moveTurtle(parameters.get(0), parameters.get(1));
-    turtleDisplay.updateTurtle(parameters);
+
+      turtleDisplay.updateTurtle(parameters);
+
   }
+
+
+
+  public void displayTurtleUpdates() {
+    turtleDisplay.updateTurtlePosition();
+  }
+}
 
 
 /*  public void moveTurtleByDistance(double distance) {
@@ -77,5 +86,3 @@ public class ViewPane {
 
   }*/
 
-
-}

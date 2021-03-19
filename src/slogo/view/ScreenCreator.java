@@ -3,10 +3,13 @@ package slogo.view;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import javafx.animation.AnimationTimer;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import slogo.controller.FrontEndExternalAPI;
 
 /**
@@ -30,6 +33,7 @@ public class ScreenCreator {
   private FrontEndExternalAPI viewController;
   private String styleSheet;
   private int frameDelay;
+  private Timeline timeline;
 
   public ScreenCreator(FrontEndExternalAPI viewController) {
     this.viewController = viewController;
@@ -53,6 +57,8 @@ public class ScreenCreator {
     viewPane = new ViewPane(stage);
     root.setLeft(viewPane.getBox());
 
+    runSimulation();
+
   }
 
 
@@ -74,6 +80,10 @@ public class ScreenCreator {
 
   }
 
+  public void setAnimationSpeed(){
+    timeline.setRate(userCommand.getAnimationSpeed());
+  }
+
   public String getLanguage() {
     return viewPane.getLanguage();
   }
@@ -90,5 +100,33 @@ public class ScreenCreator {
 
   public void displayCommandStringOnTextArea(String command) {
     userCommand.displayCommandStringOnTextArea(command);
+  }
+
+  private void runSimulation() {
+//      animationTimer = new AnimationTimer() {
+//        @Override
+//        public void handle(long now) {
+//          if (sleepTimer < frameDelay) {
+//            sleepTimer++;
+//            return;
+//          }
+//          updateTurtlePosition();
+//          sleepTimer = 0;
+//        }
+//      };
+    timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+
+      displayTurtleUpdates();
+      setAnimationSpeed();
+
+
+    }));
+    timeline.setCycleCount(Animation.INDEFINITE);
+    timeline.play();
+    timeline.setRate(300);
+  }
+
+  private void displayTurtleUpdates() {
+    viewPane.displayTurtleUpdates();
   }
 }
