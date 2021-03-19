@@ -3,7 +3,7 @@ package slogo.controller;
 import org.junit.jupiter.api.BeforeEach;
 import slogo.model.parse.CommandParser;
 
-public class ControllerTester {
+public class ControllerTest {
 
   private CommandParser parser;
 

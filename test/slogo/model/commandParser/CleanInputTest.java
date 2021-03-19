@@ -12,7 +12,7 @@ import slogo.controller.ModelController;
 import slogo.model.parse.CommandParser;
 import slogo.model.parse.InputCleaner;
 
-public class CleanInputTester {
+public class CleanInputTest {
 
   /**
    * Sets up the commandParser

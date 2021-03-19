@@ -13,7 +13,7 @@ import slogo.controller.ModelController;
 import slogo.model.parse.CommandParser;
 import slogo.model.tree.TreeNode;
 
-public class CommandParserTester {
+public class CommandParserTest {
 
   private CommandParser parser;
 
