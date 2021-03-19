@@ -1,7 +1,5 @@
 package slogo.model.commands.basic_commands.command_types;
 
-import java.util.List;
-import java.util.Map;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;

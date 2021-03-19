@@ -5,9 +5,13 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.ResourceBundle;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import slogo.controller.FrontEndExternalAPI;
 
 /**
@@ -32,6 +36,8 @@ public class ScreenCreator {
   private FrontEndExternalAPI viewController;
   private String styleSheet;
   private ResourceBundle languageResource;
+  private int frameDelay;
+  private Timeline timeline;
 
   public ScreenCreator(FrontEndExternalAPI viewController) {
     this.viewController = viewController;
@@ -57,7 +63,11 @@ public class ScreenCreator {
 
     viewPane = new ViewPane(stage);
     root.setLeft(viewPane.getBox());
+
+    runSimulation();
+
   }
+
 
   public void moveTurtle(List<Double> parameters) {
 
@@ -67,6 +77,18 @@ public class ScreenCreator {
 //    if(parameters.get(5) == 1){
 //      reset();
 //    }
+  }
+
+  //TODO: REMOVE LATER THIS IS ONLY FOR DEBUGGING
+  private void reset() {
+
+    viewPane = new ViewPane(stage);
+    root.setCenter(viewPane.getBox());
+
+  }
+
+  public void setAnimationSpeed(){
+    timeline.setRate(userCommand.getAnimationSpeed());
   }
 
   public String getLanguage() {
@@ -83,12 +105,40 @@ public class ScreenCreator {
   }
 
 
-  public void updateCommandHistory(Map<String, Double> variables,
+  public void updateVariablesAndUserDefinedCommands(Map<String, Double> variables,
       Map<String, String> userDefinedCommands) {
     historyDisplayPane.updateDisplayOfInformation(variables, userDefinedCommands);
   }
 
   public void displayCommandStringOnTextArea(String command) {
     userCommand.displayCommandStringOnTextArea(command);
+  }
+
+  private void runSimulation() {
+//      animationTimer = new AnimationTimer() {
+//        @Override
+//        public void handle(long now) {
+//          if (sleepTimer < frameDelay) {
+//            sleepTimer++;
+//            return;
+//          }
+//          updateTurtlePosition();
+//          sleepTimer = 0;
+//        }
+//      };
+    timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+
+      displayTurtleUpdates();
+      setAnimationSpeed();
+
+
+    }));
+    timeline.setCycleCount(Animation.INDEFINITE);
+    timeline.play();
+    timeline.setRate(300);
+  }
+
+  private void displayTurtleUpdates() {
+    viewPane.displayTurtleUpdates();
   }
 }

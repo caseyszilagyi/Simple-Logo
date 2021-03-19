@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.text.html.ImageView;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
-import slogo.model.turtle.Turtle;
+import slogo.model.execution.Turtle;
 import slogo.view.ScreenCreator;
 
 /**
@@ -111,7 +111,7 @@ public class ViewController implements FrontEndExternalAPI {
   public void updateFrontEnd(Map<String, Double> variables,
       Map<String, UserDefinedCommand> userDefinedCommands) {
     parseUserDefinedCommands(userDefinedCommands);
-    screenCreator.updateCommandHistory(variables, userDefinedHistory);
+    screenCreator.updateVariablesAndUserDefinedCommands(variables, userDefinedHistory);
   }
 
   private void parseUserDefinedCommands(Map<String, UserDefinedCommand> userDefinedCommands) {
