@@ -31,6 +31,7 @@ public class MakeTokens {
   private ResourceBundle listParams;
   private ResourceBundle tokenMap;
   private Map<String, Pattern> regexMap;
+  private Deque<List<String>> tokenizeStack;
 
   public MakeTokens(List<String> cleanedString, CommandParser commandParser) {
     this.commandParser = commandParser;
@@ -40,6 +41,7 @@ public class MakeTokens {
     regexMap = new HashMap<>();
     addRegExPatterns("Syntax");
     tokens = new ArrayList<>();
+    tokenizeStack = new ArrayDeque<>();
   }
 
   private void addRegExPatterns(String regEx) {
@@ -57,35 +59,22 @@ public class MakeTokens {
   }
 
   private void tokenize() {
-    Deque<List<String>> listCommandParams = new ArrayDeque<>();
     String expected = null;
     boolean inList = false;
     for (String s : cleanedString) {
-      System.out.println(s);
       Token toAdd;
       if (regexMap.get("ListStart").matcher(s).matches()) {
-        System.out.println("Start of list type: "+listCommandParams.peek().get(0));
-        toAdd = makeToken(listCommandParams.peek().get(0));
+        toAdd = makeToken(tokenizeStack.peek().get(0));
         inList = true;
       } else { toAdd = makeToken(s); }
       if (listParams.containsKey(s)) {
-        listCommandParams.push(new ArrayList<>(Arrays.asList(listParams.getString(s).split(" "))));
-        expected = listCommandParams.peek().get(0);
+        tokenizeStack.push(getListParams(s));
+        expected = tokenizeStack.peek().get(0);
         tokens.add(toAdd);
         continue;
       }
       if (expected != null) {
-        System.out.println("expected: "+expected);
-        if(!getClassName(toAdd).equals(expected) && !inList) {
-          System.out.println("Error. Class name is: " + getClassName(toAdd));
-          throw new ErrorHandler("WrongCommandArg");
-        } else if (!expected.contains("List") || getClassName(toAdd).equals("ListEndToken")){
-          listCommandParams.peek().remove(0);
-          if (listCommandParams.peek().isEmpty()) {
-            listCommandParams.pop();
-            expected = null;
-          } else { expected = listCommandParams.peek().get(0); }
-        }
+        expected = checkExpectedToken(toAdd, expected, inList);
       }
       tokens.add(toAdd);
     }
@@ -93,8 +82,7 @@ public class MakeTokens {
 
   private Token makeToken(String command) {
     String type = tokenType(command);
-    if(command.contains("List")) { type = command; }
-    System.out.println(type);
+    if(isList(command)) { type = command; }
     Token toRet;
     try {
       toRet = (Token) Class.forName(TOKEN_PACKAGE + type).getDeclaredConstructor(String.class).newInstance(command);
@@ -119,8 +107,35 @@ public class MakeTokens {
     return command;
   }
 
+  private List<String> getListParams(String command) {
+    String[] splitList= listParams.getString(command).split(" ");
+    List<String> splitAsList = Arrays.asList(splitList);
+    return new ArrayList<>(splitAsList);
+  }
+
   private String getClassName(Token token) {
     return token.getClass().getName().replace(TOKEN_PACKAGE, "");
+  }
+
+  private boolean isList(String s) {
+    return s.contains("List");
+  }
+
+  private boolean isListEnd(String s) {
+    return s.equals("ListEndToken");
+  }
+
+  private String checkExpectedToken(Token toAdd, String expected, boolean inList) {
+    if(!getClassName(toAdd).equals(expected) && !inList) {
+      throw new ErrorHandler("WrongCommandArg");
+    } else if (!isList(expected) || isListEnd(getClassName(toAdd))) {
+      tokenizeStack.peek().remove(0);
+      if (tokenizeStack.peek().isEmpty()) {
+        tokenizeStack.pop();
+        expected = null;
+      } else { expected = tokenizeStack.peek().get(0); }
+    }
+    return expected;
   }
 
   private List<String> tokensToString() {

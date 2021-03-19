@@ -11,7 +11,7 @@ public class CommandExecuter {
   private CommandInformationBundle bundle;
 
   public CommandExecuter() {
-    
+
   }
 
 }

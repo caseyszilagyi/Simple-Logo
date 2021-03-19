@@ -35,17 +35,19 @@ public class CommandParser implements Parser {
   private List<String> cleanCommands;
   private BackEndExternalAPI modelController;
   private InputCleaner inputCleaner;
+  private MakeTokens tokenMaker;
 
 
   public CommandParser(String rawInput, String language, BackEndExternalAPI modelController) {
     this.modelController = modelController;
     parameters = new HashMap<>();
     syntaxMap = new HashMap<>();
-    inputCleaner = new InputCleaner(rawInput, language, modelController, this);
-    cleanCommands = inputCleaner.cleanString();
     addParamCounts("CommandsParam");
     addRegExPatterns("Syntax");
     addUserDefParamCounts();
+    inputCleaner = new InputCleaner(rawInput, language, modelController, this);
+    tokenMaker = new MakeTokens(inputCleaner.cleanString(), this);
+    cleanCommands = tokenMaker.tokenString();
     commandTree = new TreeNode(null);
     System.out.println("Command Taken in by the parser: " + rawInput);
     System.out.println("Clean command: " + cleanCommands);

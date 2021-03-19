@@ -149,6 +149,7 @@ public class MakeTokensTester {
   private MakeTokens makeMakeTokens(String input, String language) {
     ModelController modelController = new ModelController();
     commandParser = new CommandParser(input, language, modelController);
+    System.out.println(CommandParser.syntaxMap.get("Command"));
     InputCleaner cleaner = new InputCleaner(input, language, modelController, commandParser);
     List<String> cleanedString = cleaner.cleanString();
     return new MakeTokens(cleanedString, commandParser);
