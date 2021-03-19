@@ -1,5 +1,8 @@
 package slogo.view;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+import javafx.animation.AnimationTimer;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -25,8 +28,23 @@ public class TurtleDisplayPane {
   private AnchorPane turtleViewPane;
   private ImageView turtle;
   private boolean penUP = false;
+  private AnimationTimer animationTimer;
+  double x;
+  double y;
+  private int frameDelay = 0;
+  private int sleepTimer = 0;
+  private Color penColor;
+  private Deque<Double> xPosition;
+  private Deque<Double> yPosition;
+  private Deque<Double> angles;
+  private Deque<String> typeToBeUpdated;
+  private int incrementFactor = 1;
+  private double lastXPosition = 0;
+  private double lastYPosition = 0;
+  private boolean canUpdateAngle = false;
+  private double lastAngle = 90;
 
-    public TurtleDisplayPane(BorderPane root) {
+  public TurtleDisplayPane(BorderPane root) {
     viewPane = root;
     turtleViewPane = new AnchorPane();
     viewPane.setCenter(turtleViewPane);
@@ -43,7 +61,64 @@ public class TurtleDisplayPane {
     centerX = rows / 2 - TURTLE_HEIGHT / 2;
     centerY = cols / 2 - TURTLE_WIDTH / 2;
 
+    xPosition = new ArrayDeque<>();
+    yPosition = new ArrayDeque<>();
+    angles = new ArrayDeque<>();
+    typeToBeUpdated = new ArrayDeque<>();
+
+
     createTurtle();
+
+    runSimulation();
+    animationTimer.start();
+  }
+
+  private void runSimulation() {
+      animationTimer = new AnimationTimer() {
+        @Override
+        public void handle(long now) {
+          if (sleepTimer < frameDelay) {
+            sleepTimer++;
+            return;
+          }
+          updateTurtlePosition();
+          sleepTimer = 0;
+        }
+      };
+  }
+
+  private void updateTurtlePosition() {
+    String nextUpdate = "";
+    if(!typeToBeUpdated.isEmpty()){
+      nextUpdate = typeToBeUpdated.removeFirst();
+    }
+      if(!xPosition.isEmpty() && !yPosition.isEmpty() && nextUpdate.equals("Positions")){
+        double nextX = xPosition.pop();
+        double nextY = yPosition.pop();
+//
+//
+//        System.out.println("Current Turtle X Positions: " + turtle.getX());
+//        System.out.println("Current Turtle Y Positions: " + turtle.getY());
+//        System.out.println("Next Turtle X Position: " + nextX);
+//        System.out.println("Next Turtle Y Position: " + nextY);
+        if (!penUP) {
+          createLine(nextX, nextY, penColor);
+        }
+        turtle.setX(nextX);
+        turtle.setY(nextY);
+      }
+      else if(!angles.isEmpty() && nextUpdate.equals("Angles")){
+
+        turtle.setRotate(angles.pop());
+      }
+
+
+  }
+
+  public void setSimulationSpeed(int s) {
+    if (frameDelay >= 0) {
+      frameDelay = 60 - s;
+    }
   }
 
   private void createTurtle() {
@@ -55,9 +130,14 @@ public class TurtleDisplayPane {
     turtleViewPane.getChildren().add(turtle);
     turtle.setX(centerX);
     turtle.setY(centerY);
+    turtle.setRotate(0);
+    lastXPosition = centerX;
+    lastYPosition = centerY;
   }
 
   public void moveTurtle(double xCoordinate, double yCoordinate, Color penColor) {
+    this.penColor = penColor;
+
     double turtleCenterX = TURTLE_WIDTH / 2;
     double turtleCenterY = TURTLE_HEIGHT / 2;
 
@@ -67,15 +147,34 @@ public class TurtleDisplayPane {
     double coordinateWidth = screenWidth / rows;
     double coordinateHeight = screenHeight / cols;
 
-    double x = screenWidth / 2 + xCoordinate * coordinateWidth - turtleCenterX;
-    double y = screenHeight / 2 - yCoordinate * coordinateHeight - turtleCenterY;
+    x = screenWidth / 2 + xCoordinate * coordinateWidth - turtleCenterX;
+    y = screenHeight / 2 - yCoordinate * coordinateHeight - turtleCenterY;
 
-    if (!penUP) {
-      createLine(x, y, penColor);
-    }
 
-    turtle.setX(x);
-    turtle.setY(y);
+
+    incrementFactor = 1;
+
+    double xIncrement = (x - lastXPosition)/incrementFactor;
+    double yIncrement = (y - lastYPosition)/incrementFactor;
+
+    System.out.println("X Increment: " + xIncrement);
+
+      for(int i = 1; i <= incrementFactor; i++){
+        System.out.println(turtle.getX() + xIncrement * i);
+        System.out.println(turtle.getY() + yIncrement * i);
+        xPosition.add(lastXPosition + xIncrement * i);
+        yPosition.add(lastYPosition + yIncrement * i);
+        typeToBeUpdated.add("Positions");
+      }
+
+
+
+//    xPosition.add(x);
+//    yPosition.add(y);
+
+    lastXPosition = x;
+    lastYPosition = y;
+
   }
 
   private void createLine(double x, double y, Color penColor) {
@@ -88,6 +187,10 @@ public class TurtleDisplayPane {
 
   private void reset() {
     turtleViewPane.getChildren().clear();
+    xPosition.clear();
+    yPosition.clear();
+    angles.clear();
+    typeToBeUpdated.clear();
     createTurtle();
   }
 
@@ -96,7 +199,11 @@ public class TurtleDisplayPane {
   }
 
   public void updateTurtle(List<Double> parameters) {
-    turtle.setRotate(90 - parameters.get(2));
+    if(lastAngle != parameters.get(2)){
+      angles.add(90 - parameters.get(2));
+      typeToBeUpdated.add("Angles");
+    }
+ //   turtle.setRotate(90 - parameters.get(2));
     setPenState(!(parameters.get(3) == 1));
     turtle.setVisible(parameters.get(4) == 1);
     if (parameters.get(5) == 1) {
@@ -113,5 +220,22 @@ public class TurtleDisplayPane {
     turtle.setFitWidth(TURTLE_WIDTH);
     turtle.setFitHeight(TURTLE_HEIGHT);
     turtle.setId("Turtle");
+  }
+
+  public void moveTurtleByDistance(double distance) {
+    // do the calculations to make the turtle go forward
+    // THIS WAS WAY HARDER THAN I THOGUGHT
+    // because the angles/getrotate are all messed up
+    double turtleX;
+    double turtleY;
+    double turtleAngle = ((-turtle.getRotate() - 90) * Math.PI) / (180);
+    turtleX = turtle.getX() - Math.cos(turtleAngle) * distance;
+    turtleY = turtle.getY() + Math.sin(turtleAngle) * distance;
+    if (!penUP) {
+      //createLine(turtleX, turtleY);
+    }
+
+    turtle.setX(turtleX);
+    turtle.setY(turtleY);
   }
 }

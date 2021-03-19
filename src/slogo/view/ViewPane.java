@@ -2,8 +2,10 @@ package slogo.view;
 
 import java.util.List;
 
+import javafx.animation.AnimationTimer;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+
 
 /**
  * Creates the view for where the turtle will be displayed
@@ -17,12 +19,16 @@ public class ViewPane {
   private BorderPane viewPane;
   private TurtleDisplayPane turtleDisplay;
   private ViewChoicePane choiceDisplay;
+  private double xCoord;
+  private double yCoord;
+  private double previousAngle = 90;
 
   public ViewPane(Stage s) {
     viewPane = new BorderPane();
     viewPane.setId(VIEW_PANE_ID);
     viewPane.getStyleClass().add(VIEW_PANE_ID);
-
+    xCoord = 0;
+    yCoord = 0;
     turtleDisplay = new TurtleDisplayPane(viewPane);
     choiceDisplay = new ViewChoicePane(s, viewPane, turtleDisplay);
   }
@@ -33,6 +39,10 @@ public class ViewPane {
   }
 
   public void moveTurtle(double xCoordinate, double yCoordinate) {
+    System.out.println();
+    System.out.println("Move turtle called");
+
+    System.out.println();
     turtleDisplay.moveTurtle(xCoordinate, yCoordinate, choiceDisplay.getPenColor());
   }
 
@@ -44,10 +54,10 @@ public class ViewPane {
   //Current set up for these parameters is not SHY enough since we have to have
   // prior knowledge about the order of these parameters
   public void updateTurtle(List<Double> parameters) {
-    System.out.println("parameters: " + parameters);
     moveTurtle(parameters.get(0), parameters.get(1));
     turtleDisplay.updateTurtle(parameters);
   }
+
 
 /*  public void moveTurtleByDistance(double distance) {
     // do the calculations to make the turtle go forward

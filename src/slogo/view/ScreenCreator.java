@@ -3,6 +3,7 @@ package slogo.view;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -28,6 +29,7 @@ public class ScreenCreator {
   private ViewPane viewPane;
   private FrontEndExternalAPI viewController;
   private String styleSheet;
+  private int frameDelay;
 
   public ScreenCreator(FrontEndExternalAPI viewController) {
     this.viewController = viewController;
@@ -50,7 +52,9 @@ public class ScreenCreator {
 
     viewPane = new ViewPane(stage);
     root.setLeft(viewPane.getBox());
+
   }
+
 
   public void moveTurtle(List<Double> parameters) {
 
@@ -79,7 +83,7 @@ public class ScreenCreator {
   }
 
 
-  public void updateCommandHistory(Map<String, Double> variables,
+  public void updateVariablesAndUserDefinedCommands(Map<String, Double> variables,
       Map<String, String> userDefinedCommands) {
     historyDisplayPane.updateDisplayOfInformation(variables, userDefinedCommands);
   }
