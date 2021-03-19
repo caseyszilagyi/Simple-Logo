@@ -13,6 +13,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
 import slogo.controller.FrontEndExternalAPI;
@@ -30,12 +31,16 @@ public class UserCommandPane {
   private static final String FILE_PATH = "src/slogo/view/resources/reference";
   private static final String COMBO_BOX = "combo-box";
   private static final String DEFAULT_MESSAGE = "Choose command";
+  private static final String TEXT_AREA_ID = "textArea";
+  private static final String RUN_BUTTON_ID = "runButton";
+  private static final String CLEAR_BUTTON_ID = "clearButton";
 
   private HBox box;
   private TextArea textArea;
   private FrontEndExternalAPI viewController;
   private ComboBox<String> helpComboBox;
   private Button helpButton;
+  private Slider slider;
 
   public UserCommandPane(FrontEndExternalAPI viewController) {
     this.viewController = viewController;
@@ -43,13 +48,21 @@ public class UserCommandPane {
     box.getStyleClass().add(USER_COMMAND_PANE_ID);
     addTextField();
     createButtons();
+    slider = new Slider(10, 5000, 100);
+    box.getChildren().add(slider);
+  }
+
+  public double getAnimationSpeed(){
+    return slider.getValue();
   }
 
   private void createButtons() {
     Button runButton = makeButton("Run");
     runButton.setOnAction(event -> viewController.processUserCommandInput(textArea.getText()));
+    runButton.setId(RUN_BUTTON_ID);
     Button clearButton = makeButton("Clear");
     clearButton.setOnAction(event -> textArea.clear());
+    clearButton.setId(CLEAR_BUTTON_ID);
     helpButton = makeButton("Help");
     helpButton.setOnAction(event -> createHelpButton());
   }
@@ -108,6 +121,7 @@ public class UserCommandPane {
     textArea.setPrefWidth(WIDTH);
     textArea.setPrefHeight(HEIGHT);
     textArea.getStyleClass().add(TEXT_AREA);
+    textArea.setId(TEXT_AREA_ID);
     box.getChildren().add(textArea);
   }
 

@@ -111,7 +111,7 @@ public class ViewController implements FrontEndExternalAPI {
   public void updateFrontEnd(Map<String, Double> variables,
       Map<String, UserDefinedCommand> userDefinedCommands) {
     parseUserDefinedCommands(userDefinedCommands);
-    screenCreator.updateCommandHistory(variables, userDefinedHistory);
+    screenCreator.updateVariablesAndUserDefinedCommands(variables, userDefinedHistory);
   }
 
   private void parseUserDefinedCommands(Map<String, UserDefinedCommand> userDefinedCommands) {
