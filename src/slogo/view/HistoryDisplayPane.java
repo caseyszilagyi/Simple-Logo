@@ -26,6 +26,7 @@ public class HistoryDisplayPane {
   private static final String BUTTON = "regular-button";
   private static final String HISTORY_BUTTON = "history-button";
   private static final double TABS_HEIGHT = 570.0;
+  private static final String BUTTON_ID = "previousCommandButton";
 
   private BorderPane basePane;
   private ScrollPane historyPane;
@@ -141,6 +142,7 @@ public class HistoryDisplayPane {
 
   private Button makeButton(String text, VBox vBox, String styleClass) {
     Button button = new Button(text);
+    button.setId(BUTTON_ID);
     button.setWrapText(true);
     button.setPrefWidth(vBox.getWidth());
     button.getStyleClass().add(styleClass);
