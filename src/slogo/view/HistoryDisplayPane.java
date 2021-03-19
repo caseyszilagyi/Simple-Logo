@@ -38,6 +38,7 @@ public class HistoryDisplayPane {
   private VBox userBox;
   private FrontEndExternalAPI viewController;
   private VBox topBox;
+  private Queue<String> displayCommandHistory;
 
   private Button clearButton;
 
@@ -64,6 +65,7 @@ public class HistoryDisplayPane {
 
   private void clearHistory() {
     historyBox.getChildren().clear();
+    displayCommandHistory.clear();
   }
 
   private void createTabPane() {
@@ -141,6 +143,7 @@ public class HistoryDisplayPane {
   }
 
   public void updateCommandHistory(Queue<String> commandHistory) {
+    displayCommandHistory = commandHistory;
     historyBox.getChildren().clear();
     for (String command : commandHistory) {
       Button button = makeButton(command, historyBox, HISTORY_BUTTON);
