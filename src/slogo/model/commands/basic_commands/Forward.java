@@ -32,8 +32,8 @@ public class Forward extends TurtleAlteringCommand {
    */
   public double execute() {
     updateTurtle(turtle -> {
-      changeTurtleX(DISTANCE * Math.cos(getAngle() / 360 * Math.PI * 2));
-      changeTurtleY(DISTANCE * Math.sin(getAngle() / 360 * Math.PI * 2));
+      changeTurtlePosition(DISTANCE * Math.cos(getAngle() / 360 * Math.PI * 2),
+          DISTANCE * Math.sin(getAngle() / 360 * Math.PI * 2));
     });
     return DISTANCE;
   }

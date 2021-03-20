@@ -17,7 +17,6 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
 
   private Turtle activeTurtle;
   private final TurtleInformation TURTLE_INFORMATION;
-  private final BackEndExternalAPI MODEL_CONTROLLER;
 
   /**
    * Makes the BasicCommand and saves the turtle
@@ -28,7 +27,6 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
     super(informationBundle);
     activeTurtle = informationBundle.getTurtleInformation().getActiveTurtle();
     TURTLE_INFORMATION = informationBundle.getTurtleInformation();
-    MODEL_CONTROLLER = informationBundle.getModelController();
   }
 
   /**
@@ -40,21 +38,23 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
   public abstract double execute();
 
   /**
-   * Changes the X position of the turtle
+   * Changes the position of the turtle by a certain amount
    *
-   * @param change The change in X position
+   * @param changeX The change in X position
+   * @param changeY The change in Y position
    */
-  protected void changeTurtleX(double change) {
-    activeTurtle.changeXPosition(change);
+  protected void changeTurtlePosition(double changeX, double changeY) {
+    activeTurtle.changePosition(changeX, changeY);
   }
 
   /**
-   * Changes the Y position of the turtle
+   * Sets the position of the turtle
    *
-   * @param change The change in Y position
+   * @param xPosition The final x position of the turtle
+   * @param yPosition The final y position of the turtle
    */
-  protected void changeTurtleY(double change) {
-    activeTurtle.changeYPosition(change);
+  protected void setTurtlePosition(double xPosition, double yPosition) {
+    activeTurtle.setPosition(xPosition, yPosition);
   }
 
   /**
@@ -67,31 +67,12 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
   }
 
   /**
-   * Sets the X position of the turtle
-   *
-   * @param position The X position
-   */
-  protected void setTurtleX(double position) {
-    activeTurtle.setXPosition(position);
-  }
-
-  /**
-   * Sets the Y position of the turtle
-   *
-   * @param position The Y position
-   */
-  protected void setTurtleY(double position) {
-    activeTurtle.setYPosition(position);
-  }
-
-  /**
    * Sets the angle position of the turtle
    *
    * @param angle The angle
    */
   protected void setAngle(double angle) {
     activeTurtle.setAngle(angle);
-    MODEL_CONTROLLER.setTurtleAngle(getAngle());
   }
 
   /**
@@ -101,7 +82,6 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    */
   protected void changePenState(double penState) {
     activeTurtle.setPenState(penState);
-    MODEL_CONTROLLER.setPenState(penState);
   }
 
   /**
@@ -111,7 +91,6 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    */
   protected void changeTurtleVisibility(double visibility) {
     activeTurtle.setVisibility(visibility);
-    MODEL_CONTROLLER.setTurtleVisibility(visibility);
   }
 
   /**
@@ -119,29 +98,25 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    */
   protected void reset() {
     activeTurtle.clearScreen();
-    updateFrontEnd();
-    activeTurtle.allowLines();
-    MODEL_CONTROLLER.clearScreen();
   }
 
   protected void updateFrontEnd() {
-    TURTLE_INFORMATION.updateTurtle();
-    MODEL_CONTROLLER.setTurtlePosition(getXCoordinate(), getYCoordinate());
+    TURTLE_INFORMATION.updateFrontEnd();
   }
 
-  protected void setActiveTurtle(int ID){
+  protected void setActiveTurtle(int ID) {
     TURTLE_INFORMATION.setActiveTurtle(ID);
-    MODEL_CONTROLLER.setActiveTurtle(ID);
   }
 
 
   /**
    * Updates all of the active turtles
+   *
    * @param turtleAction The method calls that are called on the turtles
    */
-  protected void updateTurtle(Consumer<Turtle> turtleAction){
+  protected void updateTurtle(Consumer<Turtle> turtleAction) {
     List<Integer> activeTurtleList = TURTLE_INFORMATION.getCurrentActiveTurtleList();
-    for(int turtleID: activeTurtleList){
+    for (int turtleID : activeTurtleList) {
       setActiveTurtle(turtleID);
       activeTurtle = TURTLE_INFORMATION.getActiveTurtle();
       turtleAction.accept(activeTurtle);

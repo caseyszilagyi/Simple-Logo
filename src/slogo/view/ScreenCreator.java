@@ -66,7 +66,7 @@ public class ScreenCreator {
     viewPane = new ViewPane(stage);
     root.setCenter(viewPane.getBox());
 
-    commandButtonPane = new CommandButtonPane();
+    commandButtonPane = new CommandButtonPane(viewController);
     root.setLeft(commandButtonPane.getBox());
 
     runSimulation();

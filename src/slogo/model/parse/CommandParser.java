@@ -29,7 +29,7 @@ public class CommandParser implements Parser {
   public List<String> preOrderResults = new ArrayList<>();
   // "types" and the regular expression patterns that recognize those types
   // note, it is a list because order matters (some patterns may be more generic)
-  private Map<String, List<String>> parameters;
+  public static Map<String, List<String>> parameters;
   public static Map<String, Pattern> syntaxMap;
   private TreeNode commandTree;
   private List<String> cleanCommands;
@@ -62,9 +62,9 @@ public class CommandParser implements Parser {
       List<String> params = new ArrayList<>(Arrays.asList(resources.getString(key).split(" ")));
       params.removeIf(command -> command.equals(""));
       addSingleParamCount(key, params);
-//            System.out.println("Key: " + key);
-//            System.out.println("Number: " + Arrays.asList(resources.getString(key).split(" ")));
-//            System.out.println();
+            System.out.println("Key: " + key);
+            System.out.println("Number: " + Arrays.asList(resources.getString(key).split(" ")));
+            System.out.println();
     }
   }
 

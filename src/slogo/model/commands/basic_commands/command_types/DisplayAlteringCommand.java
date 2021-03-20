@@ -10,7 +10,6 @@ import slogo.model.execution.DisplayInformation;
  */
 public abstract class DisplayAlteringCommand extends DisplayQueryCommand {
 
-  private final BackEndExternalAPI MODEL_CONTROLLER;
   private final DisplayInformation DISPLAY_INFORMATION;
 
   /**
@@ -21,7 +20,6 @@ public abstract class DisplayAlteringCommand extends DisplayQueryCommand {
    */
   public DisplayAlteringCommand(CommandInformationBundle informationBundle) {
     super(informationBundle);
-    MODEL_CONTROLLER = informationBundle.getModelController();
     DISPLAY_INFORMATION = informationBundle.getDisplayInformation();
   }
 
@@ -31,7 +29,6 @@ public abstract class DisplayAlteringCommand extends DisplayQueryCommand {
    */
   protected void setBackgroundColor(int index){
     DISPLAY_INFORMATION.setBackgroundColor(index);
-    MODEL_CONTROLLER.setBackgroundColor(index);
   }
 
   /**
@@ -40,7 +37,6 @@ public abstract class DisplayAlteringCommand extends DisplayQueryCommand {
    */
   protected void setPenColor(int index){
     DISPLAY_INFORMATION.setPenColor(index);
-    MODEL_CONTROLLER.setPenColor(index);
   }
 
   /**
@@ -49,7 +45,6 @@ public abstract class DisplayAlteringCommand extends DisplayQueryCommand {
    */
   protected void setTurtleShape(int index){
     DISPLAY_INFORMATION.setTurtleShape(index);
-    MODEL_CONTROLLER.setTurtleShape(index);
   }
 
   /**
@@ -60,7 +55,7 @@ public abstract class DisplayAlteringCommand extends DisplayQueryCommand {
    * @param blue RGB value for blue
    */
   protected void setPalette(int index, int red, int green, int blue){
-    MODEL_CONTROLLER.setPalette(index, red, green, blue);
+    DISPLAY_INFORMATION.setPalette(index, red, green, blue);
   }
 
   /**
@@ -69,7 +64,6 @@ public abstract class DisplayAlteringCommand extends DisplayQueryCommand {
    */
   protected void setPenSize(double pixels){
     DISPLAY_INFORMATION.setPenSize(pixels);
-    MODEL_CONTROLLER.setPenSize(pixels);
   }
 
 

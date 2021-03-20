@@ -10,7 +10,6 @@ import slogo.model.execution.DisplayInformation;
  */
 public abstract class DisplayQueryCommand extends Command {
 
-  private final BackEndExternalAPI MODEL_CONTROLLER;
   private final DisplayInformation DISPLAY_INFORMATION;
 
   /**
@@ -19,7 +18,6 @@ public abstract class DisplayQueryCommand extends Command {
    * @param informationBundle The bundle of information that contains the front end display object
    */
   public DisplayQueryCommand(CommandInformationBundle informationBundle) {
-    MODEL_CONTROLLER = informationBundle.getModelController();
     DISPLAY_INFORMATION = informationBundle.getDisplayInformation();
   }
 
