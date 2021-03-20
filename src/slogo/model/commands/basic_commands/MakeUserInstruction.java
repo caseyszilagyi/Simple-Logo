@@ -27,15 +27,15 @@ public class MakeUserInstruction extends ControlStructureCommand {
     super(bundle);
     NAME = children.get(0).getCommand();
     USER_COMMAND = new UserDefinedCommand(bundle, children);
+    setCommand(NAME, USER_COMMAND);
   }
 
   /**
-   * Adds the command to the map that holds all user defined commands in the bundle
+   * Doesn't do anything because making the command is simply storing it
    *
-   * @return The variable value
+   * @return 1, because the command was successfully stored
    */
   public double execute() {
-    setCommand(NAME, USER_COMMAND);
     return 1;
   }
 
