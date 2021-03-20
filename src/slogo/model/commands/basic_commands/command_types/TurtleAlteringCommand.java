@@ -2,6 +2,7 @@ package slogo.model.commands.basic_commands.command_types;
 
 import java.util.List;
 import java.util.function.Consumer;
+import javax.swing.text.InternationalFormatter;
 import slogo.controller.BackEndExternalAPI;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.execution.Turtle;
@@ -14,10 +15,9 @@ import slogo.model.execution.Turtle;
  */
 public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
 
-  private final Turtle activeTurtle;
+  private Turtle activeTurtle;
   private final CommandInformationBundle BUNDLE;
   private final BackEndExternalAPI MODEL_CONTROLLER;
-  private final List<Turtle> ALL_TURTLES;
 
   /**
    * Makes the BasicCommand and saves the turtle
@@ -27,10 +27,8 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
   public TurtleAlteringCommand(CommandInformationBundle informationBundle) {
     super(informationBundle);
     activeTurtle = informationBundle.getActiveTurtle();
-    ALL_TURTLES = informationBundle.getAllTurtles();
     BUNDLE = informationBundle;
     MODEL_CONTROLLER = informationBundle.getModelController();
-
   }
 
   /**
@@ -131,6 +129,10 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
     MODEL_CONTROLLER.setTurtlePosition(getXCoordinate(), getYCoordinate());
   }
 
+  protected void setActiveTurtle(int ID){
+    MODEL_CONTROLLER.setActiveTurtle(ID);
+  }
+
 
   /**
    * Will need to change this to take in a hashset of all the active turtles (individual
@@ -150,8 +152,15 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    * doing it on certain turtles is contained up here rather than in the subclasses
    */
   protected void updateTurtle(Consumer<Turtle> turtleAction){
-    turtleAction.accept(activeTurtle);
-    updateFrontEnd();
+    List<Integer> activeTurtleList = BUNDLE.getCurrentActiveTurtleList();
+    for(int turtleID: activeTurtleList){
+      BUNDLE.setActiveTurtleID(turtleID);
+      setActiveTurtle(turtleID);
+      activeTurtle = BUNDLE.getActiveTurtle();
+      turtleAction.accept(activeTurtle);
+      updateFrontEnd();
+    }
+
   }
 
 
