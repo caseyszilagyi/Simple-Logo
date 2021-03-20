@@ -44,11 +44,13 @@ public class DoTimes extends ControlStructureCommand {
   public double execute() {
     double val = 0;
     addParameterMap();
+    addTurtleLayer();
     for (double i = 1; i <= LIMIT; i += 1) {
       setParameter(VARIABLE, i);
       val = executeBlock(COMMAND_BLOCK);
     }
     removeParameterMap();
+    removeTurtleLayer();
     return val;
   }
 }

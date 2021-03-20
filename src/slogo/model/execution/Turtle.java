@@ -46,6 +46,14 @@ public class Turtle implements TurtleState {
   }
 
   /**
+   * Gets the ID of the turtle
+   * @return The ID
+   */
+  public int getID(){
+    return ID;
+  }
+
+  /**
    * Gets the angle that the turtle is facing
    *
    * @return The angle

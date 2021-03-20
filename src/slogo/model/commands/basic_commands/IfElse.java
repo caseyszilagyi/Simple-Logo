@@ -37,11 +37,13 @@ public class IfElse extends ControlStructureCommand {
    */
   public double execute() {
     double val = 0;
+    addTurtleLayer();
     if (CONDITIONAL != 0) {
       val = executeBlock(IF_BLOCK);
     } else {
       val = executeBlock(ELSE_BLOCK);
     }
+    removeTurtleLayer();
     return val;
   }
 }

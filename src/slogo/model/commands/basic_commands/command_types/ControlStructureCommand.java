@@ -65,6 +65,19 @@ public abstract class ControlStructureCommand extends Command {
   }
 
   /**
+   * Adds a layer of turtles, used for scope of tell/ask statements
+   */
+  protected void addTurtleLayer(){
+    INFORMATION_BUNDLE.addActiveTurtleLayer();
+  }
+
+  /**
+   * Removes a layer of turtles, used for scope of tell/ask statements
+   */
+  protected void removeTurtleLayer(){
+    INFORMATION_BUNDLE.removeActiveTurtleLayer();
+  }
+  /**
    * Executes a block of commands. This is used for looping/conditionals
    *
    * @param node The node that holds all of the commands to execute
