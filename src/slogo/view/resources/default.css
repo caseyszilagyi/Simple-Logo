@@ -16,7 +16,7 @@
   -fx-background-insets: 5;
   -fx-background-color: #696969;
   -fx-alignment: CENTER_LEFT;
-  -fx-spacing: 5.0;
+  -fx-hgap: 5.0;
 }
 
 .HistoryDisplayPane {
@@ -142,7 +142,7 @@
   -fx-border-width: 2;
   -fx-background-color: #d3d3d3;
   -fx-text-alignment: CENTER;
-  -fx-border-color: linear-gradient(#4b0082, #7b68ee);
+  -fx-border-color: #000000;
 }
 
 .example-button:hover {

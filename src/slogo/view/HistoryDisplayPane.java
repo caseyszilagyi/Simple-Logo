@@ -182,7 +182,6 @@ public class HistoryDisplayPane {
   }
 
   private void makeExampleCodeButtons() {
-    double prefHeight = 50.0;
     double prefWidth = TABS_WIDTH - 20.0;
     Object[] allExCode = exampleCode.keySet().toArray();
     for (Object example: allExCode) {
@@ -190,7 +189,6 @@ public class HistoryDisplayPane {
       String exampleCodewithLabel = example + ": " + exampleCodeString;
       Button button = makeButton(exampleCodewithLabel, exBox, EXAMPLE_BUTTON);
       button.setPrefWidth(prefWidth);
-      button.setPrefHeight(prefHeight);
       exBox.getChildren().add(button);
       button
               .setOnAction(event -> viewController.displayCommandStringOnTextArea(exampleCodeString));
