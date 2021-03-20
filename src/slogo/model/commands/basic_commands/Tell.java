@@ -27,8 +27,8 @@ public class Tell extends MultipleTurtleCommand {
   }
 
   /**
-   *
-   * @return
+   * Sets the active turtles to the ones that were passed
+   * @return The ID of the last turtle in the list
    */
   @Override
   public double execute(){

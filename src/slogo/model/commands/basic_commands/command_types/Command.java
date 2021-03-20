@@ -5,11 +5,13 @@ import slogo.model.commands.basic_commands.BasicCommand;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
+/**
+ * This class has the ability to load a basic command, and is implemented by every command
+ * in order to have the ability to load any other BasicCommand
+ */
 public abstract class Command implements BasicCommand {
 
   BasicCommandClassLoader CLASS_LOADER = new BasicCommandClassLoader();
-
-  public abstract double execute();
 
   /**
    * This method loads the BasicCommand class represented by the TreeNode that is passed in. Is used

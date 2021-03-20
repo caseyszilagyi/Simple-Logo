@@ -6,7 +6,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * Product command (calculates product of 2 children)
+ * Calculates the product of two numbers
  *
  * @author jincho
  */
@@ -16,10 +16,10 @@ public class Product extends MathAndLogicCommand {
   private final double VALUE_2;
 
   /**
-   * Makes an instance of the sum command
+   * Makes an instance of the product command
    *
    * @param bundle   Not used for this command
-   * @param children The TreeNodes to sum
+   * @param children The two TreeNodes to take the product of
    */
   public Product(CommandInformationBundle bundle, List<TreeNode> children) {
     super(bundle);
@@ -28,10 +28,11 @@ public class Product extends MathAndLogicCommand {
   }
 
   /**
-   * calc product
+   * Calculates the product of two numbers
    *
    * @return The product of the two numbers
    */
+  @Override
   public double execute() {
     return VALUE_1 * VALUE_2;
   }

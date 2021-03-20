@@ -27,6 +27,7 @@ public class Pi extends MathAndLogicCommand {
    *
    * @return Pi
    */
+  @Override
   public double execute() {
     return Math.PI;
   }

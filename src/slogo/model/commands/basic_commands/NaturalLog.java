@@ -30,6 +30,7 @@ public class NaturalLog extends MathAndLogicCommand {
    *
    * @return The natural log of the number
    */
+  @Override
   public double execute() {
     return Math.log(VALUE);
   }

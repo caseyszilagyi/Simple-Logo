@@ -26,10 +26,11 @@ public class Tangent extends MathAndLogicCommand {
   }
 
   /**
-   * calculate tangent of angle in degrees
+   * Calculates the tangent of the angle in degrees
    *
-   * @return The tangent of angle
+   * @return The tangent of the angle
    */
+  @Override
   public double execute() {
     return Math.tan(Math.toRadians(ANGLE));
   }

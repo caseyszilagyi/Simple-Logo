@@ -6,7 +6,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * The minus command
+ * Multiplies a number by -1
  *
  * @author Casey Szilagyi
  */
@@ -30,6 +30,7 @@ public class Minus extends MathAndLogicCommand {
    *
    * @return The negative of the value
    */
+  @Override
   public double execute() {
     return VALUE * -1;
   }

@@ -6,7 +6,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * The set pen size command
+ * Sets the pen size
  *
  * @author Casey Szilagyi
  */
@@ -18,7 +18,7 @@ public class SetPenSize extends DisplayAlteringCommand {
    * Makes an instance of the set pen size command
    *
    * @param bundle Contains the model controller that the command is sent through
-   * @param nodes  1 child, which is the index corresponding to the color
+   * @param nodes  1 child, which is the value of the pen size
    */
   public SetPenSize(CommandInformationBundle bundle, List<TreeNode> nodes) {
     super(bundle);
@@ -30,6 +30,7 @@ public class SetPenSize extends DisplayAlteringCommand {
    *
    * @return The pen size
    */
+  @Override
   public double execute() {
     setPenSize(SIZE);
     return SIZE;

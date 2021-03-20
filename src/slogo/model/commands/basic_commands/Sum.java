@@ -6,7 +6,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * The sum command
+ * Calculates the sum of two numbers
  *
  * @author Casey Szilagyi
  */
@@ -19,7 +19,7 @@ public class Sum extends MathAndLogicCommand {
    * Makes an instance of the sum command
    *
    * @param bundle   Not used for this command
-   * @param children The TreeNodes to sum
+   * @param children The children are the two nodes to sum
    */
   public Sum(CommandInformationBundle bundle, List<TreeNode> children) {
     super(bundle);
@@ -32,6 +32,7 @@ public class Sum extends MathAndLogicCommand {
    *
    * @return The sum of the two numbers
    */
+  @Override
   public double execute() {
     return VALUE_1 + VALUE_2;
   }

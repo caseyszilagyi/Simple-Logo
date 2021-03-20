@@ -6,7 +6,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * The Quotient command
+ * Returns the quotient of two numbers
  *
  * @author Casey Szilagyi
  */
@@ -19,7 +19,7 @@ public class Quotient extends MathAndLogicCommand {
    * Makes an instance of the quotient command
    *
    * @param bundle   Not used for this command
-   * @param children The TreeNodes to take the quotient of
+   * @param children The two TreeNodes to take the quotient of
    */
   public Quotient(CommandInformationBundle bundle, List<TreeNode> children) {
     super(bundle);
@@ -32,6 +32,7 @@ public class Quotient extends MathAndLogicCommand {
    *
    * @return The quotient of the two numbers
    */
+  @Override
   public double execute() {
     return Math.floor(VALUE_1 / VALUE_2);
   }

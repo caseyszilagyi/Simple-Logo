@@ -18,8 +18,7 @@ public class Cosine extends MathAndLogicCommand {
    * Makes an instance of the cosine
    *
    * @param bundle   Not used for this command
-   * @param children The TreeNode to take the cosine of
-   * @param children The TreeNode to take the cosine of
+   * @param children Has 1 child, which is the angle to take the cosine of
    */
   public Cosine(CommandInformationBundle bundle, List<TreeNode> children) {
     super(bundle);
@@ -27,10 +26,11 @@ public class Cosine extends MathAndLogicCommand {
   }
 
   /**
-   * calculate cosine of angle in degrees
+   * Calculates cosine of the angle in degrees
    *
-   * @return The cosine of angle
+   * @return The cosine of the angle
    */
+  @Override
   public double execute() {
     return Math.cos(Math.toRadians(ANGLE));
   }

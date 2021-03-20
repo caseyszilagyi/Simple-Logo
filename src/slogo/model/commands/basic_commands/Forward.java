@@ -6,7 +6,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * The forward command
+ * Moves the turtle forward by a certain distance
  *
  * @author Casey Szilagyi
  */
@@ -17,8 +17,8 @@ public class Forward extends TurtleAlteringCommand {
   /**
    * Makes an instance of the forward command
    *
-   * @param bundle Contains the turtle that will neeed to be altered for this command
-   * @param nodes  All of the children nodes needed for this command
+   * @param bundle Contains the turtle that will need to be altered for this command
+   * @param nodes  Has 1 child, which is the distance forward to be moved
    */
   public Forward(CommandInformationBundle bundle, List<TreeNode> nodes) {
     super(bundle);
@@ -30,6 +30,7 @@ public class Forward extends TurtleAlteringCommand {
    *
    * @return The distance forward that it moved
    */
+  @Override
   public double execute() {
     updateTurtle(turtle -> {
       changeTurtlePosition(DISTANCE * Math.cos(getAngle() / 360 * Math.PI * 2),

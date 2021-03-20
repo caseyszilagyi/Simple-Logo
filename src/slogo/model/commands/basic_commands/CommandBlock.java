@@ -37,6 +37,7 @@ public class CommandBlock extends ControlStructureCommand {
    *
    * @return The final command value
    */
+  @Override
   public double execute() {
     double val = 0;
     for (int i = 0; i < CHILDREN.size(); i++) {

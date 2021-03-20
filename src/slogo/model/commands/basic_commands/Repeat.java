@@ -8,7 +8,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * This command repeats the given BasicCommands a certain number of times
+ * Repeats the given commands a certain number of times
  *
  * @author Casey Szilagyi
  */
@@ -20,9 +20,8 @@ public class Repeat extends ControlStructureCommand {
   /**
    * Makes an instance of the Repeat loop
    *
-   * @param bundle   The pieces of information, such as variables and user defined commands, that
-   *                 may be needed to execute the the command
-   * @param children Has 2 nodes, which is the loop count and the block of commands to execute
+   * @param bundle   Not used for this command
+   * @param children Has 2 nodes, which are the loop count and the block of commands to execute
    */
   public Repeat(CommandInformationBundle bundle, List<TreeNode> children) {
     super(bundle);
@@ -36,6 +35,7 @@ public class Repeat extends ControlStructureCommand {
    *
    * @return The value of the final command executed
    */
+  @Override
   public double execute() {
     double val = 0;
     addParameterMap();

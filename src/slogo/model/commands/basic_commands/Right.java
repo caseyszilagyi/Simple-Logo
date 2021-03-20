@@ -6,7 +6,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * The rotate right command
+ * Rotates the turtle right
  *
  * @author Casey Szilagyi
  */
@@ -18,7 +18,7 @@ public class Right extends TurtleAlteringCommand {
    * Makes an instance of the right command
    *
    * @param bundle Contains the turtle that will need to be altered for this command
-   * @param nodes  All of the children nodes needed for this command
+   * @param nodes  The only child is the number of degrees to rotate the turtle
    */
   public Right(CommandInformationBundle bundle, List<TreeNode> nodes) {
     super(bundle);
@@ -30,6 +30,7 @@ public class Right extends TurtleAlteringCommand {
    *
    * @return The angle that it rotated
    */
+  @Override
   public double execute() {
     updateTurtle(turtle -> {
       changeTurtleAngle(-1 * ANGLE);

@@ -6,7 +6,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * rotates turtle so that it's heading the specified angle
+ * Rotates turtle so that it's heading the specified angle
  *
  * @author jincho
  */
@@ -16,10 +16,10 @@ public class SetHeading extends TurtleAlteringCommand {
   private final double PREV_ANGLE;
 
   /**
-   * Makes an instance of the right command
+   * Makes an instance of the set heading command
    *
    * @param bundle Contains the turtle that will need to be altered for this command
-   * @param nodes  All of the children nodes needed for this command
+   * @param nodes  The only child is the angle that the turtle will be facing
    */
   public SetHeading(CommandInformationBundle bundle, List<TreeNode> nodes) {
     super(bundle);
@@ -33,9 +33,9 @@ public class SetHeading extends TurtleAlteringCommand {
   }
 
   /**
-   * sets turtle to fave new angle
+   * Sets the turtle to face a new angle
    *
-   * @return abs val of degrees rotated
+   * @return The absolute value of the degrees rotated
    */
   @Override
   public double execute() {

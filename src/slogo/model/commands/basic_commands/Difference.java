@@ -6,7 +6,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * Difference command (calculates diff btwn 2 children)
+ * Calculates the difference between two numbers
  *
  * @author jincho
  */
@@ -16,10 +16,10 @@ public class Difference extends MathAndLogicCommand {
   private final double VALUE_2;
 
   /**
-   * Makes an instance of the sum command
+   * Makes an instance of the difference command
    *
    * @param bundle   Not used for this command
-   * @param children The TreeNodes to difference
+   * @param children Has 2 children, which contain the values to take the difference of
    */
   public Difference(CommandInformationBundle bundle, List<TreeNode> children) {
     super(bundle);
@@ -28,10 +28,11 @@ public class Difference extends MathAndLogicCommand {
   }
 
   /**
-   * calculate diff
+   * Calculate the difference
    *
-   * @return The difference btwn the two numbers
+   * @return The difference between the numbers
    */
+  @Override
   public double execute() {
     return VALUE_1 - VALUE_2;
   }

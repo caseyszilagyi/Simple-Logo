@@ -6,7 +6,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * The get pen color command
+ * Gets the index that the pen color is currently set to
  *
  * @author Casey Szilagyi
  */
@@ -28,6 +28,7 @@ public class PenColor extends DisplayQueryCommand {
    *
    * @return The index of the pen color
    */
+  @Override
   public double execute() {
     return getPenColor();
   }

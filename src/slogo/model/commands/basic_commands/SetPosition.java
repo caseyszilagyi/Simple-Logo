@@ -6,7 +6,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * Set Positions command
+ * Sets the position of the turtle to a specific X and Y position
  *
  * @author jincho
  */
@@ -18,10 +18,10 @@ public class SetPosition extends TurtleAlteringCommand {
   private final double PREV_Y;
 
   /**
-   * makes instance of SetPosition command
+   * Makes instance of SetPosition command
    *
-   * @param bundle Contains the turtle that will neeed to be altered for this command
-   * @param nodes  All of the children nodes needed for this command
+   * @param bundle Contains the turtle that will need to be altered for this command
+   * @param nodes  The two children contain the X/Y values that the turlte will move to
    */
   public SetPosition(CommandInformationBundle bundle, List<TreeNode> nodes) {
     super(bundle);
@@ -40,7 +40,7 @@ public class SetPosition extends TurtleAlteringCommand {
   /**
    * Make the turtle change its location to the new specified location
    *
-   * @return distance it moved from prev to new location
+   * @return distance it moved from previous to new location
    */
   @Override
   public double execute() {

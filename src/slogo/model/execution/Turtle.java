@@ -31,19 +31,11 @@ public class Turtle {
 
   /**
    * Gets the ID of the turtle
+   *
    * @return The ID
    */
-  public int getID(){
+  public int getID() {
     return ID;
-  }
-
-  /**
-   * Gets the angle that the turtle is facing
-   *
-   * @return The angle
-   */
-  public double getAngle() {
-    return angle;
   }
 
   /**
@@ -58,69 +50,14 @@ public class Turtle {
     MODEL_CONTROLLER.setTurtleAngle(getAngle());
   }
 
-  public void changePosition(double changeX, double changeY){
-    changeXPosition(changeX);
-    changeYPosition(changeY);
-    MODEL_CONTROLLER.setTurtlePosition(getXPosition(), getYPosition());
-  }
-
-  public void setPosition(double xPosition, double yPosition){
-    setXPosition(xPosition);
-    setYPosition(yPosition);
-    MODEL_CONTROLLER.setTurtlePosition(getXPosition(), getYPosition());
-  }
-
   /**
-   * Gets the X position of the turtle
+   * Gets the angle that the turtle is facing
    *
-   * @return The X position of the turtle
+   * @return The angle
    */
-  public double getXPosition() {
-    return xPosition;
+  public double getAngle() {
+    return angle;
   }
-
-  /**
-   * Sets the X position of the turtle
-   */
-  public void setXPosition(double newXPosition) {
-    xPosition = newXPosition;
-  }
-
-  /**
-   * Gets the Y position of the turtle
-   *
-   * @return The Y position of the turtle
-   */
-  public double getYPosition() {
-    return yPosition;
-  }
-
-  /**
-   * Sets the Y position of the turtle
-   */
-  public void setYPosition(double newYPosition) {
-    yPosition = newYPosition;
-  }
-
-  /**
-   * Changes the X position of the turtle by a certain amount
-   *
-   * @param changeX The change in X position
-   */
-  public void changeXPosition(double changeX) {
-    xPosition += changeX;
-  }
-
-  /**
-   * Changes the Y position of the turtle by a certain amount
-   *
-   * @param changeY The change in Y position
-   */
-  public void changeYPosition(double changeY) {
-    yPosition += changeY;
-  }
-
-  ;
 
   /**
    * Changes the angle of the turtle by a certain amount
@@ -136,8 +73,47 @@ public class Turtle {
     MODEL_CONTROLLER.setTurtleAngle(getAngle());
   }
 
-  ;
+  /**
+   * Changes the turtle's position by a certain amount
+   *
+   * @param changeX The change in X position
+   * @param changeY The change in Y position
+   */
+  public void changePosition(double changeX, double changeY) {
+    xPosition += changeX;
+    yPosition += changeY;
+    MODEL_CONTROLLER.setTurtlePosition(getXPosition(), getYPosition());
+  }
 
+  /**
+   * Sets the turtle's position to certain x and y values
+   *
+   * @param xPos The X position
+   * @param yPos The Y position
+   */
+  public void setPosition(double xPos, double yPos) {
+    xPosition = xPos;
+    yPosition = yPos;
+    MODEL_CONTROLLER.setTurtlePosition(getXPosition(), getYPosition());
+  }
+
+  /**
+   * Gets the X position of the turtle
+   *
+   * @return The X position of the turtle
+   */
+  public double getXPosition() {
+    return xPosition;
+  }
+
+  /**
+   * Gets the Y position of the turtle
+   *
+   * @return The Y position of the turtle
+   */
+  public double getYPosition() {
+    return yPosition;
+  }
 
   /**
    * Gets whether or not the turtle is visible
@@ -187,10 +163,6 @@ public class Turtle {
     clearScreen = 0;
   }
 
-  public void updateFrontEnd(){
-    MODEL_CONTROLLER.passInputToFrontEnd(getFrontEndParameters());
-  }
-
   /**
    * Gets the parameters to pass to the front end to display
    *
@@ -198,8 +170,7 @@ public class Turtle {
    */
   public List<Double> getFrontEndParameters() {
     return Arrays
-        .asList(xPosition, yPosition, angle, penState, isVisible, clearScreen);
+        .asList(xPosition, yPosition, angle, penState, isVisible, clearScreen, ID/1.0);
   }
-
 
 }

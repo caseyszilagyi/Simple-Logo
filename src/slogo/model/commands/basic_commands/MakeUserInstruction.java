@@ -19,8 +19,8 @@ public class MakeUserInstruction extends ControlStructureCommand {
    * Makes an instance of the MakeUserInstruction command
    *
    * @param bundle   Contains the map of command names to commands
-   * @param children Has the string of the command, the parameters the command takes, as well as the
-   *                 block of commands to execute
+   * @param children 3 children which contain string of the command, the parameters the command
+   *                 takes, as well as the block of commands to execute
    */
 
   public MakeUserInstruction(CommandInformationBundle bundle, List<TreeNode> children) {
@@ -35,6 +35,7 @@ public class MakeUserInstruction extends ControlStructureCommand {
    *
    * @return 1, because the command was successfully stored
    */
+  @Override
   public double execute() {
     return 1;
   }

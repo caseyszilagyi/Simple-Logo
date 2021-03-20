@@ -6,7 +6,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * The Not command, which checks to see if a node is 0
+ * Checks to see if a node is 0
  *
  * @author Casey Szilagyi
  */
@@ -30,6 +30,7 @@ public class Not extends MathAndLogicCommand {
    *
    * @return 1 if the value is 0, 0 if it is not
    */
+  @Override
   public double execute() {
     if (VALUE == 0) {
       return 1;

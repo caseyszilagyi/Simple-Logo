@@ -6,7 +6,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * This command makes and stores a variable for later use
+ * Makes and stores a variable for later use
  *
  * @author Casey Szilagyi
  */
@@ -14,7 +14,6 @@ public class MakeVariable extends ControlStructureCommand {
 
   private final String NAME;
   private final double VALUE;
-  private CommandInformationBundle bundle;
 
   /**
    * Makes an instance of the MakeVariable command
@@ -35,8 +34,8 @@ public class MakeVariable extends ControlStructureCommand {
    *
    * @return The variable value
    */
+  @Override
   public double execute() {
-    //
     setVariable(NAME, VALUE);
     return VALUE;
   }
