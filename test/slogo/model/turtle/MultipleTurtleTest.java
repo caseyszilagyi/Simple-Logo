@@ -53,10 +53,17 @@ public class MultipleTurtleTest {
     assertEquals(50, turtles.get(0).getYPosition(), TOLERANCE);
     assertEquals(50, turtles.get(1).getYPosition(), TOLERANCE);
     assertEquals(50, turtles.get(2).getYPosition(), TOLERANCE);
+    tell = makeTree("Tell", "1", "3", "5");
+    executeCommand(makeBasicCommand(tell));
+    moveTurtle("50");
+    turtles = commandBundle.getAllTurtles();
+    assertEquals(100, turtles.get(0).getYPosition(), TOLERANCE);
+    assertEquals(50, turtles.get(1).getYPosition(), TOLERANCE);
+    assertEquals(100, turtles.get(2).getYPosition(), TOLERANCE);
+    assertEquals(0, turtles.get(3).getYPosition(), TOLERANCE);
+    assertEquals(50, turtles.get(4).getYPosition(), TOLERANCE);
   }
-
-
-
+  
 
   // Helper methods below
 

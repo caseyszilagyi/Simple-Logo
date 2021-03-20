@@ -19,6 +19,10 @@ public abstract class MultipleTurtleCommand extends Command{
     INFORMATION_BUNDLE = informationBundle;
   }
 
+  protected int numberOfActiveTurtles(){
+    return INFORMATION_BUNDLE.getAllTurtles().size();
+  }
+
   protected void replaceActiveTurtleLayer(List<Integer> IDS){
     INFORMATION_BUNDLE.setActiveTurtleLayer(IDS);
   }

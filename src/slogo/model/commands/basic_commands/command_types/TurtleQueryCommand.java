@@ -65,4 +65,11 @@ public abstract class TurtleQueryCommand extends Command {
     return TURTLE.getVisibility();
   }
 
+  /**
+   * Gets the ID of the current turtle
+   * @return The ID
+   */
+  protected int getID(){
+    return TURTLE.getID();
+  }
 }
