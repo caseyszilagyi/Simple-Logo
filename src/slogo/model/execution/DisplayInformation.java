@@ -1,5 +1,7 @@
 package slogo.model.execution;
 
+import slogo.controller.BackEndExternalAPI;
+
 /**
  * This class holds all of the information that modifies the display
  *
@@ -7,10 +9,15 @@ package slogo.model.execution;
  */
 public class DisplayInformation {
 
+  private BackEndExternalAPI MODEL_CONTROLLER;
   private int backgroundColor = 0;
   private int penColor = 0;
   private int turtleShape = 0;
   private double penSize = 0;
+
+  public DisplayInformation(BackEndExternalAPI modelController){
+    MODEL_CONTROLLER = modelController;
+  }
 
   /**
    * Gets the current background color index
