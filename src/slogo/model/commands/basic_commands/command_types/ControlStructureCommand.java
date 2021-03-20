@@ -2,6 +2,7 @@ package slogo.model.commands.basic_commands.command_types;
 
 import slogo.model.commands.basic_commands.UserDefinedCommand;
 import slogo.model.execution.CommandInformationBundle;
+import slogo.model.execution.TurtleInformation;
 import slogo.model.execution.UserDefinedInformation;
 import slogo.model.tree.TreeNode;
 
@@ -13,6 +14,7 @@ import slogo.model.tree.TreeNode;
 public abstract class ControlStructureCommand extends Command {
 
   private final UserDefinedInformation USER_INFORMATION;
+  private final TurtleInformation TURTLE_INFORMATION;
   private final CommandInformationBundle INFORMATION_BUNDLE;
 
 
@@ -21,6 +23,7 @@ public abstract class ControlStructureCommand extends Command {
    */
   public ControlStructureCommand(CommandInformationBundle informationBundle) {
     USER_INFORMATION = informationBundle.getUserDefinedInformation();
+    TURTLE_INFORMATION = informationBundle.getTurtleInformation();
     INFORMATION_BUNDLE = informationBundle;
   }
 
@@ -72,14 +75,14 @@ public abstract class ControlStructureCommand extends Command {
    * Adds a layer of turtles, used for scope of tell/ask statements
    */
   protected void addTurtleLayer(){
-    INFORMATION_BUNDLE.addActiveTurtleLayer();
+    TURTLE_INFORMATION.addActiveTurtleLayer();
   }
 
   /**
    * Removes a layer of turtles, used for scope of tell/ask statements
    */
   protected void removeTurtleLayer(){
-    INFORMATION_BUNDLE.removeActiveTurtleLayer();
+    TURTLE_INFORMATION.removeActiveTurtleLayer();
   }
   /**
    * Executes a block of commands. This is used for looping/conditionals
