@@ -40,8 +40,7 @@ public class Home extends TurtleAlteringCommand {
    */
   public double execute() {
     updateTurtle(turtle -> {
-      setTurtleX(0);
-      setTurtleY(0);
+      setTurtlePosition(0,0);
       setAngle(90);
     });
     return getDistance();

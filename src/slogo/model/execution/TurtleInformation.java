@@ -65,12 +65,13 @@ public class TurtleInformation {
       makeNewTurtles(ID);
     }
     activeTurtleID = ID;
+    MODEL_CONTROLLER.setActiveTurtle(ID);
   }
 
   /**
    * Updates the front end with the current active turtle's information
    */
-  public void updateTurtle() {
+  public void updateFrontEnd() {
     MODEL_CONTROLLER.passInputToFrontEnd(getActiveTurtle().getFrontEndParameters());
   }
 
@@ -87,7 +88,7 @@ public class TurtleInformation {
   // tries to add turtles that don't exist yet
   private void makeNewTurtles(int ID) {
     for (int i = ALL_TURTLES.size() + 1; i <= ID; i++) {
-      ALL_TURTLES.add(new Turtle(i));
+      ALL_TURTLES.add(new Turtle(i, MODEL_CONTROLLER));
     }
   }
 
