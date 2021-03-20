@@ -59,7 +59,9 @@ public class CommandParser implements Parser {
   public void addParamCounts(String syntax) {
     ResourceBundle resources = ResourceBundle.getBundle(RESOURCES_PACKAGE + syntax);
     for (String key : Collections.list(resources.getKeys())) {
-      addSingleParamCount(key, Arrays.asList(resources.getString(key).split(" ")));
+      List<String> params = new ArrayList<>(Arrays.asList(resources.getString(key).split(" ")));
+      params.removeIf(command -> command.equals(""));
+      addSingleParamCount(key, params);
 //            System.out.println("Key: " + key);
 //            System.out.println("Number: " + Arrays.asList(resources.getString(key).split(" ")));
 //            System.out.println();
@@ -115,9 +117,10 @@ public class CommandParser implements Parser {
       insertNodeRecursive(commandQueue, child);
     }
     printPreOrder(commandTree);
-    if (preOrderResults.size() != cleanCommands.size() + 1) {
-      throw new ErrorHandler("WrongParamNum");
-    }
+    System.out.println(preOrderResults);
+//    if (preOrderResults.size() != cleanCommands.size() + 1) {
+//      throw new ErrorHandler("WrongParamNum");
+//    }
     return commandTree;
   }
 
@@ -128,6 +131,7 @@ public class CommandParser implements Parser {
     }
     System.out.println("Value: " + root.getCommand());
     for (TreeNode child : root.getChildren()) {
+      System.out.println("Child to look at "+child.getValue());
       printPreOrder(child);
     }
   }
@@ -139,10 +143,11 @@ public class CommandParser implements Parser {
     }
     System.out.println();
     int paramCount = getParamCount(root.getValue());
-    System.out.println(paramCount);
+    System.out.println("param count: "+paramCount +" for "+root.getValue());
     for (int i = 0; i < getParamCount(root.getValue()); i++) {
+      System.out.println("looking at "+i+"th param for "+root.getValue());
       String command;
-      try{
+      try {
         command = splitCommands.removeFirst();
       } catch (Exception e) {
         throw new ErrorHandler("WrongParamNum");
@@ -152,6 +157,8 @@ public class CommandParser implements Parser {
       root.addChild(dummy);
       System.out.println("Parent: " + root.getCommand());
       System.out.println("Child: " + dummy.getCommand());
+      System.out.println("Split commands "+splitCommands);
+      System.out.println("Split commands size "+splitCommands.size());
       insertNodeRecursive(splitCommands, dummy);
     }
     System.out.println(root.getCommand());
@@ -169,6 +176,7 @@ public class CommandParser implements Parser {
    */
   public Integer getParamCount(String text) {
     try {
+      System.out.println("param: "+parameters.get(text).get(0));
       return parameters.get(text).size();
     } catch (Exception e) {
       return 0;
