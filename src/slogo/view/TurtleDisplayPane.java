@@ -87,26 +87,21 @@ public class TurtleDisplayPane {
     if(!typeToBeUpdated.isEmpty()) {
       nextUpdate = typeToBeUpdated.removeFirst();
 
-      if (!xPosition.isEmpty() && !yPosition.isEmpty() && nextUpdate.equals("Positions")) {
+      if (nextUpdate.equals("Positions")) {
         double nextX = xPosition.pop();
         double nextY = yPosition.pop();
-//
-//
-//        System.out.println("Current Turtle X Positions: " + turtle.getX());
-//        System.out.println("Current Turtle Y Positions: " + turtle.getY());
-//        System.out.println("Next Turtle X Position: " + nextX);
-//        System.out.println("Next Turtle Y Position: " + nextY);
+
         if (penUP == 1) {
           createLine(nextX, nextY, penColor);
         }
         turtle.setX(nextX);
         turtle.setY(nextY);
-      } else if (!angles.isEmpty() && nextUpdate.equals("Angles")) {
+      } else if (nextUpdate.equals("Angles")) {
 
         turtle.setRotate(angles.pop());
-      } else if (!penStates.isEmpty() && nextUpdate.equals("Pen")){
+      } else if (nextUpdate.equals("Pen")){
         penUP = penStates.removeFirst();
-      } else if (!visibility.isEmpty() && nextUpdate.equals("Visibility")){
+      } else if (nextUpdate.equals("Visibility")){
         turtle.setVisible(visibility.removeFirst() == 1);
       }
     }
@@ -138,11 +133,7 @@ public class TurtleDisplayPane {
     double xIncrement = (x - lastXPosition)/ INCREMENT_FACTOR;
     double yIncrement = (y - lastYPosition)/ INCREMENT_FACTOR;
 
-//    System.out.println("X Increment: " + xIncrement);
-
       for(int i = 1; i <= INCREMENT_FACTOR; i++){
-//        System.out.println(turtle.getX() + xIncrement * i);
-//        System.out.println(turtle.getY() + yIncrement * i);
         xPosition.add(lastXPosition + xIncrement * i);
         yPosition.add(lastYPosition + yIncrement * i);
         typeToBeUpdated.add("Positions");

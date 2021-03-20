@@ -31,7 +31,10 @@ public class CommandButtonPane {
     penUpButton.setOnAction(event -> viewController.processUserCommandInput("penup"));
     Button penDownButton = makeButton("Pen Down");
     penDownButton.setOnAction(event -> viewController.processUserCommandInput("pendown"));
-
+    Button clearscreenButton = makeButton("Clearscreen");
+    clearscreenButton.setOnAction(event -> viewController.processUserCommandInput("clearscreen"));
+    Button homeButton = makeButton("Home");
+    homeButton.setOnAction(event -> viewController.processUserCommandInput("home"));
   }
 
   private Button makeButton(String text) {
