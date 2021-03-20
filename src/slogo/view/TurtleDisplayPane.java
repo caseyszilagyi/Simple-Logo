@@ -38,6 +38,7 @@ public class TurtleDisplayPane {
   private Deque<Double> angles;
   private Deque<String> typeToBeUpdated;
   private Deque<Double> penStates;
+  private Deque<Double> visibility;
   private int INCREMENT_FACTOR = 10;
   private double lastXPosition = 0;
   private double lastYPosition = 0;
@@ -67,6 +68,7 @@ public class TurtleDisplayPane {
     angles = new ArrayDeque<>();
     typeToBeUpdated = new ArrayDeque<>();
     penStates = new ArrayDeque<>();
+    visibility = new ArrayDeque<>();
 
 
     createTurtle();
@@ -102,8 +104,8 @@ public class TurtleDisplayPane {
         turtle.setRotate(angles.pop());
       } else if (!penStates.isEmpty() && nextUpdate.equals("Pen")){
         penUP = penStates.removeFirst();
-      } else if (nextUpdate.equals("Reset")){
-        clearScreen();
+      } else if (!visibility.isEmpty() && nextUpdate.equals("Visibility")){
+        turtle.setVisible(visibility.removeFirst() == 1);
       }
     }
   }
@@ -200,7 +202,8 @@ public class TurtleDisplayPane {
  //   turtle.setRotate(90 - parameters.get(2));
       penStates.add(parameters.get(3));
       typeToBeUpdated.add("Pen");
-    turtle.setVisible(parameters.get(4) == 1);
+      visibility.add(parameters.get(4));
+      typeToBeUpdated.add("Visibility");
 
   }
 
