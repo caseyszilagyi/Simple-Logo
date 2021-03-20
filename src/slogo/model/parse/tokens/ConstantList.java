@@ -11,6 +11,10 @@ public class ConstantList extends ListToken{
   @Override
   public int incrementParamCount(int blockSize, Token command) {
     if(!isConstant(command.getCommand())){ throw new ErrorHandler("WrongInputType"); }
-    return blockSize++;
+    return blockSize+1;
+  }
+  @Override
+  public void addParamToken(Token param) {
+    return;
   }
 }

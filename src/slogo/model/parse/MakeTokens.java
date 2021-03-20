@@ -70,8 +70,14 @@ public class MakeTokens {
    * @return List of Strings that match the command object classes needed for execution
    */
   public List<String> tokenString() {
+    System.out.println("FORWARD: "+CommandParser.parameters.get("Forward"));
+
     tokenize();
+    System.out.println("FORWARD: "+CommandParser.parameters.get("Forward"));
+
     commandBlockParams();
+    System.out.println("FORWARD: "+CommandParser.parameters.get("Forward"));
+
     return tokensToString();
   }
 
@@ -104,8 +110,8 @@ public class MakeTokens {
   private Token makeToken(String command) {
     String type = tokenType(command);
     if(isList(command)) { type = command; }
-//    System.out.println("token make type: "+type);
-//    System.out.println("token make command: "+command);
+    System.out.println("token make type: "+type);
+    System.out.println("token make command: "+command);
     Token toRet;
     try {
       toRet = (Token) Class.forName(TOKEN_PACKAGE + type).getDeclaredConstructor(String.class).newInstance(command);
