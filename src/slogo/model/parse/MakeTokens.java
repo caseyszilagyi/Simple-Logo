@@ -78,7 +78,6 @@ public class MakeTokens {
     String expected = null;
     boolean inList = false;
     for (String s : cleanedString) {
-      System.out.println("String to tokenize: "+s);
       Token toAdd;
       if (isListStart(s)) {
         toAdd = makeToken(tokenizeStack.peek().get(0));
@@ -87,19 +86,13 @@ public class MakeTokens {
       if (listParams.containsKey(s)) {
         tokenizeStack.push(getListParams(s));
         expected = tokenizeStack.peek().get(0);
-        System.out.println("pushed expected "+ getListParams(s));
-        System.out.println("new expected: "+expected);
         tokens.add(toAdd);
-        System.out.println("Added token type: "+getClassName(toAdd) + " with command " + s);
         continue;
       }
       if (expected != null && inList) {
         expected = checkExpectedToken(toAdd, expected, inList);
-        System.out.println("expected returned: "+expected);
       }
       tokens.add(toAdd);
-      System.out.println("Added token type: "+getClassName(toAdd) + " with command " + s);
-
     }
   }
 
@@ -151,7 +144,6 @@ public class MakeTokens {
   }
 
   private String checkExpectedToken(Token toAdd, String expected, boolean inList) {
-    System.out.println("checking expected token");
     if(!getClassName(toAdd).equals(expected) && !inList) {
       throw new ErrorHandler("WrongCommandArg");
     } else if (!isList(expected) || isListEnd(getClassName(toAdd))) {
@@ -161,7 +153,6 @@ public class MakeTokens {
         expected = null;
       } else {
         expected = tokenizeStack.peek().get(0);
-        System.out.println("new expected: " +expected);
       }
     }
     return expected;
@@ -170,7 +161,7 @@ public class MakeTokens {
   private List<String> tokensToString() {
     List<String> ret = new ArrayList<>();
     for(Token t : tokens) {
-      ret.add(t.getCommand());
+      ret.add(t.getValue());
     }
     System.out.println(ret);
     return ret;
@@ -183,10 +174,7 @@ public class MakeTokens {
     int blockSize = 0;
     for (int ind = 0; ind < tokens.size(); ind++) {
       Token curr = tokens.get(ind);
-      System.out.println("curr token: "+getClassName(curr));
       if (curr instanceof ListEndToken) {
-        System.out.println("end of list");
-        System.out.println("my block size: "+blockSize);
         tokens.remove(ind);
         ind--;
         Token popped = commandBlocks.pop();
@@ -196,14 +184,12 @@ public class MakeTokens {
       }
       if(!commandBlocks.isEmpty()) {
         blockSize = commandBlocks.peek().incrementParamCount(blockSize, curr);
-        System.out.println(curr.getValue());
-        System.out.println("counting block size: "+blockSize);
+
       }
       if (curr instanceof ListToken) {
         commandCount++;
         String commandKeyNum = COMMAND_KEY + Integer.toString(commandCount);
         curr.setVariable(commandKeyNum);
-        System.out.println("pushed block size: "+blockSize);
         commandBlocks.push(curr);
         parameters.push(blockSize);
         blockSize = 0;

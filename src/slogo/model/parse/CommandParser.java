@@ -140,7 +140,6 @@ public class CommandParser implements Parser {
       System.out.println(root.getValue() + " is a leaf");
       return root;
     }
-
     System.out.println();
     int paramCount = getParamCount(root.getValue());
     System.out.println(paramCount);
