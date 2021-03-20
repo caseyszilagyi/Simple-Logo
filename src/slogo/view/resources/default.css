@@ -135,3 +135,16 @@
   -fx-text-alignment: CENTER;
   -fx-text-fill: #000000;
 }
+
+.example-button {
+  -fx-background-radius: 10;
+  -fx-border-radius: 10;
+  -fx-border-width: 2;
+  -fx-background-color: #d3d3d3;
+  -fx-text-alignment: CENTER;
+  -fx-border-color: linear-gradient(#4b0082, #7b68ee);
+}
+
+.example-button:hover {
+  -fx-background-color: linear-gradient(#808080, #dcdcdc);
+}

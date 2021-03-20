@@ -25,8 +25,9 @@ public class HistoryDisplayPane {
   private static final String HISTORY_DISPLAY_PANE_TEXT = "HistoryDisplayPaneText";
   private static final String HISTORY_PANE_ID = "HistoryPane";
   private static final String HISTORY_BOX_ID = "HistoryBox";
-  private static final String BUTTON = "regular-button";
+  private static final String EXAMPLE_BUTTON = "example-button";
   private static final String HISTORY_BUTTON = "history-button";
+  private static final String BUTTON = "regular-button";
   private static final double TABS_HEIGHT = 570.0;
   private static final double TABS_WIDTH = 403.0;
   private static final String BUTTON_ID = "previousCommandButton";
@@ -95,7 +96,9 @@ public class HistoryDisplayPane {
   }
 
   private void createExamplePane() {
+    double spacing = 5.0;
     exBox = makeBox();
+    exBox.setSpacing(spacing);
     exPane = makeScrollPane(exBox);
   }
 
@@ -179,12 +182,15 @@ public class HistoryDisplayPane {
   }
 
   private void makeExampleCodeButtons() {
+    double prefHeight = 50.0;
+    double prefWidth = TABS_WIDTH - 20.0;
     Object[] allExCode = exampleCode.keySet().toArray();
     for (Object example: allExCode) {
       String exampleCodeString = exampleCode.getString(example.toString());
       String exampleCodewithLabel = example + ": " + exampleCodeString;
-      Button button = makeButton(exampleCodewithLabel, exBox, HISTORY_BUTTON);
-      button.setPrefWidth(TABS_WIDTH);
+      Button button = makeButton(exampleCodewithLabel, exBox, EXAMPLE_BUTTON);
+      button.setPrefWidth(prefWidth);
+      button.setPrefHeight(prefHeight);
       exBox.getChildren().add(button);
       button
               .setOnAction(event -> viewController.displayCommandStringOnTextArea(exampleCodeString));
