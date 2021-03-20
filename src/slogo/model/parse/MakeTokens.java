@@ -47,6 +47,7 @@ public class MakeTokens {
   public MakeTokens(List<String> cleanedString, CommandParser commandParser) {
     this.commandParser = commandParser;
     this.cleanedString = cleanedString;
+    System.out.println(cleanedString);
     listParams = ResourceBundle.getBundle(COMMAND_PACKAGE + COMMAND_WITH_LISTS);
     tokenMap = ResourceBundle.getBundle(LANGUAGES_PACKAGE + TOKENS_MAP);
     regexMap = new HashMap<>();
