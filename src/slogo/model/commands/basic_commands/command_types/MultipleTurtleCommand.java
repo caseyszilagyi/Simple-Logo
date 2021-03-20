@@ -19,12 +19,23 @@ public abstract class MultipleTurtleCommand extends Command{
     INFORMATION_BUNDLE = informationBundle;
   }
 
-  public double addActiveTurtleLayer(List<Double> IDS){
-    INFORMATION_BUNDLE.addActiveTurtleLayer();
-    for(Double ID: IDS){
-    }
-    return  0;
+  protected void replaceActiveTurtleLayer(List<Integer> IDS){
+    INFORMATION_BUNDLE.setActiveTurtleLayer(IDS);
   }
+
+  protected void duplicateActiveTurtleLayer(){
+    INFORMATION_BUNDLE.addActiveTurtleLayer();
+  }
+
+  protected void removeActiveTurtleLayer(){
+    INFORMATION_BUNDLE.removeActiveTurtleLayer();
+  }
+
+  protected void addActiveTurtleLayer(List<Integer> IDS){
+    INFORMATION_BUNDLE.addActiveTurtleLayer();
+  }
+
+
 
 
 
