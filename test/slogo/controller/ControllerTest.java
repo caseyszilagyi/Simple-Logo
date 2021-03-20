@@ -1,7 +1,7 @@
 package slogo.controller;
 
 import org.junit.jupiter.api.BeforeEach;
-import slogo.model.CommandParser;
+import slogo.model.parse.CommandParser;
 
 public class ControllerTest {
 
