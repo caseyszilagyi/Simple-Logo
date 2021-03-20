@@ -85,7 +85,7 @@ public class ViewController implements FrontEndExternalAPI {
     this.userCommandInputs = userCommandInputs;
     //print statement for debugging
     System.out.println(this.userCommandInputs);
-    modelController.parseInput(userCommandInputs);
+    modelController.executeCommand(userCommandInputs);
   }
 
   @Override

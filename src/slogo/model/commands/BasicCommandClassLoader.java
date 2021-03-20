@@ -7,6 +7,7 @@ import slogo.model.commands.basic_commands.BasicCommand;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
 import slogo.model.commands.basic_commands.command_types.Command;
 import slogo.model.execution.CommandInformationBundle;
+import slogo.model.execution.UserDefinedInformation;
 import slogo.model.tree.TreeNode;
 
 /**
@@ -59,18 +60,19 @@ public class BasicCommandClassLoader {
   private BasicCommand checkSpecialCases(CommandInformationBundle informationBundle, TreeNode node){
 
     String nodeName = node.getCommand();
+    UserDefinedInformation userInfo = informationBundle.getUserDefinedInformation();
 
     if (isConstant(nodeName)) {
       return makeConstant(Double.parseDouble(nodeName));
     }
 
-    if (isUserDefinedCommand(nodeName, informationBundle)) {
-      return getUserDefinedCommand(informationBundle, node);
+    if (isUserDefinedCommand(nodeName, userInfo)) {
+      return getUserDefinedCommand(userInfo, node);
     }
 
     if (isVariableOrParameter(node)) {
       try{
-        return getVariableOrParameter(informationBundle, nodeName);
+        return getVariableOrParameter(userInfo, nodeName);
       }
       catch (Exception e){
         throw new ErrorHandler(e);
@@ -81,14 +83,14 @@ public class BasicCommandClassLoader {
 
   // gets the variable or parameter value corresponding to the node. Throws an error
   // if it is does not exist
-  private BasicCommand getVariableOrParameter(CommandInformationBundle informationBundle, String nodeName) throws ErrorHandler {
+  private BasicCommand getVariableOrParameter(UserDefinedInformation userInfo, String nodeName) throws ErrorHandler {
 
-    if(informationBundle.hasParameter(nodeName)){
-      return makeConstant(informationBundle.getParameter(nodeName));
+    if(userInfo.hasParameter(nodeName)){
+      return makeConstant(userInfo.getParameter(nodeName));
     }
 
-    if (informationBundle.hasVariable(nodeName)) {
-      return makeConstant(informationBundle.getVariable(nodeName));
+    if (userInfo.hasVariable(nodeName)) {
+      return makeConstant(userInfo.getVariable(nodeName));
     }
 
     throw new ErrorHandler("InvalidVariableName");
@@ -96,9 +98,9 @@ public class BasicCommandClassLoader {
 
   // Gets the user defined BasicCommand from the information bundle. Only called if the bundle
   // actually has the command
-  private BasicCommand getUserDefinedCommand(CommandInformationBundle informationBundle,
+  private BasicCommand getUserDefinedCommand(UserDefinedInformation userInfo,
       TreeNode node) {
-    UserDefinedCommand command = informationBundle.getCommand(node.getCommand());
+    UserDefinedCommand command = userInfo.getCommand(node.getCommand());
     command.passParams(node.getChildren());
     return command;
   }
@@ -124,8 +126,8 @@ public class BasicCommandClassLoader {
   }
 
   // Checks if the node is a user defined command
-  private boolean isUserDefinedCommand(String nodeName, CommandInformationBundle informationBundle){
-    return informationBundle.hasCommand(nodeName);
+  private boolean isUserDefinedCommand(String nodeName, UserDefinedInformation userInfo){
+    return userInfo.hasCommand(nodeName);
   }
 
   // Checks if the node is a constant
