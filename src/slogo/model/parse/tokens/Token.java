@@ -44,4 +44,6 @@ public abstract class Token {
 
   public abstract int incrementParamCount(int blockSize, Token command);
 
+  public abstract void addParamToken(Token param);
+
 }

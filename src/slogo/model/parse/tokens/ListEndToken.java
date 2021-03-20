@@ -10,4 +10,9 @@ public class ListEndToken extends Token{
   public int incrementParamCount(int blockSize, Token command) {
     return blockSize;
   }
+
+  @Override
+  public void addParamToken(Token param) {
+    return;
+  }
 }

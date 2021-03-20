@@ -41,6 +41,21 @@ public class CommandParserTest {
   }
 
   /**
+   * Tests Sum
+   */
+  @Test
+  void testSumCommand() {
+    CommandParser tester = makeParser("sum 50 50", "English");
+    TreeNode root = tester.makeTree();
+    List<String> results = new ArrayList<>();
+    results.add(null);
+    results.add("Sum");
+    results.add("50");
+    results.add("50");
+    assertEquals(results, tester.preOrderResults);
+  }
+
+  /**
    * Tests command with no parameters
    */
   @Test
@@ -53,7 +68,7 @@ public class CommandParserTest {
     results.add("Forward");
     results.add("50");
     assertEquals(results, tester.preOrderResults);
-    assertEquals(tester.makeTree(), results);
+//    assertEquals(tester.makeTree(), results);
   }
 
   /**
@@ -78,8 +93,94 @@ public class CommandParserTest {
     results.add("RandomNumber");
     results.add("360");
     assertEquals(results, tester.preOrderResults);
-    assertEquals(tester.makeTree(), results);
+    assertEquals(2, tester.getParamCount("CommandBlock_1"));
+//    assertEquals(tester.makeTree(), results);
   }
+
+  /**
+   * repeat 11 [
+   *    dotimes [ :t 360 ] [
+   *       fd 1
+   *       rt / sin :t 2
+   *    ]
+   * ]
+   */
+  @Test
+  void testFlowerCommand() {
+    CommandParser tester = makeParser("repeat 11 [ dotimes [ :t 360 ] [  fd 1 rt / sin :t 2 ] ] ", "English");
+    TreeNode root = tester.makeTree();
+    List<String> results = new ArrayList<>();
+    results.add(null);
+    results.add("Repeat");
+    results.add("11");
+    results.add("CommandBlock_1");
+    results.add("DoTimes");
+    results.add("CommandBlock_2");
+    results.add(":t");
+    results.add("360");
+    results.add("CommandBlock_3");
+    results.add("Forward");
+    results.add("1");
+    results.add("Right");
+    results.add("Quotient");
+    results.add("Sine");
+    results.add(":t");
+    results.add("2");
+
+    assertEquals(results, tester.preOrderResults);
+    assertEquals(1, tester.getParamCount("CommandBlock_1"));
+    assertEquals(2, tester.getParamCount("CommandBlock_2"));
+    assertEquals(2, tester.getParamCount("CommandBlock_3"));
+//    assertEquals(tester.makeTree(), results);
+  }
+
+  /**
+   * make :number 5
+   * make :order 3
+   * make :x / - * 2 :order :number * :number 2
+   * make :step 5
+   *
+   * dotimes [ :k * 360 :number ] [
+   *   fd :step
+   *   rt + :k :x
+   * ]
+   */
+  @Test
+  void testRoseCommand() {
+    CommandParser tester = makeParser("make :number 5\n"
+        + "make :order 3\n"
+        + "make :x / - * 2 :order :number * :number 2\n"
+        + "make :step 5\n"
+        + "\n"
+        + "dotimes [ :k * 360 :number ] [ \n"
+        + "  fd :step\n"
+        + "  rt + :k :x\n"
+        + "]", "English");
+    TreeNode root = tester.makeTree();
+    List<String> results = new ArrayList<>();
+//    results.add(null);
+//    results.add("Repeat");
+//    results.add("11");
+//    results.add("CommandBlock_1");
+//    results.add("DoTimes");
+//    results.add("CommandBlock_2");
+//    results.add(":t");
+//    results.add("360");
+//    results.add("CommandBlock_3");
+//    results.add("Forward");
+//    results.add("1");
+//    results.add("Right");
+//    results.add("Quotient");
+//    results.add("Sine");
+//    results.add(":t");
+//    results.add("2");
+
+//    assertEquals(results, tester.preOrderResults);
+    assertEquals(2, tester.getParamCount("CommandBlock_1"));
+    assertEquals(2, tester.getParamCount("CommandBlock_2"));
+//    assertEquals(tester.makeTree(), results);
+  }
+
 
   /**
    * Tests one parameters count
@@ -147,6 +248,8 @@ public class CommandParserTest {
     results.add(":dist");
     results.add("5");
     assertEquals(results, tester.preOrderResults);
+    assertEquals(1, tester.getParamCount("CommandBlock_1"));
+    assertEquals(1, tester.getParamCount("CommandBlock_2"));
   }
 
   /**
