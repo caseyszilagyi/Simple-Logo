@@ -49,7 +49,7 @@ public class UserCommandPane {
     box.getStyleClass().add(USER_COMMAND_PANE_ID);
     addTextField();
     createButtons();
-    slider = new Slider(10, 3000, 100);
+    slider = new Slider(10, 5000, 100);
     box.add(slider, 5, 0);
   }
 
