@@ -56,14 +56,16 @@ public class MultipleTurtleTest {
    */
   @Test
   void basicTestTell(){
-    TreeNode tell = makeTree("Tell", "1", "2", "3");
+    TreeNode commandBlock = makeTree("CommandBlock", "1", "2", "3");
+    TreeNode tell = makeTree("Tell", commandBlock);
     executeCommand(makeBasicCommand(tell));
     moveTurtle("50");
     List<Turtle> turtles = turtleInformation.getAllTurtles();
     assertEquals(50, turtles.get(0).getYPosition(), TOLERANCE);
     assertEquals(50, turtles.get(1).getYPosition(), TOLERANCE);
     assertEquals(50, turtles.get(2).getYPosition(), TOLERANCE);
-    tell = makeTree("Tell", "1", "3", "5");
+    commandBlock = makeTree("CommandBlock", "1", "3", "5");
+    tell = makeTree("Tell", commandBlock);
     executeCommand(makeBasicCommand(tell));
     moveTurtle("50");
     turtles = turtleInformation.getAllTurtles();
@@ -83,6 +85,15 @@ public class MultipleTurtleTest {
     List<TreeNode> treeChildren = new ArrayList<>();
     for(String s: children){
       treeChildren.add(makeNode(s));
+    }
+    return new TreeNode(root, root, treeChildren);
+  }
+
+  // Makes a Tree with the top node being the string, and all children being the list of nodes
+  private TreeNode makeTree(String root, TreeNode... children) {
+    List<TreeNode> treeChildren = new ArrayList<>();
+    for(TreeNode child: children){
+      treeChildren.add(child);
     }
     return new TreeNode(root, root, treeChildren);
   }

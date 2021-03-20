@@ -28,7 +28,8 @@ public class ClearScreen extends Home {
    * @return The distance that the turtle had to move to get there
    */
   public double execute() {
+    double result = super.execute();
     reset();
-    return super.execute();
+    return result;
   }
 }
