@@ -7,7 +7,9 @@ import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 import slogo.controller.BackEndExternalAPI;
 import slogo.model.commands.BasicCommandClassLoader;
+import slogo.model.commands.basic_commands.UserDefinedCommand;
 import slogo.model.execution.CommandInformationBundle;
+import slogo.model.execution.UserDefinedInformation;
 import slogo.model.parse.CommandParser;
 import slogo.model.parse.InputCleaner;
 import slogo.model.parse.MakeTokens;
@@ -19,7 +21,7 @@ import slogo.model.tree.TreeNode;
  *
  * @author jincho
  */
-public class SLogoCommandExecuter implements CommandExecuter {
+public class SLogoCommandExecutor implements CommandExecutor {
 
   public static final String LANGUAGES_PACKAGE = "slogo.model.resources.languages.";
   public static final String COMMAND_PACKAGE = "slogo.model.resources.commands.";
@@ -36,12 +38,13 @@ public class SLogoCommandExecuter implements CommandExecuter {
 
   private final CommandInformationBundle BUNDLE;
   private final BasicCommandClassLoader COMMAND_LOADER = new BasicCommandClassLoader();
+  private final UserDefinedInformation USER_INFORMATION;
 
 
-  public SLogoCommandExecuter(BackEndExternalAPI modelController) {
+  public SLogoCommandExecutor(BackEndExternalAPI modelController) {
     this.modelController = modelController;
     BUNDLE = new CommandInformationBundle(modelController);
-
+    USER_INFORMATION = BUNDLE.getUserDefinedInformation();
 
     regexMap = new HashMap<>();
     addRegExPatterns("Syntax");
@@ -50,6 +53,26 @@ public class SLogoCommandExecuter implements CommandExecuter {
 
   public CommandInformationBundle getBundle(){
     return BUNDLE;
+  }
+
+
+
+  /**
+   * Gets an unmodifiable copy of the map of commands
+   *
+   * @return The copy of the command map
+   */
+  public Map<String, UserDefinedCommand> getCommandMap() {
+    return USER_INFORMATION.getCommandMap();
+  }
+
+  /**
+   * Gets an unmodifiable copy of the variable map
+   *
+   * @return The variable map
+   */
+  public Map<String, Double> getVariableMap() {
+    return USER_INFORMATION.getVariableMap();
   }
 
 

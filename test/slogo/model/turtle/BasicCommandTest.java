@@ -546,7 +546,7 @@ public class BasicCommandTest {
     TreeNode value = makeNode("60");
     TreeNode root = makeTree("MakeVariable", name, value);
     assertEquals(60, executeCommand(makeBasicCommand(root)), TOLERANCE);
-    assertEquals(60, commandBundle.getVariableMap().get(":Awesome"), TOLERANCE);
+    assertEquals(60, userInformation.getVariableMap().get(":Awesome"), TOLERANCE);
     moveTurtle(":Awesome");
     assertEquals(60, turtleInformation.getActiveTurtle().getYPosition(), TOLERANCE);
   }

@@ -2,15 +2,9 @@ package slogo.controller;
 
 import java.util.List;
 import java.util.Map;
-import javax.swing.text.html.ImageView;
-import slogo.model.CommandExecuter;
-import slogo.model.SLogoCommandExecuter;
-import slogo.model.parse.CommandParser;
-import slogo.model.commands.BasicCommandClassLoader;
+import slogo.model.CommandExecutor;
+import slogo.model.SLogoCommandExecutor;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
-import slogo.model.execution.CommandInformationBundle;
-import slogo.model.tree.TreeNode;
-import slogo.model.execution.Turtle;
 
 /**
  * @author Ji Yun Hyo
@@ -18,15 +12,13 @@ import slogo.model.execution.Turtle;
 public class ModelController implements BackEndExternalAPI {
 
   FrontEndExternalAPI viewController;
-  SLogoCommandExecuter COMMAND_EXECUTOR;
-  CommandInformationBundle commandInformationBundle;
+  CommandExecutor COMMAND_EXECUTOR;
 
   /**
    * Default constructor
    */
   public ModelController() {
-    COMMAND_EXECUTOR = new SLogoCommandExecuter(this);
-    commandInformationBundle = COMMAND_EXECUTOR.getBundle();
+    COMMAND_EXECUTOR = new SLogoCommandExecutor(this);
   }
 
 
@@ -35,7 +27,7 @@ public class ModelController implements BackEndExternalAPI {
    */
   public Map<String, Double> getVariables() {
     // TODO implement here
-    return commandInformationBundle.getVariableMap();
+    return COMMAND_EXECUTOR.getVariableMap();
   }
 
   /**
@@ -46,7 +38,7 @@ public class ModelController implements BackEndExternalAPI {
    */
   public Map<String, UserDefinedCommand> getUserDefinedCommands() {
     // TODO implement here
-    return commandInformationBundle.getCommandMap();
+    return COMMAND_EXECUTOR.getCommandMap();
   }
 
 

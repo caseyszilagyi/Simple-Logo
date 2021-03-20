@@ -21,7 +21,7 @@ public class CommandInformationBundle {
   private final UserDefinedInformation USER_INFORMATION;
 
   private final BackEndExternalAPI MODEL_CONTROLLER;
-  private final DisplayInformation DISPLAY_INFORMATION = new DisplayInformation();
+  private final DisplayInformation DISPLAY_INFORMATION;
   private final TurtleInformation TURTLE_INFORMATION;
 
 
@@ -34,11 +34,9 @@ public class CommandInformationBundle {
   public CommandInformationBundle(BackEndExternalAPI modelController) {
     MODEL_CONTROLLER = modelController;
     USER_INFORMATION = new UserDefinedInformation(modelController);
-    TURTLE_INFORMATION = new TurtleInformation(MODEL_CONTROLLER);
-  }
+    TURTLE_INFORMATION = new TurtleInformation(modelController);
+    DISPLAY_INFORMATION = new DisplayInformation(modelController);
 
-  public TurtleInformation getTurtleInformation(){
-    return TURTLE_INFORMATION;
   }
 
   /**
@@ -50,28 +48,25 @@ public class CommandInformationBundle {
     return MODEL_CONTROLLER;
   }
 
-  public UserDefinedInformation getUserDefinedInformation(){
+  /**
+   * Gets the turtle information. Contains all of the turtles and lists of active turtles, as well
+   * as structure to deal with local ask/tell calls
+   *
+   * @return The user defined information
+   */
+  public TurtleInformation getTurtleInformation() {
+    return TURTLE_INFORMATION;
+  }
+
+  /**
+   * Gets the user defined information. Contains the commands, variables, and parameters, as well as
+   * some helper methods to organize that information
+   *
+   * @return The user defined information
+   */
+  public UserDefinedInformation getUserDefinedInformation() {
     return USER_INFORMATION;
   }
-
-  /**
-   * Gets an unmodifiable copy of the map of commands
-   *
-   * @return The copy of the command map
-   */
-  public Map<String, UserDefinedCommand> getCommandMap() {
-    return USER_INFORMATION.getCommandMap();
-  }
-
-  /**
-   * Gets an unmodifiable copy of the variable map
-   *
-   * @return The variable map
-   */
-  public Map<String, Double> getVariableMap() {
-    return USER_INFORMATION.getVariableMap();
-  }
-
 
   /**
    * Gets the display information
