@@ -16,7 +16,7 @@ public class SetPenColor extends DisplayAlteringCommand {
   private final double INDEX;
 
   /**
-   * Makes an instance of the set background command
+   * Makes an instance of the set pen color command
    *
    * @param bundle Contains the model controller that the command is sent through
    * @param nodes  1 child, which is the index corresponding to the color
@@ -27,9 +27,9 @@ public class SetPenColor extends DisplayAlteringCommand {
   }
 
   /**
-   * Sets the background color
+   * Sets the pen color color
    *
-   * @return The index of the chosen background color
+   * @return The index of the chosen pen color
    */
   public double execute() {
     setPenColor((int) INDEX);

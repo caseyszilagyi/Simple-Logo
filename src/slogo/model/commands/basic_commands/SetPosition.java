@@ -27,8 +27,8 @@ public class SetPosition extends TurtleAlteringCommand {
     super(bundle);
     NEW_X = loadClass(bundle, nodes.get(0)).execute();
     NEW_Y = loadClass(bundle, nodes.get(1)).execute();
-    PREV_X = bundle.getTurtle().getXPosition();
-    PREV_Y = bundle.getTurtle().getYPosition();
+    PREV_X = bundle.getActiveTurtle().getXPosition();
+    PREV_Y = bundle.getActiveTurtle().getYPosition();
   }
 
   private double distanceMoved() {
