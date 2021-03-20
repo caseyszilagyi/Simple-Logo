@@ -17,7 +17,6 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
 
   private Turtle activeTurtle;
   private final TurtleInformation TURTLE_INFORMATION;
-  private final BackEndExternalAPI MODEL_CONTROLLER;
 
   /**
    * Makes the BasicCommand and saves the turtle
@@ -28,7 +27,6 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
     super(informationBundle);
     activeTurtle = informationBundle.getTurtleInformation().getActiveTurtle();
     TURTLE_INFORMATION = informationBundle.getTurtleInformation();
-    MODEL_CONTROLLER = informationBundle.getModelController();
   }
 
   /**
@@ -38,24 +36,6 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    * @return The double value representing the result of the executed method
    */
   public abstract double execute();
-
-  /**
-   * Changes the X position of the turtle
-   *
-   * @param change The change in X position
-   */
-  protected void changeTurtleX(double change) {
-    activeTurtle.changeXPosition(change);
-  }
-
-  /**
-   * Changes the Y position of the turtle
-   *
-   * @param change The change in Y position
-   */
-  protected void changeTurtleY(double change) {
-    activeTurtle.changeYPosition(change);
-  }
 
   /**
    * Changes the position of the turtle by a certain amount
@@ -77,7 +57,6 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
     activeTurtle.setPosition(xPosition, yPosition);
   }
 
-
   /**
    * Changes the angle of the turtle
    *
@@ -85,24 +64,6 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    */
   protected void changeTurtleAngle(double change) {
     activeTurtle.rotateCounterClockwise(change);
-  }
-
-  /**
-   * Sets the X position of the turtle
-   *
-   * @param position The X position
-   */
-  protected void setTurtleX(double position) {
-    activeTurtle.setXPosition(position);
-  }
-
-  /**
-   * Sets the Y position of the turtle
-   *
-   * @param position The Y position
-   */
-  protected void setTurtleY(double position) {
-    activeTurtle.setYPosition(position);
   }
 
   /**
@@ -141,21 +102,21 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
 
   protected void updateFrontEnd() {
     TURTLE_INFORMATION.updateFrontEnd();
-    MODEL_CONTROLLER.setTurtlePosition(getXCoordinate(), getYCoordinate());
   }
 
-  protected void setActiveTurtle(int ID){
+  protected void setActiveTurtle(int ID) {
     TURTLE_INFORMATION.setActiveTurtle(ID);
   }
 
 
   /**
    * Updates all of the active turtles
+   *
    * @param turtleAction The method calls that are called on the turtles
    */
-  protected void updateTurtle(Consumer<Turtle> turtleAction){
+  protected void updateTurtle(Consumer<Turtle> turtleAction) {
     List<Integer> activeTurtleList = TURTLE_INFORMATION.getCurrentActiveTurtleList();
-    for(int turtleID: activeTurtleList){
+    for (int turtleID : activeTurtleList) {
       setActiveTurtle(turtleID);
       activeTurtle = TURTLE_INFORMATION.getActiveTurtle();
       turtleAction.accept(activeTurtle);
