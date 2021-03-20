@@ -129,7 +129,6 @@ public class CommandParser implements Parser {
     if (root == null) {
       return;
     }
-
     System.out.println("Value: " + root.getCommand());
     for (TreeNode child : root.getChildren()) {
       printPreOrder(child);

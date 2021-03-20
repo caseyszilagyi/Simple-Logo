@@ -83,7 +83,49 @@ public class MakeTokensTester {
     expected.add("50");
     assertEquals(actual, expected);
     assertEquals(commandParser.getParamCount("CommandBlock_1"), 1);
+  }
 
+  /**
+   * Test command with brackets without constant before bracket
+   */
+  @Test
+  void testBracketWithCommandTokenizer() {
+    String userInput = "repeat sum 5 5 [ fd 50 ]";
+    MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
+    List<String> actual = tokenMaker.tokenString();
+    List<String> expected = new ArrayList<>();
+    expected.add("Repeat");
+    expected.add("Sum");
+    expected.add("5");
+    expected.add("5");
+    expected.add("CommandBlock");
+    expected.add("Forward");
+    expected.add("50");
+    assertEquals(actual, expected);
+    assertEquals(commandParser.getParamCount("CommandBlock_1"), 1);
+  }
+
+  /**
+   * Test command with brackets without constant before bracket and extra command (to be detected in command parser)
+   */
+  @Test
+  void testBracketWithExtraCommandTokenizer() {
+    String userInput = "repeat sum 5 5 sum 5 5 [ fd 50 ]";
+    MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
+    List<String> actual = tokenMaker.tokenString();
+    List<String> expected = new ArrayList<>();
+    expected.add("Repeat");
+    expected.add("Sum");
+    expected.add("5");
+    expected.add("5");
+    expected.add("Sum");
+    expected.add("5");
+    expected.add("5");
+    expected.add("CommandBlock");
+    expected.add("Forward");
+    expected.add("50");
+    assertEquals(actual, expected);
+    assertEquals(commandParser.getParamCount("CommandBlock_1"), 1);
   }
 
   /**

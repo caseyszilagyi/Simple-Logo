@@ -12,11 +12,15 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 import slogo.ErrorHandler;
-import slogo.model.parse.tokens.CommandList;
 import slogo.model.parse.tokens.ListEndToken;
 import slogo.model.parse.tokens.ListToken;
 import slogo.model.parse.tokens.Token;
 
+/**
+ * Condenses the translated String input as a List into a List of Token objects based on the Regex token. Also deals with different types of lists in String input.
+ *
+ * @author jincho
+ */
 public class MakeTokens {
 
   private final List<String> cleanedString;
@@ -26,6 +30,7 @@ public class MakeTokens {
   private static final String COMMAND_PACKAGE = "slogo.model.resources.commands.";
   private static final String COMMAND_WITH_LISTS = "CommandBlocks";
   private static final String TOKENS_MAP = "TokenSyntax";
+  private static final String COMMAND_KEY = "CommandBlock_";
 
   private CommandParser commandParser;
   private ResourceBundle listParams;
@@ -33,6 +38,12 @@ public class MakeTokens {
   private Map<String, Pattern> regexMap;
   private Deque<List<String>> tokenizeStack;
 
+  /**
+   * Constructs the MakeTokens object and necessary instance variables.
+   *
+   * @param cleanedString list of string commands recognizable by the back end
+   * @param commandParser command parser for this specific user input
+   */
   public MakeTokens(List<String> cleanedString, CommandParser commandParser) {
     this.commandParser = commandParser;
     this.cleanedString = cleanedString;
@@ -52,6 +63,11 @@ public class MakeTokens {
     }
   }
 
+  /**
+   * Tokenizes the original list of tranlsated strings into a list of strings recognizable by the command parser to make a tree and be executed by the commands.
+   *
+   * @return List of Strings that match the command object classes needed for execution
+   */
   public List<String> tokenString() {
     tokenize();
     commandBlockParams();
@@ -62,21 +78,28 @@ public class MakeTokens {
     String expected = null;
     boolean inList = false;
     for (String s : cleanedString) {
+      System.out.println("String to tokenize: "+s);
       Token toAdd;
-      if (regexMap.get("ListStart").matcher(s).matches()) {
+      if (isListStart(s)) {
         toAdd = makeToken(tokenizeStack.peek().get(0));
         inList = true;
       } else { toAdd = makeToken(s); }
       if (listParams.containsKey(s)) {
         tokenizeStack.push(getListParams(s));
         expected = tokenizeStack.peek().get(0);
+        System.out.println("pushed expected "+ getListParams(s));
+        System.out.println("new expected: "+expected);
         tokens.add(toAdd);
+        System.out.println("Added token type: "+getClassName(toAdd) + " with command " + s);
         continue;
       }
-      if (expected != null) {
+      if (expected != null && inList) {
         expected = checkExpectedToken(toAdd, expected, inList);
+        System.out.println("expected returned: "+expected);
       }
       tokens.add(toAdd);
+      System.out.println("Added token type: "+getClassName(toAdd) + " with command " + s);
+
     }
   }
 
@@ -121,11 +144,14 @@ public class MakeTokens {
     return s.contains("List");
   }
 
+  private boolean isListStart(String s) { return regexMap.get("ListStart").matcher(s).matches(); }
+
   private boolean isListEnd(String s) {
     return s.equals("ListEndToken");
   }
 
   private String checkExpectedToken(Token toAdd, String expected, boolean inList) {
+    System.out.println("checking expected token");
     if(!getClassName(toAdd).equals(expected) && !inList) {
       throw new ErrorHandler("WrongCommandArg");
     } else if (!isList(expected) || isListEnd(getClassName(toAdd))) {
@@ -133,7 +159,10 @@ public class MakeTokens {
       if (tokenizeStack.peek().isEmpty()) {
         tokenizeStack.pop();
         expected = null;
-      } else { expected = tokenizeStack.peek().get(0); }
+      } else {
+        expected = tokenizeStack.peek().get(0);
+        System.out.println("new expected: " +expected);
+      }
     }
     return expected;
   }
@@ -150,26 +179,31 @@ public class MakeTokens {
   private void commandBlockParams() {
     Deque<Token> commandBlocks = new ArrayDeque<>();
     Deque<Integer> parameters = new ArrayDeque<>();
-    String commandKey = "CommandBlock_";
     int commandCount = 0;
     int blockSize = 0;
     for (int ind = 0; ind < tokens.size(); ind++) {
-      String commandKeyNum = "";
       Token curr = tokens.get(ind);
+      System.out.println("curr token: "+getClassName(curr));
       if (curr instanceof ListEndToken) {
+        System.out.println("end of list");
+        System.out.println("my block size: "+blockSize);
         tokens.remove(ind);
         ind--;
         Token popped = commandBlocks.pop();
         commandParser.addSingleParamCount(popped.getValue(), makeStringParam(blockSize));
         blockSize = parameters.pop();
+        continue;
       }
       if(!commandBlocks.isEmpty()) {
         blockSize = commandBlocks.peek().incrementParamCount(blockSize, curr);
+        System.out.println(curr.getValue());
+        System.out.println("counting block size: "+blockSize);
       }
       if (curr instanceof ListToken) {
         commandCount++;
-        commandKeyNum = commandKey + Integer.toString(commandCount);
+        String commandKeyNum = COMMAND_KEY + Integer.toString(commandCount);
         curr.setVariable(commandKeyNum);
+        System.out.println("pushed block size: "+blockSize);
         commandBlocks.push(curr);
         parameters.push(blockSize);
         blockSize = 0;
