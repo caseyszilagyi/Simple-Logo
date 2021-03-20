@@ -183,8 +183,8 @@ public class Turtle {
   public void clearScreen() {
     clearScreen = 1;
     MODEL_CONTROLLER.passInputToFrontEnd(getFrontEndParameters());
-    clearScreen = 0;
     MODEL_CONTROLLER.clearScreen();
+    clearScreen = 0;
   }
 
   public void updateFrontEnd(){
