@@ -132,7 +132,7 @@ public class CommandParserTest {
   }
 
   /**
-   * Tests wrong param input. more complex
+   * Tests wrong param input. correct list types but command is missing parameter count
    */
   @Test
   void testWrongNumParamComplex() {
@@ -141,7 +141,7 @@ public class CommandParserTest {
   }
 
   /**
-   * Tests wrong input type for command param
+   * Tests wrong input type where brackets are misused
    */
   @Test
   void testWrongParamInput() {

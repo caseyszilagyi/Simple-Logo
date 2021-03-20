@@ -11,7 +11,7 @@ import slogo.model.parse.CommandParser;
 import slogo.model.parse.InputCleaner;
 import slogo.model.parse.MakeTokens;
 
-public class MakeTokensTester {
+public class MakeTokensTest {
 
   private CommandParser commandParser;
 
@@ -78,7 +78,7 @@ public class MakeTokensTester {
     List<String> expected = new ArrayList<>();
     expected.add("Repeat");
     expected.add("4");
-    expected.add("CommandBlock");
+    expected.add("CommandBlock_1");
     expected.add("Forward");
     expected.add("50");
     assertEquals(actual, expected);
@@ -98,7 +98,7 @@ public class MakeTokensTester {
     expected.add("Sum");
     expected.add("5");
     expected.add("5");
-    expected.add("CommandBlock");
+    expected.add("CommandBlock_1");
     expected.add("Forward");
     expected.add("50");
     assertEquals(actual, expected);
@@ -121,7 +121,7 @@ public class MakeTokensTester {
     expected.add("Sum");
     expected.add("5");
     expected.add("5");
-    expected.add("CommandBlock");
+    expected.add("CommandBlock_1");
     expected.add("Forward");
     expected.add("50");
     assertEquals(actual, expected);
@@ -139,17 +139,17 @@ public class MakeTokensTester {
     List<String> expected = new ArrayList<>();
     expected.add("MakeUserInstruction");
     expected.add("move");
-    expected.add("CommandBlock");
+    expected.add("CommandBlock_1");
     expected.add(":x");
-    expected.add("CommandBlock");
+    expected.add("CommandBlock_2");
     expected.add("Repeat");
     expected.add("4");
-    expected.add("CommandBlock");
+    expected.add("CommandBlock_3");
     expected.add("Forward");
     expected.add(":x");
     assertEquals(actual, expected);
     assertEquals(commandParser.getParamCount("CommandBlock_1"), 1);
-    assertEquals(commandParser.getParamCount("CommandBlock_2"), 2);
+    assertEquals(commandParser.getParamCount("CommandBlock_2"), 1);
     assertEquals(commandParser.getParamCount("CommandBlock_3"), 1);
   }
 
@@ -164,23 +164,51 @@ public class MakeTokensTester {
     List<String> expected = new ArrayList<>();
     expected.add("MakeUserInstruction");
     expected.add("move");
-    expected.add("CommandBlock");
+    expected.add("CommandBlock_1");
     expected.add(":x");
-    expected.add("CommandBlock");
+    expected.add("CommandBlock_2");
     expected.add("Repeat");
     expected.add("4");
-    expected.add("CommandBlock");
+    expected.add("CommandBlock_3");
     expected.add("Repeat");
     expected.add("2");
-    expected.add("CommandBlock");
+    expected.add("CommandBlock_4");
     expected.add("Forward");
     expected.add(":x");
     assertEquals(actual, expected);
     assertEquals(commandParser.getParamCount("CommandBlock_1"), 1);
-    assertEquals(commandParser.getParamCount("CommandBlock_2"), 2);
-    assertEquals(commandParser.getParamCount("CommandBlock_3"), 2);
+    assertEquals(commandParser.getParamCount("CommandBlock_2"), 1);
+    assertEquals(commandParser.getParamCount("CommandBlock_3"), 1);
     assertEquals(commandParser.getParamCount("CommandBlock_4"), 1);
   }
+
+  /**
+   * Test command with more nested brackets
+   * Test where user uses variable instead of constant
+   * to moveRep5 [ :rep ] [ repeat :rep [ fd 5 ] ]
+   */
+  @Test
+  void testVariableConstantTokenizer() {
+    String userInput = "to moveRep [ :rep ] [ repeat :rep [ fd 5 ] ]";
+    MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
+    List<String> actual = tokenMaker.tokenString();
+    List<String> expected = new ArrayList<>();
+    expected.add("MakeUserInstruction");
+    expected.add("moveRep");
+    expected.add("CommandBlock_1");
+    expected.add(":rep");
+    expected.add("CommandBlock_2");
+    expected.add("Repeat");
+    expected.add(":rep");
+    expected.add("CommandBlock_3");
+    expected.add("Forward");
+    expected.add("5");
+    assertEquals(actual, expected);
+    assertEquals(commandParser.getParamCount("CommandBlock_1"), 1);
+    assertEquals(commandParser.getParamCount("CommandBlock_2"), 1);
+//    assertEquals(commandParser.getParamCount("CommandBlock_3"), 1);
+  }
+
 
   /*
 

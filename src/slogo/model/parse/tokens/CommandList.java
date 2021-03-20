@@ -10,9 +10,11 @@ public class CommandList extends ListToken{
 
   @Override
   public int incrementParamCount(int blockSize, Token command) {
-    if(isCommand(command.getCommand())) { return blockSize + 1; }
+    if(isBasicCommand(command.getValue())) { return blockSize + 1; }
     return blockSize;
   }
+
+
 
 
 

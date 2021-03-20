@@ -109,9 +109,6 @@ public class CommandParser implements Parser {
 
     while (!commandQueue.isEmpty()) {
       String command = commandQueue.removeFirst();
-//      if (match(command, syntaxMap.get("Constant"))) {
-//        throw new ErrorHandler("ConstantCommand");
-//      }
       TreeNode child = new TreeNode(command);
       child = checkCommandBlock(child);
       commandTree.addChild(child);

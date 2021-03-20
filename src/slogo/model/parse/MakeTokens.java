@@ -80,7 +80,11 @@ public class MakeTokens {
     for (String s : cleanedString) {
       Token toAdd;
       if (isListStart(s)) {
-        toAdd = makeToken(tokenizeStack.peek().get(0));
+        try {
+          toAdd = makeToken(tokenizeStack.peek().get(0));
+        } catch (Exception e) {
+          throw new ErrorHandler("WrongParamNum");
+        }
         inList = true;
       } else { toAdd = makeToken(s); }
       if (listParams.containsKey(s)) {
@@ -99,6 +103,8 @@ public class MakeTokens {
   private Token makeToken(String command) {
     String type = tokenType(command);
     if(isList(command)) { type = command; }
+//    System.out.println("token make type: "+type);
+//    System.out.println("token make command: "+command);
     Token toRet;
     try {
       toRet = (Token) Class.forName(TOKEN_PACKAGE + type).getDeclaredConstructor(String.class).newInstance(command);
@@ -178,13 +184,15 @@ public class MakeTokens {
         tokens.remove(ind);
         ind--;
         Token popped = commandBlocks.pop();
+        System.out.println("block size: " +blockSize+" for: " +popped.getValue()+" of type "+getClassName(popped));
         commandParser.addSingleParamCount(popped.getValue(), makeStringParam(blockSize));
         blockSize = parameters.pop();
         continue;
       }
       if(!commandBlocks.isEmpty()) {
+        System.out.println("old blocksize: "+blockSize);
         blockSize = commandBlocks.peek().incrementParamCount(blockSize, curr);
-
+        System.out.println("new blocksize: "+blockSize+" from "+curr.getCommand());
       }
       if (curr instanceof ListToken) {
         commandCount++;
