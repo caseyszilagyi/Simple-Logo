@@ -20,7 +20,8 @@ public class Tell extends MultipleTurtleCommand {
    */
   public Tell(CommandInformationBundle informationBundle, List<TreeNode> children){
     super(informationBundle);
-    for(TreeNode child: children){
+    TreeNode IDBlock = children.get(0);
+    for(TreeNode child: IDBlock.getChildren()){
       IDS.add((int) loadClass(informationBundle, child).execute());
     }
   }
