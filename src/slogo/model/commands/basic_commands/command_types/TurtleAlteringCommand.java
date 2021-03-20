@@ -58,6 +58,27 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
   }
 
   /**
+   * Changes the position of the turtle by a certain amount
+   *
+   * @param changeX The change in X position
+   * @param changeY The change in Y position
+   */
+  protected void changeTurtlePosition(double changeX, double changeY) {
+    activeTurtle.changePosition(changeX, changeY);
+  }
+
+  /**
+   * Sets the position of the turtle
+   *
+   * @param xPosition The final x position of the turtle
+   * @param yPosition The final y position of the turtle
+   */
+  protected void setTurtlePosition(double xPosition, double yPosition) {
+    activeTurtle.setPosition(xPosition, yPosition);
+  }
+
+
+  /**
    * Changes the angle of the turtle
    *
    * @param change The change in angle in degrees, in the counter clockwise direction
@@ -91,7 +112,6 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    */
   protected void setAngle(double angle) {
     activeTurtle.setAngle(angle);
-    MODEL_CONTROLLER.setTurtleAngle(getAngle());
   }
 
   /**
@@ -101,7 +121,6 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    */
   protected void changePenState(double penState) {
     activeTurtle.setPenState(penState);
-    MODEL_CONTROLLER.setPenState(penState);
   }
 
   /**
@@ -111,7 +130,6 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    */
   protected void changeTurtleVisibility(double visibility) {
     activeTurtle.setVisibility(visibility);
-    MODEL_CONTROLLER.setTurtleVisibility(visibility);
   }
 
   /**
@@ -119,19 +137,15 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
    */
   protected void reset() {
     activeTurtle.clearScreen();
-    updateFrontEnd();
-    activeTurtle.allowLines();
-    MODEL_CONTROLLER.clearScreen();
   }
 
   protected void updateFrontEnd() {
-    TURTLE_INFORMATION.updateTurtle();
+    TURTLE_INFORMATION.updateFrontEnd();
     MODEL_CONTROLLER.setTurtlePosition(getXCoordinate(), getYCoordinate());
   }
 
   protected void setActiveTurtle(int ID){
     TURTLE_INFORMATION.setActiveTurtle(ID);
-    MODEL_CONTROLLER.setActiveTurtle(ID);
   }
 
 

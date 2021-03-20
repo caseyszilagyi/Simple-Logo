@@ -32,6 +32,7 @@ public class DisplayInformation {
    * @param backgroundColor The index of the color
    */
   public void setBackgroundColor(int backgroundColor) {
+    MODEL_CONTROLLER.setBackgroundColor(backgroundColor);
     this.backgroundColor = backgroundColor;
   }
 
@@ -40,6 +41,7 @@ public class DisplayInformation {
    * @return The index
    */
   public int getPenColor() {
+
     return penColor;
   }
 
@@ -48,6 +50,7 @@ public class DisplayInformation {
    * @param penColor The index of the color
    */
   public void setPenColor(int penColor) {
+    MODEL_CONTROLLER.setPenColor(penColor);
     this.penColor = penColor;
   }
 
@@ -64,6 +67,7 @@ public class DisplayInformation {
    * @param turtleShape The turtle shape
    */
   public void setTurtleShape(int turtleShape) {
+    MODEL_CONTROLLER.setTurtleShape(turtleShape);
     this.turtleShape = turtleShape;
   }
 
@@ -80,8 +84,19 @@ public class DisplayInformation {
    * @param penSize The pen size
    */
   public void setPenSize(double penSize) {
+    MODEL_CONTROLLER.setPenSize(penSize);
     this.penSize = penSize;
   }
 
+  /**
+   * Changes an index in the palette to a specific color
+   * @param index The index in the palette to change
+   * @param red RGB value for red
+   * @param green RGB value for green
+   * @param blue RGB value for blue
+   */
+  public void setPalette(int index, int red, int green, int blue){
+    MODEL_CONTROLLER.setPalette(index, red, green, blue);
+  }
 
 }
