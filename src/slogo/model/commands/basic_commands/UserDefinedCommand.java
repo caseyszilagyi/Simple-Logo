@@ -53,7 +53,9 @@ public class UserDefinedCommand extends ControlStructureCommand {
    * @return The variable value
    */
   public double execute() {
+    addTurtleLayer();
     double result = executeBlock(COMMAND_BLOCK);
+    removeTurtleLayer();
     removeParameterMap();
     return result;
   }
