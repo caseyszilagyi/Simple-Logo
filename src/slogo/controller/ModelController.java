@@ -3,6 +3,8 @@ package slogo.controller;
 import java.util.List;
 import java.util.Map;
 import javax.swing.text.html.ImageView;
+import slogo.model.CommandExecuter;
+import slogo.model.SLogoCommandExecuter;
 import slogo.model.parse.CommandParser;
 import slogo.model.commands.BasicCommandClassLoader;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
@@ -16,58 +18,17 @@ import slogo.model.execution.Turtle;
 public class ModelController implements BackEndExternalAPI {
 
   FrontEndExternalAPI viewController;
+  SLogoCommandExecuter COMMAND_EXECUTOR;
   CommandInformationBundle commandInformationBundle;
-  BasicCommandClassLoader basicCommandClassLoader;
 
   /**
    * Default constructor
    */
   public ModelController() {
-
-    commandInformationBundle = new CommandInformationBundle(this);
-    basicCommandClassLoader = new BasicCommandClassLoader();
-
+    COMMAND_EXECUTOR = new SLogoCommandExecuter(this);
+    commandInformationBundle = COMMAND_EXECUTOR.getBundle();
   }
 
-  /**
-   * @return
-   */
-  public List<String> getCommandHistory() {
-    // TODO implement here
-    // get the
-    return null;
-  }
-
-  /**
-   *
-   */
-  public void removeUserDefinedCommand() {
-    // TODO implement here
-  }
-
-  /**
-   *
-   */
-  public void addVariable() {
-    // TODO implement here
-  }
-
-  /**
-   *
-   */
-  public void removeVariable() {
-    // TODO implement here
-  }
-
-  /**
-   * gives access to the value a variable represents
-   *
-   * @param var variable name to get
-   */
-  public Double getSingleVariable(String var) {
-    // TODO implement here
-    return commandInformationBundle.getVariableMap().get(var);
-  }
 
   /**
    * gives access to the value a variable represents
@@ -88,66 +49,16 @@ public class ModelController implements BackEndExternalAPI {
     return commandInformationBundle.getCommandMap();
   }
 
-  /**
-   *
-   */
-  public void addUserDefinedCommands() {
-    // TODO implement here
-  }
 
   /**
    * parses through input and creates a tree. it then executes all the commands in that tree
    *
    * @param input String input
    */
-  public void parseInput(String input) {
-    // TODO implement here
-    System.out.println("ModelController received the following string as input: \n" + input);
-    String language = viewController.getLanguage();
-    CommandParser commandParser = new CommandParser(input, language, this);
-    TreeNode inputRoot = commandParser.makeTree();
-
-    //NEEDS TO BE REFACTORED TO MAKE SURE WE ADHERE TO DEPENDENCY INVERSION PRINCIPLE
-    // inputRoot is null and the command starts from its child
-//        CommandInformationBundle commandInformationBundle = new CommandInformationBundle(this);
-//        BasicCommandClassLoader basicCommandClassLoader = new BasicCommandClassLoader();
-    for (TreeNode child : inputRoot.getChildren()) {
-      System.out.println("Value of child of root: " + child.getValue());
-      basicCommandClassLoader.makeCommand(commandInformationBundle, child).execute();
-    }
-    viewController.updateFrontEnd(getVariables(), getUserDefinedCommands());
+  public void executeCommand(String input) {
+    COMMAND_EXECUTOR.executeCommand(input, viewController.getLanguage());
   }
 
-  /**
-   * @param error
-   */
-  public void handleInputError(String error) {
-
-  }
-
-  /**
-   * @return
-   */
-  public ImageView getTurtleImage() {
-    // TODO implement here
-    return null;
-  }
-
-  /**
-   * @return
-   */
-  public List<String> getCommandResult() {
-    // TODO implement here
-    return null;
-  }
-
-  /**
-   * @return
-   */
-  public List<Turtle> getAllTurtles() {
-    // TODO implement here
-    return null;
-  }
 
   /**
    * @return the language of the command input

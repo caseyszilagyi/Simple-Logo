@@ -1,10 +1,11 @@
+package slogo.model;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 import slogo.controller.BackEndExternalAPI;
-import slogo.controller.ModelController;
 import slogo.model.commands.BasicCommandClassLoader;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.parse.CommandParser;
@@ -18,7 +19,7 @@ import slogo.model.tree.TreeNode;
  *
  * @author jincho
  */
-public class CommandExecuter {
+public class SLogoCommandExecuter implements CommandExecuter {
 
   public static final String LANGUAGES_PACKAGE = "slogo.model.resources.languages.";
   public static final String COMMAND_PACKAGE = "slogo.model.resources.commands.";
@@ -32,25 +33,32 @@ public class CommandExecuter {
   private CommandParser commandParser;
   private InputCleaner inputCleaner;
   private MakeTokens tokenMaker;
-  private CommandInformationBundle bundle;
-  BasicCommandClassLoader basicCommandClassLoader;
+
+  private final CommandInformationBundle BUNDLE;
+  private final BasicCommandClassLoader COMMAND_LOADER = new BasicCommandClassLoader();
 
 
-  public CommandExecuter(BackEndExternalAPI modelController) {
+  public SLogoCommandExecuter(BackEndExternalAPI modelController) {
     this.modelController = modelController;
-    bundle = new CommandInformationBundle(modelController);
-    basicCommandClassLoader = new BasicCommandClassLoader();
+    BUNDLE = new CommandInformationBundle(modelController);
+
 
     regexMap = new HashMap<>();
     addRegExPatterns("Syntax");
 
   }
 
-  public void parseInput(String input, String language) {
+  public CommandInformationBundle getBundle(){
+    return BUNDLE;
+  }
+
+
+
+  public void executeCommand(String input, String language) {
     CommandParser commandParser = new CommandParser(input, language, modelController);
     TreeNode inputRoot = commandParser.makeTree();
     for (TreeNode child : inputRoot.getChildren()) {
-      basicCommandClassLoader.makeCommand(bundle, child).execute();
+      COMMAND_LOADER.makeCommand(BUNDLE, child).execute();
     }
   }
 
