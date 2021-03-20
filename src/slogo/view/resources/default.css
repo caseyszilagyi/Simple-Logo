@@ -34,6 +34,7 @@
   -fx-background-insets: 5;
   -fx-background-color: #696969;
   -fx-alignment: TOP_CENTER;
+  -fx-spacing: 5.0;
 }
 
 .TurtleView {
