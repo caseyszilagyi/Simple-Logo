@@ -2,12 +2,16 @@ package slogo.model.execution;
 
 import java.util.Arrays;
 import java.util.List;
+import slogo.controller.BackEndExternalAPI;
+import slogo.controller.ModelController;
 
 /**
  * This turtle class is the backend representation of the turtle so that commands can be called on
  * the turtle to move/rotate it
  */
-public class Turtle implements TurtleState {
+public class Turtle {
+
+  private final BackEndExternalAPI MODEL_CONTROLLER;
 
   private double angle = 90;
   private double xPosition = 0;
@@ -20,29 +24,9 @@ public class Turtle implements TurtleState {
   /**
    * Default constructor
    */
-  public Turtle() {
-  }
-
-  /**
-   * Default constructor
-   */
-  public Turtle(int turtleID) {
+  public Turtle(int turtleID, BackEndExternalAPI modelController) {
+    MODEL_CONTROLLER = modelController;
     ID = turtleID;
-  }
-
-  /**
-   * Constructor used to put the turtle at a specific location. Useful for testing
-   *
-   * @param x         The x position
-   * @param y         The y position
-   * @param direction The angle the turtle is facing
-   */
-  public Turtle(double x, double y, double direction) {
-    angle = direction;
-    xPosition = x;
-    yPosition = y;
-    isVisible = 1;
-    penState = 1;
   }
 
   /**
@@ -71,6 +55,19 @@ public class Turtle implements TurtleState {
     if (angle < 0) {
       angle += 360;
     }
+    MODEL_CONTROLLER.setTurtleAngle(getAngle());
+  }
+
+  public void changePosition(double changeX, double changeY){
+    changeXPosition(changeX);
+    changeYPosition(changeY);
+    MODEL_CONTROLLER.setTurtlePosition(getXPosition(), getYPosition());
+  }
+
+  public void setPosition(double xPosition, double yPosition){
+    setXPosition(xPosition);
+    setYPosition(yPosition);
+    MODEL_CONTROLLER.setTurtlePosition(getXPosition(), getYPosition());
   }
 
   /**
@@ -136,6 +133,7 @@ public class Turtle implements TurtleState {
     if (angle < 0) {
       angle += 360;
     }
+    MODEL_CONTROLLER.setTurtleAngle(getAngle());
   }
 
   ;
@@ -156,6 +154,7 @@ public class Turtle implements TurtleState {
    * @param visibility The visibility
    */
   public void setVisibility(double visibility) {
+    MODEL_CONTROLLER.setTurtleVisibility(visibility);
     isVisible = visibility;
   }
 
@@ -175,6 +174,7 @@ public class Turtle implements TurtleState {
    */
   public void setPenState(double userPenState) {
     penState = userPenState;
+    MODEL_CONTROLLER.setPenState(userPenState);
   }
 
   /**
@@ -182,15 +182,14 @@ public class Turtle implements TurtleState {
    */
   public void clearScreen() {
     clearScreen = 1;
-  }
-
-  /**
-   * Sets the parameter to clear the screen to a 0, which allows lines to be drawn
-   */
-  public void allowLines() {
+    MODEL_CONTROLLER.passInputToFrontEnd(getFrontEndParameters());
+    MODEL_CONTROLLER.clearScreen();
     clearScreen = 0;
   }
 
+  public void updateFrontEnd(){
+    MODEL_CONTROLLER.passInputToFrontEnd(getFrontEndParameters());
+  }
 
   /**
    * Gets the parameters to pass to the front end to display

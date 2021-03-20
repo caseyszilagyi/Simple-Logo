@@ -45,8 +45,7 @@ public class SetPosition extends TurtleAlteringCommand {
   @Override
   public double execute() {
     updateTurtle(turtle -> {
-      setTurtleX(NEW_X);
-      setTurtleY(NEW_Y);
+      setTurtlePosition(NEW_X, NEW_Y);
     });
     return distanceMoved();
   }
