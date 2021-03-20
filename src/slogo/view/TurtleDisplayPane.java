@@ -114,6 +114,8 @@ public class TurtleDisplayPane {
 
 
   private void createTurtle() {
+
+    turtleViewPane.getChildren().clear();
     String turtleImageFile = "Turtle2.gif";
     Image turtleImage = new Image(turtleImageFile);
     turtle = new ImageView(turtleImage);
@@ -130,19 +132,8 @@ public class TurtleDisplayPane {
   public void moveTurtle(double xCoordinate, double yCoordinate, Color penColor) {
     this.penColor = penColor;
 
-    double turtleCenterX = TURTLE_WIDTH / 2;
-    double turtleCenterY = TURTLE_HEIGHT / 2;
-
-    double screenWidth = turtleViewPane.getWidth();
-    double screenHeight = turtleViewPane.getHeight();
-
-    double coordinateWidth = screenWidth / rows;
-    double coordinateHeight = screenHeight / cols;
-
-    x = screenWidth / 2 + xCoordinate * coordinateWidth - turtleCenterX;
-    y = screenHeight / 2 - yCoordinate * coordinateHeight - turtleCenterY;
-
-
+    x = turtleViewPane.getWidth() / 2 + xCoordinate * turtleViewPane.getWidth() / rows - TURTLE_WIDTH / 2;
+    y = turtleViewPane.getHeight() / 2 - yCoordinate * turtleViewPane.getHeight() / cols - TURTLE_HEIGHT / 2;
 
     double xIncrement = (x - lastXPosition)/ INCREMENT_FACTOR;
     double yIncrement = (y - lastYPosition)/ INCREMENT_FACTOR;
@@ -183,7 +174,6 @@ public class TurtleDisplayPane {
     typeToBeUpdated.clear();
     penStates.clear();
 
-
     turtleViewPane.getChildren().clear();
     createTurtle();
   }
@@ -202,8 +192,10 @@ public class TurtleDisplayPane {
       typeToBeUpdated.add("Angles");
     }
  //   turtle.setRotate(90 - parameters.get(2));
-      penStates.add(parameters.get(3));
-      typeToBeUpdated.add("Pen");
+
+    penStates.add(parameters.get(3));
+
+    typeToBeUpdated.add("Pen");
       visibility.add(parameters.get(4));
       typeToBeUpdated.add("Visibility");
 
