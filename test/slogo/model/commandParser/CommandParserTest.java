@@ -41,6 +41,47 @@ public class CommandParserTest {
   }
 
   /**
+   * Tests command with no parameters
+   */
+  @Test
+  void testNoParam() {
+    CommandParser tester = makeParser("cs fd 50", "English");
+    TreeNode root = tester.makeTree();
+    List<String> results = new ArrayList<>();
+    results.add(null);
+    results.add("ClearScreen");
+    results.add("Forward");
+    results.add("50");
+    assertEquals(results, tester.preOrderResults);
+    assertEquals(tester.makeTree(), results);
+  }
+
+  /**
+   * repeat 16 [
+   *   fd random 500
+   *   rt random 360
+   * ]
+   */
+  @Test
+  void testRepeatCommand() {
+    CommandParser tester = makeParser("repeat 16 [ fd random 500\n rt random 360\n  ]", "English");
+    TreeNode root = tester.makeTree();
+    List<String> results = new ArrayList<>();
+    results.add(null);
+    results.add("Repeat");
+    results.add("16");
+    results.add("CommandBlock_1");
+    results.add("Forward");
+    results.add("RandomNumber");
+    results.add("500");
+    results.add("Right");
+    results.add("RandomNumber");
+    results.add("360");
+    assertEquals(results, tester.preOrderResults);
+    assertEquals(tester.makeTree(), results);
+  }
+
+  /**
    * Tests one parameters count
    */
   @Test
@@ -139,6 +180,8 @@ public class CommandParserTest {
     CommandParser tester = makeParser("to x [ :y ] [ sum 50 ]", "English");
     assertEquals(tester.makeTree(), new ErrorHandler("WrongParamNum"));
   }
+
+
 
   /**
    * Tests wrong input type where brackets are misused

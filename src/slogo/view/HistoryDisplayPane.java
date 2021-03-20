@@ -2,6 +2,8 @@ package slogo.view;
 
 import java.util.Map;
 import java.util.Queue;
+import java.util.ResourceBundle;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -23,10 +25,15 @@ public class HistoryDisplayPane {
   private static final String HISTORY_DISPLAY_PANE_TEXT = "HistoryDisplayPaneText";
   private static final String HISTORY_PANE_ID = "HistoryPane";
   private static final String HISTORY_BOX_ID = "HistoryBox";
-  private static final String BUTTON = "regular-button";
+  private static final String EXAMPLE_BUTTON = "example-button";
   private static final String HISTORY_BUTTON = "history-button";
+  private static final String BUTTON = "regular-button";
   private static final double TABS_HEIGHT = 570.0;
+  private static final double TABS_WIDTH = 403.0;
   private static final String BUTTON_ID = "previousCommandButton";
+  private static final String CLEAR_BUTTON_TEXT = "Clear History";
+  public static final String DEFAULT_RESOURCE_PACKAGE = HistoryDisplayPane.class.getPackageName() + ".resources.";
+  private static final String EXAMPLE_FILE = "ExampleCode";
 
   private BorderPane basePane;
   private ScrollPane historyPane;
@@ -35,7 +42,12 @@ public class HistoryDisplayPane {
   private VBox varBox;
   private ScrollPane userPane;
   private VBox userBox;
+  private ScrollPane exPane;
+  private VBox exBox;
   private FrontEndExternalAPI viewController;
+  private VBox topBox;
+  private Queue<String> displayCommandHistory;
+  private ResourceBundle exampleCode;
 
   private Button clearButton;
 
@@ -43,11 +55,28 @@ public class HistoryDisplayPane {
     basePane = new BorderPane();
     basePane.getStyleClass().add(HISTORY_DISPLAY_PANE_ID);
     this.viewController = viewController;
+    exampleCode = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + EXAMPLE_FILE);
+    topBox = new VBox();
+    basePane.setTop(topBox);
     displayTitle();
     createHistoryPane();
     createVariablePane();
     createUserCommandsPane();
+    createExamplePane();
     createTabPane();
+    createClearHistoryButton();
+  }
+
+  private void createClearHistoryButton() {
+    Button clearButton = new Button(CLEAR_BUTTON_TEXT);
+    clearButton.getStyleClass().add(BUTTON);
+    clearButton.setOnAction(event -> clearHistory());
+    topBox.getChildren().add(clearButton);
+  }
+
+  private void clearHistory() {
+    historyBox.getChildren().clear();
+    displayCommandHistory.clear();
   }
 
   private void createTabPane() {
@@ -59,8 +88,18 @@ public class HistoryDisplayPane {
     var.setContent(varPane);
     Tab user = new Tab("User Defined Commands");
     user.setContent(userPane);
-    tabPane.getTabs().addAll(history, var, user);
+    Tab ex = new Tab("Example Code");
+    ex.setContent(exPane);
+    makeExampleCodeButtons();
+    tabPane.getTabs().addAll(history, var, user, ex);
     basePane.setCenter(tabPane);
+  }
+
+  private void createExamplePane() {
+    double spacing = 5.0;
+    exBox = makeBox();
+    exBox.setSpacing(spacing);
+    exPane = makeScrollPane(exBox);
   }
 
   private void createUserCommandsPane() {
@@ -100,7 +139,8 @@ public class HistoryDisplayPane {
     Label title = new Label(TITLE);
     title.setWrapText(true);
     title.getStyleClass().add(HISTORY_DISPLAY_PANE_TEXT);
-    basePane.setTop(title);
+    topBox.getChildren().add(title);
+    topBox.getStyleClass().add(HISTORY_PANE_ID);
   }
 
   public BorderPane getBox() {
@@ -124,6 +164,7 @@ public class HistoryDisplayPane {
   }
 
   public void updateCommandHistory(Queue<String> commandHistory) {
+    displayCommandHistory = commandHistory;
     historyBox.getChildren().clear();
     for (String command : commandHistory) {
       Button button = makeButton(command, historyBox, HISTORY_BUTTON);
@@ -137,6 +178,20 @@ public class HistoryDisplayPane {
     for (Map.Entry<String, Double> entry : variables.entrySet()) {
       Button button = makeButton(entry.getKey() + " = " + entry.getValue(), varBox, HISTORY_BUTTON);
       varBox.getChildren().add(button);
+    }
+  }
+
+  private void makeExampleCodeButtons() {
+    double prefWidth = TABS_WIDTH - 20.0;
+    Object[] allExCode = exampleCode.keySet().toArray();
+    for (Object example: allExCode) {
+      String exampleCodeString = exampleCode.getString(example.toString());
+      String exampleCodewithLabel = example + ": " + exampleCodeString;
+      Button button = makeButton(exampleCodewithLabel, exBox, EXAMPLE_BUTTON);
+      button.setPrefWidth(prefWidth);
+      exBox.getChildren().add(button);
+      button
+              .setOnAction(event -> viewController.displayCommandStringOnTextArea(exampleCodeString));
     }
   }
 

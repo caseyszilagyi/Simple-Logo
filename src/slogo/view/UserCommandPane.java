@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import slogo.controller.FrontEndExternalAPI;
 
@@ -35,7 +36,7 @@ public class UserCommandPane {
   private static final String RUN_BUTTON_ID = "runButton";
   private static final String CLEAR_BUTTON_ID = "clearButton";
 
-  private HBox box;
+  private GridPane box;
   private TextArea textArea;
   private FrontEndExternalAPI viewController;
   private ComboBox<String> helpComboBox;
@@ -44,12 +45,12 @@ public class UserCommandPane {
 
   public UserCommandPane(FrontEndExternalAPI viewController) {
     this.viewController = viewController;
-    box = new HBox();
+    box = new GridPane();
     box.getStyleClass().add(USER_COMMAND_PANE_ID);
     addTextField();
     createButtons();
     slider = new Slider(10, 3000, 100);
-    box.getChildren().add(slider);
+    box.add(slider, 5, 0);
   }
 
   public double getAnimationSpeed(){
@@ -57,13 +58,13 @@ public class UserCommandPane {
   }
 
   private void createButtons() {
-    Button runButton = makeButton("Run");
+    Button runButton = makeButton("Run", 1);
     runButton.setOnAction(event -> viewController.processUserCommandInput(textArea.getText()));
     runButton.setId(RUN_BUTTON_ID);
-    Button clearButton = makeButton("Clear");
+    Button clearButton = makeButton("Clear", 2);
     clearButton.setOnAction(event -> textArea.clear());
     clearButton.setId(CLEAR_BUTTON_ID);
-    helpButton = makeButton("Help");
+    helpButton = makeButton("Help", 3);
     helpButton.setOnAction(event -> createHelpButton());
   }
 
@@ -77,7 +78,7 @@ public class UserCommandPane {
     helpComboBox.getItems().addAll(allReferences);
     helpComboBox.setValue(DEFAULT_MESSAGE);
     helpComboBox.getStyleClass().add(COMBO_BOX);
-    box.getChildren().add(helpComboBox);
+    box.add(helpComboBox, 3, 0);
     helpComboBox.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
@@ -105,14 +106,14 @@ public class UserCommandPane {
     info.setContentText(text.toString());
     info.showAndWait();
     box.getChildren().remove(helpComboBox);
-    box.getChildren().add(helpButton);
+    box.add(helpButton, 3, 0);
   }
 
-  private Button makeButton(String text) {
+  private Button makeButton(String text, int col) {
     Button button = new Button(text);
     button.setPrefHeight(HEIGHT);
     button.getStyleClass().add(BUTTON);
-    box.getChildren().add(button);
+    box.add(button, col, 0);
     return button;
   }
 
@@ -122,10 +123,10 @@ public class UserCommandPane {
     textArea.setPrefHeight(HEIGHT);
     textArea.getStyleClass().add(TEXT_AREA);
     textArea.setId(TEXT_AREA_ID);
-    box.getChildren().add(textArea);
+    box.add(textArea, 0, 0);
   }
 
-  public HBox getBox() {
+  public GridPane getBox() {
     return box;
   }
 

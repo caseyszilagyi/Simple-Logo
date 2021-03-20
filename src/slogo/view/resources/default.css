@@ -16,7 +16,7 @@
   -fx-background-insets: 5;
   -fx-background-color: #696969;
   -fx-alignment: CENTER_LEFT;
-  -fx-spacing: 5.0;
+  -fx-hgap: 5.0;
 }
 
 .HistoryDisplayPane {
@@ -133,5 +133,18 @@
 
 .HistoryDisplayPaneText {
   -fx-text-alignment: CENTER;
-  -fx-text-fill: #f8f8ff;
+  -fx-text-fill: #000000;
+}
+
+.example-button {
+  -fx-background-radius: 10;
+  -fx-border-radius: 10;
+  -fx-border-width: 2;
+  -fx-background-color: #d3d3d3;
+  -fx-text-alignment: CENTER;
+  -fx-border-color: #000000;
+}
+
+.example-button:hover {
+  -fx-background-color: linear-gradient(#808080, #dcdcdc);
 }
