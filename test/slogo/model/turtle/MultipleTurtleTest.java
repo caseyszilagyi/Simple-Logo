@@ -63,7 +63,7 @@ public class MultipleTurtleTest {
     assertEquals(0, turtles.get(3).getYPosition(), TOLERANCE);
     assertEquals(50, turtles.get(4).getYPosition(), TOLERANCE);
   }
-  
+
 
   // Helper methods below
 
