@@ -2,6 +2,7 @@ package slogo.view;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+
 import javafx.animation.Timeline;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,9 +17,6 @@ import java.util.List;
 public class TurtleDisplayPane {
   private static final double TURTLE_WIDTH = 50;
   private static final double TURTLE_HEIGHT = 50;
-
-  private static final int rows = 700;
-  private static final int cols = 600;
 
   private static final String PANE_BOX_ID = "TurtleView";
   private static final String LINE_ID = "Line";
@@ -45,9 +43,14 @@ public class TurtleDisplayPane {
   private boolean canUpdateAngle = false;
   private double lastAngle = 90;
   private Timeline timeline;
+  private double rows;
+  private double cols;
 
-  public TurtleDisplayPane(BorderPane root) {
+  public TurtleDisplayPane(BorderPane root, double r, double c) {
     viewPane = root;
+    rows = r;
+    cols = c;
+
     turtleViewPane = new AnchorPane();
     viewPane.setCenter(turtleViewPane);
     turtleViewPane.setId(PANE_BOX_ID);
