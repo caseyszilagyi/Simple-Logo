@@ -28,6 +28,14 @@
   -fx-vgap: 5.0;
 }
 
+.CommandButtonPane {
+  -fx-padding: 15;
+  -fx-background-radius: 10;
+  -fx-background-insets: 5;
+  -fx-background-color: #696969;
+  -fx-alignment: TOP_CENTER;
+}
+
 .TurtleView {
   -fx-background-radius: 10;
   -fx-background-insets: 10;

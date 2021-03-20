@@ -16,6 +16,9 @@ import javafx.stage.Stage;
 public class ViewPane {
   private static final String VIEW_PANE_ID = "ViewPane";
 
+  private static final int ROWS = 700;
+  private static final int COLS = 600;
+
   private BorderPane viewPane;
   private TurtleDisplayPane turtleDisplay;
   private ViewChoicePane choiceDisplay;
@@ -27,9 +30,11 @@ public class ViewPane {
     viewPane = new BorderPane();
     viewPane.setId(VIEW_PANE_ID);
     viewPane.getStyleClass().add(VIEW_PANE_ID);
+    viewPane.setMaxWidth(ROWS + 10.0);
+    viewPane.setMinWidth(ROWS + 10.0);
     xCoord = 0;
     yCoord = 0;
-    turtleDisplay = new TurtleDisplayPane(viewPane);
+    turtleDisplay = new TurtleDisplayPane(viewPane, ROWS, COLS);
     choiceDisplay = new ViewChoicePane(s, viewPane, turtleDisplay);
   }
 

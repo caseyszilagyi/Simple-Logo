@@ -1,5 +1,6 @@
 package slogo.view;
 
+import java.awt.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -23,7 +24,7 @@ import slogo.controller.FrontEndExternalAPI;
 public class ScreenCreator {
 
   private static final String TITLE = "SLogo";
-  private static final double DEFAULT_X = 1150.0;
+  private static final double DEFAULT_X = 1330.0;
   private static final double DEFAULT_Y = 800.0;
   private static final String RESOURCE_PATH = "slogo.view.resources.languages";
 
@@ -33,6 +34,7 @@ public class ScreenCreator {
   private HistoryDisplayPane historyDisplayPane;
   private UserCommandPane userCommand;
   private ViewPane viewPane;
+  private CommandButtonPane commandButtonPane;
   private FrontEndExternalAPI viewController;
   private String styleSheet;
   private ResourceBundle languageResource;
@@ -56,13 +58,16 @@ public class ScreenCreator {
     scene.getStylesheets().add(styleSheet);
 
     historyDisplayPane = new HistoryDisplayPane(viewController);
-    root.setCenter(historyDisplayPane.getBox());
+    root.setRight(historyDisplayPane.getBox());
 
     userCommand = new UserCommandPane(viewController);
     root.setBottom(userCommand.getBox());
 
     viewPane = new ViewPane(stage);
-    root.setLeft(viewPane.getBox());
+    root.setCenter(viewPane.getBox());
+
+    commandButtonPane = new CommandButtonPane();
+    root.setLeft(commandButtonPane.getBox());
 
     runSimulation();
 
