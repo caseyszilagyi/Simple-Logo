@@ -59,9 +59,10 @@ public class ViewPane {
   //Current set up for these parameters is not SHY enough since we have to have
   // prior knowledge about the order of these parameters
   public void updateTurtle(List<Double> parameters) {
-    moveTurtle(parameters.get(0), parameters.get(1));
 
-      turtleDisplay.updateTurtle(parameters);
+    turtleDisplay.updateTurtle(parameters);
+
+    moveTurtle(parameters.get(0), parameters.get(1));
 
   }
 
