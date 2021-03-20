@@ -3,7 +3,7 @@ package slogo.controller;
 import java.util.List;
 import java.util.Map;
 import javax.swing.text.html.ImageView;
-import slogo.model.CommandParser;
+import slogo.model.parse.CommandParser;
 import slogo.model.commands.BasicCommandClassLoader;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
 import slogo.model.execution.CommandInformationBundle;
