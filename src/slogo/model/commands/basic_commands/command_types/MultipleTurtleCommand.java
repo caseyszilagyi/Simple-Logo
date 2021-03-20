@@ -3,7 +3,7 @@ package slogo.model.commands.basic_commands.command_types;
 
 import java.util.List;
 import slogo.model.execution.CommandInformationBundle;
-import slogo.model.tree.TreeNode;
+import slogo.model.execution.TurtleInformation;
 
 /**
  * Any command of this type has the potential to modify the current set of active turtles
@@ -13,30 +13,30 @@ import slogo.model.tree.TreeNode;
  */
 public abstract class MultipleTurtleCommand extends Command{
 
-  CommandInformationBundle INFORMATION_BUNDLE;
+  TurtleInformation TURTLE_INFORMATION;
 
   public MultipleTurtleCommand(CommandInformationBundle informationBundle){
-    INFORMATION_BUNDLE = informationBundle;
+    TURTLE_INFORMATION = informationBundle.getTurtleInformation();
   }
 
   protected int numberOfActiveTurtles(){
-    return INFORMATION_BUNDLE.getAllTurtles().size();
+    return TURTLE_INFORMATION.getAllTurtles().size();
   }
 
   protected void replaceActiveTurtleLayer(List<Integer> IDS){
-    INFORMATION_BUNDLE.setActiveTurtleLayer(IDS);
+    TURTLE_INFORMATION.setActiveTurtleLayer(IDS);
   }
 
   protected void duplicateActiveTurtleLayer(){
-    INFORMATION_BUNDLE.addActiveTurtleLayer();
+    TURTLE_INFORMATION.addActiveTurtleLayer();
   }
 
   protected void removeActiveTurtleLayer(){
-    INFORMATION_BUNDLE.removeActiveTurtleLayer();
+    TURTLE_INFORMATION.removeActiveTurtleLayer();
   }
 
   protected void addActiveTurtleLayer(List<Integer> IDS){
-    INFORMATION_BUNDLE.addActiveTurtleLayer();
+    TURTLE_INFORMATION.addActiveTurtleLayer();
   }
 
 

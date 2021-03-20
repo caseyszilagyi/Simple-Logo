@@ -1,12 +1,15 @@
+package slogo.model;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 import slogo.controller.BackEndExternalAPI;
-import slogo.controller.ModelController;
 import slogo.model.commands.BasicCommandClassLoader;
+import slogo.model.commands.basic_commands.UserDefinedCommand;
 import slogo.model.execution.CommandInformationBundle;
+import slogo.model.execution.UserDefinedInformation;
 import slogo.model.parse.CommandParser;
 import slogo.model.parse.InputCleaner;
 import slogo.model.parse.MakeTokens;
@@ -18,7 +21,7 @@ import slogo.model.tree.TreeNode;
  *
  * @author jincho
  */
-public class CommandExecuter {
+public class SLogoCommandExecutor implements CommandExecutor {
 
   public static final String LANGUAGES_PACKAGE = "slogo.model.resources.languages.";
   public static final String COMMAND_PACKAGE = "slogo.model.resources.commands.";
@@ -32,25 +35,53 @@ public class CommandExecuter {
   private CommandParser commandParser;
   private InputCleaner inputCleaner;
   private MakeTokens tokenMaker;
-  private CommandInformationBundle bundle;
-  BasicCommandClassLoader basicCommandClassLoader;
+
+  private final CommandInformationBundle BUNDLE;
+  private final BasicCommandClassLoader COMMAND_LOADER = new BasicCommandClassLoader();
+  private final UserDefinedInformation USER_INFORMATION;
 
 
-  public CommandExecuter(BackEndExternalAPI modelController) {
+  public SLogoCommandExecutor(BackEndExternalAPI modelController) {
     this.modelController = modelController;
-    bundle = new CommandInformationBundle(modelController);
-    basicCommandClassLoader = new BasicCommandClassLoader();
+    BUNDLE = new CommandInformationBundle(modelController);
+    USER_INFORMATION = BUNDLE.getUserDefinedInformation();
 
     regexMap = new HashMap<>();
     addRegExPatterns("Syntax");
 
   }
 
-  public void parseInput(String input, String language) {
+  public CommandInformationBundle getBundle(){
+    return BUNDLE;
+  }
+
+
+
+  /**
+   * Gets an unmodifiable copy of the map of commands
+   *
+   * @return The copy of the command map
+   */
+  public Map<String, UserDefinedCommand> getCommandMap() {
+    return USER_INFORMATION.getCommandMap();
+  }
+
+  /**
+   * Gets an unmodifiable copy of the variable map
+   *
+   * @return The variable map
+   */
+  public Map<String, Double> getVariableMap() {
+    return USER_INFORMATION.getVariableMap();
+  }
+
+
+
+  public void executeCommand(String input, String language) {
     CommandParser commandParser = new CommandParser(input, language, modelController);
     TreeNode inputRoot = commandParser.makeTree();
     for (TreeNode child : inputRoot.getChildren()) {
-      basicCommandClassLoader.makeCommand(bundle, child).execute();
+      COMMAND_LOADER.makeCommand(BUNDLE, child).execute();
     }
   }
 

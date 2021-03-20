@@ -16,11 +16,12 @@ public class Tell extends MultipleTurtleCommand {
   /**
    * Gets all of the turtles that will follow future actions
    * @param informationBundle The bundle that contains all turtles
-   * @param children The integer values representing the turtles that will follow future commands
+   * @param children Holds the command block that has all of the turtle IDs
    */
   public Tell(CommandInformationBundle informationBundle, List<TreeNode> children){
     super(informationBundle);
-    for(TreeNode child: children){
+    TreeNode IDBlock = children.get(0);
+    for(TreeNode child: IDBlock.getChildren()){
       IDS.add((int) loadClass(informationBundle, child).execute());
     }
   }

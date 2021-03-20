@@ -13,7 +13,10 @@ import slogo.controller.ModelController;
 import slogo.model.commands.BasicCommandClassLoader;
 import slogo.model.commands.basic_commands.BasicCommand;
 import slogo.model.execution.CommandInformationBundle;
+import slogo.model.execution.DisplayInformation;
 import slogo.model.execution.Turtle;
+import slogo.model.execution.TurtleInformation;
+import slogo.model.execution.UserDefinedInformation;
 import slogo.model.tree.TreeNode;
 
 
@@ -26,17 +29,24 @@ public class MultipleTurtleTest {
 
   static final double TOLERANCE = 0.05;
   private CommandInformationBundle commandBundle;
+  private TurtleInformation turtleInformation;
+  private UserDefinedInformation userInformation;
+  private DisplayInformation displayInformation;
+
   private BasicCommandClassLoader loader;
   private BackEndExternalAPI modelController;
   private FrontEndExternalAPI viewController;
 
   /**
-   * Sets up the turtle and the classloader
+   * Sets up the information bundle and gets all the necessary components
    */
   @BeforeEach
   void setUp() {
     modelController = new ModelController();
     commandBundle = new CommandInformationBundle(modelController);
+    turtleInformation = commandBundle.getTurtleInformation();
+    userInformation = commandBundle.getUserDefinedInformation();
+    displayInformation = commandBundle.getDisplayInformation();
     loader = new BasicCommandClassLoader();
   }
 
@@ -46,24 +56,26 @@ public class MultipleTurtleTest {
    */
   @Test
   void basicTestTell(){
-    TreeNode tell = makeTree("Tell", "1", "2", "3");
+    TreeNode commandBlock = makeTree("CommandBlock", "1", "2", "3");
+    TreeNode tell = makeTree("Tell", commandBlock);
     executeCommand(makeBasicCommand(tell));
     moveTurtle("50");
-    List<Turtle> turtles = commandBundle.getAllTurtles();
+    List<Turtle> turtles = turtleInformation.getAllTurtles();
     assertEquals(50, turtles.get(0).getYPosition(), TOLERANCE);
     assertEquals(50, turtles.get(1).getYPosition(), TOLERANCE);
     assertEquals(50, turtles.get(2).getYPosition(), TOLERANCE);
-    tell = makeTree("Tell", "1", "3", "5");
+    commandBlock = makeTree("CommandBlock", "1", "3", "5");
+    tell = makeTree("Tell", commandBlock);
     executeCommand(makeBasicCommand(tell));
     moveTurtle("50");
-    turtles = commandBundle.getAllTurtles();
+    turtles = turtleInformation.getAllTurtles();
     assertEquals(100, turtles.get(0).getYPosition(), TOLERANCE);
     assertEquals(50, turtles.get(1).getYPosition(), TOLERANCE);
     assertEquals(100, turtles.get(2).getYPosition(), TOLERANCE);
     assertEquals(0, turtles.get(3).getYPosition(), TOLERANCE);
     assertEquals(50, turtles.get(4).getYPosition(), TOLERANCE);
   }
-  
+
 
   // Helper methods below
 
@@ -73,6 +85,15 @@ public class MultipleTurtleTest {
     List<TreeNode> treeChildren = new ArrayList<>();
     for(String s: children){
       treeChildren.add(makeNode(s));
+    }
+    return new TreeNode(root, root, treeChildren);
+  }
+
+  // Makes a Tree with the top node being the string, and all children being the list of nodes
+  private TreeNode makeTree(String root, TreeNode... children) {
+    List<TreeNode> treeChildren = new ArrayList<>();
+    for(TreeNode child: children){
+      treeChildren.add(child);
     }
     return new TreeNode(root, root, treeChildren);
   }
