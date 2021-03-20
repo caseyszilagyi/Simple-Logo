@@ -73,7 +73,6 @@ public class TurtleDisplayPane {
 
     createTurtle();
 
-//    animationTimer.start();
   }
 
 
