@@ -6,7 +6,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * calculating sine of angle
+ * Calculates the sine of an angle
  *
  * @author jincho
  */
@@ -18,7 +18,7 @@ public class Sine extends MathAndLogicCommand {
    * Makes an instance of the sine command
    *
    * @param bundle   Not used for this command
-   * @param children The TreeNode to taake the sine of
+   * @param children The TreeNode to take the sine of
    */
   public Sine(CommandInformationBundle bundle, List<TreeNode> children) {
     super(bundle);
@@ -26,10 +26,11 @@ public class Sine extends MathAndLogicCommand {
   }
 
   /**
-   * calculate sine of angle in degrees
+   * Calculates the sine of the angle in degrees
    *
-   * @return The sine of angle
+   * @return The sine of the angle
    */
+  @Override
   public double execute() {
     return Math.sin(Math.toRadians(ANGLE));
   }

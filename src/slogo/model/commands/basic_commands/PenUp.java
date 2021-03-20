@@ -6,7 +6,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * The pen up command
+ * Lifts the pen up
  *
  * @author Casey Szilagyi
  */
@@ -27,6 +27,7 @@ public class PenUp extends TurtleAlteringCommand {
    *
    * @return 0, because the pen is not drawing
    */
+  @Override
   public double execute() {
     updateTurtle(turtle -> {
       changePenState(0);

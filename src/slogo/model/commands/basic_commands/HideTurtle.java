@@ -6,7 +6,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * The hide turtle command
+ * Hides the turtle
  *
  * @author Casey Szilagyi
  */
@@ -27,6 +27,7 @@ public class HideTurtle extends TurtleAlteringCommand {
    *
    * @return 0, because the turtle is not visible
    */
+  @Override
   public double execute() {
     updateTurtle(turtle -> {
       changeTurtleVisibility(0);

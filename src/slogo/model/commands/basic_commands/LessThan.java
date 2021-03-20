@@ -6,7 +6,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * The LessThan Command, which compares the values of two nodes
+ * Compares the values of two nodes
  *
  * @author Casey Szilagyi
  */
@@ -32,6 +32,7 @@ public class LessThan extends MathAndLogicCommand {
    *
    * @return 1 if the first expression is less than the second, 0 otherwise
    */
+  @Override
   public double execute() {
     if (EXPRESSION_1 < EXPRESSION_2) {
       return 1;

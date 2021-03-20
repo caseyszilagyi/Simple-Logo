@@ -18,9 +18,8 @@ public class If extends ControlStructureCommand {
   /**
    * Makes an instance of the if command
    *
-   * @param bundle   The pieces of information, such as variables and user defined commands, that
-   *                 may be needed to execute the the command
-   * @param children The children are the conditional, and block of commands to execute
+   * @param bundle   Will not be needed for this command
+   * @param children The two children are the conditional, and block of commands to execute
    */
   public If(CommandInformationBundle bundle, List<TreeNode> children) {
     super(bundle);
@@ -33,6 +32,7 @@ public class If extends ControlStructureCommand {
    *
    * @return The value of the final command executed, or 0 if the conditional is not executed
    */
+  @Override
   public double execute() {
     double val = 0;
     if (CONDITIONAL != 0) {

@@ -7,7 +7,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * The random command. This command returns a non-negative number strictly less than max
+ * Returns a non-negative number strictly less than max
  *
  * @author Casey Szilagyi
  */
@@ -17,10 +17,10 @@ public class RandomNumber extends MathAndLogicCommand {
   private final Random RANDOM = new Random();
 
   /**
-   * Makes an instance of the sum command
+   * Makes an instance of the random command
    *
    * @param bundle   Not used for this command
-   * @param children The TreeNodes to sum
+   * @param children The one child is the max value that the random number can go up to
    */
   public RandomNumber(CommandInformationBundle bundle, List<TreeNode> children) {
     super(bundle);
@@ -28,10 +28,11 @@ public class RandomNumber extends MathAndLogicCommand {
   }
 
   /**
-   * Sums the two numbers
+   * Generates a (pseudo) random number up to the max
    *
-   * @return The sum of the two numbers
+   * @return The random number
    */
+  @Override
   public double execute() {
     return RANDOM.nextDouble() * MAX;
   }

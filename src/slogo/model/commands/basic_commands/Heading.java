@@ -16,12 +16,16 @@ public class Heading extends TurtleQueryCommand {
    * Makes the BasicCommand and saves the Turtle
    *
    * @param informationBundle The bundle of information that contains the turtle
-   * @param children
+   * @param children This command has no children, so it will be null
    */
   public Heading(CommandInformationBundle informationBundle, List<TreeNode> children) {
     super(informationBundle);
   }
 
+  /**
+   * Sets the heading that the turtle is facing
+   * @return The number of degrees moved
+   */
   @Override
   public double execute() {
     return getAngle();

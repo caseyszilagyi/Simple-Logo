@@ -13,7 +13,7 @@ public interface BasicCommand {
    * turtle, storing a variable, storing a user defined command,  or just returning a value after
    * arithmetic
    *
-   * @return An integer representing the result of the command
+   * @return An double representing the result of the command
    */
   public double execute();
 

@@ -6,7 +6,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * The home command
+ * Moves the turtle to 0,0
  *
  * @author Casey Szilagyi
  */
@@ -38,6 +38,7 @@ public class Home extends TurtleAlteringCommand {
    *
    * @return The distance that the turtle had to move to get there
    */
+  @Override
   public double execute() {
     updateTurtle(turtle -> {
       setTurtlePosition(0,0);

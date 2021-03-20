@@ -32,6 +32,7 @@ public class GreaterThan extends MathAndLogicCommand {
    *
    * @return 1 if the first expression is greater than the second, 0 otherwise
    */
+  @Override
   public double execute() {
     if (EXPRESSION_1 > EXPRESSION_2) {
       return 1;

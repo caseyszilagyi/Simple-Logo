@@ -2,7 +2,6 @@ package slogo.model.commands.basic_commands.command_types;
 
 import java.util.List;
 import java.util.function.Consumer;
-import slogo.controller.BackEndExternalAPI;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.execution.Turtle;
 import slogo.model.execution.TurtleInformation;
@@ -100,14 +99,12 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
     activeTurtle.clearScreen();
   }
 
+  /**
+   * Passes updated parameters to the front end
+   */
   protected void updateFrontEnd() {
     TURTLE_INFORMATION.updateFrontEnd();
   }
-
-  protected void setActiveTurtle(int ID) {
-    TURTLE_INFORMATION.setActiveTurtle(ID);
-  }
-
 
   /**
    * Updates all of the active turtles
@@ -123,6 +120,11 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
       updateFrontEnd();
     }
 
+  }
+
+  // Changes the turtle that is active
+  private void setActiveTurtle(int ID) {
+    TURTLE_INFORMATION.setActiveTurtle(ID);
   }
 
 

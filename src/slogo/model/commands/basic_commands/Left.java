@@ -15,10 +15,10 @@ public class Left extends TurtleAlteringCommand {
   private final double ANGLE;
 
   /**
-   * Makes an instance of the right command
+   * Makes an instance of the left command
    *
    * @param bundle Contains the turtle that will need to be altered for this command
-   * @param nodes  All of the children nodes needed for this command
+   * @param nodes  Has 1 child, which is the amount the turtle will be rotated
    */
   public Left(CommandInformationBundle bundle, List<TreeNode> nodes) {
     super(bundle);
@@ -30,6 +30,7 @@ public class Left extends TurtleAlteringCommand {
    *
    * @return The angle that it rotated
    */
+  @Override
   public double execute() {
     updateTurtle(turtle -> {
       changeTurtleAngle(ANGLE);

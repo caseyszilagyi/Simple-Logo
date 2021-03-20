@@ -6,7 +6,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * The show turtle command
+ * Makes the turtle visible
  *
  * @author Casey Szilagyi
  */
@@ -27,6 +27,7 @@ public class ShowTurtle extends TurtleAlteringCommand {
    *
    * @return 1, because the turtle is visible
    */
+  @Override
   public double execute() {
     updateTurtle(turtle -> {
       changeTurtleVisibility(1);

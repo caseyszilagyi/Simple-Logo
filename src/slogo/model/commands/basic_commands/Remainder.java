@@ -6,7 +6,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * The Remainder command
+ * Gets the remainder of a division operation
  *
  * @author Casey Szilagyi
  */
@@ -19,7 +19,7 @@ public class Remainder extends MathAndLogicCommand {
    * Makes an instance of the remainder command
    *
    * @param bundle   Not used for this command
-   * @param children The TreeNodes to take the remainder of
+   * @param children The two TreeNodes to divide and get the remainder of
    */
   public Remainder(CommandInformationBundle bundle, List<TreeNode> children) {
     super(bundle);
@@ -28,10 +28,11 @@ public class Remainder extends MathAndLogicCommand {
   }
 
   /**
-   * Gives the remainder of the two numbers
+   * Gives the remainder of the division operation
    *
-   * @return The remainder of the two numbers
+   * @return The remainder
    */
+  @Override
   public double execute() {
     return VALUE_1 % VALUE_2;
   }

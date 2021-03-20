@@ -19,9 +19,8 @@ public class IfElse extends ControlStructureCommand {
   /**
    * Makes an instance of the IfElse command
    *
-   * @param bundle   The pieces of information, such as variables and user defined commands, that
-   *                 may be needed to execute the the command
-   * @param children The children are the conditional, if block, and else block to execute
+   * @param bundle   Not used for this command
+   * @param children The 3 children are the conditional, if block, and else block to execute
    */
   public IfElse(CommandInformationBundle bundle, List<TreeNode> children) {
     super(bundle);
@@ -35,6 +34,7 @@ public class IfElse extends ControlStructureCommand {
    *
    * @return The value of the final command executed, or 0 if no commands are executed
    */
+  @Override
   public double execute() {
     double val = 0;
     addTurtleLayer();
