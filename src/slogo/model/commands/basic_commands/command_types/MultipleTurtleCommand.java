@@ -4,6 +4,7 @@ package slogo.model.commands.basic_commands.command_types;
 import java.util.List;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.execution.TurtleInformation;
+import slogo.model.tree.TreeNode;
 
 /**
  * Any command of this type has the potential to modify the current set of active turtles that the
@@ -13,7 +14,8 @@ import slogo.model.execution.TurtleInformation;
  */
 public abstract class MultipleTurtleCommand extends Command {
 
-  TurtleInformation TURTLE_INFORMATION;
+  private final TurtleInformation TURTLE_INFORMATION;
+  private final CommandInformationBundle INFORMATION_BUNDLE;
 
   /**
    * Makes the command and saves the turtle information
@@ -22,6 +24,7 @@ public abstract class MultipleTurtleCommand extends Command {
    */
   public MultipleTurtleCommand(CommandInformationBundle informationBundle) {
     TURTLE_INFORMATION = informationBundle.getTurtleInformation();
+    INFORMATION_BUNDLE = informationBundle;
   }
 
   /**
@@ -55,6 +58,7 @@ public abstract class MultipleTurtleCommand extends Command {
    */
   protected void addActiveTurtleLayer(List<Integer> IDS) {
     TURTLE_INFORMATION.addActiveTurtleLayer();
+    TURTLE_INFORMATION.setActiveTurtleLayer(IDS);
   }
 
   /**
@@ -66,5 +70,14 @@ public abstract class MultipleTurtleCommand extends Command {
     return TURTLE_INFORMATION.getNumberOfTurtles();
   }
 
+  /**
+   * Executes the command in the node. Needed for condionals with multiple turtles
+   *
+   * @param node The node that holds all of the commands to execute
+   * @return The double value that represents the executed node
+   */
+  protected double executeNode(TreeNode node) {
+    return loadClass(INFORMATION_BUNDLE, node).execute();
+  }
 
 }

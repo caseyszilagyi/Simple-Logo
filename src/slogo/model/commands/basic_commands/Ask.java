@@ -32,13 +32,16 @@ public class Ask extends MultipleTurtleCommand {
   }
 
   /**
-   * Sets the active turtles to the ones that were passed
+   * Sets the active turtles to the ones that were passed, and then executes the commands
+   * on them
+   *
    * @return The ID of the last turtle in the list
    */
   @Override
   public double execute(){
     addActiveTurtleLayer(IDS);
-
-    return IDS.get(IDS.size()-1);
+    double result = executeNode(COMMANDS);
+    removeActiveTurtleLayer();
+    return result;
   }
 }
