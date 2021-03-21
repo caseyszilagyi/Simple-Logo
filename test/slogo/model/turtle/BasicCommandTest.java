@@ -2,7 +2,9 @@ package slogo.model.turtle;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.Main;
@@ -779,11 +781,36 @@ public class BasicCommandTest {
     assertEquals(2, val, TOLERANCE);
   }
 
+  /**
+   * Tests the ID command
+   */
+  @Test
+  void testID(){
+    TreeNode basicCommand = makeTreeWithStrings("BasicCommand", "2");
+    TreeNode tell = makeTree("Tell", basicCommand);
+    makeBasicCommand(tell).execute();
+    TreeNode ID = makeNode("ID");
+    assertEquals(2, makeBasicCommand(ID).execute(), TOLERANCE);
+    basicCommand = makeTreeWithStrings("BasicCommand", "3", "7", "4");
+    tell = makeTree("Tell", basicCommand);
+    makeBasicCommand(tell).execute();
+    assertEquals(4, makeBasicCommand(ID).execute(), TOLERANCE);
+  }
+
 
   // Combining methods
 
   // Helper methods below
 
+
+  // Makes a Tree with the top node being the string, and all children being the list of nodes
+  private TreeNode makeTreeWithStrings(String root, String... children) {
+    List<TreeNode> treeChildren = new ArrayList<>();
+    for(String s: children){
+      treeChildren.add(makeNode(s));
+    }
+    return new TreeNode(root, root, treeChildren, null);
+  }
 
   // Makes a Tree with the top node being the string, and all children being the list of nodes
   private TreeNode makeTree(String root, TreeNode... children) {

@@ -99,12 +99,6 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
     activeTurtle.clearScreen();
   }
 
-  /**
-   * Passes updated parameters to the front end
-   */
-  protected void updateFrontEnd() {
-    TURTLE_INFORMATION.updateFrontEnd();
-  }
 
   /**
    * Updates all of the active turtles
@@ -117,7 +111,6 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
       setActiveTurtle(turtleID);
       activeTurtle = TURTLE_INFORMATION.getActiveTurtle();
       turtleAction.accept(activeTurtle);
-      updateFrontEnd();
     }
 
   }

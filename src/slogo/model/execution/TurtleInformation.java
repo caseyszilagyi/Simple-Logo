@@ -33,12 +33,6 @@ public class TurtleInformation {
     activeTurtleID = 1;
   }
 
-
-  // Gets the list of IDs corresponding to the most deeply nested list of active turtles
-  public List<Integer> getCurrentActiveTurtleList() {
-    return CURRENT_ACTIVE_TURTLES.get(CURRENT_ACTIVE_TURTLES.size() - 1);
-  }
-
   /**
    * Gets the active turtle in this bundle
    *
@@ -48,17 +42,23 @@ public class TurtleInformation {
     return ALL_TURTLES.get(activeTurtleID-1);
   }
 
+  /**
+   * Sets the turtle that the commands will act on
+   * @param ID The ID of the turtle
+   */
   public void setActiveTurtle(int ID){
     activeTurtleID = ID;
     MODEL_CONTROLLER.setActiveTurtle(ID);
   }
 
   /**
-   * Updates the front end with the current active turtle's information
+   * Gets the list of IDs that correspond to the current active turtles
+   * @return The list of turtle IDs
    */
-  public void updateFrontEnd() {
-    MODEL_CONTROLLER.passInputToFrontEnd(getActiveTurtle().getFrontEndParameters());
+  public List<Integer> getCurrentActiveTurtleList() {
+    return CURRENT_ACTIVE_TURTLES.get(CURRENT_ACTIVE_TURTLES.size() - 1);
   }
+
 
 
   // Makes new turtles up to the given ID. Automatically called when the user

@@ -35,9 +35,6 @@ public interface BackEndExternalAPI {
 
   void setViewController(FrontEndExternalAPI viewController);
 
-  void passInputToFrontEnd(List<Double> frontEndParameters);
-
-
   /**
    * Passes the position of the turtle to the front end. Assumes that 0, 0 is the middle of the
    * screen, with +x to the right and +y up

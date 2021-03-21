@@ -52,11 +52,6 @@ public class DummyViewController implements FrontEndExternalAPI {
   }
 
   @Override
-  public void passInputFromBackendToFrontEnd(List<Double> parameters) {
-
-  }
-
-  @Override
   public void displayCommandStringOnTextArea(String command) {
 
   }
