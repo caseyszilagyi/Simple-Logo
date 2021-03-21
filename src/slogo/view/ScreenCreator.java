@@ -1,16 +1,16 @@
 package slogo.view;
 
-import java.awt.*;
+import javafx.scene.control.Button;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.ResourceBundle;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import slogo.controller.FrontEndExternalAPI;
@@ -24,9 +24,8 @@ import slogo.controller.FrontEndExternalAPI;
 public class ScreenCreator {
 
   private static final String TITLE = "SLogo";
-  private static final double DEFAULT_X = 1330.0;
+  private static final double DEFAULT_X = 1280.0;
   private static final double DEFAULT_Y = 800.0;
-  private static final String RESOURCE_PATH = "slogo.view.resources.languages";
 
   private BorderPane root;
   private Scene scene;
@@ -37,7 +36,6 @@ public class ScreenCreator {
   private CommandButtonPane commandButtonPane;
   private FrontEndExternalAPI viewController;
   private String styleSheet;
-  private ResourceBundle languageResource;
   private int frameDelay;
   private Timeline timeline;
 
@@ -52,7 +50,6 @@ public class ScreenCreator {
     stage.show();
 
     String defaultLanguage = "English";
-    languageResource = ResourceBundle.getBundle(RESOURCE_PATH + "." + defaultLanguage);
 
     styleSheet = "slogo/view/resources/default.css";
     scene.getStylesheets().add(styleSheet);
@@ -66,8 +63,15 @@ public class ScreenCreator {
     viewPane = new ViewPane(stage);
     root.setCenter(viewPane.getBox());
 
-    commandButtonPane = new CommandButtonPane(viewController);
+    commandButtonPane = new CommandButtonPane(viewController, defaultLanguage);
     root.setLeft(commandButtonPane.getBox());
+
+    // TODO: remove later for testing only
+    HBox test = new HBox();
+    Button changeLanguage = new Button("Change Language");
+    changeLanguage.setOnAction(event -> updateLanguage());
+    test.getChildren().add(changeLanguage);
+    root.setTop(test);
 
     runSimulation();
 
@@ -102,7 +106,7 @@ public class ScreenCreator {
 
   public void updateLanguage() {
     String language = viewPane.getLanguage();
-    languageResource = ResourceBundle.getBundle(RESOURCE_PATH + "." + language);
+    commandButtonPane.updateLanguage(language);
   }
 
   public void updateCommandHistory(Queue<String> commandHistory) {

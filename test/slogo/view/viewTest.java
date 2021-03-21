@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import slogo.Main;
 import util.DukeApplicationTest;
 
-public class viewTester extends DukeApplicationTest {
+public class viewTest extends DukeApplicationTest {
   private Main main;
   private TextArea codeInputBox;
   private Button runButton;

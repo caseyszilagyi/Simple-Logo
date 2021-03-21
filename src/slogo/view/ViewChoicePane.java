@@ -36,7 +36,7 @@ public class ViewChoicePane {
   private static final String PEN_COLOR_PICKER_ID = "PenColorPicker";
   private static final String COLOR_PICKER = "color-picker";
   private static final String ICON = "icon";
-  private static final String LANGUAGE_OPTIONS = "slogo.view.resources.languages.LangaugeOptions";
+  private static final String LANGUAGE_OPTIONS = "slogo.view.resources.buttons.languages.LangaugeOptions";
   private static final String IDS_FOR_TESTING = "slogo.view.resources.IDsforTesting";
 
   private GridPane choicePane;
