@@ -4,11 +4,8 @@ package slogo.model.parse;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 import slogo.ErrorHandler;
@@ -61,8 +58,20 @@ public class MakeTokens extends Parser{
     tokenize();
     commandBlockParams();
     newUserDefParams();
-//    return tokensToString();
     return tokens;
+  }
+
+  /**
+   *
+   * @return
+   */
+  @Override
+  public List<String> parseResults() {
+    List<String> ret = new ArrayList<>();
+    for(Token t : tokens) {
+      ret.add(t.getValue());
+    }
+    return ret;
   }
 
   private void tokenize() {
@@ -134,7 +143,7 @@ public class MakeTokens extends Parser{
     return s.contains("List");
   }
 
-  private boolean isListStart(String s) { return syntaxMap.get("ListStart").matcher(s).matches(); }
+  private boolean isListStart(String s) { return match(s, syntaxMap.get("ListStart")); }
 
   private boolean isListEnd(String s) {
     return s.equals("ListEndToken");
@@ -155,15 +164,6 @@ public class MakeTokens extends Parser{
     return expected;
   }
 
-  private List<String> tokensToString() {
-    List<String> ret = new ArrayList<>();
-    for(Token t : tokens) {
-      ret.add(t.getValue());
-    }
-    System.out.println(ret);
-    return ret;
-  }
-
   private void commandBlockParams() {
     Deque<Token> commandBlocks = new ArrayDeque<>();
     Deque<Integer> parameters = new ArrayDeque<>();
@@ -174,10 +174,7 @@ public class MakeTokens extends Parser{
       if (curr instanceof ListEndToken) {
         tokens.remove(ind);
         ind--;
-        Token popped = commandBlocks.pop();
-        System.out.println("block size: " +blockSize+" for: " +popped.getValue()+" of type "+getClassName(popped));
-        commandParser.addSingleParamCount(popped.getValue(), makeStringParam(blockSize));
-        blockSize = parameters.pop();
+        blockSize = completeListParamCount(commandBlocks, parameters, blockSize);
         continue;
       }
       if(!commandBlocks.isEmpty()) {
@@ -187,16 +184,27 @@ public class MakeTokens extends Parser{
       }
       if (curr instanceof ListToken) {
         commandCount++;
-        String commandKeyNum = COMMAND_KEY + Integer.toString(commandCount);
-        curr.setVariable(commandKeyNum);
-        commandBlocks.push(curr);
-        parameters.push(blockSize);
-        blockSize = 0;
+        blockSize = startListParamCount(curr, commandBlocks, parameters, blockSize, commandCount);
       }
     }
     if (!commandBlocks.isEmpty()) {
       throw new ErrorHandler("WrongParamNum");
     }
+  }
+
+  private int completeListParamCount(Deque<Token> commandBlocks, Deque<Integer> parameters, int blockSize) {
+    Token popped = commandBlocks.pop();
+    System.out.println("block size: " +blockSize+" for: " +popped.getValue()+" of type "+getClassName(popped));
+    commandParser.addSingleParamCount(popped.getValue(), makeStringParam(blockSize));
+    return parameters.pop();
+  }
+
+  private int startListParamCount(Token curr, Deque<Token> commandBlocks, Deque<Integer> parameters, int blockSize, int commandCount) {
+    String commandKeyNum = COMMAND_KEY + Integer.toString(commandCount);
+    curr.setValue(commandKeyNum);
+    commandBlocks.push(curr);
+    parameters.push(blockSize);
+    return 0;
   }
 
   private void newUserDefParams() {
@@ -218,8 +226,4 @@ public class MakeTokens extends Parser{
     return ret;
   }
 
-  @Override
-  public List<String> parseResults() {
-    return null;
-  }
 }

@@ -20,7 +20,7 @@ public abstract class Token {
 
   public String getValue() { return  value; }
 
-  public void setVariable(String val) { value = val; }
+  public void setValue(String val) { value = val; }
 
   protected boolean isDefinedCommand(String s) { return CommandParser.commandParam.containsKey(s); }
 

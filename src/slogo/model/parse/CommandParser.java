@@ -114,6 +114,11 @@ public class CommandParser extends Parser {
     }
   }
 
+  @Override
+  public List<String> parseResults() {
+    return null;
+  }
+
   private TreeNode insertNodeRecursive(Deque<Token> splitCommands, TreeNode root) {
     if (getParam(root.getValue()).size() == 0) {
       System.out.println(root.getValue() + " is a leaf");
@@ -195,8 +200,5 @@ public class CommandParser extends Parser {
     return toMatch.equals(expected);
   }
 
-  @Override
-  public List<String> parseResults() {
-    return null;
-  }
+
 }
