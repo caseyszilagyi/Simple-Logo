@@ -7,6 +7,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.controller.ModelController;
+import slogo.model.parse.CommandBlockParser;
 import slogo.model.parse.CommandParser;
 import slogo.model.parse.InputCleaner;
 import slogo.model.parse.MakeTokens;
@@ -32,7 +33,9 @@ public class MakeTokensTest{
   void testSimpleTokenizer() {
     String userInput = "xcor";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    List<String> actual = tokensToString(tokenMaker.tokenString());
+    List<Token> tokens = tokenMaker.tokenString();
+    CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
+    List<String> actual = tokensToString(tokens);
     List<String> expected = new ArrayList<>();
     expected.add("XCoordinate");
     assertEquals(actual, expected);
@@ -45,7 +48,9 @@ public class MakeTokensTest{
   void testNumParamTokenizer() {
     String userInput = "sum 50 50";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    List<String> actual = tokensToString(tokenMaker.tokenString());
+    List<Token> tokens = tokenMaker.tokenString();
+    CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
+    List<String> actual = tokensToString(tokens);
     List<String> expected = new ArrayList<>();
     expected.add("Sum");
     expected.add("50");
@@ -60,7 +65,9 @@ public class MakeTokensTest{
   void testConstantList() {
     String userInput = "tell [ 1 2 3 4 5 ]";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    List<String> actual = tokensToString(tokenMaker.tokenString());
+    List<Token> tokens = tokenMaker.tokenString();
+    CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
+    List<String> actual = tokensToString(tokens);
     List<String> expected = new ArrayList<>();
     expected.add("Tell");
     expected.add("CommandBlock_1");
@@ -89,7 +96,9 @@ public class MakeTokensTest{
         + "  fd 50\n"
         + "]";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    List<String> actual = tokensToString(tokenMaker.tokenString());
+    List<Token> tokens = tokenMaker.tokenString();
+    CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
+    List<String> actual = tokensToString(tokens);
     List<String> expected = new ArrayList<>();
     expected.add("MakeUserInstruction");
     expected.add("slice");
@@ -178,7 +187,9 @@ public class MakeTokensTest{
         + "cs\n"
         + "tunnel";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    List<String> actual = tokensToString(tokenMaker.tokenString());
+    List<Token> tokens = tokenMaker.tokenString();
+    CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
+    List<String> actual = tokensToString(tokens);
     assertEquals(0, commandParser.getParam("square").size());
     assertEquals(0, commandParser.getParam("tunnel").size());
     assertEquals(0, commandParser.getParam("warp").size());
@@ -202,7 +213,9 @@ public class MakeTokensTest{
   void testNonConstantList() {
     String userInput = "tell [ :t sum 50 50 ]";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    List<String> actual = tokensToString(tokenMaker.tokenString());
+    List<Token> tokens = tokenMaker.tokenString();
+    CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
+    List<String> actual = tokensToString(tokens);
     List<String> expected = new ArrayList<>();
     expected.add("Tell");
     expected.add("CommandBlock_1");
@@ -221,7 +234,9 @@ public class MakeTokensTest{
   void testEnclosedNumParamTokenizer() {
     String userInput = "fd sum 50 50";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    List<String> actual = tokensToString(tokenMaker.tokenString());
+    List<Token> tokens = tokenMaker.tokenString();
+    CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
+    List<String> actual = tokensToString(tokens);
     List<String> expected = new ArrayList<>();
     expected.add("Forward");
     expected.add("Sum");
@@ -237,7 +252,9 @@ public class MakeTokensTest{
   void testBracketTokenizer() {
     String userInput = "repeat 4 [ fd 50 ]";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    List<String> actual = tokensToString(tokenMaker.tokenString());
+    List<Token> tokens = tokenMaker.tokenString();
+    CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
+    List<String> actual = tokensToString(tokens);
     List<String> expected = new ArrayList<>();
     expected.add("Repeat");
     expected.add("4");
@@ -255,7 +272,9 @@ public class MakeTokensTest{
   void testBracketWithCommandTokenizer() {
     String userInput = "repeat sum 5 5 [ fd 50 ]";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    List<String> actual = tokensToString(tokenMaker.tokenString());
+    List<Token> tokens = tokenMaker.tokenString();
+    CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
+    List<String> actual = tokensToString(tokens);
     List<String> expected = new ArrayList<>();
     expected.add("Repeat");
     expected.add("Sum");
@@ -275,7 +294,9 @@ public class MakeTokensTest{
   void testBracketWithExtraCommandTokenizer() {
     String userInput = "repeat sum 5 5 sum 5 5 [ fd 50 ]";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    List<String> actual = tokensToString(tokenMaker.tokenString());
+    List<Token> tokens = tokenMaker.tokenString();
+    CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
+    List<String> actual = tokensToString(tokens);
     List<String> expected = new ArrayList<>();
     expected.add("Repeat");
     expected.add("Sum");
@@ -298,7 +319,9 @@ public class MakeTokensTest{
   void testNestedBracketTokenizer() {
     String userInput = "to move [ :x ] [ repeat 4 [ fd :x ] ]";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    List<String> actual = tokensToString(tokenMaker.tokenString());
+    List<Token> tokens = tokenMaker.tokenString();
+    CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
+    List<String> actual = tokensToString(tokens);
     List<String> expected = new ArrayList<>();
     expected.add("MakeUserInstruction");
     expected.add("move");
@@ -323,7 +346,9 @@ public class MakeTokensTest{
   void testMoreNestedBracketTokenizer() {
     String userInput = "to move [ :x ] [ repeat 4 [ repeat 2 [ fd :x ] ] ]";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    List<String> actual = tokensToString(tokenMaker.tokenString());
+    List<Token> tokens = tokenMaker.tokenString();
+    CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
+    List<String> actual = tokensToString(tokens);
     List<String> expected = new ArrayList<>();
     expected.add("MakeUserInstruction");
     expected.add("move");
@@ -354,7 +379,9 @@ public class MakeTokensTest{
   void testVariableConstantTokenizer() {
     String userInput = "to moveRep [ :rep ] [ repeat :rep [ fd 5 ] ]";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    List<String> actual = tokensToString(tokenMaker.tokenString());
+    List<Token> tokens = tokenMaker.tokenString();
+    CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
+    List<String> actual = tokensToString(tokens);
     List<String> expected = new ArrayList<>();
     expected.add("MakeUserInstruction");
     expected.add("moveRep");
@@ -384,7 +411,7 @@ public class MakeTokensTest{
     commandParser = new CommandParser(input, language, modelController);
     InputCleaner cleaner = new InputCleaner(input, language, modelController, commandParser);
     List<String> cleanedString = cleaner.parseResults();
-    return new MakeTokens(cleanedString, commandParser);
+    return new MakeTokens(cleanedString);
   }
 
   private List<String> tokensToString(List<Token> tokens) {

@@ -26,9 +26,8 @@ public class MakeTokens extends Parser{
   public static final String TOKEN_PACKAGE = MakeTokens.class.getPackageName() + ".tokens.";
   private static final String COMMAND_WITH_LISTS = "CommandBlocks";
   private static final String TOKENS_MAP = "TokenSyntax";
-  private static final String COMMAND_KEY = "CommandBlock_";
 
-  private CommandParser commandParser;
+//  private CommandParser commandParser;
   private ResourceBundle listParams;
   private ResourceBundle tokenMap;
   private Deque<List<String>> tokenizeStack;
@@ -37,10 +36,9 @@ public class MakeTokens extends Parser{
    * Constructs the MakeTokens object and necessary instance variables.
    *
    * @param cleanedString list of string commands recognizable by the back end
-   * @param commandParser command parser for this specific user input
    */
-  public MakeTokens(List<String> cleanedString, CommandParser commandParser) {
-    this.commandParser = commandParser;
+  public MakeTokens(List<String> cleanedString) {
+//    this.commandParser = commandParser;
     this.cleanedString = cleanedString;
     System.out.println(cleanedString);
     listParams = ResourceBundle.getBundle(SLogoCommandExecutor.COMMAND_PACKAGE + COMMAND_WITH_LISTS);
@@ -56,7 +54,7 @@ public class MakeTokens extends Parser{
    */
   public List<Token> tokenString() {
     tokenize();
-    commandBlockParams();
+//    commandBlockParams();
     return tokens;
   }
 
@@ -163,74 +161,6 @@ public class MakeTokens extends Parser{
     return expected;
   }
 
-  private void commandBlockParams() {
-    Deque<Token> commandBlocks = new ArrayDeque<>();
-    Deque<Integer> parameters = new ArrayDeque<>();
-    int userDefInd = -1;
-    int commandCount = 0;
-    int blockSize = 0;
-    boolean inUserDefCommand = false;
-    for (int ind = 0; ind < tokens.size(); ind++) {
-      Token curr = tokens.get(ind);
-      if (isUserDefCommand(curr)) {
-        inUserDefCommand = true;
-        userDefInd = ind;
-      }
-      if (curr instanceof ListEndToken) {
-        tokens.remove(ind);
-        ind--;
-        if(inUserDefCommand && isEndVarList(ind, userDefInd, blockSize)) {
-          completedUserDefVarList(blockSize, userDefInd);
-          inUserDefCommand = false;
-        }
-        blockSize = completeListParamCount(commandBlocks, parameters, blockSize);
-        continue;
-      }
-      if(!commandBlocks.isEmpty()) {
-        blockSize = commandBlocks.peek().incrementParamCount(blockSize, curr);
-      }
-      if (curr instanceof ListToken) {
-        commandCount++;
-        blockSize = startListParamCount(curr, commandBlocks, parameters, blockSize, commandCount);
-      }
-    }
-    if (!commandBlocks.isEmpty()) { throw new ErrorHandler("WrongParamNum"); }
-  }
 
-  private boolean isUserDefCommand(Token token) {
-    return token.getCommand().equals("MakeUserInstruction");
-  }
-
-  private boolean isEndVarList(int currInd, int userDefInd, int blockSize) {
-    return currInd == userDefInd + blockSize + 2;
-  }
-
-  private void completedUserDefVarList(int blockSize, int userDefInd) {
-    System.out.println("block size: " +blockSize+" for: " +tokens.get(userDefInd+1).getValue());
-    commandParser.addSingleParamCount(tokens.get(userDefInd+1).getValue(), makeStringParam(blockSize));
-  }
-
-  private int completeListParamCount(Deque<Token> commandBlocks, Deque<Integer> parameters, int blockSize) {
-    Token popped = commandBlocks.pop();
-    System.out.println("block size: " +blockSize+" for: " +popped.getValue()+" of type "+getClassName(popped));
-    commandParser.addSingleParamCount(popped.getValue(), makeStringParam(blockSize));
-    return parameters.pop();
-  }
-
-  private int startListParamCount(Token curr, Deque<Token> commandBlocks, Deque<Integer> parameters, int blockSize, int commandCount) {
-    String commandKeyNum = COMMAND_KEY + Integer.toString(commandCount);
-    curr.setValue(commandKeyNum);
-    commandBlocks.push(curr);
-    parameters.push(blockSize);
-    return 0;
-  }
-
-  private List<String> makeStringParam(int countNum) {
-    List<String> ret = new ArrayList<>();
-    for(int i=0; i< countNum; i++) {
-      ret.add("NUM");
-    }
-    return ret;
-  }
 
 }
