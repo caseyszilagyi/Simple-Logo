@@ -35,9 +35,6 @@ public interface BackEndExternalAPI {
 
   void setViewController(FrontEndExternalAPI viewController);
 
-  void passInputToFrontEnd(List<Double> frontEndParameters);
-
-
   /**
    * Passes the position of the turtle to the front end. Assumes that 0, 0 is the middle of the
    * screen, with +x to the right and +y up
@@ -80,6 +77,13 @@ public interface BackEndExternalAPI {
    * @param turtleID The ID of the active turtle
    */
   public void setActiveTurtle(int turtleID);
+
+  /**
+   * Sets all of the turtles that are currently active in the front end
+   *
+   * @param IDs The IDs of the active turtles
+   */
+  public void setActiveTurtles(List<Integer> IDs);
 
   /**
    * Sets the background color of the display. The index corresponds to a specific color as

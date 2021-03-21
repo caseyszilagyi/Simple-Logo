@@ -29,9 +29,8 @@ public class HideTurtle extends TurtleAlteringCommand {
    */
   @Override
   public double execute() {
-    updateTurtle(turtle -> {
-      changeTurtleVisibility(0);
+    return updateTurtle(turtle -> {
+      return changeTurtleVisibility(0);
     });
-    return 0;
   }
 }

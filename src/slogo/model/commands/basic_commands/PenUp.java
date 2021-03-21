@@ -29,9 +29,8 @@ public class PenUp extends TurtleAlteringCommand {
    */
   @Override
   public double execute() {
-    updateTurtle(turtle -> {
-      changePenState(0);
+    return updateTurtle(turtle -> {
+      return changePenState(0);
     });
-    return 0;
   }
 }

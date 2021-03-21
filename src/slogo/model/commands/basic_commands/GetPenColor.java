@@ -6,30 +6,30 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * Gets the index corresponding with the turtle's shape
+ * Gets the index that the pen color is currently set to
  *
  * @author Casey Szilagyi
  */
-public class TurtleShape extends DisplayQueryCommand {
+public class GetPenColor extends DisplayQueryCommand {
 
 
   /**
-   * Makes an instance of the get turtle shape command
+   * Makes an instance of the get pen color command
    *
    * @param bundle Has the display information
    * @param nodes  Command has no children because it is a query command
    */
-  public TurtleShape(CommandInformationBundle bundle, List<TreeNode> nodes) {
+  public GetPenColor(CommandInformationBundle bundle, List<TreeNode> nodes) {
     super(bundle);
   }
 
   /**
-   * Gets the index of the turtle shape
+   * Gets the index of the pen color
    *
-   * @return The index of the turtle shape
+   * @return The index of the pen color
    */
   @Override
   public double execute() {
-    return getTurtleShape();
+    return getPenColor();
   }
 }

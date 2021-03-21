@@ -12,29 +12,19 @@ import slogo.model.tree.TreeNode;
  */
 public class SetPosition extends TurtleAlteringCommand {
 
-  private final double NEW_X;
-  private final double NEW_Y;
-  private final double PREV_X;
-  private final double PREV_Y;
+  private final TreeNode NEW_X;
+  private final TreeNode NEW_Y;
 
   /**
    * Makes instance of SetPosition command
    *
    * @param bundle Contains the turtle that will need to be altered for this command
-   * @param nodes  The two children contain the X/Y values that the turlte will move to
+   * @param nodes  The two children contain the X/Y values that the turtle will move to
    */
   public SetPosition(CommandInformationBundle bundle, List<TreeNode> nodes) {
     super(bundle);
-    NEW_X = loadClass(bundle, nodes.get(0)).execute();
-    NEW_Y = loadClass(bundle, nodes.get(1)).execute();
-    PREV_X = getXCoordinate();
-    PREV_Y = getYCoordinate();
-  }
-
-  private double distanceMoved() {
-    return Math.sqrt(
-        (Math.abs(NEW_X - PREV_X) * Math.abs(NEW_X - PREV_X)) + (Math.abs(NEW_Y - PREV_Y) * Math
-            .abs(NEW_Y - PREV_Y)));
+    NEW_X = nodes.get(0);
+    NEW_Y = nodes.get(1);
   }
 
   /**
@@ -44,9 +34,8 @@ public class SetPosition extends TurtleAlteringCommand {
    */
   @Override
   public double execute() {
-    updateTurtle(turtle -> {
-      setTurtlePosition(NEW_X, NEW_Y);
+    return updateTurtle(turtle -> {
+      return setTurtlePosition(executeNode(NEW_X), executeNode(NEW_Y));
     });
-    return distanceMoved();
   }
 }

@@ -12,11 +12,8 @@ import slogo.model.tree.TreeNode;
  */
 public class SetTowards extends TurtleAlteringCommand {
 
-  private final double PREV_ANGLE;
-  private final double X_HEADING;
-  private final double Y_HEADING;
-  private final double CURR_X;
-  private final double CURR_Y;
+  private final TreeNode X_HEADING;
+  private final TreeNode Y_HEADING;
 
 
   /**
@@ -27,23 +24,8 @@ public class SetTowards extends TurtleAlteringCommand {
    */
   public SetTowards(CommandInformationBundle informationBundle, List<TreeNode> children) {
     super(informationBundle);
-    PREV_ANGLE = getAngle();
-    CURR_X = getXCoordinate();
-    CURR_Y = getYCoordinate();
-    X_HEADING = loadClass(informationBundle, children.get(0)).execute();
-    Y_HEADING = loadClass(informationBundle, children.get(1)).execute();
-  }
-
-  // Calculates the new angle that the turtle should be facing
-  private double newAngle() {
-    double x_diff = Math.toRadians(X_HEADING - CURR_X);
-    double y_diff = Math.toRadians(Y_HEADING - CURR_Y);
-    return Math.toDegrees(Math.atan(x_diff / y_diff));
-  }
-
-  // Calculates the change in angle to return
-  private double angleChange() {
-    return Math.abs(newAngle() - PREV_ANGLE);
+    X_HEADING = children.get(0);
+    Y_HEADING = children.get(1);
   }
 
   /**
@@ -53,9 +35,15 @@ public class SetTowards extends TurtleAlteringCommand {
    */
   @Override
   public double execute() {
-    updateTurtle(turtle -> {
-      setAngle(newAngle());
+    return updateTurtle(turtle -> {
+      double xDifference = executeNode(X_HEADING) - getXCoordinate();
+      double yDifference = executeNode(Y_HEADING)- getYCoordinate();
+      if(xDifference>0) {
+        return setAngle(Math.toDegrees(Math.atan(yDifference / xDifference)));
+      }
+      else{
+        return setAngle(Math.toDegrees(Math.atan(yDifference / xDifference)) + 180);
+      }
     });
-    return angleChange();
   }
 }
