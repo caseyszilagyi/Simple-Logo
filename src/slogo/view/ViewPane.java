@@ -80,6 +80,10 @@ public class ViewPane {
   public void clearScreen() {
     turtleDisplay.clearScreen();
   }
+
+  public void setActiveTurtle(int turtleID) {
+    turtleDisplay.setActiveTurtle(turtleID);
+  }
 }
 
 

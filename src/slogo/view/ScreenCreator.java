@@ -153,4 +153,8 @@ public class ScreenCreator {
   public void clearScreen() {
     viewPane.clearScreen();
   }
+
+  public void setActiveTurtle(int turtleID) {
+    viewPane.setActiveTurtle(turtleID);
+  }
 }

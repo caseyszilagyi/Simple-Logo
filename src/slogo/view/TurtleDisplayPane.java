@@ -20,7 +20,7 @@ public class TurtleDisplayPane {
   private final double centerY;
   private BorderPane viewPane;
   private AnchorPane turtleViewPane;
-  private ImageView turtle;
+
 
   private double penUP = 1;
   double x;
@@ -78,6 +78,7 @@ public class TurtleDisplayPane {
 
   public void updateTurtlePosition() {
     String nextUpdate;
+
 //
 //    System.out.println("Pen State: " + penUP);
     if(!typeToBeUpdated.isEmpty()) {
@@ -119,12 +120,12 @@ public class TurtleDisplayPane {
 
   private void createTurtle(int id) {
 
-    turtleViewPane.getChildren().clear();
     Image turtleImage = new Image(turtleImageFile);
-    turtle = new ImageView(turtleImage);
+    String imageID = "Turtle" + id;
+    ImageView turtle = new ImageView(turtleImage);
     turtle.setFitWidth(TURTLE_WIDTH);
     turtle.setFitHeight(TURTLE_HEIGHT);
-    turtle.setId("Turtle");
+    turtle.setId(imageID);
     turtleViewPane.getChildren().add(turtle);
     turtle.setX(centerX);
     turtle.setY(centerY);
@@ -156,7 +157,7 @@ public class TurtleDisplayPane {
   }
 
   private void createLine(double x, double y, Color penColor) {
-    Line line1 = new Line(turtle.getX() + TURTLE_WIDTH / 2, turtle.getY() + TURTLE_WIDTH / 2,
+    Line line1 = new Line(activeTurtles.get(currentID).getX() + TURTLE_WIDTH / 2, activeTurtles.get(currentID).getY() + TURTLE_WIDTH / 2,
             x + TURTLE_HEIGHT / 2, y + TURTLE_HEIGHT / 2);
     line1.setStroke(penColor);
     line1.setId(LINE_ID);
@@ -197,10 +198,10 @@ public class TurtleDisplayPane {
   }
 
   public void setTurtleImage(Image turtleImage) {
-    turtle.setImage(turtleImage);
-    turtle.setFitWidth(TURTLE_WIDTH);
-    turtle.setFitHeight(TURTLE_HEIGHT);
-    turtle.setId("Turtle");
+    activeTurtles.get(currentID).setImage(turtleImage);
+    activeTurtles.get(currentID).setFitWidth(TURTLE_WIDTH);
+    activeTurtles.get(currentID).setFitHeight(TURTLE_HEIGHT);
+    activeTurtles.get(currentID).setId("Turtle" + currentID);
   }
 
   public void updateCommandQueue(String commandType, List<Double> commandValues) {
@@ -208,4 +209,10 @@ public class TurtleDisplayPane {
     commandsToBeExecuted.addAll(commandValues);
   }
 
+  public void setActiveTurtle(int turtleID) {
+    if(!activeTurtles.containsKey(turtleID) && !inactiveTurtles.containsKey(turtleID)){
+      createTurtle(turtleID);
+    }
+    currentID = turtleID;
+  }
 }

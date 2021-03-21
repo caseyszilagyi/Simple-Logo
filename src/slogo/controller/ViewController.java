@@ -122,6 +122,7 @@ public class ViewController implements FrontEndExternalAPI {
   public void setActiveTurtle(int turtleID) {
     System.out.println();
     System.out.println("Active turtle ID: " + turtleID);
+    screenCreator.setActiveTurtle(turtleID);
   }
 
   @Override
