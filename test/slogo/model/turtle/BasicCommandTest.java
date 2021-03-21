@@ -5,9 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import slogo.Main;
 import slogo.controller.BackEndExternalAPI;
 import slogo.controller.FrontEndExternalAPI;
 import slogo.controller.ModelController;
+import slogo.controller.ViewController;
 import slogo.model.commands.BasicCommandClassLoader;
 import slogo.model.commands.basic_commands.BasicCommand;
 import slogo.model.execution.CommandInformationBundle;
@@ -32,7 +34,8 @@ public class BasicCommandTest {
 
   private BasicCommandClassLoader loader;
   private BackEndExternalAPI modelController;
-  private FrontEndExternalAPI viewController;
+  private FrontEndExternalAPI viewController = new DummyViewController();
+  private Main main = new Main();
 
   /**
    * Sets up the turtle and the classloader
@@ -40,6 +43,8 @@ public class BasicCommandTest {
   @BeforeEach
   void setUp() {
     modelController = new ModelController();
+    modelController.setViewController(viewController);
+    viewController.setModelController(modelController);
     commandBundle = new CommandInformationBundle(modelController);
     turtleInformation = commandBundle.getTurtleInformation();
     userInformation = commandBundle.getUserDefinedInformation();
@@ -716,7 +721,7 @@ public class BasicCommandTest {
   @Test
   void testSetTurtleShape() {
     TreeNode shape = makeNode("6");
-    TreeNode root = makeTree("SetTurtleShape", shape);
+    TreeNode root = makeTree("SetShape", shape);
     double val = executeCommand(makeBasicCommand(root));
     assertEquals(6, val, TOLERANCE);
     assertEquals(6, commandBundle.getDisplayInformation().getTurtleShape(), TOLERANCE);
@@ -756,7 +761,7 @@ public class BasicCommandTest {
     TreeNode color = makeNode("1");
     TreeNode root = makeTree("SetPenColor", color);
     executeCommand(makeBasicCommand(root));
-    TreeNode getColor = makeNode("PenColor");
+    TreeNode getColor = makeNode("GetPenColor");
     double val = executeCommand(makeBasicCommand(getColor));
     assertEquals(1, val, TOLERANCE);
   }
@@ -767,9 +772,9 @@ public class BasicCommandTest {
   @Test
   void testShape() {
     TreeNode shape = makeNode("2");
-    TreeNode root = makeTree("SetTurtleShape", shape);
+    TreeNode root = makeTree("SetShape", shape);
     executeCommand(makeBasicCommand(root));
-    TreeNode getShape = makeNode("TurtleShape");
+    TreeNode getShape = makeNode("GetShape");
     double val = executeCommand(makeBasicCommand(getShape));
     assertEquals(2, val, TOLERANCE);
   }
