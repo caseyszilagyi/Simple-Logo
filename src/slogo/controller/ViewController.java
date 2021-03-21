@@ -120,6 +120,7 @@ public class ViewController implements FrontEndExternalAPI {
 
   @Override
   public void setActiveTurtle(int turtleID) {
+    System.out.println();
     System.out.println("Active turtle: " + turtleID);
   }
 
