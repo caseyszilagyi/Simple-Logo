@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 import slogo.ErrorHandler;
+import slogo.model.SLogoCommandExecutor;
 import slogo.model.parse.tokens.ListEndToken;
 import slogo.model.parse.tokens.ListToken;
 import slogo.model.parse.tokens.Token;
@@ -21,13 +22,11 @@ import slogo.model.parse.tokens.Token;
  *
  * @author jincho
  */
-public class MakeTokens {
+public class MakeTokens extends Parser{
 
   private final List<String> cleanedString;
   private List<Token> tokens;
   public static final String TOKEN_PACKAGE = MakeTokens.class.getPackageName() + ".tokens.";
-  private static final String LANGUAGES_PACKAGE = "slogo.model.resources.languages.";
-  private static final String COMMAND_PACKAGE = "slogo.model.resources.commands.";
   private static final String COMMAND_WITH_LISTS = "CommandBlocks";
   private static final String TOKENS_MAP = "TokenSyntax";
   private static final String COMMAND_KEY = "CommandBlock_";
@@ -35,7 +34,6 @@ public class MakeTokens {
   private CommandParser commandParser;
   private ResourceBundle listParams;
   private ResourceBundle tokenMap;
-  private Map<String, Pattern> regexMap;
   private Deque<List<String>> tokenizeStack;
 
   /**
@@ -48,20 +46,10 @@ public class MakeTokens {
     this.commandParser = commandParser;
     this.cleanedString = cleanedString;
     System.out.println(cleanedString);
-    listParams = ResourceBundle.getBundle(COMMAND_PACKAGE + COMMAND_WITH_LISTS);
-    tokenMap = ResourceBundle.getBundle(LANGUAGES_PACKAGE + TOKENS_MAP);
-    regexMap = new HashMap<>();
-    addRegExPatterns("Syntax");
+    listParams = ResourceBundle.getBundle(SLogoCommandExecutor.COMMAND_PACKAGE + COMMAND_WITH_LISTS);
+    tokenMap = ResourceBundle.getBundle(SLogoCommandExecutor.LANGUAGES_PACKAGE + TOKENS_MAP);
     tokens = new ArrayList<>();
     tokenizeStack = new ArrayDeque<>();
-  }
-
-  private void addRegExPatterns(String regEx) {
-    ResourceBundle resources = ResourceBundle.getBundle(LANGUAGES_PACKAGE + regEx);
-    for (String key : Collections.list(resources.getKeys())) {
-      String regex = resources.getString(key);
-      regexMap.put(key, Pattern.compile(regex, Pattern.CASE_INSENSITIVE));
-    }
   }
 
   /**
@@ -119,8 +107,8 @@ public class MakeTokens {
 
   private String tokenType(String command) {
     String regexType = "";
-    for (String key : regexMap.keySet()) {
-      Pattern check = regexMap.get(key);
+    for (String key : syntaxMap.keySet()) {
+      Pattern check = syntaxMap.get(key);
       if (check.matcher(command).matches()) {
         regexType = key;
         break;
@@ -146,7 +134,7 @@ public class MakeTokens {
     return s.contains("List");
   }
 
-  private boolean isListStart(String s) { return regexMap.get("ListStart").matcher(s).matches(); }
+  private boolean isListStart(String s) { return syntaxMap.get("ListStart").matcher(s).matches(); }
 
   private boolean isListEnd(String s) {
     return s.equals("ListEndToken");
@@ -230,4 +218,8 @@ public class MakeTokens {
     return ret;
   }
 
+  @Override
+  public List<String> parseResults() {
+    return null;
+  }
 }

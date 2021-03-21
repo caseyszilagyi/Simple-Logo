@@ -16,8 +16,8 @@ public class ConstantList extends ListToken{
     if (paramTokensExpected.isEmpty()) {
       params.add(param);
     }
-    if (isCommand(param.getValue())) {
-      List<String> expected = new ArrayList<>(CommandParser.parameters.get(param.getCommand()));
+    if (isDefinedCommand(param.getValue())) {
+      List<String> expected = new ArrayList<>(CommandParser.commandParam.get(param.getCommand()));
       paramTokensExpected.push(expected);
     } else {
       while (!paramTokensExpected.isEmpty()) {

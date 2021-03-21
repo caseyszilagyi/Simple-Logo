@@ -1,8 +1,6 @@
 package slogo.model.parse.tokens;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 import slogo.model.parse.CommandParser;
 
@@ -14,11 +12,11 @@ public class CommandList extends ListToken{
   }
 
   public void addParamToken(Token param) {
-    if (isCommand(param.getValue()) ) {
+    if (isDefinedCommand(param.getValue()) ) {
       if (paramTokensExpected.isEmpty()) {
         params.add(param);
       }
-      List<String> expected = new ArrayList<>(CommandParser.parameters.get(param.getCommand()));
+      List<String> expected = new ArrayList<>(CommandParser.commandParam.get(param.getCommand()));
       if(!expected.isEmpty()) {
         paramTokensExpected.push(expected);
       }

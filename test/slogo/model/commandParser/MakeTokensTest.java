@@ -10,9 +10,10 @@ import slogo.controller.ModelController;
 import slogo.model.parse.CommandParser;
 import slogo.model.parse.InputCleaner;
 import slogo.model.parse.MakeTokens;
+import slogo.model.parse.Parser;
 import slogo.model.parse.tokens.Token;
 
-public class MakeTokensTest {
+public class MakeTokensTest{
 
   private CommandParser commandParser;
 
@@ -381,9 +382,8 @@ public class MakeTokensTest {
   private MakeTokens makeMakeTokens(String input, String language) {
     ModelController modelController = new ModelController();
     commandParser = new CommandParser(input, language, modelController);
-    System.out.println(CommandParser.syntaxMap.get("Command"));
     InputCleaner cleaner = new InputCleaner(input, language, modelController, commandParser);
-    List<String> cleanedString = cleaner.cleanString();
+    List<String> cleanedString = cleaner.parseResults();
     return new MakeTokens(cleanedString, commandParser);
   }
 

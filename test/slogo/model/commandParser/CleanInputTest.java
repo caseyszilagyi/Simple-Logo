@@ -94,7 +94,7 @@ public class CleanInputTest {
     InputCleaner cleaner = makeInputCleaner(userInput, "English");
     List<String> expected = new ArrayList<>();
     expected.add("XCoordinate");
-    assertEquals(cleaner.cleanString(), expected);
+    assertEquals(cleaner.parseResults(), expected);
   }
 
   /**
@@ -114,7 +114,7 @@ public class CleanInputTest {
     expected.add("CommandBlock_1");
     expected.add("Forward");
     expected.add("50");
-    assertEquals(cleaner.cleanString(), expected);
+    assertEquals(cleaner.parseResults(), expected);
   }
 
   /**
@@ -134,7 +134,7 @@ public class CleanInputTest {
     expected.add(":size");
     expected.add("Backward");
     expected.add(":size");
-    assertEquals(cleaner.cleanString(), expected);
+    assertEquals(cleaner.parseResults(), expected);
     assertEquals(cleaner.commandParser.getParam("CommandBlock_1").size(), 2);
   }
 
@@ -160,7 +160,7 @@ public class CleanInputTest {
     expected.add("CommandBlock_2");
     expected.add("Forward");
     expected.add("5");
-    assertEquals(cleaner.cleanString(), expected);
+    assertEquals(cleaner.parseResults(), expected);
     assertEquals(cleaner.commandParser.getParam("CommandBlock_1").size(), 2);
     assertEquals(cleaner.commandParser.getParam("CommandBlock_2").size(), 1);
   }
@@ -181,7 +181,7 @@ public class CleanInputTest {
     expected.add("CommandBlock_2");
     expected.add("Forward");
     expected.add("100");
-    assertEquals(cleaner.cleanString(), expected);
+    assertEquals(cleaner.parseResults(), expected);
     assertEquals(cleaner.commandParser.getParam("CommandBlock_1").size(), 1);
     assertEquals(cleaner.commandParser.getParam("CommandBlock_2").size(), 1);
   }
@@ -205,7 +205,7 @@ public class CleanInputTest {
     expected.add("CommandBlock_3");
     expected.add("Forward");
     expected.add("100");
-    assertEquals(cleaner.cleanString(), expected);
+    assertEquals(cleaner.parseResults(), expected);
     assertEquals(cleaner.commandParser.getParam("CommandBlock_1").size(), 1);
     assertEquals(cleaner.commandParser.getParam("CommandBlock_2").size(), 1);
   }
@@ -217,7 +217,7 @@ public class CleanInputTest {
   void testWrongBrackets() {
     String userInput = "repeat 2 [ repeat 3 [ repeat 2 [ fd 100 ] ] ";
     InputCleaner cleaner = makeInputCleaner(userInput, "English");
-    assertEquals(cleaner.cleanString(), new ErrorHandler("WrongParamNum"));
+    assertEquals(cleaner.parseResults(), new ErrorHandler("WrongParamNum"));
   }
 
   /**
@@ -235,7 +235,7 @@ public class CleanInputTest {
     expected.add("CommandBlock_2");
     expected.add("Forward");
     expected.add(":distance");
-    assertEquals(expected, cleaner.cleanString());
+    assertEquals(expected, cleaner.parseResults());
     assertEquals(cleaner.commandParser.getParam("CommandBlock_1").size(), 1);
     assertEquals(cleaner.commandParser.getParam("CommandBlock_2").size(), 1);
   }
@@ -257,7 +257,7 @@ public class CleanInputTest {
     expected.add(":size");
     expected.add("Right");
     expected.add("5");
-    assertEquals(expected, cleaner.cleanString());
+    assertEquals(expected, cleaner.parseResults());
     assertEquals(cleaner.commandParser.getParam("CommandBlock_1").size(), 2);
     assertEquals(cleaner.commandParser.getParam("CommandBlock_2").size(), 2);
   }
@@ -269,7 +269,7 @@ public class CleanInputTest {
   void testSimpleWrongInput() {
     String input = "fd 50 60";
     InputCleaner cleaner = makeInputCleaner(input, "English");
-    assertEquals(new ErrorHandler("WrongParamNum"), cleaner.cleanString());
+    assertEquals(new ErrorHandler("WrongParamNum"), cleaner.parseResults());
   }
 
   private InputCleaner makeInputCleaner(String userInput, String language) {
