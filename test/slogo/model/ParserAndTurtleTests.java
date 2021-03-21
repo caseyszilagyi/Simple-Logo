@@ -44,7 +44,22 @@ public class ParserAndTurtleTests {
 
   @Test
   void testSimpleAsk(){
+    executeCommand("ask [ 3 ] [ fd 50 ] ask [ 2 ] [ rt 90 fd 100 ]");
+    verifyTurtleParameters(1, 0, 0, 90, 1, 1);
+    verifyTurtleParameters(3, 0, 50, 90, 1, 1);
+    verifyTurtleParameters(2, 100, 0, 0, 1, 1);
+  }
 
+  @Test
+  void testNestedAskTell(){
+    executeCommand("ask [ 1 2 3 ] "
+        + "[ fd 50 tell [ 2 ] rt 90 fd 50 "
+        + "ask [ 4 5 1 ] [ rt 90 back 50 penup ] hideturtle ] tell [ 5 ] fd 100");
+    verifyTurtleParameters(1, -50, 50, 0, 0, 1);
+    verifyTurtleParameters(2, 50, 50, 0, 1, 0);
+    verifyTurtleParameters(3, 0, 50, 90, 1, 1);
+    verifyTurtleParameters(4, -50, 0, 0, 0, 1);
+    verifyTurtleParameters(5, 50, 0, 0, 0, 1);
   }
 
   /**
@@ -72,6 +87,14 @@ public class ParserAndTurtleTests {
     assertEquals(44, getYCoordinate(4));
   }
 
+  private void verifyTurtleParameters(int ID, double x, double y, double angle, double penstate, double visibility){
+    assertEquals(x, getXCoordinate(ID), TOLERANCE);
+    assertEquals(y, getYCoordinate(ID), TOLERANCE);
+    assertEquals(angle, getAngle(ID), TOLERANCE);
+    assertEquals(penstate, getPenState(ID), TOLERANCE);
+    assertEquals(visibility, getVisibility(ID), TOLERANCE);
+  }
+
   // Executes a command given a string
   private void executeCommand(String command){
    EXECUTOR.executeCommand(command, "English");
@@ -92,6 +115,15 @@ public class ParserAndTurtleTests {
     return TURTLE_INFO.getTurtle(ID).getAngle();
   }
 
+  // Gets the pen state of the turtle with the given ID
+  private double getPenState(int ID){
+    return TURTLE_INFO.getTurtle(ID).getPenState();
+  }
+
+  // Gets the visibility status of the turtle with the given ID
+  private double getVisibility(int ID){
+    return TURTLE_INFO.getTurtle(ID).getVisibility();
+  }
 
 
 }
