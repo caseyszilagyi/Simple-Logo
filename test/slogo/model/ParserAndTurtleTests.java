@@ -42,6 +42,23 @@ public class ParserAndTurtleTests {
     USER_INFO = BUNDLE.getUserDefinedInformation();
   }
 
+  @Test
+  void testSimpleAsk(){
+
+  }
+
+  /**
+   * Testing nesting with tell statements
+   */
+  @Test
+  void testTellMovingDifferentDirections(){
+    executeCommand("tell [ 2 ] setxy 100 100 rt 90 tell [ 1 2 ] fd 50");
+    assertEquals(0, getXCoordinate(1), TOLERANCE);
+    assertEquals(50, getYCoordinate(1), TOLERANCE);
+    assertEquals(150, getXCoordinate(2), TOLERANCE);
+    assertEquals(100, getYCoordinate(2), TOLERANCE);
+  }
+
   /**
    * Testing nesting with tell statements
    */
