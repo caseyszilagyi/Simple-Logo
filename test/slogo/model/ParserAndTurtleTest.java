@@ -19,7 +19,7 @@ import slogo.model.turtle.DummyViewController;
  * Tests designed to test more complicated commands with the parser and turtle movements,
  * including those with loops and multiple turtles
  */
-public class ParserAndTurtleTests {
+public class ParserAndTurtleTest {
 
   static final double TOLERANCE = 0.05;
   private CommandExecutor EXECUTOR;
