@@ -83,6 +83,22 @@ public class MultipleTurtleTest {
     assertEquals(50, turtleInformation.getActiveTurtle().getYPosition(), TOLERANCE);
   }
 
+  /**
+   * Tests the turtles query command
+   */
+  @Test
+  void testTurtles(){
+    TreeNode commandBlock = makeTree("CommandBlock", "1", "2", "3");
+    TreeNode tell = makeTree("Tell", commandBlock);
+    executeCommand(makeBasicCommand(tell));
+    TreeNode turtles = makeNode("Turtles");
+    assertEquals(3, executeCommand(makeBasicCommand(turtles)), TOLERANCE);
+    commandBlock = makeTree("CommandBlock", "77");
+    tell = makeTree("Tell", commandBlock);
+    executeCommand(makeBasicCommand(tell));
+    assertEquals(77, executeCommand(makeBasicCommand(turtles)), TOLERANCE);
+  }
+
 
   // Helper methods below
 

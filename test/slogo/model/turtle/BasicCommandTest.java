@@ -796,10 +796,9 @@ public class BasicCommandTest {
     assertEquals(2, makeBasicCommand(ID).execute(), TOLERANCE);
     basicCommand = makeTreeWithStrings("BasicCommand", "3", "7", "4");
     tell = makeTree("Tell", basicCommand);
-    makeBasicCommand(tell).execute();
+    assertEquals(4, makeBasicCommand(tell).execute(), TOLERANCE);
     assertEquals(3, makeBasicCommand(ID).execute(), TOLERANCE);
   }
-
 
   // Combining methods
 
