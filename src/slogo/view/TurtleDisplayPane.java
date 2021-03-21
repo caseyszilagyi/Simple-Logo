@@ -108,7 +108,7 @@ public class TurtleDisplayPane {
       } else if (nextUpdate.equals("SetID")){
         currentID = (int) Math.round(commandsToBeExecuted.pop());
 
-        updateTurtleImages();
+   //     updateTurtleImages();
       }
 
     }
