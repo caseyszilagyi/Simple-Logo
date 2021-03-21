@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 import slogo.ErrorHandler;
 import slogo.controller.BackEndExternalAPI;
+import slogo.model.SLogoCommandExecutor;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
+import slogo.model.parse.tokens.Token;
 import slogo.model.tree.TreeNode;
 
 /**
@@ -20,54 +20,27 @@ import slogo.model.tree.TreeNode;
  *
  * @author jincho jiyunhyo
  */
-public class CommandParser implements Parser {
-
-  // where to find resources specifically for this class
-  private static final String RESOURCES_PACKAGE =
-      "slogo.model.resources.commands.";
-  private static final String LANGUAGES_PACKAGE = "slogo.model.resources.languages.";
+public class CommandParser extends Parser {
   public List<String> preOrderResults = new ArrayList<>();
-  // "types" and the regular expression patterns that recognize those types
-  // note, it is a list because order matters (some patterns may be more generic)
-  public static Map<String, List<String>> parameters;
-  public static Map<String, Pattern> syntaxMap;
   private TreeNode commandTree;
-  private List<String> cleanCommands;
+  private List<Token> cleanCommands;
   private BackEndExternalAPI modelController;
   private InputCleaner inputCleaner;
   private MakeTokens tokenMaker;
+  private CommandBlockParser commandBlockParser;
 
 
   public CommandParser(String rawInput, String language, BackEndExternalAPI modelController) {
     this.modelController = modelController;
-    parameters = new HashMap<>();
-    syntaxMap = new HashMap<>();
-    addParamCounts("CommandsParam");
-    addRegExPatterns("Syntax");
     addUserDefParamCounts();
     inputCleaner = new InputCleaner(rawInput, language, modelController, this);
-    tokenMaker = new MakeTokens(inputCleaner.cleanString(), this);
+    tokenMaker = new MakeTokens(inputCleaner.parseResults());
     cleanCommands = tokenMaker.tokenString();
-    commandTree = new TreeNode(null);
+    commandBlockParser = new CommandBlockParser(cleanCommands, this);
+    commandTree = new TreeNode(null, null);
     System.out.println("Command Taken in by the parser: " + rawInput);
     System.out.println("Clean command: " + cleanCommands);
   }
-
-  /**
-   * Adds the given resource file to this language's recognized types
-   */
-  public void addParamCounts(String syntax) {
-    ResourceBundle resources = ResourceBundle.getBundle(RESOURCES_PACKAGE + syntax);
-    for (String key : Collections.list(resources.getKeys())) {
-      List<String> params = new ArrayList<>(Arrays.asList(resources.getString(key).split(" ")));
-      params.removeIf(command -> command.equals(""));
-      addSingleParamCount(key, params);
-            System.out.println("Key: " + key);
-            System.out.println("Number: " + Arrays.asList(resources.getString(key).split(" ")));
-            System.out.println();
-    }
-  }
-
 
   /**
    * adds a single command and parameter count pair to the map
@@ -76,15 +49,7 @@ public class CommandParser implements Parser {
    * @param paramCount number of parameters command will take in
    */
   public void addSingleParamCount(String command, List<String> paramCount) {
-    parameters.put(command, paramCount);
-  }
-
-  private void addRegExPatterns(String regEx) {
-    ResourceBundle resources = ResourceBundle.getBundle(LANGUAGES_PACKAGE + regEx);
-    for (String key : Collections.list(resources.getKeys())) {
-      String regex = resources.getString(key);
-      syntaxMap.put(key, Pattern.compile(regex, Pattern.CASE_INSENSITIVE));
-    }
+    commandParam.put(command, paramCount);
   }
 
   private void addUserDefParamCounts() {
@@ -92,10 +57,10 @@ public class CommandParser implements Parser {
     for (String key : userDefCommands.keySet()) {
       int paramCounts = userDefCommands.get(key).getParamCount();
       List<String> paramString = new ArrayList<>();
-      for(int i=0; i<paramCounts; i++) {
+      for (int i = 0; i < paramCounts; i++) {
         paramString.add("NUM");
       }
-      parameters.put(key, paramString);
+      addSingleParamCount(key, paramString);
     }
   }
 
@@ -105,26 +70,23 @@ public class CommandParser implements Parser {
    * @return root node of command tree
    */
   public TreeNode makeTree() {
-    System.out.println(parameters);
-    Deque<String> commandQueue = new LinkedList<>(cleanCommands);
+    System.out.println(commandParam);
+    Deque<Token> commandQueue = new LinkedList<>(cleanCommands);
     System.out.println("QUEUE: " + commandQueue);
 
     while (!commandQueue.isEmpty()) {
-      String command = commandQueue.removeFirst();
-      TreeNode child = new TreeNode(command);
+      String command = commandQueue.removeFirst().getValue();
+      TreeNode child = new TreeNode(command, null);
       child = checkCommandBlock(child);
       commandTree.addChild(child);
       insertNodeRecursive(commandQueue, child);
     }
-    printPreOrder(commandTree);
+    preOrderTraverse(commandTree);
     System.out.println(preOrderResults);
-//    if (preOrderResults.size() != cleanCommands.size() + 1) {
-//      throw new ErrorHandler("WrongParamNum");
-//    }
     return commandTree;
   }
 
-  private void printPreOrder(TreeNode root) {
+  private void preOrderTraverse(TreeNode root) {
     preOrderResults.add(root.getValue());
     if (root == null) {
       return;
@@ -132,29 +94,40 @@ public class CommandParser implements Parser {
     System.out.println("Value: " + root.getCommand());
     for (TreeNode child : root.getChildren()) {
       System.out.println("Child to look at "+child.getValue());
-      printPreOrder(child);
+      preOrderTraverse(child);
     }
   }
 
-  private TreeNode insertNodeRecursive(Deque<String> splitCommands, TreeNode root) {
-    if (getParamCount(root.getValue()) == 0) {
+  @Override
+  public List<String> parseResults() {
+    return preOrderResults;
+  }
+
+  private TreeNode insertNodeRecursive(Deque<Token> splitCommands, TreeNode root) {
+    if (getParam(root.getValue()).size() == 0) {
       System.out.println(root.getValue() + " is a leaf");
       return root;
     }
     System.out.println();
-    int paramCount = getParamCount(root.getValue());
-    System.out.println("param count: "+paramCount +" for "+root.getValue());
-    for (int i = 0; i < getParamCount(root.getValue()); i++) {
+    List<String> params = getParam(root.getValue());
+    if(childOfMakeUserInstruction(root) && !root.getCommand().equals("CommandBlock")){
+      params = new ArrayList<>();
+    }
+    System.out.println("param count: "+params.size() +" for "+root.getValue());
+    for (int i = 0; i < params.size(); i++) {
       System.out.println("looking at "+i+"th param for "+root.getValue());
       String command;
+      Token commandToken;
       try {
-        command = splitCommands.removeFirst();
+        commandToken = splitCommands.removeFirst();
+        command = commandToken.getValue();
       } catch (Exception e) {
         throw new ErrorHandler("WrongParamNum");
       }
-      TreeNode dummy = new TreeNode(command);
+      TreeNode dummy = new TreeNode(command, root);
       dummy = checkCommandBlock(dummy);
       root.addChild(dummy);
+
       System.out.println("Parent: " + root.getCommand());
       System.out.println("Child: " + dummy.getCommand());
       System.out.println("Split commands "+splitCommands);
@@ -162,10 +135,15 @@ public class CommandParser implements Parser {
       insertNodeRecursive(splitCommands, dummy);
     }
     System.out.println(root.getCommand());
-    if (!correctChildren(root.getChildren(), parameters.get(root.getValue()))) {
+    if (!correctChildren(root.getChildren(), params)) {
       throw new ErrorHandler("WrongParamNum");
     }
     return root;
+  }
+
+  private boolean childOfMakeUserInstruction(TreeNode root) {
+    TreeNode parent = root.getParent();
+    return parent != null && parent.getCommand().equals("MakeUserInstruction");
   }
 
   /**
@@ -174,18 +152,18 @@ public class CommandParser implements Parser {
    * @param text String representation of the command
    * @return String rep of the number of params needed for command
    */
-  public Integer getParamCount(String text) {
+  public List<String> getParam(String text) {
     try {
-      System.out.println("param: "+parameters.get(text).get(0));
-      return parameters.get(text).size();
+      System.out.println("param: "+ commandParam.get(text).get(0));
+      return commandParam.get(text);
     } catch (Exception e) {
-      return 0;
+      return new ArrayList<>();
     }
   }
 
   private TreeNode checkCommandBlock(TreeNode node) {
     if (node.getCommand().contains("CommandBlock")) {
-      node = new TreeNode(node.getCommand(), "CommandBlock");
+      node = new TreeNode(node.getCommand(), "CommandBlock", node.getParent());
     }
     return node;
   }
@@ -206,15 +184,5 @@ public class CommandParser implements Parser {
     return toMatch.equals(expected);
   }
 
-  private boolean match(String text, Pattern... regex) {
-    for (Pattern p : regex) {
-      if(p.matcher(text).matches()) { return true;}
-    }
-    return false;
-  }
 
-  @Override
-  public List<String> translateCommand(List<String> commandsBeforeTranslation) {
-    return null;
-  }
 }

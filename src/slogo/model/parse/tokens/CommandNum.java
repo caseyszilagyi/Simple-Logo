@@ -9,7 +9,7 @@ public class CommandNum extends NumToken{
 
   public CommandNum(String command) {
     super(command);
-    expectedParamsLeft = CommandParser.parameters.get(command);
+    expectedParamsLeft = CommandParser.commandParam.get(command);
   }
 
   @Override

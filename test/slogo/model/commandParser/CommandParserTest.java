@@ -3,7 +3,6 @@ package slogo.model.commandParser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -93,7 +92,7 @@ public class CommandParserTest {
     results.add("RandomNumber");
     results.add("360");
     assertEquals(results, tester.preOrderResults);
-    assertEquals(2, tester.getParamCount("CommandBlock_1"));
+    assertEquals(2, tester.getParam("CommandBlock_1").size());
 //    assertEquals(tester.makeTree(), results);
   }
 
@@ -128,9 +127,9 @@ public class CommandParserTest {
     results.add("2");
 
     assertEquals(results, tester.preOrderResults);
-    assertEquals(1, tester.getParamCount("CommandBlock_1"));
-    assertEquals(2, tester.getParamCount("CommandBlock_2"));
-    assertEquals(2, tester.getParamCount("CommandBlock_3"));
+    assertEquals(1, tester.getParam("CommandBlock_1").size());
+    assertEquals(2, tester.getParam("CommandBlock_2").size());
+    assertEquals(2, tester.getParam("CommandBlock_3").size());
 //    assertEquals(tester.makeTree(), results);
   }
 
@@ -176,8 +175,8 @@ public class CommandParserTest {
 //    results.add("2");
 
 //    assertEquals(results, tester.preOrderResults);
-    assertEquals(2, tester.getParamCount("CommandBlock_1"));
-    assertEquals(2, tester.getParamCount("CommandBlock_2"));
+    assertEquals(2, tester.getParam("CommandBlock_1").size());
+    assertEquals(2, tester.getParam("CommandBlock_2").size());
 //    assertEquals(tester.makeTree(), results);
   }
 
@@ -248,8 +247,8 @@ public class CommandParserTest {
     results.add(":dist");
     results.add("5");
     assertEquals(results, tester.preOrderResults);
-    assertEquals(1, tester.getParamCount("CommandBlock_1"));
-    assertEquals(1, tester.getParamCount("CommandBlock_2"));
+    assertEquals(1, tester.getParam("CommandBlock_1").size());
+    assertEquals(1, tester.getParam("CommandBlock_2").size());
   }
 
   /**
@@ -300,10 +299,6 @@ public class CommandParserTest {
     BackEndExternalAPI modelController = new ModelController();
     CommandParser commandParser = new CommandParser(userInput, language, modelController);
     return commandParser;
-  }
-
-  private TreeNode makeTree(String root, TreeNode... children) {
-    return new TreeNode(root, root, Arrays.asList(children.clone()));
   }
 
 }
