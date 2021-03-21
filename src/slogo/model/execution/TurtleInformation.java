@@ -49,9 +49,6 @@ public class TurtleInformation {
   }
 
   public void setActiveTurtle(int ID){
-    if(ID>ALL_TURTLES.size()){
-      makeNewTurtles(ID);
-    }
     activeTurtleID = ID;
     MODEL_CONTROLLER.setActiveTurtle(ID);
   }
@@ -69,6 +66,7 @@ public class TurtleInformation {
   private void makeNewTurtles(int ID) {
     for (int i = ALL_TURTLES.size() + 1; i <= ID; i++) {
       ALL_TURTLES.add(new Turtle(i, MODEL_CONTROLLER));
+      ALL_TURTLES.get(i-1).tellFrontEnd();
       activeTurtleID = i;
     }
   }
@@ -99,8 +97,18 @@ public class TurtleInformation {
   }
 
   public void setActiveTurtleLayer(List<Integer> nextLayer) {
+    checkForNewHighestID(nextLayer);
     removeActiveTurtleLayer();
     CURRENT_ACTIVE_TURTLES.add(nextLayer);
+  }
+
+  // Checks for a higher ID, because new turtles will need to be made
+  private void checkForNewHighestID(List<Integer> nextLayer) {
+    for(int ID: nextLayer){
+      if(ID > ALL_TURTLES.size()){
+        makeNewTurtles(ID);
+      }
+    }
   }
 
   /**
