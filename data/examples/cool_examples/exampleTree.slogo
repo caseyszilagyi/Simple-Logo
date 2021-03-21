@@ -14,5 +14,8 @@ to tree [ :length :angle :depth :scale ] [
      bk :length
    ]
 ]
+penup
+setxy 0 -200
+pendown
 
-tree 10 10 10 10
+tree 30 15 10 1
