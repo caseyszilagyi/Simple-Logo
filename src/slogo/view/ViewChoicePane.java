@@ -35,7 +35,7 @@ public class ViewChoicePane {
   private static final String REFLECTION_RESOURCES = DEFAULT_RESOURCES + "buttons.ViewChoiceReflectionActions";
 
   private GridPane choicePane;
-  private BorderPane viewPane;
+  private GridPane viewPane;
   private ColorPicker penColorPicker;
   private ColorPicker backgroundColorPicker;
   private Stage stage;
@@ -52,7 +52,7 @@ public class ViewChoicePane {
   private ResourceBundle reflectionResources;
   private FrontEndExternalAPI viewController;
 
-  public ViewChoicePane(FrontEndExternalAPI viewController, Stage s, BorderPane root, TurtleDisplayPane turtleDisplayPane, ResourceBundle idResources) {
+  public ViewChoicePane(FrontEndExternalAPI viewController, Stage s, GridPane root, TurtleDisplayPane turtleDisplayPane, ResourceBundle idResources) {
     this.viewController = viewController;
     stage = s;
     viewPane = root;
@@ -60,7 +60,7 @@ public class ViewChoicePane {
 
     choicePane = new GridPane();
     choicePane.getStyleClass().add(CHOICE_PANE_ID);
-    viewPane.setTop(choicePane);
+    viewPane.add(choicePane, 0, 0);
 
     idsForTesting = idResources;
     imageResources = ResourceBundle.getBundle(IMAGE_RESOURCES);

@@ -1,10 +1,16 @@
 package slogo.view;
 
+import java.awt.*;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import com.sun.source.tree.LabeledStatementTree;
 import javafx.animation.AnimationTimer;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import slogo.controller.FrontEndExternalAPI;
 
@@ -17,21 +23,24 @@ import slogo.controller.FrontEndExternalAPI;
  */
 public class ViewPane {
   private static final String VIEW_PANE_ID = "ViewPane";
+  private static final String HBOX_ID = "TurtleInfoPane";
+  private static final String HBOX_TEXT = "TurtleInfoText";
 
-  private static final int ROWS = 700;
-  private static final int COLS = 600;
+  private static final int ROWS = 650;
+  private static final int COLS = 550;
 
-  private BorderPane viewPane;
+  private GridPane viewPane;
   private TurtleDisplayPane turtleDisplay;
   private ViewChoicePane choiceDisplay;
   private double xCoord;
   private double yCoord;
   private double previousAngle = 90;
   private FrontEndExternalAPI viewController;
+  private HBox displayInfoBox;
 
   public ViewPane(FrontEndExternalAPI viewController, Stage s, ResourceBundle idResource) {
     this.viewController = viewController;
-    viewPane = new BorderPane();
+    viewPane = new GridPane();
     viewPane.setId(VIEW_PANE_ID);
     viewPane.getStyleClass().add(VIEW_PANE_ID);
     viewPane.setMaxWidth(ROWS + 10.0);
@@ -40,6 +49,19 @@ public class ViewPane {
     yCoord = 0;
     turtleDisplay = new TurtleDisplayPane(viewPane, ROWS, COLS);
     choiceDisplay = new ViewChoicePane(viewController, s, viewPane, turtleDisplay, idResource);
+    createTurtleDisplayInfo();
+  }
+
+  private void createTurtleDisplayInfo() {
+    displayInfoBox = new HBox();
+    displayInfoBox.getStyleClass().add(HBOX_ID);
+    String[] xy = turtleDisplay.xyLoc();
+    for (String pos: xy) {
+      Label text = new Label(pos);
+      text.getStyleClass().add(HBOX_TEXT);
+      displayInfoBox.getChildren().add(text);
+    }
+    viewPane.add(displayInfoBox, 0, 1);
   }
 
   // TODO: Think of better way to pass language
@@ -55,7 +77,7 @@ public class ViewPane {
     turtleDisplay.moveTurtle(xCoordinate, yCoordinate, choiceDisplay.getPenColor());
   }
 
-  public BorderPane getBox() {
+  public Pane getBox() {
     return viewPane;
   }
 

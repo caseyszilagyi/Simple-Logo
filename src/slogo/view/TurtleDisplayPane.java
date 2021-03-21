@@ -5,9 +5,7 @@ import java.util.Deque;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
@@ -21,7 +19,7 @@ public class TurtleDisplayPane {
   private static final String LINE_ID = "Line";
   private final double centerX;
   private final double centerY;
-  private BorderPane viewPane;
+  private GridPane viewPane;
   private AnchorPane turtleViewPane;
   private ImageView turtle;
 
@@ -41,32 +39,28 @@ public class TurtleDisplayPane {
   private double cols;
   private double penThickness = 1.0;
 
-  public TurtleDisplayPane(BorderPane root, double r, double c) {
+  public TurtleDisplayPane(GridPane root, double r, double c) {
     viewPane = root;
     rows = r;
     cols = c;
 
     turtleViewPane = new AnchorPane();
-    viewPane.setCenter(turtleViewPane);
+    viewPane.add(turtleViewPane, 0, 2);
     turtleViewPane.setId(PANE_BOX_ID);
     turtleViewPane.getStyleClass().add(PANE_BOX_ID);
 
-    //set size of the ViewPane
     turtleViewPane.setMaxHeight(cols);
     turtleViewPane.setMaxWidth(rows);
     turtleViewPane.setMinHeight(cols);
     turtleViewPane.setMinWidth(rows);
 
-    //Get the center
     centerX = rows / 2 - TURTLE_HEIGHT / 2;
     centerY = cols / 2 - TURTLE_WIDTH / 2;
 
     commandsToBeExecuted = new ArrayDeque<>();
     typeToBeUpdated = new ArrayDeque<>();
 
-
     createTurtle();
-
   }
 
   public void updateTurtlePosition() {
@@ -186,6 +180,13 @@ public class TurtleDisplayPane {
   public void updateCommandQueue(String commandType, List<Double> commandValues) {
     typeToBeUpdated.add(commandType);
     commandsToBeExecuted.addAll(commandValues);
+  }
+
+  public String[] xyLoc() {
+    String[] xyLoc = new String[2];
+    xyLoc[0] = "xCoordinate: " + (turtle.getX() - centerX);
+    xyLoc[1] = "yCoordinate: " + (turtle.getY() - centerY);
+    return xyLoc;
   }
 
 }
