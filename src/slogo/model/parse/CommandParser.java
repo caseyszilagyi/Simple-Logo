@@ -32,12 +32,12 @@ public class CommandParser extends Parser {
 
   public CommandParser(String rawInput, String language, BackEndExternalAPI modelController) {
     this.modelController = modelController;
-    addUserDefParamCounts();
-    inputCleaner = new InputCleaner(rawInput, language, modelController, this);
+    inputCleaner = new InputCleaner(rawInput, language);
     tokenMaker = new MakeTokens(inputCleaner.parseResults());
     cleanCommands = tokenMaker.tokenString();
     commandBlockParser = new CommandBlockParser(cleanCommands, this);
     commandTree = new TreeNode(null, null);
+    addUserDefParamCounts();
     System.out.println("Command Taken in by the parser: " + rawInput);
     System.out.println("Clean command: " + cleanCommands);
   }
@@ -54,13 +54,17 @@ public class CommandParser extends Parser {
 
   private void addUserDefParamCounts() {
     Map<String, UserDefinedCommand> userDefCommands = modelController.getUserDefinedCommands();
+    System.out.println(userDefCommands.keySet());
     for (String key : userDefCommands.keySet()) {
       int paramCounts = userDefCommands.get(key).getParamCount();
+      System.out.println("Command: "+key +" with numParam "+paramCounts);
+
       List<String> paramString = new ArrayList<>();
       for (int i = 0; i < paramCounts; i++) {
         paramString.add("NUM");
       }
       addSingleParamCount(key, paramString);
+      System.out.println(commandParam.get(key));
     }
   }
 
@@ -104,6 +108,7 @@ public class CommandParser extends Parser {
   }
 
   private TreeNode insertNodeRecursive(Deque<Token> splitCommands, TreeNode root) {
+    System.out.println("root val: "+root.getValue());
     if (getParam(root.getValue()).size() == 0) {
       System.out.println(root.getValue() + " is a leaf");
       return root;
@@ -127,11 +132,8 @@ public class CommandParser extends Parser {
       TreeNode dummy = new TreeNode(command, root);
       dummy = checkCommandBlock(dummy);
       root.addChild(dummy);
-
       System.out.println("Parent: " + root.getCommand());
       System.out.println("Child: " + dummy.getCommand());
-      System.out.println("Split commands "+splitCommands);
-      System.out.println("Split commands size "+splitCommands.size());
       insertNodeRecursive(splitCommands, dummy);
     }
     System.out.println(root.getCommand());
@@ -153,6 +155,7 @@ public class CommandParser extends Parser {
    * @return String rep of the number of params needed for command
    */
   public List<String> getParam(String text) {
+    System.out.println(commandParam.containsKey(text));
     try {
       System.out.println("param: "+ commandParam.get(text).get(0));
       return commandParam.get(text);
