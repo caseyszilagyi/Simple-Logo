@@ -192,6 +192,4 @@ public class ViewController implements FrontEndExternalAPI {
 
     }
   }
-
-
 }

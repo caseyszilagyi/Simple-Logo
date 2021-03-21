@@ -1,8 +1,7 @@
 package slogo.view;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
@@ -10,7 +9,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import slogo.controller.BackEndExternalAPI;
@@ -19,6 +17,7 @@ import slogo.controller.ModelController;
 import slogo.controller.ViewController;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -27,17 +26,13 @@ public class ViewChoicePane {
   private static final double ICON_WIDTH = 20.0;
   private static final double ICON_HEIGHT = 20.0;
 
-  private static final String BACKGROUND_ICON = "BackgroundIcon.gif";
-  private static final String PEN_ICON = "PenIcon.gif";
-  private static final String TURTLE_ICON = "TurtleIcon.gif";
-  private static final String NEW_WINDOW_ICON = "NewWindow.gif";
-
   private static final String CHOICE_PANE_ID = "ChoicePane";
-  private static final String PEN_COLOR_PICKER_ID = "PenColorPicker";
   private static final String COLOR_PICKER = "color-picker";
   private static final String ICON = "icon";
-  private static final String LANGUAGE_OPTIONS = "slogo.view.resources.buttons.languages.LangaugeOptions";
-  private static final String IDS_FOR_TESTING = "slogo.view.resources.IDsforTesting";
+  private static final String DEFAULT_RESOURCES = HistoryDisplayPane.class.getPackageName() + ".resources.";
+  private static final String LANGUAGE_OPTIONS = DEFAULT_RESOURCES + "buttons.languages.LangaugeOptions";
+  private static final String IMAGE_RESOURCES = DEFAULT_RESOURCES + "Image";
+  private static final String REFLECTION_RESOURCES = DEFAULT_RESOURCES + "buttons.ViewChoiceReflectionActions";
 
   private GridPane choicePane;
   private BorderPane viewPane;
@@ -53,9 +48,11 @@ public class ViewChoicePane {
   private String currentBackgroundColor = "d3d3d3";
   private TurtleDisplayPane turtleDisplay;
   private ResourceBundle idsForTesting;
+  private ResourceBundle imageResources;
+  private ResourceBundle reflectionResources;
   private FrontEndExternalAPI viewController;
 
-  public ViewChoicePane(FrontEndExternalAPI viewController, Stage s, BorderPane root, TurtleDisplayPane turtleDisplayPane) {
+  public ViewChoicePane(FrontEndExternalAPI viewController, Stage s, BorderPane root, TurtleDisplayPane turtleDisplayPane, ResourceBundle idResources) {
     this.viewController = viewController;
     stage = s;
     viewPane = root;
@@ -65,62 +62,47 @@ public class ViewChoicePane {
     choicePane.getStyleClass().add(CHOICE_PANE_ID);
     viewPane.setTop(choicePane);
 
-    idsForTesting = ResourceBundle.getBundle(IDS_FOR_TESTING);
+    idsForTesting = idResources;
+    imageResources = ResourceBundle.getBundle(IMAGE_RESOURCES);
+    reflectionResources = ResourceBundle.getBundle(REFLECTION_RESOURCES);
 
-    createBackgroundColorPicker();
-    createPenColorPicker();
+    createBackgroundButton();
+    createPenButton();
     createTurtleImageButton();
     createNewWindowButton();
     createLanguageComboBox();
   }
 
-  private void createBackgroundColorPicker() {
-    backgroundColorPickerButton = new Button();
-    backgroundColorPickerButton.setId(idsForTesting.getString("ChangeBackgroundButton"));
-    ImageView icon = setIcon(BACKGROUND_ICON);
-    backgroundColorPickerButton.setGraphic(icon);
-    backgroundColorPickerButton.setOnAction(event -> changeBackgroundButton());
-    backgroundColorPickerButton.getStyleClass().add(ICON);
-    choicePane.add(backgroundColorPickerButton, 0, 0);
+  private void createBackgroundButton() {
+    String key = "ChangeBackgroundButton";
+    backgroundColorPickerButton = makeButton(key, 0);
   }
 
   private void changeBackgroundButton() {
     choicePane.getChildren().remove(backgroundColorPickerButton);
-    backgroundColorPicker = new ColorPicker(Color.valueOf(currentBackgroundColor));
-    backgroundColorPicker.setId(idsForTesting.getString("ChangeBackgroundColorPicker"));
-    backgroundColorPicker.getStyleClass().add(COLOR_PICKER);
-    choicePane.add(backgroundColorPicker, 0, 0);
-    backgroundColorPicker.setOnAction(event -> changeBackgroundColor());
+    String key = "ChangeBackgroundColorPicker";
+    backgroundColorPicker = makeColorPicker(key, 0, Color.valueOf(currentBackgroundColor));
   }
 
   private void changeBackgroundColor() {
-    Paint fill = backgroundColorPicker.getValue();
-    currentBackgroundColor = fill.toString();
-    BackgroundFill backgroundFill = new BackgroundFill(fill, new CornerRadii(10), new Insets(10));
+    currentBackgroundColor = backgroundColorPicker.getValue().toString();
+    BackgroundFill backgroundFill = new BackgroundFill(backgroundColorPicker.getValue(),
+            new CornerRadii(10), new Insets(10));
     Background background = new Background(backgroundFill);
     turtleDisplay.setBackground(background);
     choicePane.getChildren().remove(backgroundColorPicker);
     choicePane.add(backgroundColorPickerButton, 0, 0);
   }
 
-  private void createPenColorPicker() {
-    penColorPickerButton = new Button();
-    penColorPickerButton.setId(idsForTesting.getString("ChangePenButton"));
-    ImageView icon = setIcon(PEN_ICON);
-    penColorPickerButton.setGraphic(icon);
-    penColorPickerButton.getStyleClass().add(ICON);
-    choicePane.add(penColorPickerButton, 1, 0);
-    penColorPickerButton.setOnAction(event -> changePenButton());
+  private void createPenButton() {
+    String key = "ChangePenButton";
+    penColorPickerButton = makeButton(key, 1);
   }
 
   private void changePenButton() {
     choicePane.getChildren().remove(penColorPickerButton);
-    penColorPicker = new ColorPicker(currentPenColor);
-    penColorPicker.setId(idsForTesting.getString("ChangePenColorPicker"));
-    penColorPicker.setId(PEN_COLOR_PICKER_ID);
-    penColorPicker.getStyleClass().add(COLOR_PICKER);
-    choicePane.add(penColorPicker, 1, 0);
-    penColorPicker.setOnAction(event -> changePenColor());
+    String key = "ChangePenColorPicker";
+    penColorPicker = makeColorPicker(key, 1, currentPenColor);
   }
 
   private void changePenColor() {
@@ -135,13 +117,8 @@ public class ViewChoicePane {
   }
 
   private void createTurtleImageButton() {
-    Button turtleImageButton = new Button();
-    turtleImageButton.setId(idsForTesting.getString("TurtleIconButton"));
-    ImageView turtleIcon = setIcon(TURTLE_ICON);
-    turtleImageButton.setGraphic(turtleIcon);
-    turtleImageButton.getStyleClass().add(ICON);
-    choicePane.add(turtleImageButton, 2, 0);
-    turtleImageButton.setOnAction(event -> uploadTurtleImage());
+    String key = "TurtleIconButton";
+    makeButton(key, 2);
   }
 
   public void uploadTurtleImage() {
@@ -153,13 +130,8 @@ public class ViewChoicePane {
   }
 
   private void createNewWindowButton() {
-    Button addNewScreen = new Button();
-    addNewScreen.setId(idsForTesting.getString("NewWindowButton"));
-    ImageView addIcon = setIcon(NEW_WINDOW_ICON);
-    addNewScreen.setGraphic(addIcon);
-    addNewScreen.getStyleClass().add(ICON);
-    choicePane.add(addNewScreen, 3, 0);
-    addNewScreen.setOnAction(event -> createNewScreen());
+    String key = "NewWindowButton";
+    makeButton(key, 3);
   }
 
   private void createNewScreen() {
@@ -176,20 +148,47 @@ public class ViewChoicePane {
     for (Object allLanguage : allLanguages) {
       displayLanguages.add(languageOptions.getString(allLanguage.toString()));
     }
-    languageComboBox = new ComboBox<String>();
+    languageComboBox = new ComboBox<>();
     languageComboBox.getItems().addAll(displayLanguages);
     languageComboBox.setId(idsForTesting.getString("LanguageComboBox"));
     language = "English";
     languageComboBox.setValue(languageOptions.getString(language));
     choicePane.add(languageComboBox, 10, 0);
-    languageComboBox.setOnAction(new EventHandler<ActionEvent>() {
-      @Override
-      public void handle(ActionEvent event) {
-        int value = displayLanguages.indexOf(languageComboBox.getValue());
-        language = allLanguages[value].toString();
-        viewController.setLanguage(language);
-      }
+    languageComboBox.setOnAction(handler -> {
+      int value = displayLanguages.indexOf(languageComboBox.getValue());
+      language = allLanguages[value].toString();
+      viewController.setLanguage(language);
     });
+  }
+
+  private Button makeButton(String key, int col) {
+    Button button = new Button();
+    button.setGraphic(setIcon(imageResources.getString(key)));
+    button.getStyleClass().add(ICON);
+    button.setId(idsForTesting.getString(key));
+    button.setOnAction(event -> reflectionMethod(key));
+    choicePane.add(button, col, 0);
+    return button;
+  }
+
+  private ColorPicker makeColorPicker(String key, int col, Color color) {
+    ColorPicker colorPicker = new ColorPicker(color);
+    colorPicker.setId(idsForTesting.getString(key));
+    colorPicker.getStyleClass().add(COLOR_PICKER);
+    colorPicker.setOnAction(event -> reflectionMethod(key));
+    choicePane.add(colorPicker, col, 0);
+    return colorPicker;
+  }
+
+  private void reflectionMethod(String key) {
+    try {
+      String methodName = reflectionResources.getString(key);
+      Method m = ViewChoicePane.this.getClass().getDeclaredMethod(methodName);
+      m.invoke(ViewChoicePane.this);
+    }
+    catch (Exception e) {
+      new Alert(Alert.AlertType.ERROR);
+    }
   }
 
   public String getLanguage() {

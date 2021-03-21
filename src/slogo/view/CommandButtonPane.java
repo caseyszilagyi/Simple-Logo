@@ -15,13 +15,15 @@ public class CommandButtonPane {
   private FrontEndExternalAPI viewController;
   private VBox buttonBox;
   private Object[] buttons;
+  private ResourceBundle idsForTesting;
 
-  public CommandButtonPane(FrontEndExternalAPI viewController, String lang) {
+  public CommandButtonPane(FrontEndExternalAPI viewController, ResourceBundle idResources, String lang) {
     buttonBox = new VBox();
     buttonBox.getStyleClass().add(BUTTON_PANE_ID);
 
     this.viewController = viewController;
     buttonLanguageResource = ResourceBundle.getBundle(COMMAND_BUTTON_LANGUAGE + lang);
+    idsForTesting = idResources;
 
     buttons = buttonLanguageResource.keySet().toArray();
 
@@ -33,6 +35,7 @@ public class CommandButtonPane {
       Button button = new Button();
       button.setText(buttonLanguageResource.getString(o.toString()));
       button.getStyleClass().add(BUTTON);
+      button.setId(idsForTesting.getString(o.toString()));
       button.setOnAction(event -> doButtonCommand(o.toString()));
       buttonBox.getChildren().add(button);
     }
