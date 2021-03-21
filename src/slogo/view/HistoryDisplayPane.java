@@ -19,8 +19,6 @@ import slogo.controller.FrontEndExternalAPI;
  * Create the HBox for the display for history of commands, variables, and user commands
  */
 public class HistoryDisplayPane {
-
-  private static final String TITLE = "HISTORY, VARIABLES, AND USER COMMANDS";
   private static final String HISTORY_DISPLAY_PANE_ID = "HistoryDisplayPane";
   private static final String HISTORY_DISPLAY_PANE_TEXT = "HistoryDisplayPaneText";
   private static final String HISTORY_PANE_ID = "HistoryPane";
@@ -33,7 +31,6 @@ public class HistoryDisplayPane {
   private static final String HISTORY_BUTTON_ID = "previousCommandButton";
   private static final String VAR_BUTTON_ID = "previousVariableButton";
   private static final String USER_BUTTON_ID = "previousUserButton";
-  private static final String CLEAR_BUTTON_TEXT = "Clear History";
   public static final String DEFAULT_RESOURCE_PACKAGE = HistoryDisplayPane.class.getPackageName() + ".resources.";
   private static final String EXAMPLE_FILE = "buttons.languages.ExampleCode";
   private static final String DISPLAY_BUTTONS = DEFAULT_RESOURCE_PACKAGE + "buttons.languages.HistoryDisplay";
@@ -94,17 +91,23 @@ public class HistoryDisplayPane {
   }
 
   private void createTabs() {
-    Tab history = new Tab(historyTabResource.getString("HistoryTab"));
+    Tab history = createTab("HistoryTab");
     history.setContent(historyPane);
-    Tab var = new Tab(historyTabResource.getString("VariableTab"));
+    Tab var = createTab("VariableTab");
     var.setContent(varPane);
-    Tab user = new Tab(historyTabResource.getString("UserTab"));
+    Tab user = createTab("UserTab");
     user.setContent(userPane);
-    Tab ex = new Tab(historyTabResource.getString("ExampleTab"));
+    Tab ex = createTab("ExampleTab");
     ex.setContent(exPane);
     makeExampleCodeButtons();
     tabPane.setMaxWidth(TABS_WIDTH - 10.0);
     tabPane.getTabs().addAll(history, var, user, ex);
+  }
+
+  private Tab createTab(String key) {
+    Tab tab= new Tab(historyTabResource.getString(key));
+    tab.setId(idsForTesting.getString(key));
+    return tab;
   }
 
   private void createExamplePane() {
@@ -170,8 +173,7 @@ public class HistoryDisplayPane {
     for (Map.Entry<String, String> command : userDefinedCommands.entrySet()) {
       Button button = makeButton(command.getKey(), userBox, HISTORY_BUTTON, USER_BUTTON_ID);
       userBox.getChildren().add(button);
-      button
-          .setOnAction(event -> viewController.displayCommandStringOnTextArea(command.getValue()));
+      button.setOnAction(event -> displayOnTextArea(command.getValue()));
     }
   }
 
@@ -181,7 +183,7 @@ public class HistoryDisplayPane {
     for (String command : commandHistory) {
       Button button = makeButton(command, historyBox, HISTORY_BUTTON, HISTORY_BUTTON_ID);
       historyBox.getChildren().add(button);
-      button.setOnAction(event -> viewController.displayCommandStringOnTextArea(command));
+      button.setOnAction(event -> displayOnTextArea(command));
     }
   }
 
@@ -202,9 +204,12 @@ public class HistoryDisplayPane {
       Button button = makeButton(exampleCodewithLabel, exBox, EXAMPLE_BUTTON, "examplebutton");
       button.setPrefWidth(prefWidth);
       exBox.getChildren().add(button);
-      button
-              .setOnAction(event -> viewController.displayCommandStringOnTextArea(exampleCodeString));
+      button.setOnAction(event -> displayOnTextArea(exampleCodeString));
     }
+  }
+
+  private void displayOnTextArea(String code) {
+    viewController.displayCommandStringOnTextArea(code);
   }
 
   private Button makeButton(String text, VBox vBox, String styleClass, String id) {
@@ -224,6 +229,7 @@ public class HistoryDisplayPane {
     topBox.getChildren().clear();
     createTabs();
     if (lang.equals("Chinese")) { textWidth = 150.0; }
+    else { textWidth = 300.0; }
     displayTitle(textWidth);
     createClearHistoryButton();
   }
