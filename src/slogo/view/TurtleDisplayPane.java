@@ -225,8 +225,8 @@ public class TurtleDisplayPane {
     }
 
     currentID = turtleID;
-      commandsToBeExecuted.add((double) turtleID);
-      typeToBeUpdated.add("SetID");
+    commandsToBeExecuted.add((double) turtleID);
+    typeToBeUpdated.add("SetID");
 
   }
 }
