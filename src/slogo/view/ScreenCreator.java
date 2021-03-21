@@ -4,6 +4,7 @@ import javafx.scene.control.Button;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.ResourceBundle;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -26,6 +27,8 @@ public class ScreenCreator {
   private static final String TITLE = "SLogo";
   private static final double DEFAULT_X = 1280.0;
   private static final double DEFAULT_Y = 800.0;
+  private static final String DEFAULT_RESOURCES = HistoryDisplayPane.class.getPackageName() + ".resources.";
+  private static final String IDS_FOR_TESTING = DEFAULT_RESOURCES + "IDsforTesting";
 
   private BorderPane root;
   private Scene scene;
@@ -36,8 +39,8 @@ public class ScreenCreator {
   private CommandButtonPane commandButtonPane;
   private FrontEndExternalAPI viewController;
   private String styleSheet;
-  private int frameDelay;
   private Timeline timeline;
+  private ResourceBundle idResource;
 
   public ScreenCreator(FrontEndExternalAPI viewController) {
     this.viewController = viewController;
@@ -50,6 +53,7 @@ public class ScreenCreator {
     stage.show();
 
     String defaultLanguage = "English";
+    idResource = ResourceBundle.getBundle(IDS_FOR_TESTING);
 
     styleSheet = "slogo/view/resources/default.css";
     scene.getStylesheets().add(styleSheet);
@@ -57,13 +61,13 @@ public class ScreenCreator {
     historyDisplayPane = new HistoryDisplayPane(viewController);
     root.setRight(historyDisplayPane.getBox());
 
-    userCommand = new UserCommandPane(viewController);
+    userCommand = new UserCommandPane(viewController, idResource, defaultLanguage);
     root.setBottom(userCommand.getBox());
 
-    viewPane = new ViewPane(stage);
+    viewPane = new ViewPane(stage, idResource);
     root.setCenter(viewPane.getBox());
 
-    commandButtonPane = new CommandButtonPane(viewController, defaultLanguage);
+    commandButtonPane = new CommandButtonPane(viewController, idResource, defaultLanguage);
     root.setLeft(commandButtonPane.getBox());
 
     // TODO: remove later for testing only
@@ -91,7 +95,7 @@ public class ScreenCreator {
   //TODO: REMOVE LATER THIS IS ONLY FOR DEBUGGING
   private void reset() {
 
-    viewPane = new ViewPane(stage);
+    viewPane = new ViewPane(stage, idResource);
     root.setCenter(viewPane.getBox());
 
   }
@@ -107,6 +111,7 @@ public class ScreenCreator {
   public void updateLanguage() {
     String language = viewPane.getLanguage();
     commandButtonPane.updateLanguage(language);
+    userCommand.updateLanguage(language);
   }
 
   public void updateCommandHistory(Queue<String> commandHistory) {

@@ -31,7 +31,6 @@ public class ViewChoicePane {
   private static final String ICON = "icon";
   private static final String DEFAULT_RESOURCES = HistoryDisplayPane.class.getPackageName() + ".resources.";
   private static final String LANGUAGE_OPTIONS = DEFAULT_RESOURCES + "buttons.languages.LangaugeOptions";
-  private static final String IDS_FOR_TESTING = DEFAULT_RESOURCES + "IDsforTesting";
   private static final String IMAGE_RESOURCES = DEFAULT_RESOURCES + "Image";
   private static final String REFLECTION_RESOURCES = DEFAULT_RESOURCES + "buttons.ViewChoiceReflectionActions";
 
@@ -52,7 +51,7 @@ public class ViewChoicePane {
   private ResourceBundle imageResources;
   private ResourceBundle reflectionResources;
 
-  public ViewChoicePane(Stage s, BorderPane root, TurtleDisplayPane turtleDisplayPane) {
+  public ViewChoicePane(Stage s, BorderPane root, TurtleDisplayPane turtleDisplayPane, ResourceBundle idResources) {
     stage = s;
     viewPane = root;
     turtleDisplay = turtleDisplayPane;
@@ -61,7 +60,7 @@ public class ViewChoicePane {
     choicePane.getStyleClass().add(CHOICE_PANE_ID);
     viewPane.setTop(choicePane);
 
-    idsForTesting = ResourceBundle.getBundle(IDS_FOR_TESTING);
+    idsForTesting = idResources;
     imageResources = ResourceBundle.getBundle(IMAGE_RESOURCES);
     reflectionResources = ResourceBundle.getBundle(REFLECTION_RESOURCES);
 
@@ -117,7 +116,7 @@ public class ViewChoicePane {
 
   private void createTurtleImageButton() {
     String key = "TurtleIconButton";
-    Button turtleImageButton = makeButton(key, 2);
+    makeButton(key, 2);
   }
 
   public void uploadTurtleImage() {
@@ -130,7 +129,7 @@ public class ViewChoicePane {
 
   private void createNewWindowButton() {
     String key = "NewWindowButton";
-    Button addNewScreen = makeButton(key, 3);
+    makeButton(key, 3);
   }
 
   private void createNewScreen() {

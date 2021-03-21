@@ -4,11 +4,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import java.util.ResourceBundle;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -16,7 +17,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import slogo.controller.FrontEndExternalAPI;
 
 /**
@@ -35,6 +35,9 @@ public class UserCommandPane {
   private static final String TEXT_AREA_ID = "textArea";
   private static final String RUN_BUTTON_ID = "runButton";
   private static final String CLEAR_BUTTON_ID = "clearButton";
+  private static final String DEFAULT_RESOURCES = HistoryDisplayPane.class.getPackageName() + ".resources.buttons.";
+  private static final String REFLECTION_RESOURCE = DEFAULT_RESOURCES + "UserCommandReflectionActions";
+  private static final String BUTTON_LANGUAGE = DEFAULT_RESOURCES + "languages.UserCommand";
 
   private GridPane box;
   private TextArea textArea;
@@ -42,13 +45,23 @@ public class UserCommandPane {
   private ComboBox<String> helpComboBox;
   private Button helpButton;
   private Slider slider;
+  private ResourceBundle idsForTesting;
+  private ResourceBundle reflectionResource;
+  private ResourceBundle buttonLanguageResource;
 
-  public UserCommandPane(FrontEndExternalAPI viewController) {
+  public UserCommandPane(FrontEndExternalAPI viewController, ResourceBundle idResource, String lang) {
     this.viewController = viewController;
     box = new GridPane();
     box.getStyleClass().add(USER_COMMAND_PANE_ID);
-    addTextField();
+    idsForTesting = idResource;
+    reflectionResource = ResourceBundle.getBundle(REFLECTION_RESOURCE);
+    buttonLanguageResource = ResourceBundle.getBundle(BUTTON_LANGUAGE + lang);
+    addTextArea();
     createButtons();
+    createSlider();
+  }
+
+  private void createSlider() {
     slider = new Slider(10, 5000, 100);
     box.add(slider, 5, 0);
   }
@@ -58,32 +71,31 @@ public class UserCommandPane {
   }
 
   private void createButtons() {
-    Button runButton = makeButton("Run", 1);
-    runButton.setOnAction(event -> viewController.processUserCommandInput(textArea.getText()));
-    runButton.setId(RUN_BUTTON_ID);
-    Button clearButton = makeButton("Clear", 2);
-    clearButton.setOnAction(event -> textArea.clear());
-    clearButton.setId(CLEAR_BUTTON_ID);
-    helpButton = makeButton("Help", 3);
-    helpButton.setOnAction(event -> createHelpButton());
+    makeButton("RunButton", 1);
+    makeButton("ClearButton", 2);
+    helpButton = makeButton("HelpButton", 3);
+  }
+
+  private void run() {
+    viewController.processUserCommandInput(textArea.getText());
+  }
+
+  private void clear() {
+    textArea.clear();
   }
 
   private void createHelpButton() {
     box.getChildren().remove(helpButton);
     File directoryPath = new File(FILE_PATH);
-    String[] contents = directoryPath.list();
-    ArrayList<String> allReferences = new ArrayList<>(Arrays.asList(contents));
+    ArrayList<String> allReferences = new ArrayList<>(Arrays.asList(directoryPath.list()));
     Collections.sort(allReferences);
     helpComboBox = new ComboBox<>();
     helpComboBox.getItems().addAll(allReferences);
     helpComboBox.setValue(DEFAULT_MESSAGE);
     helpComboBox.getStyleClass().add(COMBO_BOX);
     box.add(helpComboBox, 3, 0);
-    helpComboBox.setOnAction(new EventHandler<ActionEvent>() {
-      @Override
-      public void handle(ActionEvent event) {
-        displayCommandInformation(helpComboBox.getValue());
-      }
+    helpComboBox.setOnAction(handler -> {
+      displayCommandInformation(helpComboBox.getValue());
     });
   }
 
@@ -109,20 +121,34 @@ public class UserCommandPane {
     box.add(helpButton, 3, 0);
   }
 
-  private Button makeButton(String text, int col) {
-    Button button = new Button(text);
+  private Button makeButton(String key, int col) {
+    Button button = new Button();
+    button.setText(buttonLanguageResource.getString(key));
     button.setPrefHeight(HEIGHT);
     button.getStyleClass().add(BUTTON);
+    button.setId(idsForTesting.getString(key));
+    button.setOnAction(event -> reflectionMethod(key));
     box.add(button, col, 0);
     return button;
   }
 
-  private void addTextField() {
+  private void reflectionMethod(String key) {
+    try {
+      String methodName = reflectionResource.getString(key);
+      Method m = UserCommandPane.this.getClass().getDeclaredMethod(methodName);
+      m.invoke(UserCommandPane.this);
+    }
+    catch (Exception e) {
+      new Alert(Alert.AlertType.ERROR);
+    }
+  }
+
+  private void addTextArea() {
     textArea = new TextArea();
     textArea.setPrefWidth(WIDTH);
     textArea.setPrefHeight(HEIGHT);
     textArea.getStyleClass().add(TEXT_AREA);
-    textArea.setId(TEXT_AREA_ID);
+    textArea.setId(idsForTesting.getString("TextArea"));
     box.add(textArea, 0, 0);
   }
 
@@ -132,5 +158,13 @@ public class UserCommandPane {
 
   public void displayCommandStringOnTextArea(String command) {
     textArea.setText(command);
+  }
+
+  public void updateLanguage(String lang) {
+    buttonLanguageResource = ResourceBundle.getBundle(BUTTON_LANGUAGE + lang);
+    box.getChildren().clear();
+    addTextArea();
+    createButtons();
+    createSlider();
   }
 }

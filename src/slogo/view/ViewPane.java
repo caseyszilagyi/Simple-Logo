@@ -1,6 +1,7 @@
 package slogo.view;
 
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.layout.BorderPane;
@@ -26,7 +27,7 @@ public class ViewPane {
   private double yCoord;
   private double previousAngle = 90;
 
-  public ViewPane(Stage s) {
+  public ViewPane(Stage s, ResourceBundle idResource) {
     viewPane = new BorderPane();
     viewPane.setId(VIEW_PANE_ID);
     viewPane.getStyleClass().add(VIEW_PANE_ID);
@@ -35,7 +36,7 @@ public class ViewPane {
     xCoord = 0;
     yCoord = 0;
     turtleDisplay = new TurtleDisplayPane(viewPane, ROWS, COLS);
-    choiceDisplay = new ViewChoicePane(s, viewPane, turtleDisplay);
+    choiceDisplay = new ViewChoicePane(s, viewPane, turtleDisplay, idResource);
   }
 
   // TODO: Think of better way to pass language

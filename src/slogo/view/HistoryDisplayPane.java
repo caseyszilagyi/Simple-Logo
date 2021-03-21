@@ -30,7 +30,9 @@ public class HistoryDisplayPane {
   private static final String BUTTON = "regular-button";
   private static final double TABS_HEIGHT = 570.0;
   private static final double TABS_WIDTH = 403.0;
-  private static final String BUTTON_ID = "previousCommandButton";
+  private static final String HISTORY_BUTTON_ID = "previousCommandButton";
+  private static final String VAR_BUTTON_ID = "previousVariableButton";
+  private static final String USER_BUTTON_ID = "previousUserButton";
   private static final String CLEAR_BUTTON_TEXT = "Clear History";
   public static final String DEFAULT_RESOURCE_PACKAGE = HistoryDisplayPane.class.getPackageName() + ".resources.";
   private static final String EXAMPLE_FILE = "ExampleCode";
@@ -70,6 +72,7 @@ public class HistoryDisplayPane {
   private void createClearHistoryButton() {
     Button clearButton = new Button(CLEAR_BUTTON_TEXT);
     clearButton.getStyleClass().add(BUTTON);
+    clearButton.setId("ClearHistory");
     clearButton.setOnAction(event -> clearHistory());
     topBox.getChildren().add(clearButton);
   }
@@ -156,7 +159,7 @@ public class HistoryDisplayPane {
   private void updateUserDefinedCommands(Map<String, String> userDefinedCommands) {
     userBox.getChildren().clear();
     for (Map.Entry<String, String> command : userDefinedCommands.entrySet()) {
-      Button button = makeButton(command.getKey(), userBox, HISTORY_BUTTON);
+      Button button = makeButton(command.getKey(), userBox, HISTORY_BUTTON, USER_BUTTON_ID);
       userBox.getChildren().add(button);
       button
           .setOnAction(event -> viewController.displayCommandStringOnTextArea(command.getValue()));
@@ -167,7 +170,7 @@ public class HistoryDisplayPane {
     displayCommandHistory = commandHistory;
     historyBox.getChildren().clear();
     for (String command : commandHistory) {
-      Button button = makeButton(command, historyBox, HISTORY_BUTTON);
+      Button button = makeButton(command, historyBox, HISTORY_BUTTON, HISTORY_BUTTON_ID);
       historyBox.getChildren().add(button);
       button.setOnAction(event -> viewController.displayCommandStringOnTextArea(command));
     }
@@ -176,7 +179,7 @@ public class HistoryDisplayPane {
   public void updateVariableDisplay(Map<String, Double> variables) {
     varBox.getChildren().clear();
     for (Map.Entry<String, Double> entry : variables.entrySet()) {
-      Button button = makeButton(entry.getKey() + " = " + entry.getValue(), varBox, HISTORY_BUTTON);
+      Button button = makeButton(entry.getKey() + " = " + entry.getValue(), varBox, HISTORY_BUTTON, VAR_BUTTON_ID);
       varBox.getChildren().add(button);
     }
   }
@@ -187,7 +190,7 @@ public class HistoryDisplayPane {
     for (Object example: allExCode) {
       String exampleCodeString = exampleCode.getString(example.toString());
       String exampleCodewithLabel = example + ": " + exampleCodeString;
-      Button button = makeButton(exampleCodewithLabel, exBox, EXAMPLE_BUTTON);
+      Button button = makeButton(exampleCodewithLabel, exBox, EXAMPLE_BUTTON, "examplebutton");
       button.setPrefWidth(prefWidth);
       exBox.getChildren().add(button);
       button
@@ -195,9 +198,9 @@ public class HistoryDisplayPane {
     }
   }
 
-  private Button makeButton(String text, VBox vBox, String styleClass) {
+  private Button makeButton(String text, VBox vBox, String styleClass, String id) {
     Button button = new Button(text);
-    button.setId(BUTTON_ID);
+    button.setId(id);
     button.setWrapText(true);
     button.setPrefWidth(vBox.getWidth());
     button.getStyleClass().add(styleClass);

@@ -116,6 +116,7 @@ public class TurtleDisplayPane {
     turtle = new ImageView(turtleImage);
     turtle.setFitWidth(TURTLE_WIDTH);
     turtle.setFitHeight(TURTLE_HEIGHT);
+    turtle.setId("Turtle");
     turtleViewPane.getChildren().add(turtle);
     turtle.setX(centerX);
     turtle.setY(centerY);
@@ -146,6 +147,11 @@ public class TurtleDisplayPane {
 
     lastXPosition = x;
     lastYPosition = y;
+
+    System.out.println("Center: " + centerX);
+    System.out.println("Center: " + centerY);
+    System.out.println("Home: " + x);
+    System.out.println("Home: " + y);
 
   }
 
