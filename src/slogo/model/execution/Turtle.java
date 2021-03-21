@@ -166,10 +166,7 @@ public class Turtle {
    * Sets the parameter to clear the screen to a 1
    */
   public void clearScreen() {
-    clearScreen = 1;
-    MODEL_CONTROLLER.passInputToFrontEnd(getFrontEndParameters());
     MODEL_CONTROLLER.clearScreen();
-    clearScreen = 0;
   }
 
   /**

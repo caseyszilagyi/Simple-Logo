@@ -35,7 +35,7 @@ public class MultipleTurtleTest {
 
   private BasicCommandClassLoader loader;
   private BackEndExternalAPI modelController;
-  private FrontEndExternalAPI viewController;
+  private FrontEndExternalAPI viewController = new DummyViewController();
 
   /**
    * Sets up the information bundle and gets all the necessary components
@@ -43,6 +43,7 @@ public class MultipleTurtleTest {
   @BeforeEach
   void setUp() {
     modelController = new ModelController();
+    modelController.setViewController(viewController);
     commandBundle = new CommandInformationBundle(modelController);
     turtleInformation = commandBundle.getTurtleInformation();
     userInformation = commandBundle.getUserDefinedInformation();
@@ -60,20 +61,26 @@ public class MultipleTurtleTest {
     TreeNode tell = makeTree("Tell", commandBlock);
     executeCommand(makeBasicCommand(tell));
     moveTurtle("50");
-    List<Turtle> turtles = turtleInformation.getAllTurtles();
-    assertEquals(50, turtles.get(0).getYPosition(), TOLERANCE);
-    assertEquals(50, turtles.get(1).getYPosition(), TOLERANCE);
-    assertEquals(50, turtles.get(2).getYPosition(), TOLERANCE);
+    turtleInformation.setActiveTurtle(1);
+    assertEquals(50, turtleInformation.getActiveTurtle().getYPosition(), TOLERANCE);
+    turtleInformation.setActiveTurtle(2);
+    assertEquals(50, turtleInformation.getActiveTurtle().getYPosition(), TOLERANCE);
+    turtleInformation.setActiveTurtle(3);
+    assertEquals(50, turtleInformation.getActiveTurtle().getYPosition(), TOLERANCE);
     commandBlock = makeTree("CommandBlock", "1", "3", "5");
     tell = makeTree("Tell", commandBlock);
     executeCommand(makeBasicCommand(tell));
     moveTurtle("50");
-    turtles = turtleInformation.getAllTurtles();
-    assertEquals(100, turtles.get(0).getYPosition(), TOLERANCE);
-    assertEquals(50, turtles.get(1).getYPosition(), TOLERANCE);
-    assertEquals(100, turtles.get(2).getYPosition(), TOLERANCE);
-    assertEquals(0, turtles.get(3).getYPosition(), TOLERANCE);
-    assertEquals(50, turtles.get(4).getYPosition(), TOLERANCE);
+    turtleInformation.setActiveTurtle(1);
+    assertEquals(100, turtleInformation.getActiveTurtle().getYPosition(), TOLERANCE);
+    turtleInformation.setActiveTurtle(2);
+    assertEquals(50, turtleInformation.getActiveTurtle().getYPosition(), TOLERANCE);
+    turtleInformation.setActiveTurtle(3);
+    assertEquals(100, turtleInformation.getActiveTurtle().getYPosition(), TOLERANCE);
+    turtleInformation.setActiveTurtle(4);
+    assertEquals(0, turtleInformation.getActiveTurtle().getYPosition(), TOLERANCE);
+    turtleInformation.setActiveTurtle(5);
+    assertEquals(50, turtleInformation.getActiveTurtle().getYPosition(), TOLERANCE);
   }
 
 

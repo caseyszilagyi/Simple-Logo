@@ -1,10 +1,8 @@
 package slogo.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import slogo.model.CommandExecutor;
 import slogo.model.SLogoCommandExecutor;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
@@ -76,19 +74,6 @@ public class ModelController implements BackEndExternalAPI {
   // Below are all the methods used to pass information to the front end
 
   /**
-   * Passes the arraylist of values necessary to modify the turtle in the front end. This method is
-   * intended to be called in the model when the turtle is updated
-   *
-   * @param parameters The List of parameters to pass to the view
-   */
-  public void passInputToFrontEnd(List<Double> parameters) {
-    //: TODO Call a method on the viewController and pass it this arraylist of parameters
-    if (viewController != null) {
-      viewController.passInputFromBackendToFrontEnd(parameters);
-    }
-  }
-
-  /**
    * Passes the position of the turtle to the front end. Assumes that 0, 0 is the middle of the
    * screen, with +x to the right and +y up
    *
@@ -135,12 +120,21 @@ public class ModelController implements BackEndExternalAPI {
   }
 
   /**
-   * Sets the turtle that is currently active in the front end
+   * Sets the turtle that is currently being altered by commands sent to the front end
    *
    * @param turtleID The ID of the active turtle
    */
   public void setActiveTurtle(int turtleID) {
     viewController.setActiveTurtle(turtleID);
+  }
+
+  /**
+   * Sets all of the turtles that are currently active in the front end
+   *
+   * @param IDs The IDs of the active turtles
+   */
+  public void setActiveTurtles(List<Integer> IDs){
+    //:TODO Link with front end
   }
 
   /**

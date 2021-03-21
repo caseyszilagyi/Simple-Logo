@@ -10,7 +10,7 @@ import slogo.model.tree.TreeNode;
  *
  * @author Casey Szilagyi
  */
-public class SetTurtleShape extends DisplayAlteringCommand {
+public class SetShape extends DisplayAlteringCommand {
 
   private final double INDEX;
 
@@ -20,7 +20,7 @@ public class SetTurtleShape extends DisplayAlteringCommand {
    * @param bundle Contains the model controller that the command is sent through
    * @param nodes  1 child, which is the index corresponding to the shape
    */
-  public SetTurtleShape(CommandInformationBundle bundle, List<TreeNode> nodes) {
+  public SetShape(CommandInformationBundle bundle, List<TreeNode> nodes) {
     super(bundle);
     INDEX = loadClass(bundle, nodes.get(0)).execute();
   }
