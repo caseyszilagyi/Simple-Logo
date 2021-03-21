@@ -4,7 +4,6 @@ import javafx.scene.control.Button;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.ResourceBundle;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -25,10 +24,8 @@ import slogo.controller.FrontEndExternalAPI;
 public class ScreenCreator {
 
   private static final String TITLE = "SLogo";
-  private static final double DEFAULT_X = 1330.0;
+  private static final double DEFAULT_X = 1280.0;
   private static final double DEFAULT_Y = 800.0;
-  public static final String DEFAULT_RESOURCE_PACKAGE = HistoryDisplayPane.class.getPackageName() + ".resources.";
-  private static final String RESOURCE_PATH = DEFAULT_RESOURCE_PACKAGE + "buttons.languages";
 
   private BorderPane root;
   private Scene scene;
@@ -39,7 +36,6 @@ public class ScreenCreator {
   private CommandButtonPane commandButtonPane;
   private FrontEndExternalAPI viewController;
   private String styleSheet;
-  private ResourceBundle languageResource;
   private int frameDelay;
   private Timeline timeline;
 
@@ -54,7 +50,6 @@ public class ScreenCreator {
     stage.show();
 
     String defaultLanguage = "English";
-    languageResource = ResourceBundle.getBundle(RESOURCE_PATH + "." + defaultLanguage);
 
     styleSheet = "slogo/view/resources/default.css";
     scene.getStylesheets().add(styleSheet);
