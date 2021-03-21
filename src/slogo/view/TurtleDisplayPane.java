@@ -176,7 +176,10 @@ public class TurtleDisplayPane {
     typeToBeUpdated.clear();
 
     turtleViewPane.getChildren().clear();
-    createTurtle(FIRST_TURTLE);
+    for(Map.Entry<Integer, FrontEndTurtle> entry : allTurtleInformation.entrySet()){
+      createTurtle(entry.getKey());
+    }
+
   }
 
   public void setBackground(Background background) {
