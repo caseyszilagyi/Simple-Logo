@@ -36,6 +36,7 @@ public class HistoryDisplayPane {
   private static final String CLEAR_BUTTON_TEXT = "Clear History";
   public static final String DEFAULT_RESOURCE_PACKAGE = HistoryDisplayPane.class.getPackageName() + ".resources.";
   private static final String EXAMPLE_FILE = "buttons.languages.ExampleCode";
+  private static final String DISPLAY_BUTTONS = DEFAULT_RESOURCE_PACKAGE + "buttons.languages.HistoryDisplay";
 
   private BorderPane basePane;
   private ScrollPane historyPane;
@@ -51,6 +52,10 @@ public class HistoryDisplayPane {
   private Queue<String> displayCommandHistory;
   private ResourceBundle exampleCode;
   private ResourceBundle idsForTesting;
+  private ResourceBundle historyTabResource;
+  private TabPane tabPane;
+  private double textWidth = 300.0;
+  private Label title;
 
   public HistoryDisplayPane(FrontEndExternalAPI viewController, ResourceBundle idResource, String lang) {
     basePane = new BorderPane();
@@ -58,21 +63,27 @@ public class HistoryDisplayPane {
     this.viewController = viewController;
     exampleCode = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + EXAMPLE_FILE + lang);
     idsForTesting = idResource;
+    historyTabResource = ResourceBundle.getBundle(DISPLAY_BUTTONS + lang);
     topBox = new VBox();
+    topBox.getStyleClass().add(HISTORY_PANE_ID);
     basePane.setTop(topBox);
-    displayTitle();
+    tabPane = new TabPane();
+    tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+    basePane.setCenter(tabPane);
+    displayTitle(textWidth);
     createHistoryPane();
     createVariablePane();
     createUserCommandsPane();
     createExamplePane();
-    createTabPane();
+    createTabs();
     createClearHistoryButton();
   }
 
   private void createClearHistoryButton() {
-    Button clearButton = new Button(CLEAR_BUTTON_TEXT);
+    String key = "ClearButton";
+    Button clearButton = new Button(historyTabResource.getString(key));
     clearButton.getStyleClass().add(BUTTON);
-    clearButton.setId("ClearHistory");
+    clearButton.setId(idsForTesting.getString(key));
     clearButton.setOnAction(event -> clearHistory());
     topBox.getChildren().add(clearButton);
   }
@@ -82,20 +93,18 @@ public class HistoryDisplayPane {
     displayCommandHistory.clear();
   }
 
-  private void createTabPane() {
-    TabPane tabPane = new TabPane();
-    tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
-    Tab history = new Tab("History");
+  private void createTabs() {
+    Tab history = new Tab(historyTabResource.getString("HistoryTab"));
     history.setContent(historyPane);
-    Tab var = new Tab("Variables");
+    Tab var = new Tab(historyTabResource.getString("VariableTab"));
     var.setContent(varPane);
-    Tab user = new Tab("User Defined Commands");
+    Tab user = new Tab(historyTabResource.getString("UserTab"));
     user.setContent(userPane);
-    Tab ex = new Tab("Example Code");
+    Tab ex = new Tab(historyTabResource.getString("ExampleTab"));
     ex.setContent(exPane);
     makeExampleCodeButtons();
+    tabPane.setMaxWidth(TABS_WIDTH - 10.0);
     tabPane.getTabs().addAll(history, var, user, ex);
-    basePane.setCenter(tabPane);
   }
 
   private void createExamplePane() {
@@ -138,12 +147,12 @@ public class HistoryDisplayPane {
     return scrollPane;
   }
 
-  private void displayTitle() {
-    Label title = new Label(TITLE);
+  private void displayTitle(double text_width) {
+    title = new Label(historyTabResource.getString("Title"));
     title.setWrapText(true);
+    title.setPrefWidth(text_width);
     title.getStyleClass().add(HISTORY_DISPLAY_PANE_TEXT);
     topBox.getChildren().add(title);
-    topBox.getStyleClass().add(HISTORY_PANE_ID);
   }
 
   public BorderPane getBox() {
@@ -209,7 +218,13 @@ public class HistoryDisplayPane {
 
   public void updateLanguage(String lang) {
     exampleCode = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + EXAMPLE_FILE + lang);
+    historyTabResource = ResourceBundle.getBundle(DISPLAY_BUTTONS + lang);
     exBox.getChildren().clear();
-    makeExampleCodeButtons();
+    tabPane.getTabs().clear();
+    topBox.getChildren().clear();
+    createTabs();
+    if (lang.equals("Chinese")) { textWidth = 150.0; }
+    displayTitle(textWidth);
+    createClearHistoryButton();
   }
 }
