@@ -167,13 +167,24 @@ public class MakeTokens extends Parser{
   private void commandBlockParams() {
     Deque<Token> commandBlocks = new ArrayDeque<>();
     Deque<Integer> parameters = new ArrayDeque<>();
+    int userDefInd=-1;
     int commandCount = 0;
     int blockSize = 0;
+    boolean inUserDefCommand = false;
     for (int ind = 0; ind < tokens.size(); ind++) {
       Token curr = tokens.get(ind);
+      if (isUserDefCommand(curr)) {
+        System.out.println("is a user def command at "+userDefInd);
+        inUserDefCommand = true;
+        userDefInd = ind;
+      }
       if (curr instanceof ListEndToken) {
         tokens.remove(ind);
         ind--;
+        if(inUserDefCommand && ind == userDefInd+2+blockSize) {
+          completedUserDefVarList(blockSize, userDefInd);
+          inUserDefCommand = false;
+        }
         blockSize = completeListParamCount(commandBlocks, parameters, blockSize);
         continue;
       }
@@ -190,6 +201,15 @@ public class MakeTokens extends Parser{
     if (!commandBlocks.isEmpty()) {
       throw new ErrorHandler("WrongParamNum");
     }
+  }
+
+  private boolean isUserDefCommand(Token token) {
+    return token.getCommand().equals("MakeUserInstruction");
+  }
+
+  private void completedUserDefVarList(int blockSize, int userDefInd) {
+    System.out.println("block size: " +blockSize+" for: " +tokens.get(userDefInd+1).getValue());
+    commandParser.addSingleParamCount(tokens.get(userDefInd+1).getValue(), makeStringParam(blockSize));
   }
 
   private int completeListParamCount(Deque<Token> commandBlocks, Deque<Integer> parameters, int blockSize) {
