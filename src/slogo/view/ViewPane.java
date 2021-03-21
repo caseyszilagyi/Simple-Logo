@@ -48,10 +48,7 @@ public class ViewPane {
   }
 
   public void moveTurtle(double xCoordinate, double yCoordinate) {
-    System.out.println();
-    System.out.println("Move turtle called");
 
-    System.out.println();
     turtleDisplay.moveTurtle(xCoordinate, yCoordinate, choiceDisplay.getPenColor());
   }
 
@@ -82,6 +79,10 @@ public class ViewPane {
 
   public void clearScreen() {
     turtleDisplay.clearScreen();
+  }
+
+  public void setActiveTurtle(int turtleID) {
+    turtleDisplay.setActiveTurtle(turtleID);
   }
 }
 
