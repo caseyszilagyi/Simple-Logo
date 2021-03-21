@@ -149,18 +149,15 @@ public class ViewChoicePane {
     for (Object allLanguage : allLanguages) {
       displayLanguages.add(languageOptions.getString(allLanguage.toString()));
     }
-    languageComboBox = new ComboBox<String>();
+    languageComboBox = new ComboBox<>();
     languageComboBox.getItems().addAll(displayLanguages);
     languageComboBox.setId(idsForTesting.getString("LanguageComboBox"));
     language = "English";
     languageComboBox.setValue(languageOptions.getString(language));
     choicePane.add(languageComboBox, 10, 0);
-    languageComboBox.setOnAction(new EventHandler<ActionEvent>() {
-      @Override
-      public void handle(ActionEvent event) {
-        int value = displayLanguages.indexOf(languageComboBox.getValue());
-        language = allLanguages[value].toString();
-      }
+    languageComboBox.setOnAction(handler -> {
+      int value = displayLanguages.indexOf(languageComboBox.getValue());
+      language = allLanguages[value].toString();
     });
   }
 
@@ -169,9 +166,7 @@ public class ViewChoicePane {
     button.setGraphic(setIcon(imageResources.getString(key)));
     button.getStyleClass().add(ICON);
     button.setId(idsForTesting.getString(key));
-    button.setOnAction(handler -> {
-      reflectionMethod(key);
-    });
+    button.setOnAction(event -> reflectionMethod(key));
     choicePane.add(button, col, 0);
     return button;
   }
@@ -180,9 +175,7 @@ public class ViewChoicePane {
     ColorPicker colorPicker = new ColorPicker(color);
     colorPicker.setId(idsForTesting.getString(key));
     colorPicker.getStyleClass().add(COLOR_PICKER);
-    colorPicker.setOnAction(handler -> {
-      reflectionMethod(key);
-    });
+    colorPicker.setOnAction(event -> reflectionMethod(key));
     choicePane.add(colorPicker, col, 0);
     return colorPicker;
   }
