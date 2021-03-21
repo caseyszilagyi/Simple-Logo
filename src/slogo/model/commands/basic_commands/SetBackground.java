@@ -7,7 +7,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * The set background command
+ * Sets the background color
  *
  * @author Casey Szilagyi
  */
@@ -31,6 +31,7 @@ public class SetBackground extends DisplayAlteringCommand {
    *
    * @return The index of the chosen background color
    */
+  @Override
   public double execute() {
     setBackgroundColor((int) INDEX);
     return INDEX;

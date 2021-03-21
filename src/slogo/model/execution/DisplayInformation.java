@@ -15,6 +15,10 @@ public class DisplayInformation {
   private int turtleShape = 0;
   private double penSize = 0;
 
+  /**
+   * Initializes this object to hold display information
+   * @param modelController The model controller to communicate changes with the front end
+   */
   public DisplayInformation(BackEndExternalAPI modelController){
     MODEL_CONTROLLER = modelController;
   }

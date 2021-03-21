@@ -6,7 +6,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * The set palette command
+ * Changes the color represented in the palette in the front end
  *
  * @author Casey Szilagyi
  */
@@ -37,6 +37,7 @@ public class SetPalette extends DisplayAlteringCommand {
    *
    * @return The index of the altered palette color
    */
+  @Override
   public double execute() {
     setPalette((int) INDEX, (int) RED, (int) GREEN, (int) BLUE);
     return INDEX;

@@ -1,20 +1,32 @@
 package slogo.model.parse.tokens;
 
+import java.util.ArrayList;
+import java.util.List;
 import slogo.ErrorHandler;
+import slogo.model.parse.CommandParser;
 
 public class ConstantList extends ListToken{
+
 
   public ConstantList(String command) {
     super(command);
   }
 
   @Override
-  public int incrementParamCount(int blockSize, Token command) {
-    if(!isConstant(command.getCommand())){ throw new ErrorHandler("WrongInputType"); }
-    return blockSize+1;
-  }
-  @Override
   public void addParamToken(Token param) {
-    return;
+    if (paramTokensExpected.isEmpty()) {
+      params.add(param);
+    }
+    if (isBasicCommand(param.getValue())) {
+      List<String> expected = new ArrayList<>(CommandParser.parameters.get(param.getCommand()));
+      paramTokensExpected.push(expected);
+    } else {
+      while (!paramTokensExpected.isEmpty()) {
+        paramTokensExpected.peek().remove(0);
+        if(paramTokensExpected.peek().isEmpty()) {
+          paramTokensExpected.pop();
+        } else { break; }
+      }
+    }
   }
 }

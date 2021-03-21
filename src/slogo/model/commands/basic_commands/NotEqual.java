@@ -6,7 +6,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * The NotEqual command, which checks if the value of two nodes are not equal
+ * Checks if the value of two nodes are not equal
  *
  * @author Casey Szilagyi
  */
@@ -32,6 +32,7 @@ public class NotEqual extends MathAndLogicCommand {
    *
    * @return 1 if the expressions are not equal, 0 otherwise
    */
+  @Override
   public double execute() {
     if (EXPRESSION_1 != EXPRESSION_2) {
       return 1;

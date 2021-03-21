@@ -6,7 +6,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * Command to get the XCoordinate of the turtle
+ * Gets the XCoordinate of the turtle
  *
  * @author Casey Szilagyi
  */
@@ -16,7 +16,7 @@ public class XCoordinate extends TurtleQueryCommand {
    * Makes an instance of the XCoordinate Command
    *
    * @param bundle   Has the turtle that will need to be accessed
-   * @param children The basic commands. This will be null since it is a query
+   * @param children This will be null since it is a query
    */
   public XCoordinate(CommandInformationBundle bundle, List<TreeNode> children) {
     super(bundle);
@@ -27,6 +27,7 @@ public class XCoordinate extends TurtleQueryCommand {
    *
    * @return The XCoordinate
    */
+  @Override
   public double execute() {
     return getXCoordinate();
   }

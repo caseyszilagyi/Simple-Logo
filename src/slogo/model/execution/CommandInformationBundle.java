@@ -1,15 +1,6 @@
 package slogo.model.execution;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import slogo.ErrorHandler;
 import slogo.controller.BackEndExternalAPI;
-import slogo.model.commands.basic_commands.UserDefinedCommand;
 
 /**
  * This class stores all of the information that will be needed to execute a command. Will be passed

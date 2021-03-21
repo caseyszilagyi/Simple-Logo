@@ -6,7 +6,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * The And command, which checks to see if two nodes are nonzero
+ * Checks to see if two nodes are nonzero
  *
  * @author Casey Szilagyi
  */
@@ -32,6 +32,7 @@ public class And extends MathAndLogicCommand {
    *
    * @return 1 if both expressions are nonzero, 0 otherwise
    */
+  @Override
   public double execute() {
     if (EXPRESSION_1 != 0 && EXPRESSION_2 != 0) {
       return 1;

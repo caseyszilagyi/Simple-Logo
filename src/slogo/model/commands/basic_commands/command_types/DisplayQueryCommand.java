@@ -1,6 +1,5 @@
 package slogo.model.commands.basic_commands.command_types;
 
-import slogo.controller.BackEndExternalAPI;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.execution.DisplayInformation;
 

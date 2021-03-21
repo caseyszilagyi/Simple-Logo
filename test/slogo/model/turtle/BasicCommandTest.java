@@ -151,8 +151,7 @@ public class BasicCommandTest {
    */
   @Test
   void testTowards() {
-    turtleInformation.getActiveTurtle().setXPosition(-10);
-    turtleInformation.getActiveTurtle().setYPosition(-10);
+    turtleInformation.getActiveTurtle().setPosition(-10, -10);
     TreeNode child1 = makeNode("0");
     TreeNode child2 = makeNode("0");
     TreeNode root = makeTree("SetTowards", child1, child2);
@@ -323,7 +322,7 @@ public class BasicCommandTest {
     TreeNode child2 = makeNode("10");
     TreeNode root = makeTree("Quotient", child, child2);
     double val = executeCommand(makeBasicCommand(root));
-    assertEquals(val, 6, TOLERANCE);
+    assertEquals(val, 6.5, TOLERANCE);
   }
 
   /**

@@ -8,7 +8,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * This command makes and stores a user defined command for later use
+ * Makes and stores a user defined command for later use
  *
  * @author Casey Szilagyi
  */
@@ -48,10 +48,11 @@ public class UserDefinedCommand extends ControlStructureCommand {
   }
 
   /**
-   * Executes the suer defined command with the established map
+   * Executes the user defined command with the established map
    *
    * @return The variable value
    */
+  @Override
   public double execute() {
     addTurtleLayer();
     double result = executeBlock(COMMAND_BLOCK);
@@ -59,7 +60,6 @@ public class UserDefinedCommand extends ControlStructureCommand {
     removeParameterMap();
     return result;
   }
-
 
   /**
    * Stores the parameter values in a map
@@ -71,9 +71,5 @@ public class UserDefinedCommand extends ControlStructureCommand {
     for (int i = 0; i < PARAMETERS.size(); i++) {
       setParameter(PARAMETERS.get(i).getCommand(), executeBlock(parameterValues.get(i)));
     }
-  }
-
-  public List<TreeNode> getChildren() {
-    return CHILDREN;
   }
 }

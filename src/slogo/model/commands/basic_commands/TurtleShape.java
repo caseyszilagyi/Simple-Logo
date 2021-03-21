@@ -6,7 +6,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * The get turtle shape command
+ * Gets the index corresponding with the turtle's shape
  *
  * @author Casey Szilagyi
  */
@@ -28,6 +28,7 @@ public class TurtleShape extends DisplayQueryCommand {
    *
    * @return The index of the turtle shape
    */
+  @Override
   public double execute() {
     return getTurtleShape();
   }

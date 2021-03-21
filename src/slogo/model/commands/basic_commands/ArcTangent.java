@@ -26,10 +26,11 @@ public class ArcTangent extends MathAndLogicCommand {
   }
 
   /**
-   * calculates arctangent of angle in degrees
+   * Calculates arctangent of angle in degrees
    *
    * @return The arctangent of the ratio
    */
+  @Override
   public double execute() {
     return Math.toDegrees(Math.atan(RATIO));
   }

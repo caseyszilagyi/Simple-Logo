@@ -6,7 +6,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * Command to check whether the turtle is currently showing
+ * Checks whether the turtle is currently showing
  *
  * @author Casey Szilagyi
  */
@@ -27,6 +27,7 @@ public class IsShowing extends TurtleQueryCommand {
    *
    * @return 1 if down, 0 if up
    */
+  @Override
   public double execute() {
     return getVisibility();
   }

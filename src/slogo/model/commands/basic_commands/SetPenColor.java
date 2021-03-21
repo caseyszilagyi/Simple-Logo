@@ -7,7 +7,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * The set pen color command
+ * Sets the pen color
  *
  * @author Casey Szilagyi
  */
@@ -31,6 +31,7 @@ public class SetPenColor extends DisplayAlteringCommand {
    *
    * @return The index of the chosen pen color
    */
+  @Override
   public double execute() {
     setPenColor((int) INDEX);
     return INDEX;

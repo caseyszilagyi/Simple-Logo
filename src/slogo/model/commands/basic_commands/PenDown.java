@@ -6,7 +6,7 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * The pen down command
+ * Puts the pen down
  *
  * @author Casey Szilagyi
  */
@@ -27,6 +27,7 @@ public class PenDown extends TurtleAlteringCommand {
    *
    * @return 1, because the pen is drawing
    */
+  @Override
   public double execute() {
     updateTurtle(turtle -> {
       changePenState(1);

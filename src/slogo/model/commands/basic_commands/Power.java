@@ -19,7 +19,7 @@ public class Power extends MathAndLogicCommand {
    * Makes an instance of the power command
    *
    * @param bundle   Not used for this command
-   * @param children The TreeNodes that have the value of the base/exponent
+   * @param children Two treenodes that have the value of the base and exponent
    */
   public Power(CommandInformationBundle bundle, List<TreeNode> children) {
     super(bundle);
@@ -32,6 +32,7 @@ public class Power extends MathAndLogicCommand {
    *
    * @return The result of the base raised to the exponent
    */
+  @Override
   public double execute() {
     return Math.pow(BASE, EXPONENT);
   }

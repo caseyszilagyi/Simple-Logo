@@ -6,22 +6,27 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * Command to get YCoordinate of turtle
+ * Gets the YCoordinate of the turtle
  *
- * @author jincho
+ * @author Casey Szilagyi
  */
 public class YCoordinate extends TurtleQueryCommand {
 
   /**
-   * Makes the BasicCommand and saves the Turtle
+   * Makes an instance of the YCoordinate Command
    *
-   * @param informationBundle The bundle of information that contains the turtle
-   * @param children
+   * @param bundle   Has the turtle that will need to be accessed
+   * @param children This will be null since it is a query
    */
-  public YCoordinate(CommandInformationBundle informationBundle, List<TreeNode> children) {
-    super(informationBundle);
+  public YCoordinate(CommandInformationBundle bundle, List<TreeNode> children) {
+    super(bundle);
   }
 
+  /**
+   * Gets the turtle's YCoordinate
+   *
+   * @return The YCoordinate
+   */
   @Override
   public double execute() {
     return getYCoordinate();
