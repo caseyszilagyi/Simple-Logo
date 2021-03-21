@@ -17,8 +17,6 @@ public class TurtleInformation {
   private final List<Turtle> ALL_TURTLES = new ArrayList<>();
   // used to keep track of nested tell/ask statements
   private final List<List<Integer>> CURRENT_ACTIVE_TURTLES = new ArrayList<>();
-  // used to keep track of which turtle is currently being used in nested tell/ask statements
-  private List<Integer> ACTIVE_TURTLE_INDEXES = new ArrayList<>();
   private Integer activeTurtleID;
 
   public TurtleInformation(BackEndExternalAPI modelController){
@@ -29,22 +27,12 @@ public class TurtleInformation {
 
   private void addFirstTurtleLayer() {
     List<Integer> firstLayer = new ArrayList<Integer>();
+    firstLayer.add(1);
     CURRENT_ACTIVE_TURTLES.add(firstLayer);
-    ACTIVE_TURTLE_INDEXES.add(0);
-    addActiveTurtle(1);
+    ALL_TURTLES.add(new Turtle(1, MODEL_CONTROLLER));
     activeTurtleID = 1;
   }
 
-  // Gets the index of the active turtle of the most deeply nested list of active turtle IDs
-  private int getActiveIndex() {
-    return ACTIVE_TURTLE_INDEXES.get(ACTIVE_TURTLE_INDEXES.size() - 1);
-  }
-
-  // Increments the active turtle index for the last layer of turtles
-  private void incrementActiveIndex() {
-    ACTIVE_TURTLE_INDEXES.set(ACTIVE_TURTLE_INDEXES.size() - 1,
-        ACTIVE_TURTLE_INDEXES.get(ACTIVE_TURTLE_INDEXES.size() - 1) + 1);
-  }
 
   // Gets the list of IDs corresponding to the most deeply nested list of active turtles
   public List<Integer> getCurrentActiveTurtleList() {
@@ -76,21 +64,15 @@ public class TurtleInformation {
   }
 
 
-  public void addActiveTurtle(int ID) {
-    if (ID > ALL_TURTLES.size()) {
-      makeNewTurtles(ID);
-    }
-    getCurrentActiveTurtleList().add(ID);
-  }
-
-
   // Makes new turtles up to the given ID. Automatically called when the user
   // tries to add turtles that don't exist yet
   private void makeNewTurtles(int ID) {
     for (int i = ALL_TURTLES.size() + 1; i <= ID; i++) {
       ALL_TURTLES.add(new Turtle(i, MODEL_CONTROLLER));
+      activeTurtleID = i;
     }
   }
+
 
   /**
    * Gets a list of all the turtles that exist
@@ -114,13 +96,11 @@ public class TurtleInformation {
     List<Integer> nextLayer = new ArrayList<>();
     nextLayer.addAll(CURRENT_ACTIVE_TURTLES.get(CURRENT_ACTIVE_TURTLES.size() - 1));
     CURRENT_ACTIVE_TURTLES.add(nextLayer);
-    ACTIVE_TURTLE_INDEXES.add(0);
   }
 
   public void setActiveTurtleLayer(List<Integer> nextLayer) {
     removeActiveTurtleLayer();
     CURRENT_ACTIVE_TURTLES.add(nextLayer);
-    ACTIVE_TURTLE_INDEXES.add(0);
   }
 
   /**
@@ -128,6 +108,5 @@ public class TurtleInformation {
    */
   public void removeActiveTurtleLayer() {
     CURRENT_ACTIVE_TURTLES.remove(CURRENT_ACTIVE_TURTLES.size() - 1);
-    ACTIVE_TURTLE_INDEXES.remove(ACTIVE_TURTLE_INDEXES.size() - 1);
   }
 }

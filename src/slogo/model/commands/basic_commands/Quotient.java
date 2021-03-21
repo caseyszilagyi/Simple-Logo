@@ -34,6 +34,6 @@ public class Quotient extends MathAndLogicCommand {
    */
   @Override
   public double execute() {
-    return Math.floor(VALUE_1 / VALUE_2);
+    return VALUE_1 / VALUE_2;
   }
 }

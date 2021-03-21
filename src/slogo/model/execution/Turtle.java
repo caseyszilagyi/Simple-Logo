@@ -27,6 +27,16 @@ public class Turtle {
   public Turtle(int turtleID, BackEndExternalAPI modelController) {
     MODEL_CONTROLLER = modelController;
     ID = turtleID;
+    tellFrontEnd();
+  }
+
+  // Tells a front end when a new turtle is made
+  private void tellFrontEnd(){
+    MODEL_CONTROLLER.setActiveTurtle(ID);
+    MODEL_CONTROLLER.setTurtlePosition(xPosition, yPosition);
+    MODEL_CONTROLLER.setTurtleAngle(angle);
+    MODEL_CONTROLLER.setPenState(penState);
+    MODEL_CONTROLLER.setTurtleVisibility(isVisible);
   }
 
   /**

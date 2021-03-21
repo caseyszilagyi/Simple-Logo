@@ -322,7 +322,7 @@ public class BasicCommandTest {
     TreeNode child2 = makeNode("10");
     TreeNode root = makeTree("Quotient", child, child2);
     double val = executeCommand(makeBasicCommand(root));
-    assertEquals(val, 6, TOLERANCE);
+    assertEquals(val, 6.5, TOLERANCE);
   }
 
   /**
