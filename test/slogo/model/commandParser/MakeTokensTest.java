@@ -10,6 +10,7 @@ import slogo.controller.ModelController;
 import slogo.model.parse.CommandParser;
 import slogo.model.parse.InputCleaner;
 import slogo.model.parse.MakeTokens;
+import slogo.model.parse.tokens.Token;
 
 public class MakeTokensTest {
 
@@ -30,7 +31,7 @@ public class MakeTokensTest {
   void testSimpleTokenizer() {
     String userInput = "xcor";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    List<String> actual = tokenMaker.tokenString();
+    List<String> actual = tokensToString(tokenMaker.tokenString());
     List<String> expected = new ArrayList<>();
     expected.add("XCoordinate");
     assertEquals(actual, expected);
@@ -43,7 +44,7 @@ public class MakeTokensTest {
   void testNumParamTokenizer() {
     String userInput = "sum 50 50";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    List<String> actual = tokenMaker.tokenString();
+    List<String> actual = tokensToString(tokenMaker.tokenString());
     List<String> expected = new ArrayList<>();
     expected.add("Sum");
     expected.add("50");
@@ -58,7 +59,7 @@ public class MakeTokensTest {
   void testConstantList() {
     String userInput = "tell [ 1 2 3 4 5 ]";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    List<String> actual = tokenMaker.tokenString();
+    List<String> actual = tokensToString(tokenMaker.tokenString());
     List<String> expected = new ArrayList<>();
     expected.add("Tell");
     expected.add("CommandBlock_1");
@@ -68,7 +69,7 @@ public class MakeTokensTest {
     expected.add("4");
     expected.add("5");
     assertEquals(actual, expected);
-    assertEquals(5, commandParser.getParamCount("CommandBlock_1"));
+    assertEquals(5, commandParser.getParam("CommandBlock_1").size());
   }
 
   /**
@@ -87,7 +88,7 @@ public class MakeTokensTest {
         + "  fd 50\n"
         + "]";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    List<String> actual = tokenMaker.tokenString();
+    List<String> actual = tokensToString(tokenMaker.tokenString());
     List<String> expected = new ArrayList<>();
     expected.add("MakeUserInstruction");
     expected.add("slice");
@@ -98,9 +99,9 @@ public class MakeTokensTest {
     expected.add("Forward");
     expected.add("50");
     assertEquals(actual, expected);
-    assertEquals(0, commandParser.getParamCount("slice"));
-    assertEquals(0, commandParser.getParamCount("CommandBlock_1"));
-    assertEquals(2, commandParser.getParamCount("CommandBlock_2"));
+    assertEquals(0, commandParser.getParam("slice").size());
+    assertEquals(0, commandParser.getParam("CommandBlock_1").size());
+    assertEquals(2, commandParser.getParam("CommandBlock_2").size());
   }
 
   /**
@@ -176,19 +177,19 @@ public class MakeTokensTest {
         + "cs\n"
         + "tunnel";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    List<String> actual = tokenMaker.tokenString();
-    assertEquals(0, commandParser.getParamCount("square"));
-    assertEquals(0, commandParser.getParamCount("tunnel"));
-    assertEquals(0, commandParser.getParamCount("warp"));
-    assertEquals(0, commandParser.getParamCount("CommandBlock_1"));
-    assertEquals(1, commandParser.getParamCount("CommandBlock_2"));
-    assertEquals(2, commandParser.getParamCount("CommandBlock_3"));
-    assertEquals(0, commandParser.getParamCount("CommandBlock_4"));
-    assertEquals(1, commandParser.getParamCount("CommandBlock_5"));
-    assertEquals(2, commandParser.getParamCount("CommandBlock_6"));
-    assertEquals(0, commandParser.getParamCount("CommandBlock_7"));
-    assertEquals(1, commandParser.getParamCount("CommandBlock_8"));
-    assertEquals(3, commandParser.getParamCount("CommandBlock_9"));
+    List<String> actual = tokensToString(tokenMaker.tokenString());
+    assertEquals(0, commandParser.getParam("square").size());
+    assertEquals(0, commandParser.getParam("tunnel").size());
+    assertEquals(0, commandParser.getParam("warp").size());
+    assertEquals(0, commandParser.getParam("CommandBlock_1").size());
+    assertEquals(1, commandParser.getParam("CommandBlock_2").size());
+    assertEquals(2, commandParser.getParam("CommandBlock_3").size());
+    assertEquals(0, commandParser.getParam("CommandBlock_4").size());
+    assertEquals(1, commandParser.getParam("CommandBlock_5").size());
+    assertEquals(2, commandParser.getParam("CommandBlock_6").size());
+    assertEquals(0, commandParser.getParam("CommandBlock_7").size());
+    assertEquals(1, commandParser.getParam("CommandBlock_8").size());
+    assertEquals(3, commandParser.getParam("CommandBlock_9").size());
 
 
   }
@@ -200,7 +201,7 @@ public class MakeTokensTest {
   void testNonConstantList() {
     String userInput = "tell [ :t sum 50 50 ]";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    List<String> actual = tokenMaker.tokenString();
+    List<String> actual = tokensToString(tokenMaker.tokenString());
     List<String> expected = new ArrayList<>();
     expected.add("Tell");
     expected.add("CommandBlock_1");
@@ -209,7 +210,7 @@ public class MakeTokensTest {
     expected.add("50");
     expected.add("50");
     assertEquals(actual, expected);
-    assertEquals(2, commandParser.getParamCount("CommandBlock_1"));
+    assertEquals(2, commandParser.getParam("CommandBlock_1").size());
   }
 
   /**
@@ -219,7 +220,7 @@ public class MakeTokensTest {
   void testEnclosedNumParamTokenizer() {
     String userInput = "fd sum 50 50";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    List<String> actual = tokenMaker.tokenString();
+    List<String> actual = tokensToString(tokenMaker.tokenString());
     List<String> expected = new ArrayList<>();
     expected.add("Forward");
     expected.add("Sum");
@@ -235,7 +236,7 @@ public class MakeTokensTest {
   void testBracketTokenizer() {
     String userInput = "repeat 4 [ fd 50 ]";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    List<String> actual = tokenMaker.tokenString();
+    List<String> actual = tokensToString(tokenMaker.tokenString());
     List<String> expected = new ArrayList<>();
     expected.add("Repeat");
     expected.add("4");
@@ -243,7 +244,7 @@ public class MakeTokensTest {
     expected.add("Forward");
     expected.add("50");
     assertEquals(actual, expected);
-    assertEquals(commandParser.getParamCount("CommandBlock_1"), 1);
+    assertEquals(commandParser.getParam("CommandBlock_1").size(), 1);
   }
 
   /**
@@ -253,7 +254,7 @@ public class MakeTokensTest {
   void testBracketWithCommandTokenizer() {
     String userInput = "repeat sum 5 5 [ fd 50 ]";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    List<String> actual = tokenMaker.tokenString();
+    List<String> actual = tokensToString(tokenMaker.tokenString());
     List<String> expected = new ArrayList<>();
     expected.add("Repeat");
     expected.add("Sum");
@@ -263,7 +264,7 @@ public class MakeTokensTest {
     expected.add("Forward");
     expected.add("50");
     assertEquals(actual, expected);
-    assertEquals(commandParser.getParamCount("CommandBlock_1"), 1);
+    assertEquals(commandParser.getParam("CommandBlock_1").size(), 1);
   }
 
   /**
@@ -273,7 +274,7 @@ public class MakeTokensTest {
   void testBracketWithExtraCommandTokenizer() {
     String userInput = "repeat sum 5 5 sum 5 5 [ fd 50 ]";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    List<String> actual = tokenMaker.tokenString();
+    List<String> actual = tokensToString(tokenMaker.tokenString());
     List<String> expected = new ArrayList<>();
     expected.add("Repeat");
     expected.add("Sum");
@@ -286,7 +287,7 @@ public class MakeTokensTest {
     expected.add("Forward");
     expected.add("50");
     assertEquals(actual, expected);
-    assertEquals(commandParser.getParamCount("CommandBlock_1"), 1);
+    assertEquals(commandParser.getParam("CommandBlock_1").size(), 1);
   }
 
   /**
@@ -296,7 +297,7 @@ public class MakeTokensTest {
   void testNestedBracketTokenizer() {
     String userInput = "to move [ :x ] [ repeat 4 [ fd :x ] ]";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    List<String> actual = tokenMaker.tokenString();
+    List<String> actual = tokensToString(tokenMaker.tokenString());
     List<String> expected = new ArrayList<>();
     expected.add("MakeUserInstruction");
     expected.add("move");
@@ -309,9 +310,9 @@ public class MakeTokensTest {
     expected.add("Forward");
     expected.add(":x");
     assertEquals(actual, expected);
-    assertEquals(commandParser.getParamCount("CommandBlock_1"), 1);
-    assertEquals(commandParser.getParamCount("CommandBlock_2"), 1);
-    assertEquals(commandParser.getParamCount("CommandBlock_3"), 1);
+    assertEquals(commandParser.getParam("CommandBlock_1").size(), 1);
+    assertEquals(commandParser.getParam("CommandBlock_2").size(), 1);
+    assertEquals(commandParser.getParam("CommandBlock_3").size(), 1);
   }
 
   /**
@@ -321,7 +322,7 @@ public class MakeTokensTest {
   void testMoreNestedBracketTokenizer() {
     String userInput = "to move [ :x ] [ repeat 4 [ repeat 2 [ fd :x ] ] ]";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    List<String> actual = tokenMaker.tokenString();
+    List<String> actual = tokensToString(tokenMaker.tokenString());
     List<String> expected = new ArrayList<>();
     expected.add("MakeUserInstruction");
     expected.add("move");
@@ -337,10 +338,10 @@ public class MakeTokensTest {
     expected.add("Forward");
     expected.add(":x");
     assertEquals(actual, expected);
-    assertEquals(commandParser.getParamCount("CommandBlock_1"), 1);
-    assertEquals(commandParser.getParamCount("CommandBlock_2"), 1);
-    assertEquals(commandParser.getParamCount("CommandBlock_3"), 1);
-    assertEquals(commandParser.getParamCount("CommandBlock_4"), 1);
+    assertEquals(commandParser.getParam("CommandBlock_1").size(), 1);
+    assertEquals(commandParser.getParam("CommandBlock_2").size(), 1);
+    assertEquals(commandParser.getParam("CommandBlock_3").size(), 1);
+    assertEquals(commandParser.getParam("CommandBlock_4").size(), 1);
   }
 
   /**
@@ -352,7 +353,7 @@ public class MakeTokensTest {
   void testVariableConstantTokenizer() {
     String userInput = "to moveRep [ :rep ] [ repeat :rep [ fd 5 ] ]";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
-    List<String> actual = tokenMaker.tokenString();
+    List<String> actual = tokensToString(tokenMaker.tokenString());
     List<String> expected = new ArrayList<>();
     expected.add("MakeUserInstruction");
     expected.add("moveRep");
@@ -365,8 +366,8 @@ public class MakeTokensTest {
     expected.add("Forward");
     expected.add("5");
     assertEquals(actual, expected);
-    assertEquals(commandParser.getParamCount("CommandBlock_1"), 1);
-    assertEquals(commandParser.getParamCount("CommandBlock_2"), 1);
+    assertEquals(commandParser.getParam("CommandBlock_1").size(), 1);
+    assertEquals(commandParser.getParam("CommandBlock_2").size(), 1);
 //    assertEquals(commandParser.getParamCount("CommandBlock_3"), 1);
   }
 
@@ -384,6 +385,14 @@ public class MakeTokensTest {
     InputCleaner cleaner = new InputCleaner(input, language, modelController, commandParser);
     List<String> cleanedString = cleaner.cleanString();
     return new MakeTokens(cleanedString, commandParser);
+  }
+
+  private List<String> tokensToString(List<Token> tokens) {
+    List<String> ret = new ArrayList<>();
+    for(Token t : tokens) {
+      ret.add(t.getValue());
+    }
+    return ret;
   }
 
 }

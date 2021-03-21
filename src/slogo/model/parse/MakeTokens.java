@@ -25,7 +25,7 @@ public class MakeTokens {
 
   private final List<String> cleanedString;
   private List<Token> tokens;
-  private static final String TOKEN_PACKAGE = MakeTokens.class.getPackageName() + ".tokens.";
+  public static final String TOKEN_PACKAGE = MakeTokens.class.getPackageName() + ".tokens.";
   private static final String LANGUAGES_PACKAGE = "slogo.model.resources.languages.";
   private static final String COMMAND_PACKAGE = "slogo.model.resources.commands.";
   private static final String COMMAND_WITH_LISTS = "CommandBlocks";
@@ -69,11 +69,12 @@ public class MakeTokens {
    *
    * @return List of Strings that match the command object classes needed for execution
    */
-  public List<String> tokenString() {
+  public List<Token> tokenString() {
     tokenize();
     commandBlockParams();
     newUserDefParams();
-    return tokensToString();
+//    return tokensToString();
+    return tokens;
   }
 
   private void tokenize() {
@@ -137,7 +138,7 @@ public class MakeTokens {
     return new ArrayList<>(splitAsList);
   }
 
-  private String getClassName(Token token) {
+  public String getClassName(Token token) {
     return token.getClass().getName().replace(TOKEN_PACKAGE, "");
   }
 

@@ -86,7 +86,7 @@ public class MultipleTurtleTest {
     for(String s: children){
       treeChildren.add(makeNode(s));
     }
-    return new TreeNode(root, root, treeChildren);
+    return new TreeNode(root, root, treeChildren, null);
   }
 
   // Makes a Tree with the top node being the string, and all children being the list of nodes
@@ -95,12 +95,12 @@ public class MultipleTurtleTest {
     for(TreeNode child: children){
       treeChildren.add(child);
     }
-    return new TreeNode(root, root, treeChildren);
+    return new TreeNode(root, root, treeChildren, null);
   }
 
   // Makes a single TreeNode
   private TreeNode makeNode(String val) {
-    return new TreeNode(val);
+    return new TreeNode(val, null);
   }
 
 

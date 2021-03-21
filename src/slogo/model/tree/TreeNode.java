@@ -11,21 +11,27 @@ public class TreeNode {
   String val;
   String commandClass;
   List<TreeNode> children = new LinkedList<>();
+  TreeNode parent;
 
-  public TreeNode(String data) {
+  public TreeNode(String data, TreeNode root) {
     val = data;
     commandClass = data;
+    parent = root;
   }
 
-  public TreeNode(String data, String command) {
+  public TreeNode(String data, String command, TreeNode root) {
     val = data;
     commandClass = command;
+    parent = root;
+
   }
 
-  public TreeNode(String data, String command, List<TreeNode> child) {
+  public TreeNode(String data, String command, List<TreeNode> child, TreeNode root) {
     val = data;
     this.commandClass = command;
     children = child;
+    parent = root;
+
   }
 
   /**
@@ -45,6 +51,13 @@ public class TreeNode {
   public List<TreeNode> getChildren() {
     return children;
   }
+
+  /**
+   * Returns the parent treenode
+   *
+   * @return parent TreeNode
+   */
+  public TreeNode getParent() { return parent; }
 
   /**
    * Returns the value saved in this node

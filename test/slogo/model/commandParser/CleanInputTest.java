@@ -135,7 +135,7 @@ public class CleanInputTest {
     expected.add("Backward");
     expected.add(":size");
     assertEquals(cleaner.cleanString(), expected);
-    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 2);
+    assertEquals(cleaner.commandParser.getParam("CommandBlock_1").size(), 2);
   }
 
   /**
@@ -161,8 +161,8 @@ public class CleanInputTest {
     expected.add("Forward");
     expected.add("5");
     assertEquals(cleaner.cleanString(), expected);
-    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 2);
-    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_2"), 1);
+    assertEquals(cleaner.commandParser.getParam("CommandBlock_1").size(), 2);
+    assertEquals(cleaner.commandParser.getParam("CommandBlock_2").size(), 1);
   }
 
   /**
@@ -182,8 +182,8 @@ public class CleanInputTest {
     expected.add("Forward");
     expected.add("100");
     assertEquals(cleaner.cleanString(), expected);
-    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 1);
-    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_2"), 1);
+    assertEquals(cleaner.commandParser.getParam("CommandBlock_1").size(), 1);
+    assertEquals(cleaner.commandParser.getParam("CommandBlock_2").size(), 1);
   }
 
   /**
@@ -206,8 +206,8 @@ public class CleanInputTest {
     expected.add("Forward");
     expected.add("100");
     assertEquals(cleaner.cleanString(), expected);
-    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 1);
-    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_2"), 1);
+    assertEquals(cleaner.commandParser.getParam("CommandBlock_1").size(), 1);
+    assertEquals(cleaner.commandParser.getParam("CommandBlock_2").size(), 1);
   }
 
   /**
@@ -236,8 +236,8 @@ public class CleanInputTest {
     expected.add("Forward");
     expected.add(":distance");
     assertEquals(expected, cleaner.cleanString());
-    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 1);
-    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_2"), 1);
+    assertEquals(cleaner.commandParser.getParam("CommandBlock_1").size(), 1);
+    assertEquals(cleaner.commandParser.getParam("CommandBlock_2").size(), 1);
   }
 
   /**
@@ -258,8 +258,8 @@ public class CleanInputTest {
     expected.add("Right");
     expected.add("5");
     assertEquals(expected, cleaner.cleanString());
-    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_1"), 2);
-    assertEquals(cleaner.commandParser.getParamCount("CommandBlock_2"), 2);
+    assertEquals(cleaner.commandParser.getParam("CommandBlock_1").size(), 2);
+    assertEquals(cleaner.commandParser.getParam("CommandBlock_2").size(), 2);
   }
 
   /**

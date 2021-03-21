@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 import slogo.ErrorHandler;
 import slogo.controller.BackEndExternalAPI;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
+import slogo.model.parse.tokens.Token;
 import slogo.model.tree.TreeNode;
 
 /**
@@ -30,7 +31,8 @@ public class CommandParser implements Parser {
   public static Map<String, List<String>> parameters;
   public static Map<String, Pattern> syntaxMap;
   private TreeNode commandTree;
-  private List<String> cleanCommands;
+//  private List<String> cleanCommands;
+  private List<Token> cleanCommands;
   private BackEndExternalAPI modelController;
   private InputCleaner inputCleaner;
   private MakeTokens tokenMaker;
@@ -46,7 +48,7 @@ public class CommandParser implements Parser {
     inputCleaner = new InputCleaner(rawInput, language, modelController, this);
     tokenMaker = new MakeTokens(inputCleaner.cleanString(), this);
     cleanCommands = tokenMaker.tokenString();
-    commandTree = new TreeNode(null);
+    commandTree = new TreeNode(null, null);
     System.out.println("Command Taken in by the parser: " + rawInput);
     System.out.println("Clean command: " + cleanCommands);
   }
@@ -104,12 +106,13 @@ public class CommandParser implements Parser {
    */
   public TreeNode makeTree() {
     System.out.println(parameters);
-    Deque<String> commandQueue = new LinkedList<>(cleanCommands);
+//    Deque<String> commandQueue = new LinkedList<>(cleanCommands);
+    Deque<Token> commandQueue = new LinkedList<>(cleanCommands);
     System.out.println("QUEUE: " + commandQueue);
 
     while (!commandQueue.isEmpty()) {
-      String command = commandQueue.removeFirst();
-      TreeNode child = new TreeNode(command);
+      String command = commandQueue.removeFirst().getValue();
+      TreeNode child = new TreeNode(command, null);
       child = checkCommandBlock(child);
       commandTree.addChild(child);
       insertNodeRecursive(commandQueue, child);
@@ -134,25 +137,31 @@ public class CommandParser implements Parser {
     }
   }
 
-  private TreeNode insertNodeRecursive(Deque<String> splitCommands, TreeNode root) {
-    if (getParamCount(root.getValue()) == 0) {
+  private TreeNode insertNodeRecursive(Deque<Token> splitCommands, TreeNode root) {
+    if (getParam(root.getValue()).size() == 0) {
       System.out.println(root.getValue() + " is a leaf");
       return root;
     }
     System.out.println();
-    int paramCount = getParamCount(root.getValue());
-    System.out.println("param count: "+paramCount +" for "+root.getValue());
-    for (int i = 0; i < getParamCount(root.getValue()); i++) {
+    List<String> params = getParam(root.getValue());
+    if(childOfMakeUserInstruction(root) && !root.getCommand().equals("CommandBlock")){
+      params = new ArrayList<>();
+    }
+    System.out.println("param count: "+params.size() +" for "+root.getValue());
+    for (int i = 0; i < params.size(); i++) {
       System.out.println("looking at "+i+"th param for "+root.getValue());
       String command;
+      Token commandToken;
       try {
-        command = splitCommands.removeFirst();
+        commandToken = splitCommands.removeFirst();
+        command = commandToken.getValue();
       } catch (Exception e) {
         throw new ErrorHandler("WrongParamNum");
       }
-      TreeNode dummy = new TreeNode(command);
+      TreeNode dummy = new TreeNode(command, root);
       dummy = checkCommandBlock(dummy);
       root.addChild(dummy);
+
       System.out.println("Parent: " + root.getCommand());
       System.out.println("Child: " + dummy.getCommand());
       System.out.println("Split commands "+splitCommands);
@@ -160,10 +169,15 @@ public class CommandParser implements Parser {
       insertNodeRecursive(splitCommands, dummy);
     }
     System.out.println(root.getCommand());
-    if (!correctChildren(root.getChildren(), parameters.get(root.getValue()))) {
+    if (!correctChildren(root.getChildren(), params)) {
       throw new ErrorHandler("WrongParamNum");
     }
     return root;
+  }
+
+  private boolean childOfMakeUserInstruction(TreeNode root) {
+    TreeNode parent = root.getParent();
+    return parent != null && parent.getCommand().equals("MakeUserInstruction");
   }
 
   /**
@@ -172,18 +186,18 @@ public class CommandParser implements Parser {
    * @param text String representation of the command
    * @return String rep of the number of params needed for command
    */
-  public Integer getParamCount(String text) {
+  public List<String> getParam(String text) {
     try {
       System.out.println("param: "+parameters.get(text).get(0));
-      return parameters.get(text).size();
+      return parameters.get(text);
     } catch (Exception e) {
-      return 0;
+      return new ArrayList<>();
     }
   }
 
   private TreeNode checkCommandBlock(TreeNode node) {
     if (node.getCommand().contains("CommandBlock")) {
-      node = new TreeNode(node.getCommand(), "CommandBlock");
+      node = new TreeNode(node.getCommand(), "CommandBlock", node.getParent());
     }
     return node;
   }
