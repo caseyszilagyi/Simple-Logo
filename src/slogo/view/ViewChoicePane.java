@@ -53,8 +53,10 @@ public class ViewChoicePane {
   private String currentBackgroundColor = "d3d3d3";
   private TurtleDisplayPane turtleDisplay;
   private ResourceBundle idsForTesting;
+  private FrontEndExternalAPI viewController;
 
-  public ViewChoicePane(Stage s, BorderPane root, TurtleDisplayPane turtleDisplayPane) {
+  public ViewChoicePane(FrontEndExternalAPI viewController, Stage s, BorderPane root, TurtleDisplayPane turtleDisplayPane) {
+    this.viewController = viewController;
     stage = s;
     viewPane = root;
     turtleDisplay = turtleDisplayPane;
@@ -101,7 +103,7 @@ public class ViewChoicePane {
     choicePane.add(backgroundColorPickerButton, 0, 0);
   }
 
-    private void createPenColorPicker() {
+  private void createPenColorPicker() {
     penColorPickerButton = new Button();
     penColorPickerButton.setId(idsForTesting.getString("ChangePenButton"));
     ImageView icon = setIcon(PEN_ICON);
@@ -132,7 +134,7 @@ public class ViewChoicePane {
     return penColor;
   }
 
-    private void createTurtleImageButton() {
+  private void createTurtleImageButton() {
     Button turtleImageButton = new Button();
     turtleImageButton.setId(idsForTesting.getString("TurtleIconButton"));
     ImageView turtleIcon = setIcon(TURTLE_ICON);
@@ -185,12 +187,13 @@ public class ViewChoicePane {
       public void handle(ActionEvent event) {
         int value = displayLanguages.indexOf(languageComboBox.getValue());
         language = allLanguages[value].toString();
+        viewController.setLanguage(language);
       }
     });
   }
 
   public String getLanguage() {
-      return language;
+    return language;
   }
 
   private ImageView setIcon(String icon) {
