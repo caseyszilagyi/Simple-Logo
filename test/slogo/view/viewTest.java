@@ -2,6 +2,7 @@ package slogo.view;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -147,6 +148,19 @@ public class viewTest extends DukeApplicationTest {
     double current = turtle.getY();
 
     assertEquals(original, current);
+  }
+
+  @Test
+  void testLanguageComboBox() {
+    ComboBox lang = lookup("#LanguageComboBox").query();
+    select(lang, "Italiano");
+    System.out.println("selected");
+
+    codeInputBox = lookup("#textArea").query();
+    runButton = lookup("#runButton").query();
+    clearButton = lookup("#clearButton").query();
+
+    assertEquals("Eseguire il Programma", runButton.getText());
   }
 
 //  @Test

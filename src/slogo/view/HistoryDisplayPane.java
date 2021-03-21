@@ -77,7 +77,7 @@ public class HistoryDisplayPane {
   }
 
   private void createClearHistoryButton() {
-    String key = "ClearButton";
+    String key = "HistoryClear";
     Button clearButton = new Button(historyTabResource.getString(key));
     clearButton.getStyleClass().add(BUTTON);
     clearButton.setId(idsForTesting.getString(key));
