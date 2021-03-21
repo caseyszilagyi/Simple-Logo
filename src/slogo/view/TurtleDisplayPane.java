@@ -39,7 +39,7 @@ public class TurtleDisplayPane {
   private double penThickness = 1.0;
   private Map<Integer, ImageView> activeTurtles;
   private Map<Integer, ImageView> inactiveTurtles;
-  private Map<Integer, Coordinates> lastPositions;
+  private Map<Integer, FrontEndTurtle> allTurtleInformation;
   private int FIRST_TURTLE = 1;
   private int currentID = 1;
 
@@ -72,7 +72,7 @@ public class TurtleDisplayPane {
     typeToBeUpdated = new ArrayDeque<>();
     activeTurtles = new HashMap<>();
     inactiveTurtles = new HashMap<>();
-    lastPositions = new HashMap<>();
+    allTurtleInformation = new HashMap<>();
 
 
     createTurtle(FIRST_TURTLE);
@@ -81,7 +81,6 @@ public class TurtleDisplayPane {
 
   public void updateTurtlePosition() {
     String nextUpdate;
-
 //
 //    System.out.println("Pen State: " + penUP);
     if(!typeToBeUpdated.isEmpty()) {
@@ -100,7 +99,7 @@ public class TurtleDisplayPane {
 
         activeTurtles.get(currentID).setRotate(90 - commandsToBeExecuted.pop());
       } else if (nextUpdate.equals("Pen")){
-        penUP = commandsToBeExecuted.removeFirst();
+        allTurtleInformation.get(currentID).setPenState(commandsToBeExecuted.removeFirst());
       } else if (nextUpdate.equals("Visibility")){
         activeTurtles.get(currentID).setVisible(commandsToBeExecuted.removeFirst() == 1);
       } else if (nextUpdate.equals("Clearscreen")){
@@ -139,10 +138,10 @@ public class TurtleDisplayPane {
     turtle.setY(centerY);
     turtle.setRotate(0);
 
-    Coordinates turtleCoordinates = new Coordinates(centerX, centerY);
+    FrontEndTurtle turtleInformation = new FrontEndTurtle(centerX, centerY, turtle, penUP);
 
     activeTurtles.put(id, turtle);
-    lastPositions.put(id, turtleCoordinates);
+    this.allTurtleInformation.put(id, turtleInformation);
 
 //    lastXPosition = centerX;
 //    lastYPosition = centerY;
@@ -154,17 +153,18 @@ public class TurtleDisplayPane {
     x = turtleViewPane.getWidth() / 2 + xCoordinate * turtleViewPane.getWidth() / rows - TURTLE_WIDTH / 2;
     y = turtleViewPane.getHeight() / 2 - yCoordinate * turtleViewPane.getHeight() / cols - TURTLE_HEIGHT / 2;
 
-    double xIncrement = (x - lastPositions.get(currentID).getxCoord())/ INCREMENT_FACTOR;
-    double yIncrement = (y - lastPositions.get(currentID).getyCoord())/ INCREMENT_FACTOR;
+    double xIncrement = (x - allTurtleInformation.get(currentID).getxCoord())/ INCREMENT_FACTOR;
+    double yIncrement = (y - allTurtleInformation.get(currentID).getyCoord())/ INCREMENT_FACTOR;
 
     for(int i = 1; i <= INCREMENT_FACTOR; i++){
-      commandsToBeExecuted.add(lastPositions.get(currentID).getxCoord() + xIncrement * i);
-      commandsToBeExecuted.add(lastPositions.get(currentID).getyCoord() + yIncrement * i);
+      commandsToBeExecuted.add(allTurtleInformation.get(currentID).getxCoord() + xIncrement * i);
+      commandsToBeExecuted.add(allTurtleInformation.get(currentID).getyCoord() + yIncrement * i);
       typeToBeUpdated.add("Positions");
     }
 
-    lastPositions.get(currentID).setxCoord(x);
-    lastPositions.get(currentID).setyCoord(y);
+    allTurtleInformation.get(currentID).setxCoord(x);
+    allTurtleInformation.get(currentID).setyCoord(y);
+
 //    lastXPosition = x;
 //    lastYPosition = y;
   }
@@ -220,6 +220,8 @@ public class TurtleDisplayPane {
   public void updateCommandQueue(String commandType, List<Double> commandValues) {
     typeToBeUpdated.add(commandType);
     commandsToBeExecuted.addAll(commandValues);
+
+    System.out.println(typeToBeUpdated);
   }
 
   public void setActiveTurtle(int turtleID) {
@@ -228,5 +230,6 @@ public class TurtleDisplayPane {
     }
     commandsToBeExecuted.add((double) turtleID);
     typeToBeUpdated.add("SetID");
+
   }
 }
