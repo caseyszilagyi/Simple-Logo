@@ -1,7 +1,6 @@
 package slogo.view;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.*;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,8 +9,6 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-
-import java.util.List;
 
 public class TurtleDisplayPane {
   private static final double TURTLE_WIDTH = 50;
@@ -25,7 +22,6 @@ public class TurtleDisplayPane {
   private AnchorPane turtleViewPane;
   private ImageView turtle;
 
-  //HARD CODED FOR NOW BUT BACKEND SHOULD CALL PENDOWN at the beginning
   private double penUP = 1;
   double x;
   double y;
@@ -35,11 +31,12 @@ public class TurtleDisplayPane {
   private int INCREMENT_FACTOR = 10;
   private double lastXPosition = 0;
   private double lastYPosition = 0;
-  private boolean canUpdateAngle = false;
   private double lastAngle = 90;
   private double rows;
   private double cols;
   private double penThickness = 1.0;
+  private Set<Integer> activeTurtles;
+  private Set<Integer> inactiveTurtles;
 
   public TurtleDisplayPane(BorderPane root, double r, double c) {
     viewPane = root;
@@ -63,6 +60,8 @@ public class TurtleDisplayPane {
 
     commandsToBeExecuted = new ArrayDeque<>();
     typeToBeUpdated = new ArrayDeque<>();
+    activeTurtles = new HashSet<>();
+    inactiveTurtles = new HashSet<>();
 
 
     createTurtle();
