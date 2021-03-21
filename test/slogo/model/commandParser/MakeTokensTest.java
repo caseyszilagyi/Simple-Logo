@@ -11,7 +11,6 @@ import slogo.model.parse.CommandBlockParser;
 import slogo.model.parse.CommandParser;
 import slogo.model.parse.InputCleaner;
 import slogo.model.parse.MakeTokens;
-import slogo.model.parse.Parser;
 import slogo.model.parse.tokens.Token;
 
 public class MakeTokensTest{
@@ -77,7 +76,7 @@ public class MakeTokensTest{
     expected.add("4");
     expected.add("5");
     assertEquals(actual, expected);
-    assertEquals(5, commandParser.getParam("CommandBlock_1").size());
+    assertEquals(5, commandParser.commandParam.get("CommandBlock_1").size());
   }
 
   /**
@@ -109,9 +108,9 @@ public class MakeTokensTest{
     expected.add("Forward");
     expected.add("50");
     assertEquals(actual, expected);
-    assertEquals(0, commandParser.getParam("slice").size());
-    assertEquals(0, commandParser.getParam("CommandBlock_1").size());
-    assertEquals(2, commandParser.getParam("CommandBlock_2").size());
+    assertEquals(0, commandParser.commandParam.get("slice").size());
+    assertEquals(0, commandParser.commandParam.get("CommandBlock_1").size());
+    assertEquals(2, commandParser.commandParam.get("CommandBlock_2").size());
   }
 
   /**
@@ -190,18 +189,18 @@ public class MakeTokensTest{
     List<Token> tokens = tokenMaker.tokenString();
     CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
     List<String> actual = tokensToString(tokens);
-    assertEquals(0, commandParser.getParam("square").size());
-    assertEquals(0, commandParser.getParam("tunnel").size());
-    assertEquals(0, commandParser.getParam("warp").size());
-    assertEquals(0, commandParser.getParam("CommandBlock_1").size());
-    assertEquals(1, commandParser.getParam("CommandBlock_2").size());
-    assertEquals(2, commandParser.getParam("CommandBlock_3").size());
-    assertEquals(0, commandParser.getParam("CommandBlock_4").size());
-    assertEquals(1, commandParser.getParam("CommandBlock_5").size());
-    assertEquals(2, commandParser.getParam("CommandBlock_6").size());
-    assertEquals(0, commandParser.getParam("CommandBlock_7").size());
-    assertEquals(1, commandParser.getParam("CommandBlock_8").size());
-    assertEquals(3, commandParser.getParam("CommandBlock_9").size());
+    assertEquals(0, commandParser.commandParam.get("square").size());
+    assertEquals(0, commandParser.commandParam.get("tunnel").size());
+    assertEquals(0, commandParser.commandParam.get("warp").size());
+    assertEquals(0, commandParser.commandParam.get("CommandBlock_1").size());
+    assertEquals(1, commandParser.commandParam.get("CommandBlock_2").size());
+    assertEquals(2, commandParser.commandParam.get("CommandBlock_3").size());
+    assertEquals(0, commandParser.commandParam.get("CommandBlock_4").size());
+    assertEquals(1, commandParser.commandParam.get("CommandBlock_5").size());
+    assertEquals(2, commandParser.commandParam.get("CommandBlock_6").size());
+    assertEquals(0, commandParser.commandParam.get("CommandBlock_7").size());
+    assertEquals(1, commandParser.commandParam.get("CommandBlock_8").size());
+    assertEquals(3, commandParser.commandParam.get("CommandBlock_9").size());
 
 
   }
@@ -224,7 +223,7 @@ public class MakeTokensTest{
     expected.add("50");
     expected.add("50");
     assertEquals(actual, expected);
-    assertEquals(2, commandParser.getParam("CommandBlock_1").size());
+    assertEquals(2, commandParser.commandParam.get("CommandBlock_1").size());
   }
 
   /**
@@ -262,7 +261,7 @@ public class MakeTokensTest{
     expected.add("Forward");
     expected.add("50");
     assertEquals(actual, expected);
-    assertEquals(commandParser.getParam("CommandBlock_1").size(), 1);
+    assertEquals(commandParser.commandParam.get("CommandBlock_1").size(), 1);
   }
 
   /**
@@ -284,7 +283,7 @@ public class MakeTokensTest{
     expected.add("Forward");
     expected.add("50");
     assertEquals(actual, expected);
-    assertEquals(commandParser.getParam("CommandBlock_1").size(), 1);
+    assertEquals(commandParser.commandParam.get("CommandBlock_1").size(), 1);
   }
 
   /**
@@ -309,7 +308,7 @@ public class MakeTokensTest{
     expected.add("Forward");
     expected.add("50");
     assertEquals(actual, expected);
-    assertEquals(commandParser.getParam("CommandBlock_1").size(), 1);
+    assertEquals(commandParser.commandParam.get("CommandBlock_1").size(), 1);
   }
 
   /**
@@ -334,9 +333,9 @@ public class MakeTokensTest{
     expected.add("Forward");
     expected.add(":x");
     assertEquals(actual, expected);
-    assertEquals(commandParser.getParam("CommandBlock_1").size(), 1);
-    assertEquals(commandParser.getParam("CommandBlock_2").size(), 1);
-    assertEquals(commandParser.getParam("CommandBlock_3").size(), 1);
+    assertEquals(commandParser.commandParam.get("CommandBlock_1").size(), 1);
+    assertEquals(commandParser.commandParam.get("CommandBlock_2").size(), 1);
+    assertEquals(commandParser.commandParam.get("CommandBlock_3").size(), 1);
   }
 
   /**
@@ -364,10 +363,10 @@ public class MakeTokensTest{
     expected.add("Forward");
     expected.add(":x");
     assertEquals(actual, expected);
-    assertEquals(commandParser.getParam("CommandBlock_1").size(), 1);
-    assertEquals(commandParser.getParam("CommandBlock_2").size(), 1);
-    assertEquals(commandParser.getParam("CommandBlock_3").size(), 1);
-    assertEquals(commandParser.getParam("CommandBlock_4").size(), 1);
+    assertEquals(commandParser.commandParam.get("CommandBlock_1").size(), 1);
+    assertEquals(commandParser.commandParam.get("CommandBlock_2").size(), 1);
+    assertEquals(commandParser.commandParam.get("CommandBlock_3").size(), 1);
+    assertEquals(commandParser.commandParam.get("CommandBlock_4").size(), 1);
   }
 
   /**
@@ -394,9 +393,9 @@ public class MakeTokensTest{
     expected.add("Forward");
     expected.add("5");
     assertEquals(actual, expected);
-    assertEquals(commandParser.getParam("CommandBlock_1").size(), 1);
-    assertEquals(commandParser.getParam("CommandBlock_2").size(), 1);
-//    assertEquals(commandParser.getParamCount("CommandBlock_3"), 1);
+    assertEquals(commandParser.commandParam.get("CommandBlock_1").size(), 1);
+    assertEquals(commandParser.commandParam.get("CommandBlock_2").size(), 1);
+    assertEquals(commandParser.commandParam.get("CommandBlock_3").size(), 1);
   }
 
 
@@ -409,7 +408,7 @@ public class MakeTokensTest{
   private MakeTokens makeMakeTokens(String input, String language) {
     ModelController modelController = new ModelController();
     commandParser = new CommandParser(input, language, modelController);
-    InputCleaner cleaner = new InputCleaner(input, language, modelController, commandParser);
+    InputCleaner cleaner = new InputCleaner(input, language);
     List<String> cleanedString = cleaner.parseResults();
     return new MakeTokens(cleanedString);
   }
@@ -421,5 +420,9 @@ public class MakeTokensTest{
     }
     return ret;
   }
+
+
+
+
 
 }

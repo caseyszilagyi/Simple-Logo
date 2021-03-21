@@ -22,69 +22,6 @@ public class CleanInputTest {
 
   }
 
-
-  /**
-   * Tests translating english to simple commands recognizable by backend
-   */
-  void testTranslation() {
-    String userInput = "fd 50 forward 10";
-    InputCleaner cleaner = makeInputCleaner(userInput, "English");
-    String expected = "Forward 50 Forward 10 ";
-//    assertEquals(cleaner.translateCommand(userInput), expected);
-  }
-
-  /**
-   * Tests translating english to simple commands recognizable by backend
-   */
-
-  void testNonExistentCommand() {
-    String userInput = "hello";
-    List<String> input = Arrays.asList(userInput.split(" "));
-    List<String> expected = new ArrayList<>();
-//    assertEquals(cleaner.translateCommand(userInput), expected);
-  }
-
-  /**
-   * Tests removing comments
-   */
-
-  void testRemovingCommentsBeginning() {
-    String userInput = "# fd 50 \n";
-    String expected = " ";
-//    assertEquals(cleaner.removeComments(), expected);
-  }
-
-  /**
-   * Tests removing comments
-   */
-  void testRemovingCommentsMultiple() {
-    String userInput = "# fd 50 \n# fd 50 \nfd 50";
-    String expected = "  fd 50";
-//    assertEquals(cleaner.removeComments(), expected);
-  }
-
-  /**
-   * Tests refactoring command blocks (private method but makde public to test alone)
-   */
-
-  void testCommandBlocks() {
-    String userInput = "if :size < 5 [ forward :size back :size stop ]";
-    InputCleaner cleaner = makeInputCleaner(userInput, "English");
-    List<String> input = Arrays.asList(userInput.split(" "));
-    List<String> expected = new ArrayList<>();
-    expected.add("if");
-    expected.add(":size");
-    expected.add("<");
-    expected.add("5");
-    expected.add("CommandBlock");
-    expected.add("forward");
-    expected.add(":size");
-    expected.add("back");
-    expected.add(":size");
-    expected.add("stop");
-//    assertEquals(cleaner.findCommandBlocks(input), expected);
-  }
-
   /**
    * Test specific command translation
    */
@@ -135,7 +72,6 @@ public class CleanInputTest {
     expected.add("Backward");
     expected.add(":size");
     assertEquals(cleaner.parseResults(), expected);
-    assertEquals(cleaner.commandParser.getParam("CommandBlock_1").size(), 2);
   }
 
   /**
@@ -161,9 +97,7 @@ public class CleanInputTest {
     expected.add("Forward");
     expected.add("5");
     assertEquals(cleaner.parseResults(), expected);
-    assertEquals(cleaner.commandParser.getParam("CommandBlock_1").size(), 2);
-    assertEquals(cleaner.commandParser.getParam("CommandBlock_2").size(), 1);
-  }
+ }
 
   /**
    * Test two wrapped brackets
@@ -182,9 +116,7 @@ public class CleanInputTest {
     expected.add("Forward");
     expected.add("100");
     assertEquals(cleaner.parseResults(), expected);
-    assertEquals(cleaner.commandParser.getParam("CommandBlock_1").size(), 1);
-    assertEquals(cleaner.commandParser.getParam("CommandBlock_2").size(), 1);
-  }
+ }
 
   /**
    * Test mult wrapped brackets
@@ -206,8 +138,6 @@ public class CleanInputTest {
     expected.add("Forward");
     expected.add("100");
     assertEquals(cleaner.parseResults(), expected);
-    assertEquals(cleaner.commandParser.getParam("CommandBlock_1").size(), 1);
-    assertEquals(cleaner.commandParser.getParam("CommandBlock_2").size(), 1);
   }
 
   /**
@@ -236,8 +166,6 @@ public class CleanInputTest {
     expected.add("Forward");
     expected.add(":distance");
     assertEquals(expected, cleaner.parseResults());
-    assertEquals(cleaner.commandParser.getParam("CommandBlock_1").size(), 1);
-    assertEquals(cleaner.commandParser.getParam("CommandBlock_2").size(), 1);
   }
 
   /**
@@ -258,8 +186,6 @@ public class CleanInputTest {
     expected.add("Right");
     expected.add("5");
     assertEquals(expected, cleaner.parseResults());
-    assertEquals(cleaner.commandParser.getParam("CommandBlock_1").size(), 2);
-    assertEquals(cleaner.commandParser.getParam("CommandBlock_2").size(), 2);
   }
 
   /**
@@ -274,8 +200,7 @@ public class CleanInputTest {
 
   private InputCleaner makeInputCleaner(String userInput, String language) {
     ModelController modelController = new ModelController();
-    CommandParser commandParser = new CommandParser(userInput, language, modelController);
-    InputCleaner cleaner = new InputCleaner(userInput, language, modelController, commandParser);
+    InputCleaner cleaner = new InputCleaner(userInput, language);
     return cleaner;
   }
 
