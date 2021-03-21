@@ -37,8 +37,6 @@ public class TurtleDisplayPane {
   private double rows;
   private double cols;
   private double penThickness = 1.0;
-  private Map<Integer, ImageView> activeTurtles;
-  private Map<Integer, ImageView> inactiveTurtles;
   private Map<Integer, FrontEndTurtle> allTurtleInformation;
   private int FIRST_TURTLE = 1;
   private int currentID = 1;
@@ -70,8 +68,6 @@ public class TurtleDisplayPane {
 
     commandsToBeExecuted = new ArrayDeque<>();
     typeToBeUpdated = new ArrayDeque<>();
-    activeTurtles = new HashMap<>();
-    inactiveTurtles = new HashMap<>();
     allTurtleInformation = new HashMap<>();
 
 
@@ -90,18 +86,18 @@ public class TurtleDisplayPane {
         double nextX = commandsToBeExecuted.pop();
         double nextY = commandsToBeExecuted.pop();
 
-        if (penUP == 1) {
+        if (allTurtleInformation.get(currentID).getPenState() == 1) {
           createLine(nextX, nextY, penColor);
         }
-        activeTurtles.get(currentID).setX(nextX);
-        activeTurtles.get(currentID).setY(nextY);
+        allTurtleInformation.get(currentID).getTurtle().setX(nextX);
+        allTurtleInformation.get(currentID).getTurtle().setY(nextY);
       } else if (nextUpdate.equals("Angles")) {
 
-        activeTurtles.get(currentID).setRotate(90 - commandsToBeExecuted.pop());
+        allTurtleInformation.get(currentID).getTurtle().setRotate(90 - commandsToBeExecuted.pop());
       } else if (nextUpdate.equals("Pen")){
         allTurtleInformation.get(currentID).setPenState(commandsToBeExecuted.removeFirst());
       } else if (nextUpdate.equals("Visibility")){
-        activeTurtles.get(currentID).setVisible(commandsToBeExecuted.removeFirst() == 1);
+        allTurtleInformation.get(currentID).getTurtle().setVisible(commandsToBeExecuted.removeFirst() == 1);
       } else if (nextUpdate.equals("Clearscreen")){
         clearScreen();
       } else if (nextUpdate.equals("SetID")){
@@ -115,12 +111,7 @@ public class TurtleDisplayPane {
   }
 
   private void updateTurtleImages() {
-    for(Map.Entry<Integer,ImageView> entry : activeTurtles.entrySet()){
-      entry.getValue().setImage(new Image(turtleImageFile));
-    }
-    for(Map.Entry<Integer,ImageView> entry : inactiveTurtles.entrySet()){
-      entry.getValue().setImage(new Image(inactiveTurtleImageFile));
-    }
+
   }
 
 
@@ -140,7 +131,7 @@ public class TurtleDisplayPane {
 
     FrontEndTurtle turtleInformation = new FrontEndTurtle(centerX, centerY, turtle, penUP);
 
-    activeTurtles.put(id, turtle);
+ //   activeTurtles.put(id, turtle);
     this.allTurtleInformation.put(id, turtleInformation);
 
 //    lastXPosition = centerX;
@@ -149,6 +140,8 @@ public class TurtleDisplayPane {
 
   public void moveTurtle(double xCoordinate, double yCoordinate, Color penColor) {
     this.penColor = penColor;
+
+    System.out.println("Current ID: " + currentID);
 
     x = turtleViewPane.getWidth() / 2 + xCoordinate * turtleViewPane.getWidth() / rows - TURTLE_WIDTH / 2;
     y = turtleViewPane.getHeight() / 2 - yCoordinate * turtleViewPane.getHeight() / cols - TURTLE_HEIGHT / 2;
@@ -170,7 +163,7 @@ public class TurtleDisplayPane {
   }
 
   private void createLine(double x, double y, Color penColor) {
-    Line line1 = new Line(activeTurtles.get(currentID).getX() + TURTLE_WIDTH / 2, activeTurtles.get(currentID).getY() + TURTLE_WIDTH / 2,
+    Line line1 = new Line(allTurtleInformation.get(currentID).getTurtle().getX() + TURTLE_WIDTH / 2, allTurtleInformation.get(currentID).getTurtle().getY() + TURTLE_WIDTH / 2,
             x + TURTLE_HEIGHT / 2, y + TURTLE_HEIGHT / 2);
     line1.setStroke(penColor);
     line1.setId(LINE_ID);
@@ -211,25 +204,26 @@ public class TurtleDisplayPane {
   }
 
   public void setTurtleImage(Image turtleImage) {
-    activeTurtles.get(currentID).setImage(turtleImage);
-    activeTurtles.get(currentID).setFitWidth(TURTLE_WIDTH);
-    activeTurtles.get(currentID).setFitHeight(TURTLE_HEIGHT);
-    activeTurtles.get(currentID).setId("Turtle" + currentID);
+    allTurtleInformation.get(currentID).getTurtle().setImage(turtleImage);
+    allTurtleInformation.get(currentID).getTurtle().setFitWidth(TURTLE_WIDTH);
+    allTurtleInformation.get(currentID).getTurtle().setFitHeight(TURTLE_HEIGHT);
+    allTurtleInformation.get(currentID).getTurtle().setId("Turtle" + currentID);
   }
 
   public void updateCommandQueue(String commandType, List<Double> commandValues) {
     typeToBeUpdated.add(commandType);
     commandsToBeExecuted.addAll(commandValues);
 
-    System.out.println(typeToBeUpdated);
   }
 
   public void setActiveTurtle(int turtleID) {
-    if(!activeTurtles.containsKey(turtleID) && !inactiveTurtles.containsKey(turtleID)){
+    if(!allTurtleInformation.containsKey(turtleID)){
       createTurtle(turtleID);
     }
-    commandsToBeExecuted.add((double) turtleID);
-    typeToBeUpdated.add("SetID");
+
+    currentID = turtleID;
+      commandsToBeExecuted.add((double) turtleID);
+      typeToBeUpdated.add("SetID");
 
   }
 }
