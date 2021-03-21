@@ -29,9 +29,8 @@ public class PenDown extends TurtleAlteringCommand {
    */
   @Override
   public double execute() {
-    updateTurtle(turtle -> {
-      changePenState(1);
+    return updateTurtle(turtle -> {
+      return changePenState(1);
     });
-    return 1;
   }
 }

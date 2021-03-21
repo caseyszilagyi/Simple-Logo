@@ -12,8 +12,7 @@ import slogo.model.tree.TreeNode;
  */
 public class SetHeading extends TurtleAlteringCommand {
 
-  private final double ANGLE;
-  private final double PREV_ANGLE;
+  private final TreeNode ANGLE;
 
   /**
    * Makes an instance of the set heading command
@@ -23,13 +22,7 @@ public class SetHeading extends TurtleAlteringCommand {
    */
   public SetHeading(CommandInformationBundle bundle, List<TreeNode> nodes) {
     super(bundle);
-    PREV_ANGLE = getAngle();
-    ANGLE = loadClass(bundle, nodes.get(0)).execute();
-  }
-
-  // calculates the number of degrees the turtle rotated
-  private double degreesMoved() {
-    return Math.abs(PREV_ANGLE - ANGLE);
+    ANGLE = nodes.get(0);
   }
 
   /**
@@ -39,9 +32,8 @@ public class SetHeading extends TurtleAlteringCommand {
    */
   @Override
   public double execute() {
-    updateTurtle(turtle -> {
-      setAngle(ANGLE);
+    return updateTurtle(turtle -> {
+      return setAngle(executeNode(ANGLE));
     });
-    return degreesMoved();
   }
 }

@@ -29,9 +29,8 @@ public class ShowTurtle extends TurtleAlteringCommand {
    */
   @Override
   public double execute() {
-    updateTurtle(turtle -> {
-      changeTurtleVisibility(1);
+    return updateTurtle(turtle -> {
+      return changeTurtleVisibility(1);
     });
-    return 1;
   }
 }

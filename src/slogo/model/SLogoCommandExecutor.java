@@ -18,8 +18,9 @@ import slogo.model.parse.tokens.Token;
 import slogo.model.tree.TreeNode;
 
 /**
- * Prepares for and executes all commands. Main communication between the ModelController and the Model.
- * Centralized location for all classes that take part in the cleaning, parsing, and execution of commands.
+ * Prepares for and executes all commands. Main communication between the ModelController and the
+ * Model. Centralized location for all classes that take part in the cleaning, parsing, and
+ * execution of commands.
  *
  * @author jincho
  */
@@ -35,17 +36,30 @@ public class SLogoCommandExecutor implements CommandExecutor {
   private final BasicCommandClassLoader COMMAND_LOADER = new BasicCommandClassLoader();
   private final UserDefinedInformation USER_INFORMATION;
 
-
+  /**
+   * This is the command executor that executes commands for SLogo. The basic constructor takes the
+   * model controller to link it to the front end, and then makes the command bundle for the user
+   *
+   * @param modelController The model controller that is linked to the front end
+   */
   public SLogoCommandExecutor(BackEndExternalAPI modelController) {
     MODEL_CONTROLLER = modelController;
     BUNDLE = new CommandInformationBundle(modelController);
     USER_INFORMATION = BUNDLE.getUserDefinedInformation();
-
-
   }
 
-  public CommandInformationBundle getBundle(){
-    return BUNDLE;
+  /**
+   * This constructor is designed if the user already has a bundle with turtle/variable information
+   * and wants to link it to this class. Also useful for testing
+   *
+   * @param modelController The model controller that is linked to the front end
+   * @param bundle          The bundle that has turtle information, variable information, and
+   *                        display information
+   */
+  public SLogoCommandExecutor(BackEndExternalAPI modelController, CommandInformationBundle bundle) {
+    MODEL_CONTROLLER = modelController;
+    BUNDLE = bundle;
+    USER_INFORMATION = BUNDLE.getUserDefinedInformation();
   }
 
   /**
@@ -66,6 +80,12 @@ public class SLogoCommandExecutor implements CommandExecutor {
     return USER_INFORMATION.getVariableMap();
   }
 
+  /**
+   * Executes a command, resulting in calls to the model controller
+   *
+   * @param input    The command in raw string form
+   * @param language The language of the command
+   */
   public void executeCommand(String input, String language) {
     CommandParser commandParser = new CommandParser(input, language, MODEL_CONTROLLER);
 
