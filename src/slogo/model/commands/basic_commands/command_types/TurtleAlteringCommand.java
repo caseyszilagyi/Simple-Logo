@@ -131,6 +131,7 @@ public abstract class TurtleAlteringCommand extends TurtleQueryCommand {
     double val = 0;
     for (int turtleID : activeTurtleList) {
       setActiveTurtle(turtleID);
+      super.updateActiveTurtle();
       activeTurtle = TURTLE_INFORMATION.getActiveTurtle();
       val = turtleAction.applyAsDouble(activeTurtle);
     }

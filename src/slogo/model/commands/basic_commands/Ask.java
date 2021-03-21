@@ -7,25 +7,28 @@ import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
 
 /**
- * This is the tell command. It defines the set of turtles that the commands act on
+ * This is the ask command. It defines a set of turtles and passes commands to act on them
  *
  * @author Casey Szilagyi
  */
-public class Tell extends MultipleTurtleCommand {
+public class Ask extends MultipleTurtleCommand {
 
   private final List<Integer> IDS = new ArrayList<>();
+  private final TreeNode COMMANDS;
 
   /**
-   * Gets all of the turtles that will follow future actions
+   * Gets the commands and turtles to act on
    * @param informationBundle The bundle that contains all turtles
-   * @param children Holds the command block that has all of the turtle IDs
+   * @param children 2 children, one of which has a command block with turtle IDS and
+   *                 the other which has the commands to run
    */
-  public Tell(CommandInformationBundle informationBundle, List<TreeNode> children){
+  public Ask(CommandInformationBundle informationBundle, List<TreeNode> children){
     super(informationBundle);
     TreeNode IDBlock = children.get(0);
     for(TreeNode child: IDBlock.getChildren()){
       IDS.add((int) loadClass(informationBundle, child).execute());
     }
+    COMMANDS = children.get(1);
   }
 
   /**
@@ -34,7 +37,8 @@ public class Tell extends MultipleTurtleCommand {
    */
   @Override
   public double execute(){
-    replaceActiveTurtleLayer(IDS);
+    addActiveTurtleLayer(IDS);
+
     return IDS.get(IDS.size()-1);
   }
 }
