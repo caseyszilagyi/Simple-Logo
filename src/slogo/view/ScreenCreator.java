@@ -58,7 +58,7 @@ public class ScreenCreator {
     styleSheet = "slogo/view/resources/default.css";
     scene.getStylesheets().add(styleSheet);
 
-    historyDisplayPane = new HistoryDisplayPane(viewController);
+    historyDisplayPane = new HistoryDisplayPane(viewController, idResource, defaultLanguage);
     root.setRight(historyDisplayPane.getBox());
 
     userCommand = new UserCommandPane(viewController, idResource, defaultLanguage);
@@ -95,6 +95,7 @@ public class ScreenCreator {
   public void updateLanguage(String language) {
     commandButtonPane.updateLanguage(language);
     userCommand.updateLanguage(language);
+    historyDisplayPane.updateLanguage(language);
   }
 
   public void updateCommandHistory(Queue<String> commandHistory) {

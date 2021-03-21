@@ -35,7 +35,7 @@ public class HistoryDisplayPane {
   private static final String USER_BUTTON_ID = "previousUserButton";
   private static final String CLEAR_BUTTON_TEXT = "Clear History";
   public static final String DEFAULT_RESOURCE_PACKAGE = HistoryDisplayPane.class.getPackageName() + ".resources.";
-  private static final String EXAMPLE_FILE = "ExampleCode";
+  private static final String EXAMPLE_FILE = "buttons.languages.ExampleCode";
 
   private BorderPane basePane;
   private ScrollPane historyPane;
@@ -50,14 +50,14 @@ public class HistoryDisplayPane {
   private VBox topBox;
   private Queue<String> displayCommandHistory;
   private ResourceBundle exampleCode;
+  private ResourceBundle idsForTesting;
 
-  private Button clearButton;
-
-  public HistoryDisplayPane(FrontEndExternalAPI viewController) {
+  public HistoryDisplayPane(FrontEndExternalAPI viewController, ResourceBundle idResource, String lang) {
     basePane = new BorderPane();
     basePane.getStyleClass().add(HISTORY_DISPLAY_PANE_ID);
     this.viewController = viewController;
-    exampleCode = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + EXAMPLE_FILE);
+    exampleCode = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + EXAMPLE_FILE + lang);
+    idsForTesting = idResource;
     topBox = new VBox();
     basePane.setTop(topBox);
     displayTitle();
@@ -205,5 +205,11 @@ public class HistoryDisplayPane {
     button.setPrefWidth(vBox.getWidth());
     button.getStyleClass().add(styleClass);
     return button;
+  }
+
+  public void updateLanguage(String lang) {
+    exampleCode = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + EXAMPLE_FILE + lang);
+    exBox.getChildren().clear();
+    makeExampleCodeButtons();
   }
 }
