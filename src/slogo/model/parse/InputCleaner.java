@@ -2,9 +2,7 @@ package slogo.model.parse;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -12,22 +10,19 @@ import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 import slogo.ErrorHandler;
 import slogo.controller.BackEndExternalAPI;
-import slogo.model.commands.basic_commands.UserDefinedCommand;
+import slogo.model.SLogoCommandExecutor;
 
 /**
  * Cleans the raw string input from the user into a list of strings that the CommandParser can use
  * will recognize as commands and command parameters removes comments
  * @author jincho
  */
-public class InputCleaner {
+public class InputCleaner extends Parser{
 
-  private static final String LANGUAGES_PACKAGE = "slogo.model.resources.languages.";
-  private static final String COMMANDS_PACKAGE = "slogo.model.resources.commands.";
   private static final String WHITESPACE = "\\s+";
   public CommandParser commandParser;
-  private List<Entry<String, Pattern>> symbols;
-  private Map<String, Pattern> syntaxMap;
-  private Map<String, List<String>> commandParam;
+  private List<Entry<String, Pattern>> languagePatterns;
+
   private String userInput;
 
   /**
@@ -40,42 +35,19 @@ public class InputCleaner {
    */
   public InputCleaner(String userInput, String language, BackEndExternalAPI modelController,
       CommandParser commandParser) {
-    symbols = new ArrayList<>();
-    syntaxMap = new HashMap<>();
-    commandParam = new HashMap<>();
+    languagePatterns = new ArrayList<>();
     addLangPatterns(language);
-    addRegExPatterns("Syntax");
-    addParamCounts("CommandsParam");
     this.userInput = userInput;
     this.commandParser = commandParser;
   }
 
   private void addLangPatterns(String syntax) {
-    ResourceBundle resources = ResourceBundle.getBundle(LANGUAGES_PACKAGE + syntax);
+    ResourceBundle resources = ResourceBundle.getBundle(SLogoCommandExecutor.LANGUAGES_PACKAGE + syntax);
     for (String key : Collections.list(resources.getKeys())) {
       String regex = resources.getString(key);
-      symbols.add(new SimpleEntry<>(key, Pattern.compile(regex, Pattern.CASE_INSENSITIVE)));
+      languagePatterns.add(new SimpleEntry<>(key, Pattern.compile(regex, Pattern.CASE_INSENSITIVE)));
     }
   }
-
-  private void addRegExPatterns(String regEx) {
-    ResourceBundle resources = ResourceBundle.getBundle(LANGUAGES_PACKAGE + regEx);
-    for (String key : Collections.list(resources.getKeys())) {
-      String regex = resources.getString(key);
-      syntaxMap.put(key, Pattern.compile(regex, Pattern.CASE_INSENSITIVE));
-    }
-  }
-
-  /**
-   * Adds the given resource file to this language's recognized types
-   */
-  public void addParamCounts(String syntax) {
-    ResourceBundle resources = ResourceBundle.getBundle(COMMANDS_PACKAGE + syntax);
-    for (String key : Collections.list(resources.getKeys())) {
-      commandParam.put(key, Arrays.asList(resources.getString(key).split(" ")));
-    }
-  }
-
 
   /**
    * method that actually cleans the string input
@@ -83,7 +55,8 @@ public class InputCleaner {
    * @return list of strings without comments, translated to backend recognizable, and commandblocks
    * grouped
    */
-  public List<String> cleanString() {
+  @Override
+  public List<String> parseResults() {
     String noComments = removeComments();
     List<String> translated = translateCommand(noComments);
     translated.removeIf(command -> command.equals(""));
@@ -113,8 +86,8 @@ public class InputCleaner {
     return translated;
   }
 
-  public String getCommandKey(String text) {
-    for (Entry<String, Pattern> e : symbols) {
+  private String getCommandKey(String text) {
+    for (Entry<String, Pattern> e : languagePatterns) {
       try {
         if (match(text, e.getValue())) {
           return e.getKey();
@@ -124,9 +97,5 @@ public class InputCleaner {
       }
     }
     return "NO MATCH";
-  }
-
-  private boolean match(String text, Pattern regex) {
-    return regex.matcher(text).matches();
   }
 }

@@ -30,9 +30,9 @@ public class For extends ControlStructureCommand {
   public For(CommandInformationBundle bundle, List<TreeNode> children) {
     super(bundle);
     VARIABLE = children.get(0).getChildren().get(0).getValue();
-    START = executeBlock(children.get(0).getChildren().get(1));
-    END = executeBlock(children.get(0).getChildren().get(2));
-    INCREMENT = executeBlock(children.get(0).getChildren().get(3));
+    START = executeNode(children.get(0).getChildren().get(1));
+    END = executeNode(children.get(0).getChildren().get(2));
+    INCREMENT = executeNode(children.get(0).getChildren().get(3));
     COMMAND_BLOCK = children.get(1);
   }
 
@@ -49,7 +49,7 @@ public class For extends ControlStructureCommand {
     addTurtleLayer();
     for (double i = START; i <= END; i += INCREMENT) {
       setParameter(VARIABLE, i);
-      val = executeBlock(COMMAND_BLOCK);
+      val = executeNode(COMMAND_BLOCK);
     }
     removeParameterMap();
     removeTurtleLayer();

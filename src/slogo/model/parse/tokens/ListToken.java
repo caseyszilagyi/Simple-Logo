@@ -8,18 +8,17 @@ import java.util.regex.Pattern;
 import slogo.model.parse.CommandParser;
 
 public abstract class ListToken extends Token{
-
-  private int paramCount;
   protected List<Token> params;
   protected Deque<List<String>> paramTokensExpected;
 
 
   public ListToken(String command) {
     super("CommandBlock");
-    paramCount = 0;
     paramTokensExpected = new ArrayDeque<>();
     params = new ArrayList<>();
   }
+
+  public int getListParamsCount() { return params.size(); }
 
   @Override
   public int incrementParamCount(int blockSize, Token command) {

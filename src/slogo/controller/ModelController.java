@@ -1,5 +1,8 @@
 package slogo.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import slogo.model.CommandExecutor;
@@ -93,7 +96,7 @@ public class ModelController implements BackEndExternalAPI {
    * @param yPosition The y position of the turtle
    */
   public void setTurtlePosition(double xPosition, double yPosition) {
-
+    viewController.setTurtlePosition(xPosition, yPosition);
   }
 
   /**
@@ -103,7 +106,7 @@ public class ModelController implements BackEndExternalAPI {
    * @param angle
    */
   public void setTurtleAngle(double angle) {
-
+    viewController.setTurtleAngle(angle);
   }
 
   /**
@@ -112,7 +115,7 @@ public class ModelController implements BackEndExternalAPI {
    * @param penState The pen state. 0 if the pen is not drawing, 1 otherwise
    */
   public void setPenState(double penState) {
-
+    viewController.setPenState(penState);
   }
 
   /**
@@ -121,14 +124,14 @@ public class ModelController implements BackEndExternalAPI {
    * @param visibility The visibility of the turtle. 0 if it is invisible, 1 if it is showing
    */
   public void setTurtleVisibility(double visibility) {
-
+    viewController.setTurtleVisibility(visibility);
   }
 
   /**
    * Tells the front end when to clear the screen of all lines that have been drawn
    */
   public void clearScreen() {
-
+    viewController.clearScreen();
   }
 
   /**
@@ -137,7 +140,7 @@ public class ModelController implements BackEndExternalAPI {
    * @param turtleID The ID of the active turtle
    */
   public void setActiveTurtle(int turtleID) {
-
+    viewController.setActiveTurtle(turtleID);
   }
 
   /**
@@ -147,7 +150,7 @@ public class ModelController implements BackEndExternalAPI {
    * @param index The index corresponding to the color
    */
   public void setBackgroundColor(int index) {
-
+    viewController.setBackGroundColor(index);
   }
 
   /**
@@ -157,7 +160,7 @@ public class ModelController implements BackEndExternalAPI {
    * @param index The index corresponding to the color
    */
   public void setPenColor(int index) {
-
+    viewController.setPenColor(index);
   }
 
   /**
@@ -166,7 +169,7 @@ public class ModelController implements BackEndExternalAPI {
    * @param index The index corresponding to the shape
    */
   public void setTurtleShape(int index) {
-
+    viewController.setTurtleShape(index);
   }
 
   /**
@@ -178,7 +181,7 @@ public class ModelController implements BackEndExternalAPI {
    * @param blue  Blue value of an rgb color, ranges from 0-255
    */
   public void setPalette(int index, int red, int green, int blue) {
-
+    viewController.setPalette(index, red, green, blue);
   }
 
   /**
@@ -187,7 +190,7 @@ public class ModelController implements BackEndExternalAPI {
    * @param penSize The size of the pen, in pixels
    */
   public void setPenSize(double penSize) {
-
+    viewController.setPenSize(penSize);
   }
 
 

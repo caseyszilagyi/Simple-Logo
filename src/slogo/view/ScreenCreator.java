@@ -104,7 +104,7 @@ public class ScreenCreator {
 
 
   public void updateVariablesAndUserDefinedCommands(Map<String, Double> variables,
-      Map<String, String> userDefinedCommands) {
+                                                    Map<String, String> userDefinedCommands) {
     historyDisplayPane.updateDisplayOfInformation(variables, userDefinedCommands);
   }
 
@@ -138,5 +138,19 @@ public class ScreenCreator {
 
   private void displayTurtleUpdates() {
     viewPane.displayTurtleUpdates();
+  }
+
+  public void updateCommandQueue(String commandType, List<Double> commandValues) {
+    viewPane.updateCommandQueue(commandType, commandValues);
+  }
+
+  public void setTurtlePosition(double xPosition, double yPosition) {
+    viewPane.moveTurtle(xPosition,yPosition);
+    System.out.println("xPosition: " + xPosition);
+    System.out.println("yPosition: " + yPosition);
+  }
+
+  public void clearScreen() {
+    viewPane.clearScreen();
   }
 }

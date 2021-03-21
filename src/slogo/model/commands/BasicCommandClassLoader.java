@@ -49,6 +49,7 @@ public class BasicCommandClassLoader {
           .newInstance(informationBundle, (Object) node.getChildren());
       myCommand = (BasicCommand) command;
     } catch (InstantiationException | InvocationTargetException | NoSuchMethodException | IllegalAccessException | ClassNotFoundException e) {
+      System.out.println(node.getCommand());
       throw new ErrorHandler ("InvalidCommandName");
     }
 
@@ -92,7 +93,7 @@ public class BasicCommandClassLoader {
     if (userInfo.hasVariable(nodeName)) {
       return makeConstant(userInfo.getVariable(nodeName));
     }
-
+    System.out.println("invalid var: "+nodeName);
     throw new ErrorHandler("InvalidVariableName");
   }
 

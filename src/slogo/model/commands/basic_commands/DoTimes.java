@@ -1,8 +1,6 @@
 package slogo.model.commands.basic_commands;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import slogo.model.commands.basic_commands.command_types.ControlStructureCommand;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
@@ -31,7 +29,7 @@ public class DoTimes extends ControlStructureCommand {
     super(bundle);
     VARIABLE = children.get(0).getChildren().get(0).getValue();
     System.out.println(children.get(0).getChildren().size());
-    LIMIT = executeBlock(children.get(0).getChildren().get(1));
+    LIMIT = executeNode(children.get(0).getChildren().get(1));
     COMMAND_BLOCK = children.get(1);
   }
 
@@ -48,7 +46,7 @@ public class DoTimes extends ControlStructureCommand {
     addTurtleLayer();
     for (double i = 1; i <= LIMIT; i += 1) {
       setParameter(VARIABLE, i);
-      val = executeBlock(COMMAND_BLOCK);
+      val = executeNode(COMMAND_BLOCK);
     }
     removeParameterMap();
     removeTurtleLayer();

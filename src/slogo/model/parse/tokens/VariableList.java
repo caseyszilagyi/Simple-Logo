@@ -1,9 +1,7 @@
 package slogo.model.parse.tokens;
 
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 import java.util.regex.Pattern;
 import slogo.model.parse.CommandParser;
@@ -21,8 +19,8 @@ public class VariableList extends ListToken {
     if (paramTokensExpected.isEmpty()) {
       params.add(param);
     }
-    if (isBasicCommand(param.getValue())) {
-      List<String> expected = new ArrayList<>(CommandParser.parameters.get(param.getCommand()));
+    if (isDefinedCommand(param.getValue())) {
+      List<String> expected = new ArrayList<>(CommandParser.commandParam.get(param.getCommand()));
       paramTokensExpected.push(expected);
     } else {
       while (!paramTokensExpected.isEmpty()) {

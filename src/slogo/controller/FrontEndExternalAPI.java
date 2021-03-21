@@ -15,7 +15,7 @@ public interface FrontEndExternalAPI {
   /**
    * Sets the background color of the GUI
    */
-  public void setBackGroundColor(String color);
+  public void setBackGroundColor(int color);
 
   /**
    * Sets the image of the turtle
@@ -45,12 +45,34 @@ public interface FrontEndExternalAPI {
 
   public void passInputFromBackendToFrontEnd(List<Double> parameters);
 
-  public void displayCommandStringOnTextArea(String command);
+  void displayCommandStringOnTextArea(String command);
 
-  public Map<String, Double> getVariables();
+  Map<String, Double> getVariables();
 
-  public void updateFrontEnd(Map<String, Double> variables,
-      Map<String, UserDefinedCommand> userDefinedCommands);
+  void updateFrontEnd(Map<String, Double> variables,
+                      Map<String, UserDefinedCommand> userDefinedCommands);
+
+  void setActiveTurtle(int turtleID);
+
+  void setTurtlePosition(double xPosition, double yPosition);
+
+  void setTurtleAngle(double angle);
+
+  void setPenState(double penState);
+
+  void setTurtleVisibility(double visibility);
+
+  void clearScreen();
+
+  void setPenColor(int index);
+
+  void setTurtleShape(int index);
+
+  void setPalette(int index, int red, int green, int blue);
+
+  void setPenSize(double penSize);
+
+  void updateCommandQueue(String commandType, List<Double> commandValues);
 
   void setLanguage(String language);
 }

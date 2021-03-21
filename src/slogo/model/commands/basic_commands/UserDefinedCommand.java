@@ -55,7 +55,7 @@ public class UserDefinedCommand extends ControlStructureCommand {
   @Override
   public double execute() {
     addTurtleLayer();
-    double result = executeBlock(COMMAND_BLOCK);
+    double result = executeNode(COMMAND_BLOCK);
     removeTurtleLayer();
     removeParameterMap();
     return result;
@@ -69,7 +69,7 @@ public class UserDefinedCommand extends ControlStructureCommand {
   public void passParams(List<TreeNode> parameterValues) {
     addParameterMap();
     for (int i = 0; i < PARAMETERS.size(); i++) {
-      setParameter(PARAMETERS.get(i).getCommand(), executeBlock(parameterValues.get(i)));
+      setParameter(PARAMETERS.get(i).getCommand(), executeNode(parameterValues.get(i)));
     }
   }
 }

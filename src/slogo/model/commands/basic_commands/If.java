@@ -37,7 +37,7 @@ public class If extends ControlStructureCommand {
     double val = 0;
     if (CONDITIONAL != 0) {
       addTurtleLayer();
-      val = executeBlock(COMMAND_BLOCK);
+      val = executeNode(COMMAND_BLOCK);
       removeTurtleLayer();
     }
     return val;

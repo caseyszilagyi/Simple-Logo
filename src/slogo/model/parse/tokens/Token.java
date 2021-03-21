@@ -1,18 +1,14 @@
 package slogo.model.parse.tokens;
 
-import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 import slogo.model.parse.CommandParser;
+import slogo.model.parse.Parser;
 
 public abstract class Token {
 
   private String command;
   private String value;
-  private static final String RESOURCES_PACKAGE = "slogo.model.resources.commands.";
-  private static final ResourceBundle BASIC_COMMANDS = ResourceBundle.getBundle(RESOURCES_PACKAGE+"Commands");
-  private static final Pattern COMMAND_REGEX = CommandParser.syntaxMap.get("Command");
-  private static final Pattern VARIABLE_REGEX = CommandParser.syntaxMap.get("Variable");
-  private static final Pattern CONSTANT_REGEX = CommandParser.syntaxMap.get("Constant");
+  private static final Pattern CONSTANT_REGEX = Parser.syntaxMap.get("Constant");
 
 
   public Token(String command) {
@@ -24,23 +20,11 @@ public abstract class Token {
 
   public String getValue() { return  value; }
 
-  public void setVariable(String val) { value = val; }
+  public void setValue(String val) { value = val; }
 
-  protected boolean isCommand(String s) {
-    System.out.println("isCommand on: "+s);
-    return COMMAND_REGEX.matcher(s).matches();
-  }
+  protected boolean isDefinedCommand(String s) { return CommandParser.commandParam.containsKey(s); }
 
-  protected boolean isBasicCommand(String s) {
-    return BASIC_COMMANDS.containsKey(s);
-  }
-
-  protected boolean isVariable(String command) {
-    return VARIABLE_REGEX.matcher(command).matches();
-  }
-
-  protected boolean isConstant(String command) { return CONSTANT_REGEX.matcher(command).matches();
-  }
+  protected boolean isConstant(String command) { return CONSTANT_REGEX.matcher(command).matches(); }
 
   public abstract int incrementParamCount(int blockSize, Token command);
 

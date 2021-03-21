@@ -192,7 +192,7 @@ public class ViewChoicePane {
   }
 
   public String getLanguage() {
-      return language;
+    return language;
   }
 
   private ImageView setIcon(String icon) {

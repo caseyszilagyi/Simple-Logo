@@ -90,7 +90,7 @@ public abstract class ControlStructureCommand extends Command {
    * @param node The node that holds all of the commands to execute
    * @return The double value that represents the executed command block
    */
-  protected double executeBlock(TreeNode node) {
+  protected double executeNode(TreeNode node) {
     return loadClass(INFORMATION_BUNDLE, node).execute();
   }
 

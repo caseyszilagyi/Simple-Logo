@@ -27,8 +27,10 @@ public class ViewPane {
   private double xCoord;
   private double yCoord;
   private double previousAngle = 90;
+  private FrontEndExternalAPI viewController;
 
   public ViewPane(FrontEndExternalAPI viewController, Stage s, ResourceBundle idResource) {
+    this.viewController = viewController;
     viewPane = new BorderPane();
     viewPane.setId(VIEW_PANE_ID);
     viewPane.getStyleClass().add(VIEW_PANE_ID);
@@ -72,6 +74,14 @@ public class ViewPane {
 
   public void displayTurtleUpdates() {
     turtleDisplay.updateTurtlePosition();
+  }
+
+  public void updateCommandQueue(String commandType, List<Double> commandValues) {
+    turtleDisplay.updateCommandQueue(commandType, commandValues);
+  }
+
+  public void clearScreen() {
+    turtleDisplay.clearScreen();
   }
 }
 

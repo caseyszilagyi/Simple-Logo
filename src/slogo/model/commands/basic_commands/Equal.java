@@ -14,6 +14,7 @@ public class Equal extends MathAndLogicCommand {
 
   private final double EXPRESSION_1;
   private final double EXPRESSION_2;
+  private final double TOLERANCE = 0.05;
 
   /**
    * Makes an instance of the equal command
@@ -34,7 +35,7 @@ public class Equal extends MathAndLogicCommand {
    */
   @Override
   public double execute() {
-    if (EXPRESSION_1 == EXPRESSION_2) {
+    if (Math.abs(EXPRESSION_1-EXPRESSION_2) < TOLERANCE) {
       return 1;
     }
     return 0;
