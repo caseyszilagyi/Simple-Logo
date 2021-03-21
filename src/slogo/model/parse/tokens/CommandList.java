@@ -8,21 +8,9 @@ import slogo.model.parse.CommandParser;
 
 public class CommandList extends ListToken{
 
-  private Deque<List<String>> paramTokensExpected;
-  private List<Token> params;
-
   public CommandList(String command) {
     super(command);
-    paramTokensExpected = new ArrayDeque<>();
-    params = new ArrayList<>();
-  }
 
-  @Override
-  public int incrementParamCount(int blockSize, Token command) {
-    addParamToken(command);
-    return params.size();
-//    if(isBasicCommand(command.getValue())) { return blockSize + 1; }
-//    return blockSize;
   }
 
   public void addParamToken(Token param) {
@@ -30,7 +18,6 @@ public class CommandList extends ListToken{
       if (paramTokensExpected.isEmpty()) {
         params.add(param);
       }
-      System.out.println("pushing to stack of expected");
       List<String> expected = new ArrayList<>(CommandParser.parameters.get(param.getCommand()));
       paramTokensExpected.push(expected);
     } else {
