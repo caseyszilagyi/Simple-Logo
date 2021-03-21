@@ -42,6 +42,9 @@ public class TurtleDisplayPane {
   private int FIRST_TURTLE = 1;
   private int currentID = 1;
 
+  String turtleImageFile = "Turtle2.gif";
+  String inactiveTurtleImageFile = "Turtle3.gif";
+
 
   public TurtleDisplayPane(BorderPane root, double r, double c) {
     viewPane = root;
@@ -100,13 +103,23 @@ public class TurtleDisplayPane {
         clearScreen();
       }
     }
+
+    updateTurtleImages();
+  }
+
+  private void updateTurtleImages() {
+    for(Map.Entry<Integer,ImageView> entry : activeTurtles.entrySet()){
+      entry.getValue().setImage(new Image(turtleImageFile));
+    }
+    for(Map.Entry<Integer,ImageView> entry : inactiveTurtles.entrySet()){
+      entry.getValue().setImage(new Image(inactiveTurtleImageFile));
+    }
   }
 
 
   private void createTurtle(int id) {
 
     turtleViewPane.getChildren().clear();
-    String turtleImageFile = "Turtle2.gif";
     Image turtleImage = new Image(turtleImageFile);
     turtle = new ImageView(turtleImage);
     turtle.setFitWidth(TURTLE_WIDTH);
