@@ -215,6 +215,10 @@ public class MakeTokens {
     }
   }
 
+  private void newUserDefParams() {
+    
+  }
+
   private List<String> makeStringParam(int countNum) {
     List<String> ret = new ArrayList<>();
     for(int i=0; i< countNum; i++) {

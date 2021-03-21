@@ -2,7 +2,6 @@ package slogo.model.parse.tokens;
 
 import java.util.ArrayList;
 import java.util.List;
-import slogo.ErrorHandler;
 import slogo.model.parse.CommandParser;
 
 public class ConstantList extends ListToken{
@@ -17,7 +16,7 @@ public class ConstantList extends ListToken{
     if (paramTokensExpected.isEmpty()) {
       params.add(param);
     }
-    if (isBasicCommand(param.getValue())) {
+    if (isCommand(param.getValue())) {
       List<String> expected = new ArrayList<>(CommandParser.parameters.get(param.getCommand()));
       paramTokensExpected.push(expected);
     } else {

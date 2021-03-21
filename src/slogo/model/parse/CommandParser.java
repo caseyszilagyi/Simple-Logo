@@ -27,8 +27,6 @@ public class CommandParser implements Parser {
       "slogo.model.resources.commands.";
   private static final String LANGUAGES_PACKAGE = "slogo.model.resources.languages.";
   public List<String> preOrderResults = new ArrayList<>();
-  // "types" and the regular expression patterns that recognize those types
-  // note, it is a list because order matters (some patterns may be more generic)
   public static Map<String, List<String>> parameters;
   public static Map<String, Pattern> syntaxMap;
   private TreeNode commandTree;
@@ -92,7 +90,7 @@ public class CommandParser implements Parser {
     for (String key : userDefCommands.keySet()) {
       int paramCounts = userDefCommands.get(key).getParamCount();
       List<String> paramString = new ArrayList<>();
-      for(int i=0; i<paramCounts; i++) {
+      for (int i = 0; i < paramCounts; i++) {
         paramString.add("NUM");
       }
       parameters.put(key, paramString);

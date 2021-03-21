@@ -28,7 +28,7 @@ public abstract class Token {
 
   protected boolean isCommand(String s) {
     System.out.println("isCommand on: "+s);
-    return COMMAND_REGEX.matcher(s).matches();
+    return CommandParser.parameters.containsKey(s);
   }
 
   protected boolean isBasicCommand(String s) {

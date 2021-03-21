@@ -21,7 +21,7 @@ public class VariableList extends ListToken {
     if (paramTokensExpected.isEmpty()) {
       params.add(param);
     }
-    if (isBasicCommand(param.getValue())) {
+    if (isCommand(param.getValue())) {
       List<String> expected = new ArrayList<>(CommandParser.parameters.get(param.getCommand()));
       paramTokensExpected.push(expected);
     } else {

@@ -72,6 +72,26 @@ public class MakeTokensTest {
   }
 
   /**
+   * Test command with user defined commands in the commands
+   */
+  
+  void testUserDefInList() {
+    String userInput = "tell [ 1 2 3 4 5 ]";
+    MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
+    List<String> actual = tokenMaker.tokenString();
+    List<String> expected = new ArrayList<>();
+    expected.add("Tell");
+    expected.add("CommandBlock_1");
+    expected.add("1");
+    expected.add("2");
+    expected.add("3");
+    expected.add("4");
+    expected.add("5");
+    assertEquals(actual, expected);
+    assertEquals(5, commandParser.getParamCount("CommandBlock_1"));
+  }
+
+  /**
    * Test command with constant list that contains non constants
    */
   @Test

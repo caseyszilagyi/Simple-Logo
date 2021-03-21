@@ -14,7 +14,7 @@ public class CommandList extends ListToken{
   }
 
   public void addParamToken(Token param) {
-    if (isBasicCommand(param.getValue()) ) {
+    if (isCommand(param.getValue()) ) {
       if (paramTokensExpected.isEmpty()) {
         params.add(param);
       }
