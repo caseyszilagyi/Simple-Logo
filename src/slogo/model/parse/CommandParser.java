@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +31,6 @@ public class CommandParser extends Parser {
 
   public CommandParser(String rawInput, String language, BackEndExternalAPI modelController) {
     this.modelController = modelController;
-    addParamCounts("CommandsParam");
     addUserDefParamCounts();
     inputCleaner = new InputCleaner(rawInput, language, modelController, this);
     tokenMaker = new MakeTokens(inputCleaner.parseResults(), this);
@@ -41,22 +39,6 @@ public class CommandParser extends Parser {
     System.out.println("Command Taken in by the parser: " + rawInput);
     System.out.println("Clean command: " + cleanCommands);
   }
-
-  /**
-   * Adds the given resource file to this language's recognized types
-   */
-  public void addParamCounts(String syntax) {
-    ResourceBundle resources = ResourceBundle.getBundle(SLogoCommandExecutor.COMMAND_PACKAGE + syntax);
-    for (String key : Collections.list(resources.getKeys())) {
-      List<String> params = new ArrayList<>(Arrays.asList(resources.getString(key).split(" ")));
-      params.removeIf(command -> command.equals(""));
-      addSingleParamCount(key, params);
-            System.out.println("Key: " + key);
-            System.out.println("Number: " + Arrays.asList(resources.getString(key).split(" ")));
-            System.out.println();
-    }
-  }
-
 
   /**
    * adds a single command and parameter count pair to the map
@@ -97,12 +79,12 @@ public class CommandParser extends Parser {
       commandTree.addChild(child);
       insertNodeRecursive(commandQueue, child);
     }
-    printPreOrder(commandTree);
+    preOrderTraverse(commandTree);
     System.out.println(preOrderResults);
     return commandTree;
   }
 
-  private void printPreOrder(TreeNode root) {
+  private void preOrderTraverse(TreeNode root) {
     preOrderResults.add(root.getValue());
     if (root == null) {
       return;
@@ -110,13 +92,13 @@ public class CommandParser extends Parser {
     System.out.println("Value: " + root.getCommand());
     for (TreeNode child : root.getChildren()) {
       System.out.println("Child to look at "+child.getValue());
-      printPreOrder(child);
+      preOrderTraverse(child);
     }
   }
 
   @Override
   public List<String> parseResults() {
-    return null;
+    return preOrderResults;
   }
 
   private TreeNode insertNodeRecursive(Deque<Token> splitCommands, TreeNode root) {
