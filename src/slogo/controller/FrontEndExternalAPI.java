@@ -51,4 +51,6 @@ public interface FrontEndExternalAPI {
 
   public void updateFrontEnd(Map<String, Double> variables,
       Map<String, UserDefinedCommand> userDefinedCommands);
+
+  void setLanguage(String language);
 }

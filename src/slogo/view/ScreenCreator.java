@@ -64,21 +64,13 @@ public class ScreenCreator {
     userCommand = new UserCommandPane(viewController, idResource, defaultLanguage);
     root.setBottom(userCommand.getBox());
 
-    viewPane = new ViewPane(stage, idResource);
+    viewPane = new ViewPane(viewController, stage, idResource);
     root.setCenter(viewPane.getBox());
 
     commandButtonPane = new CommandButtonPane(viewController, idResource, defaultLanguage);
     root.setLeft(commandButtonPane.getBox());
 
-    // TODO: remove later for testing only
-    HBox test = new HBox();
-    Button changeLanguage = new Button("Change Language");
-    changeLanguage.setOnAction(event -> updateLanguage());
-    test.getChildren().add(changeLanguage);
-    root.setTop(test);
-
     runSimulation();
-
   }
 
 
@@ -92,14 +84,6 @@ public class ScreenCreator {
 //    }
   }
 
-  //TODO: REMOVE LATER THIS IS ONLY FOR DEBUGGING
-  private void reset() {
-
-    viewPane = new ViewPane(stage, idResource);
-    root.setCenter(viewPane.getBox());
-
-  }
-
   public void setAnimationSpeed(){
     timeline.setRate(userCommand.getAnimationSpeed());
   }
@@ -108,8 +92,7 @@ public class ScreenCreator {
     return viewPane.getLanguage();
   }
 
-  public void updateLanguage() {
-    String language = viewPane.getLanguage();
+  public void updateLanguage(String language) {
     commandButtonPane.updateLanguage(language);
     userCommand.updateLanguage(language);
   }

@@ -134,4 +134,9 @@ public class ViewController implements FrontEndExternalAPI {
   }
 
 
+  @Override
+  public void setLanguage(String language) {
+    screenCreator.updateLanguage(language);
+
+  }
 }

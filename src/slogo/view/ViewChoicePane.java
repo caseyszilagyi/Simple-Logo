@@ -50,8 +50,10 @@ public class ViewChoicePane {
   private ResourceBundle idsForTesting;
   private ResourceBundle imageResources;
   private ResourceBundle reflectionResources;
+  private FrontEndExternalAPI viewController;
 
-  public ViewChoicePane(Stage s, BorderPane root, TurtleDisplayPane turtleDisplayPane, ResourceBundle idResources) {
+  public ViewChoicePane(FrontEndExternalAPI viewController, Stage s, BorderPane root, TurtleDisplayPane turtleDisplayPane, ResourceBundle idResources) {
+    this.viewController = viewController;
     stage = s;
     viewPane = root;
     turtleDisplay = turtleDisplayPane;
@@ -155,6 +157,7 @@ public class ViewChoicePane {
     languageComboBox.setOnAction(handler -> {
       int value = displayLanguages.indexOf(languageComboBox.getValue());
       language = allLanguages[value].toString();
+      viewController.setLanguage(language);
     });
   }
 
