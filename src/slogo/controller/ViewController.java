@@ -92,14 +92,6 @@ public class ViewController implements FrontEndExternalAPI {
     modelController.executeCommand(userCommandInputs);
   }
 
-  @Override
-  public void passInputFromBackendToFrontEnd(List<Double> parameters) {
-//    // TODO implement and decide which class will get sent these parameters
-//    for (Double go : parameters) {
-//      System.out.println(go);
-//    }
-//    screenCreator.moveTurtle(parameters);
-  }
 
   @Override
   public void displayCommandStringOnTextArea(String command) {
