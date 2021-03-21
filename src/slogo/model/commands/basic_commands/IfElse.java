@@ -39,9 +39,9 @@ public class IfElse extends ControlStructureCommand {
     double val = 0;
     addTurtleLayer();
     if (CONDITIONAL != 0) {
-      val = executeBlock(IF_BLOCK);
+      val = executeNode(IF_BLOCK);
     } else {
-      val = executeBlock(ELSE_BLOCK);
+      val = executeNode(ELSE_BLOCK);
     }
     removeTurtleLayer();
     return val;

@@ -1,8 +1,6 @@
 package slogo.model.commands.basic_commands;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import slogo.model.commands.basic_commands.command_types.ControlStructureCommand;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.tree.TreeNode;
@@ -42,7 +40,7 @@ public class Repeat extends ControlStructureCommand {
     addTurtleLayer();
     for (double i = 1; i <= LOOP_COUNT; i += 1) {
       setParameter(":repcount", i);
-      val = executeBlock(COMMAND_BLOCK);
+      val = executeNode(COMMAND_BLOCK);
     }
     removeParameterMap();
     removeTurtleLayer();
