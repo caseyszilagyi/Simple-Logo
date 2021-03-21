@@ -5,6 +5,7 @@ import java.util.List;
 import javafx.animation.AnimationTimer;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import slogo.controller.FrontEndExternalAPI;
 
 
 /**
@@ -25,8 +26,10 @@ public class ViewPane {
   private double xCoord;
   private double yCoord;
   private double previousAngle = 90;
+  private FrontEndExternalAPI viewController;
 
-  public ViewPane(Stage s) {
+  public ViewPane(FrontEndExternalAPI viewController, Stage s) {
+    this.viewController = viewController;
     viewPane = new BorderPane();
     viewPane.setId(VIEW_PANE_ID);
     viewPane.getStyleClass().add(VIEW_PANE_ID);
@@ -35,7 +38,7 @@ public class ViewPane {
     xCoord = 0;
     yCoord = 0;
     turtleDisplay = new TurtleDisplayPane(viewPane, ROWS, COLS);
-    choiceDisplay = new ViewChoicePane(s, viewPane, turtleDisplay);
+    choiceDisplay = new ViewChoicePane(viewController, s, viewPane, turtleDisplay);
   }
 
   // TODO: Think of better way to pass language
@@ -70,6 +73,14 @@ public class ViewPane {
 
   public void displayTurtleUpdates() {
     turtleDisplay.updateTurtlePosition();
+  }
+
+  public void updateCommandQueue(String commandType, List<Double> commandValues) {
+    turtleDisplay.updateCommandQueue(commandType, commandValues);
+  }
+
+  public void clearScreen() {
+    turtleDisplay.clearScreen();
   }
 }
 

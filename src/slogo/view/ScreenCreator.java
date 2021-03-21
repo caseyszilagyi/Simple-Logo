@@ -60,18 +60,13 @@ public class ScreenCreator {
     userCommand = new UserCommandPane(viewController);
     root.setBottom(userCommand.getBox());
 
-    viewPane = new ViewPane(stage);
+    viewPane = new ViewPane(viewController, stage);
     root.setCenter(viewPane.getBox());
 
     commandButtonPane = new CommandButtonPane(viewController, defaultLanguage);
     root.setLeft(commandButtonPane.getBox());
 
-    // TODO: remove later for testing only
-    HBox test = new HBox();
-    Button changeLanguage = new Button("Change Language");
-    changeLanguage.setOnAction(event -> updateLanguage());
-    test.getChildren().add(changeLanguage);
-    root.setTop(test);
+
 
     runSimulation();
 
@@ -88,14 +83,6 @@ public class ScreenCreator {
 //    }
   }
 
-  //TODO: REMOVE LATER THIS IS ONLY FOR DEBUGGING
-  private void reset() {
-
-    viewPane = new ViewPane(stage);
-    root.setCenter(viewPane.getBox());
-
-  }
-
   public void setAnimationSpeed(){
     timeline.setRate(userCommand.getAnimationSpeed());
   }
@@ -104,8 +91,7 @@ public class ScreenCreator {
     return viewPane.getLanguage();
   }
 
-  public void updateLanguage() {
-    String language = viewPane.getLanguage();
+  public void updateLanguage(String language) {
     commandButtonPane.updateLanguage(language);
   }
 
@@ -115,7 +101,7 @@ public class ScreenCreator {
 
 
   public void updateVariablesAndUserDefinedCommands(Map<String, Double> variables,
-      Map<String, String> userDefinedCommands) {
+                                                    Map<String, String> userDefinedCommands) {
     historyDisplayPane.updateDisplayOfInformation(variables, userDefinedCommands);
   }
 
@@ -149,5 +135,19 @@ public class ScreenCreator {
 
   private void displayTurtleUpdates() {
     viewPane.displayTurtleUpdates();
+  }
+
+  public void updateCommandQueue(String commandType, List<Double> commandValues) {
+    viewPane.updateCommandQueue(commandType, commandValues);
+  }
+
+  public void setTurtlePosition(double xPosition, double yPosition) {
+    viewPane.moveTurtle(xPosition,yPosition);
+    System.out.println("xPosition: " + xPosition);
+    System.out.println("yPosition: " + yPosition);
+  }
+
+  public void clearScreen() {
+    viewPane.clearScreen();
   }
 }
