@@ -165,6 +165,9 @@ public class BasicCommandTest {
     double degreeChange = executeCommand(makeBasicCommand(root));
     assertEquals(45, degreeChange);
     assertEquals(45, turtleInformation.getActiveTurtle().getAngle());
+    turtleInformation.getActiveTurtle().setPosition(6, 7);
+    executeCommand(makeBasicCommand(root));
+    assertEquals(229.398, turtleInformation.getActiveTurtle().getAngle(), TOLERANCE);
   }
 
   /**
@@ -794,7 +797,7 @@ public class BasicCommandTest {
     basicCommand = makeTreeWithStrings("BasicCommand", "3", "7", "4");
     tell = makeTree("Tell", basicCommand);
     makeBasicCommand(tell).execute();
-    assertEquals(4, makeBasicCommand(ID).execute(), TOLERANCE);
+    assertEquals(3, makeBasicCommand(ID).execute(), TOLERANCE);
   }
 
 

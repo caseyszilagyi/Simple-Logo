@@ -40,7 +40,7 @@ public class ParserAndTurtleTests {
     DISPLAY_INFO = BUNDLE.getDisplayInformation();
     USER_INFO = BUNDLE.getUserDefinedInformation();
   }
-  
+
 
 
 }

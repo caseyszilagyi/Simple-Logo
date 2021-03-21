@@ -12,7 +12,7 @@ import slogo.model.tree.TreeNode;
  */
 public class Right extends TurtleAlteringCommand {
 
-  private final double ANGLE;
+  private final TreeNode ANGLE;
 
   /**
    * Makes an instance of the right command
@@ -22,7 +22,7 @@ public class Right extends TurtleAlteringCommand {
    */
   public Right(CommandInformationBundle bundle, List<TreeNode> nodes) {
     super(bundle);
-    ANGLE = loadClass(bundle, nodes.get(0)).execute();
+    ANGLE = nodes.get(0);
   }
 
   /**
@@ -32,9 +32,8 @@ public class Right extends TurtleAlteringCommand {
    */
   @Override
   public double execute() {
-    updateTurtle(turtle -> {
-      changeTurtleAngle(-1 * ANGLE);
+    return updateTurtle(turtle -> {
+      return rotateCounterClockwise(-1 * executeNode(ANGLE));
     });
-    return ANGLE;
   }
 }
