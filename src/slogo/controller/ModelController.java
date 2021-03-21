@@ -2,6 +2,7 @@ package slogo.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import slogo.model.CommandExecutor;
 import slogo.model.SLogoCommandExecutor;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
@@ -119,12 +120,21 @@ public class ModelController implements BackEndExternalAPI {
   }
 
   /**
-   * Sets the turtle that is currently active in the front end
+   * Sets the turtle that is currently being altered by commands sent to the front end
    *
    * @param turtleID The ID of the active turtle
    */
   public void setActiveTurtle(int turtleID) {
     viewController.setActiveTurtle(turtleID);
+  }
+
+  /**
+   * Sets all of the turtles that are currently active in the front end
+   *
+   * @param IDs The IDs of the active turtles
+   */
+  public void setActiveTurtles(List<Integer> IDs){
+    //:TODO Link with front end
   }
 
   /**

@@ -43,12 +43,12 @@ public class TurtleInformation {
   }
 
   /**
-   * Gets the number of turtles that currently exist
-   *
-   * @return The number of turtles
+   * Gets the turtle with a given ID
+   * @param ID The ID
+   * @return The turtle
    */
-  public int getNumberOfTurtles() {
-    return ALL_TURTLES.size();
+  public Turtle getTurtle(int ID){
+    return ALL_TURTLES.get(ID-1);
   }
 
   /**
@@ -59,6 +59,15 @@ public class TurtleInformation {
   public void setActiveTurtle(int ID) {
     activeTurtleID = ID;
     MODEL_CONTROLLER.setActiveTurtle(ID);
+  }
+
+  /**
+   * Gets the number of turtles that currently exist
+   *
+   * @return The number of turtles
+   */
+  public int getNumberOfTurtles() {
+    return ALL_TURTLES.size();
   }
 
   /**
@@ -101,6 +110,7 @@ public class TurtleInformation {
     removeActiveTurtleLayer();
     CURRENT_ACTIVE_TURTLES.add(nextLayer);
     setActiveTurtle(nextLayer.get(0));
+    MODEL_CONTROLLER.setActiveTurtles(nextLayer);
   }
 
   // Checks for a higher ID, because new turtles will need to be made
@@ -117,5 +127,6 @@ public class TurtleInformation {
    */
   public void removeActiveTurtleLayer() {
     CURRENT_ACTIVE_TURTLES.remove(CURRENT_ACTIVE_TURTLES.size() - 1);
+    MODEL_CONTROLLER.setActiveTurtles(getCurrentActiveTurtleList());
   }
 }

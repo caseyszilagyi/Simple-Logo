@@ -79,6 +79,13 @@ public interface BackEndExternalAPI {
   public void setActiveTurtle(int turtleID);
 
   /**
+   * Sets all of the turtles that are currently active in the front end
+   *
+   * @param IDs The IDs of the active turtles
+   */
+  public void setActiveTurtles(List<Integer> IDs);
+
+  /**
    * Sets the background color of the display. The index corresponds to a specific color as
    * specified in a properties file
    *

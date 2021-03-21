@@ -1,5 +1,6 @@
 package slogo.model;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,6 +40,39 @@ public class ParserAndTurtleTests {
     TURTLE_INFO = BUNDLE.getTurtleInformation();
     DISPLAY_INFO = BUNDLE.getDisplayInformation();
     USER_INFO = BUNDLE.getUserDefinedInformation();
+  }
+
+  /**
+   * Testing nesting with tell statements
+   */
+  @Test
+  void testSimpleNestedTell(){
+    executeCommand("tell [ 4 ] fd 40 tell [ 3 ] fd 50 dotimes [ :distance 4 ] [ tell [ :distance ]"
+        + " fd :distance ] fd 50");
+    assertEquals(103, getYCoordinate(3));
+    assertEquals(1, getYCoordinate(1));
+    assertEquals(2, getYCoordinate(2));
+    assertEquals(44, getYCoordinate(4));
+  }
+
+  // Executes a command given a string
+  private void executeCommand(String command){
+   EXECUTOR.executeCommand(command, "English");
+  }
+
+  // Gets the x coordinate of the turtle with the given ID
+  private double getXCoordinate(int ID){
+    return TURTLE_INFO.getTurtle(ID).getXPosition();
+  }
+
+  // Gets the y coordinate of the turtle with the given ID
+  private double getYCoordinate(int ID){
+    return TURTLE_INFO.getTurtle(ID).getYPosition();
+  }
+
+  // Gets the angle of the turtle with the given ID
+  private double getAngle(int ID){
+    return TURTLE_INFO.getTurtle(ID).getAngle();
   }
 
 
