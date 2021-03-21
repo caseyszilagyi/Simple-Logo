@@ -2,6 +2,7 @@ package slogo.model.commands.basic_commands.command_types;
 
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.execution.Turtle;
+import slogo.model.execution.TurtleInformation;
 
 /**
  * This abstract class is designed to be implemented by any BasicCommand that needs any data from
@@ -9,7 +10,8 @@ import slogo.model.execution.Turtle;
  */
 public abstract class TurtleQueryCommand extends Command {
 
-  private final Turtle TURTLE;
+  private Turtle activeTurtle;
+  private final TurtleInformation TURTLE_INFORMATION;
 
   /**
    * Makes the BasicCommand and saves the Turtle
@@ -17,7 +19,8 @@ public abstract class TurtleQueryCommand extends Command {
    * @param informationBundle The bundle of information that contains the turtle
    */
   public TurtleQueryCommand(CommandInformationBundle informationBundle) {
-    TURTLE = informationBundle.getTurtleInformation().getActiveTurtle();
+    activeTurtle = informationBundle.getTurtleInformation().getActiveTurtle();
+    TURTLE_INFORMATION = informationBundle.getTurtleInformation();
   }
 
   /**
@@ -26,7 +29,7 @@ public abstract class TurtleQueryCommand extends Command {
    * @return The X coordinate
    */
   protected double getXCoordinate() {
-    return TURTLE.getXPosition();
+    return activeTurtle.getXPosition();
   }
 
   /**
@@ -35,7 +38,7 @@ public abstract class TurtleQueryCommand extends Command {
    * @return The Y coordinate
    */
   protected double getYCoordinate() {
-    return TURTLE.getYPosition();
+    return activeTurtle.getYPosition();
   }
 
   /**
@@ -44,7 +47,7 @@ public abstract class TurtleQueryCommand extends Command {
    * @return The angle
    */
   protected double getAngle() {
-    return TURTLE.getAngle();
+    return activeTurtle.getAngle();
   }
 
   /**
@@ -53,7 +56,7 @@ public abstract class TurtleQueryCommand extends Command {
    * @return The pen state
    */
   protected double getPenState() {
-    return TURTLE.getPenState();
+    return activeTurtle.getPenState();
   }
 
   /**
@@ -62,7 +65,7 @@ public abstract class TurtleQueryCommand extends Command {
    * @return The pen state
    */
   protected double getVisibility() {
-    return TURTLE.getVisibility();
+    return activeTurtle.getVisibility();
   }
 
   /**
@@ -71,6 +74,13 @@ public abstract class TurtleQueryCommand extends Command {
    * @return The ID
    */
   protected int getID() {
-    return TURTLE.getID();
+    return activeTurtle.getID();
+  }
+
+  /**
+   * Updates the active turtle that the queries will act on
+   */
+  protected void updateActiveTurtle(){
+    activeTurtle = TURTLE_INFORMATION.getActiveTurtle();
   }
 }
