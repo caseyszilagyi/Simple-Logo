@@ -118,7 +118,8 @@ public class ViewController implements FrontEndExternalAPI {
 
   @Override
   public void setTurtlePosition(double xPosition, double yPosition) {
-    System.out.println("xPosition of Turtle: " + xPosition);
+    System.out.println("xPosition of Turtle (ViewController): " + xPosition);
+    System.out.println("yPosition of Turtle (ViewController): " + yPosition);
     screenCreator.setTurtlePosition(xPosition,yPosition);
   }
 

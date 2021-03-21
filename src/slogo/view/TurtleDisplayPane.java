@@ -39,7 +39,7 @@ public class TurtleDisplayPane {
   private double penThickness = 1.0;
   private Map<Integer, ImageView> activeTurtles;
   private Map<Integer, ImageView> inactiveTurtles;
-  private Map<Integer, Map<Double,Double>> lastPositions;
+  private Map<Integer, Coordinates> lastPositions;
   private int FIRST_TURTLE = 1;
   private int currentID = 1;
 
@@ -134,14 +134,18 @@ public class TurtleDisplayPane {
     turtle.setFitHeight(TURTLE_HEIGHT);
     turtle.setId(imageID);
     turtleViewPane.getChildren().add(turtle);
+
     turtle.setX(centerX);
     turtle.setY(centerY);
     turtle.setRotate(0);
 
-    activeTurtles.put(id, turtle);
+    Coordinates turtleCoordinates = new Coordinates(centerX, centerY);
 
-    lastXPosition = centerX;
-    lastYPosition = centerY;
+    activeTurtles.put(id, turtle);
+    lastPositions.put(id, turtleCoordinates);
+
+//    lastXPosition = centerX;
+//    lastYPosition = centerY;
   }
 
   public void moveTurtle(double xCoordinate, double yCoordinate, Color penColor) {
@@ -150,17 +154,19 @@ public class TurtleDisplayPane {
     x = turtleViewPane.getWidth() / 2 + xCoordinate * turtleViewPane.getWidth() / rows - TURTLE_WIDTH / 2;
     y = turtleViewPane.getHeight() / 2 - yCoordinate * turtleViewPane.getHeight() / cols - TURTLE_HEIGHT / 2;
 
-    double xIncrement = (x - lastXPosition)/ INCREMENT_FACTOR;
-    double yIncrement = (y - lastYPosition)/ INCREMENT_FACTOR;
+    double xIncrement = (x - lastPositions.get(currentID).getxCoord())/ INCREMENT_FACTOR;
+    double yIncrement = (y - lastPositions.get(currentID).getyCoord())/ INCREMENT_FACTOR;
 
     for(int i = 1; i <= INCREMENT_FACTOR; i++){
-      commandsToBeExecuted.add(lastXPosition + xIncrement * i);
-      commandsToBeExecuted.add(lastYPosition + yIncrement * i);
+      commandsToBeExecuted.add(lastPositions.get(currentID).getxCoord() + xIncrement * i);
+      commandsToBeExecuted.add(lastPositions.get(currentID).getyCoord() + yIncrement * i);
       typeToBeUpdated.add("Positions");
     }
 
-    lastXPosition = x;
-    lastYPosition = y;
+    lastPositions.get(currentID).setxCoord(x);
+    lastPositions.get(currentID).setyCoord(y);
+//    lastXPosition = x;
+//    lastYPosition = y;
   }
 
   private void createLine(double x, double y, Color penColor) {
