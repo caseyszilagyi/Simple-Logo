@@ -19,10 +19,13 @@ public class CommandList extends ListToken{
         params.add(param);
       }
       List<String> expected = new ArrayList<>(CommandParser.parameters.get(param.getCommand()));
-      paramTokensExpected.push(expected);
+      if(!expected.isEmpty()) {
+        paramTokensExpected.push(expected);
+      }
     } else {
       while (!paramTokensExpected.isEmpty()) {
         paramTokensExpected.peek().remove(0);
+        System.out.println("expected: "+paramTokensExpected);
         if(paramTokensExpected.peek().isEmpty()) {
           paramTokensExpected.pop();
         } else { break; }

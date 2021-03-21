@@ -73,22 +73,124 @@ public class MakeTokensTest {
 
   /**
    * Test command with user defined commands in the commands
+   * to slice [ ]
+   * [
+   *   rt 30
+   *   fd 50
+   * ]
    */
-  
+  @Test
   void testUserDefInList() {
-    String userInput = "tell [ 1 2 3 4 5 ]";
+    String userInput = "to slice [ ]\n"
+        + "[\n"
+        + "  rt 30\n"
+        + "  fd 50\n"
+        + "]";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
     List<String> actual = tokenMaker.tokenString();
     List<String> expected = new ArrayList<>();
-    expected.add("Tell");
+    expected.add("MakeUserInstruction");
+    expected.add("slice");
     expected.add("CommandBlock_1");
-    expected.add("1");
-    expected.add("2");
-    expected.add("3");
-    expected.add("4");
-    expected.add("5");
+    expected.add("CommandBlock_2");
+    expected.add("Right");
+    expected.add("30");
+    expected.add("Forward");
+    expected.add("50");
     assertEquals(actual, expected);
-    assertEquals(5, commandParser.getParamCount("CommandBlock_1"));
+    assertEquals(0, commandParser.getParamCount("slice"));
+    assertEquals(0, commandParser.getParamCount("CommandBlock_1"));
+    assertEquals(2, commandParser.getParamCount("CommandBlock_2"));
+  }
+
+  /**
+   * Test command with user defined commands and reuse of variables
+   * set :distance 50
+   * set :angle 10
+   *
+   * to square [ ]
+   * [
+   *   repeat 4
+   *   [
+   *     fd :distance
+   *     rt 90
+   *   ]
+   * ]
+   *
+   * to tunnel [ ]
+   * [
+   *   repeat 10
+   *   [
+   *     square
+   *     set :distance sum :distance 10
+   *   ]
+   * ]
+   *
+   * to warp [ ]
+   * [
+   *   repeat 10
+   *   [
+   *     square
+   *     rt :angle
+   *     set :distance sum :distance 10
+   *   ]
+   * ]
+   *
+   * cs
+   * tunnel
+   */
+  @Test
+  void testVarRedefList() {
+    String userInput = "set :distance 50\n"
+        + "set :angle 10\n"
+        + "\n"
+        + "to square [ ]\n"
+        + "[\n"
+        + "  repeat 4\n"
+        + "  [\n"
+        + "    fd :distance\n"
+        + "    rt 90\n"
+        + "  ]\n"
+        + "]\n"
+        + "\n"
+        + "to tunnel [ ]\n"
+        + "[\n"
+        + "  repeat 10\n"
+        + "  [\n"
+        + "    square\n"
+        + "    set :distance sum :distance 10\n"
+        + "  ]\n"
+        + "]\n"
+        + "\n"
+        + "to warp [ ]\n"
+        + "[\n"
+        + "  repeat 10\n"
+        + "  [\n"
+        + "    square\n"
+        + "    rt :angle\n"
+        + "    set :distance sum :distance 10\n"
+        + "  ]\n"
+        + "]\n"
+        + "\n"
+        + "\n"
+        + "cs\n"
+        + "tunnel";
+    MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
+    List<String> actual = tokenMaker.tokenString();
+    assertEquals(0, commandParser.getParamCount("square"));
+    assertEquals(0, commandParser.getParamCount("tunnel"));
+    assertEquals(0, commandParser.getParamCount("warp"));
+    assertEquals(0, commandParser.getParamCount("CommandBlock_1"));
+    assertEquals(1, commandParser.getParamCount("CommandBlock_2"));
+    assertEquals(2, commandParser.getParamCount("CommandBlock_3"));
+    assertEquals(0, commandParser.getParamCount("CommandBlock_4"));
+    assertEquals(1, commandParser.getParamCount("CommandBlock_5"));
+    assertEquals(2, commandParser.getParamCount("CommandBlock_6"));
+    assertEquals(0, commandParser.getParamCount("CommandBlock_7"));
+    assertEquals(1, commandParser.getParamCount("CommandBlock_8"));
+    assertEquals(3, commandParser.getParamCount("CommandBlock_9"));
+
+
   }
 
   /**

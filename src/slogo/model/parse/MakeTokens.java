@@ -70,14 +70,9 @@ public class MakeTokens {
    * @return List of Strings that match the command object classes needed for execution
    */
   public List<String> tokenString() {
-    System.out.println("FORWARD: "+CommandParser.parameters.get("Forward"));
-
     tokenize();
-    System.out.println("FORWARD: "+CommandParser.parameters.get("Forward"));
-
     commandBlockParams();
-    System.out.println("FORWARD: "+CommandParser.parameters.get("Forward"));
-
+    newUserDefParams();
     return tokensToString();
   }
 
@@ -216,7 +211,14 @@ public class MakeTokens {
   }
 
   private void newUserDefParams() {
-    
+    for (int i = 0; i<tokens.size(); i++) {
+      if (tokens.get(i).getValue().equals("MakeUserInstruction")) {
+        int numParams = ((ListToken) tokens.get(i+2)).getListParamsCount();
+        System.out.println("adding user defined command param");
+        System.out.println("command: "+tokens.get(i+1).getValue()+ " with num params: "+numParams);
+        commandParser.addSingleParamCount(tokens.get(i+1).getValue(), makeStringParam(numParams));
+      }
+    }
   }
 
   private List<String> makeStringParam(int countNum) {
