@@ -57,7 +57,6 @@ public class MakeTokens extends Parser{
   public List<Token> tokenString() {
     tokenize();
     commandBlockParams();
-    newUserDefParams();
     return tokens;
   }
 
@@ -167,21 +166,20 @@ public class MakeTokens extends Parser{
   private void commandBlockParams() {
     Deque<Token> commandBlocks = new ArrayDeque<>();
     Deque<Integer> parameters = new ArrayDeque<>();
-    int userDefInd=-1;
+    int userDefInd = -1;
     int commandCount = 0;
     int blockSize = 0;
     boolean inUserDefCommand = false;
     for (int ind = 0; ind < tokens.size(); ind++) {
       Token curr = tokens.get(ind);
       if (isUserDefCommand(curr)) {
-        System.out.println("is a user def command at "+userDefInd);
         inUserDefCommand = true;
         userDefInd = ind;
       }
       if (curr instanceof ListEndToken) {
         tokens.remove(ind);
         ind--;
-        if(inUserDefCommand && ind == userDefInd+2+blockSize) {
+        if(inUserDefCommand && isEndVarList(ind, userDefInd, blockSize)) {
           completedUserDefVarList(blockSize, userDefInd);
           inUserDefCommand = false;
         }
@@ -189,22 +187,22 @@ public class MakeTokens extends Parser{
         continue;
       }
       if(!commandBlocks.isEmpty()) {
-        System.out.println("old blocksize: "+blockSize);
         blockSize = commandBlocks.peek().incrementParamCount(blockSize, curr);
-        System.out.println("new blocksize: "+blockSize+" from "+curr.getCommand());
       }
       if (curr instanceof ListToken) {
         commandCount++;
         blockSize = startListParamCount(curr, commandBlocks, parameters, blockSize, commandCount);
       }
     }
-    if (!commandBlocks.isEmpty()) {
-      throw new ErrorHandler("WrongParamNum");
-    }
+    if (!commandBlocks.isEmpty()) { throw new ErrorHandler("WrongParamNum"); }
   }
 
   private boolean isUserDefCommand(Token token) {
     return token.getCommand().equals("MakeUserInstruction");
+  }
+
+  private boolean isEndVarList(int currInd, int userDefInd, int blockSize) {
+    return currInd == userDefInd + blockSize + 2;
   }
 
   private void completedUserDefVarList(int blockSize, int userDefInd) {
@@ -225,17 +223,6 @@ public class MakeTokens extends Parser{
     commandBlocks.push(curr);
     parameters.push(blockSize);
     return 0;
-  }
-
-  private void newUserDefParams() {
-    for (int i = 0; i<tokens.size(); i++) {
-      if (tokens.get(i).getValue().equals("MakeUserInstruction")) {
-        int numParams = ((ListToken) tokens.get(i+2)).getListParamsCount();
-        System.out.println("adding user defined command param");
-        System.out.println("command: "+tokens.get(i+1).getValue()+ " with num params: "+numParams);
-        commandParser.addSingleParamCount(tokens.get(i+1).getValue(), makeStringParam(numParams));
-      }
-    }
   }
 
   private List<String> makeStringParam(int countNum) {
