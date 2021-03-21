@@ -3,9 +3,6 @@ package slogo.view;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import slogo.controller.FrontEndExternalAPI;
-
-import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class CommandButtonPane {
