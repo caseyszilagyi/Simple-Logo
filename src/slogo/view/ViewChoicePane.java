@@ -194,7 +194,7 @@ public class ViewChoicePane {
       m.invoke(ViewChoicePane.this);
     }
     catch (Exception e) {
-      Alert alert = new Alert(Alert.AlertType.ERROR);
+      new Alert(Alert.AlertType.ERROR);
     }
   }
 
