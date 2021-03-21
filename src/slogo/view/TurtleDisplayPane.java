@@ -186,6 +186,8 @@ public class TurtleDisplayPane {
     String[] xyLoc = new String[2];
     xyLoc[0] = "xCoordinate: " + (turtle.getX() - centerX);
     xyLoc[1] = "yCoordinate: " + (turtle.getY() - centerY);
+    System.out.println(xyLoc[0]);
+    System.out.println(xyLoc[1]);
     return xyLoc;
   }
 

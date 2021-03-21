@@ -49,19 +49,21 @@ public class ViewPane {
     yCoord = 0;
     turtleDisplay = new TurtleDisplayPane(viewPane, ROWS, COLS);
     choiceDisplay = new ViewChoicePane(viewController, s, viewPane, turtleDisplay, idResource);
+    displayInfoBox = new HBox();
+    displayInfoBox.getStyleClass().add(HBOX_ID);
+    viewPane.add(displayInfoBox, 0, 1);
     createTurtleDisplayInfo();
   }
 
   private void createTurtleDisplayInfo() {
-    displayInfoBox = new HBox();
-    displayInfoBox.getStyleClass().add(HBOX_ID);
     String[] xy = turtleDisplay.xyLoc();
     for (String pos: xy) {
       Label text = new Label(pos);
       text.getStyleClass().add(HBOX_TEXT);
       displayInfoBox.getChildren().add(text);
     }
-    viewPane.add(displayInfoBox, 0, 1);
+    System.out.println(xy[0]);
+    System.out.println(xy[1]);
   }
 
   // TODO: Think of better way to pass language
@@ -75,6 +77,8 @@ public class ViewPane {
 
     System.out.println();
     turtleDisplay.moveTurtle(xCoordinate, yCoordinate, choiceDisplay.getPenColor());
+    displayInfoBox.getChildren().clear();
+    createTurtleDisplayInfo();
   }
 
   public Pane getBox() {
