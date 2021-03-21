@@ -8,6 +8,8 @@ import slogo.model.tree.TreeNode;
 
 /**
  * This is the tell command. It defines the set of turtles that the commands act on
+ *
+ * @author Casey Szilagyi
  */
 public class Tell extends MultipleTurtleCommand {
 

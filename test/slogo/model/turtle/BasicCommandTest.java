@@ -2,12 +2,16 @@ package slogo.model.turtle;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import slogo.Main;
 import slogo.controller.BackEndExternalAPI;
 import slogo.controller.FrontEndExternalAPI;
 import slogo.controller.ModelController;
+import slogo.controller.ViewController;
 import slogo.model.commands.BasicCommandClassLoader;
 import slogo.model.commands.basic_commands.BasicCommand;
 import slogo.model.execution.CommandInformationBundle;
@@ -32,7 +36,8 @@ public class BasicCommandTest {
 
   private BasicCommandClassLoader loader;
   private BackEndExternalAPI modelController;
-  private FrontEndExternalAPI viewController;
+  private FrontEndExternalAPI viewController = new DummyViewController();
+  private Main main = new Main();
 
   /**
    * Sets up the turtle and the classloader
@@ -40,6 +45,8 @@ public class BasicCommandTest {
   @BeforeEach
   void setUp() {
     modelController = new ModelController();
+    modelController.setViewController(viewController);
+    viewController.setModelController(modelController);
     commandBundle = new CommandInformationBundle(modelController);
     turtleInformation = commandBundle.getTurtleInformation();
     userInformation = commandBundle.getUserDefinedInformation();
@@ -158,6 +165,9 @@ public class BasicCommandTest {
     double degreeChange = executeCommand(makeBasicCommand(root));
     assertEquals(45, degreeChange);
     assertEquals(45, turtleInformation.getActiveTurtle().getAngle());
+    turtleInformation.getActiveTurtle().setPosition(6, 7);
+    executeCommand(makeBasicCommand(root));
+    assertEquals(229.398, turtleInformation.getActiveTurtle().getAngle(), TOLERANCE);
   }
 
   /**
@@ -716,7 +726,7 @@ public class BasicCommandTest {
   @Test
   void testSetTurtleShape() {
     TreeNode shape = makeNode("6");
-    TreeNode root = makeTree("SetTurtleShape", shape);
+    TreeNode root = makeTree("SetShape", shape);
     double val = executeCommand(makeBasicCommand(root));
     assertEquals(6, val, TOLERANCE);
     assertEquals(6, commandBundle.getDisplayInformation().getTurtleShape(), TOLERANCE);
@@ -756,7 +766,7 @@ public class BasicCommandTest {
     TreeNode color = makeNode("1");
     TreeNode root = makeTree("SetPenColor", color);
     executeCommand(makeBasicCommand(root));
-    TreeNode getColor = makeNode("PenColor");
+    TreeNode getColor = makeNode("GetPenColor");
     double val = executeCommand(makeBasicCommand(getColor));
     assertEquals(1, val, TOLERANCE);
   }
@@ -767,18 +777,42 @@ public class BasicCommandTest {
   @Test
   void testShape() {
     TreeNode shape = makeNode("2");
-    TreeNode root = makeTree("SetTurtleShape", shape);
+    TreeNode root = makeTree("SetShape", shape);
     executeCommand(makeBasicCommand(root));
-    TreeNode getShape = makeNode("TurtleShape");
+    TreeNode getShape = makeNode("GetShape");
     double val = executeCommand(makeBasicCommand(getShape));
     assertEquals(2, val, TOLERANCE);
   }
 
+  /**
+   * Tests the ID command
+   */
+  @Test
+  void testID(){
+    TreeNode basicCommand = makeTreeWithStrings("BasicCommand", "2");
+    TreeNode tell = makeTree("Tell", basicCommand);
+    makeBasicCommand(tell).execute();
+    TreeNode ID = makeNode("ID");
+    assertEquals(2, makeBasicCommand(ID).execute(), TOLERANCE);
+    basicCommand = makeTreeWithStrings("BasicCommand", "3", "7", "4");
+    tell = makeTree("Tell", basicCommand);
+    assertEquals(4, makeBasicCommand(tell).execute(), TOLERANCE);
+    assertEquals(3, makeBasicCommand(ID).execute(), TOLERANCE);
+  }
 
   // Combining methods
 
   // Helper methods below
 
+
+  // Makes a Tree with the top node being the string, and all children being the list of nodes
+  private TreeNode makeTreeWithStrings(String root, String... children) {
+    List<TreeNode> treeChildren = new ArrayList<>();
+    for(String s: children){
+      treeChildren.add(makeNode(s));
+    }
+    return new TreeNode(root, root, treeChildren, null);
+  }
 
   // Makes a Tree with the top node being the string, and all children being the list of nodes
   private TreeNode makeTree(String root, TreeNode... children) {

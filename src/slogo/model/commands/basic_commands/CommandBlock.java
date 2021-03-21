@@ -14,7 +14,7 @@ import slogo.model.tree.TreeNode;
  */
 public class CommandBlock extends ControlStructureCommand {
 
-  private final List<BasicCommand> CHILDREN;
+  private final List<TreeNode> CHILDREN;
 
 
   /**
@@ -25,10 +25,7 @@ public class CommandBlock extends ControlStructureCommand {
    */
   public CommandBlock(CommandInformationBundle informationBundle, List<TreeNode> nodes) {
     super(informationBundle);
-    CHILDREN = new ArrayList<>();
-    for (int i = 0; i < nodes.size(); i++) {
-      CHILDREN.add(loadClass(informationBundle, nodes.get(i)));
-    }
+    CHILDREN = nodes;
   }
 
   /**
@@ -41,7 +38,7 @@ public class CommandBlock extends ControlStructureCommand {
   public double execute() {
     double val = 0;
     for (int i = 0; i < CHILDREN.size(); i++) {
-      val = CHILDREN.get(i).execute();
+      val = executeNode(CHILDREN.get(i));
     }
     return val;
   }

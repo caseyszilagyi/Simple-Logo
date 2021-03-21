@@ -1,5 +1,6 @@
 package slogo.model.commands.basic_commands;
 
+import com.sun.source.tree.Tree;
 import java.util.List;
 import slogo.model.commands.basic_commands.command_types.TurtleAlteringCommand;
 import slogo.model.execution.CommandInformationBundle;
@@ -12,7 +13,7 @@ import slogo.model.tree.TreeNode;
  */
 public class Backward extends TurtleAlteringCommand {
 
-  private final double DISTANCE;
+  private final TreeNode DISTANCE;
 
   /**
    * Makes an instance of the backward command
@@ -22,7 +23,7 @@ public class Backward extends TurtleAlteringCommand {
    */
   public Backward(CommandInformationBundle bundle, List<TreeNode> nodes) {
     super(bundle);
-    DISTANCE = super.loadClass(bundle, nodes.get(0)).execute();
+    DISTANCE = nodes.get(0);
   }
 
   /**
@@ -32,11 +33,10 @@ public class Backward extends TurtleAlteringCommand {
    */
   @Override
   public double execute() {
-    updateTurtle(turtle -> {
-      changeTurtlePosition(-1 * DISTANCE * Math.cos(getAngle() / 360 * Math.PI * 2),
-          -1 * DISTANCE * Math.sin(getAngle() / 360 * Math.PI * 2));
+    return updateTurtle(turtle -> {
+      return changeTurtlePosition(-1 * executeNode(DISTANCE) * Math.cos(getAngle() / 360 * Math.PI * 2),
+          -1 * executeNode(DISTANCE) * Math.sin(getAngle() / 360 * Math.PI * 2));
     });
-    return DISTANCE;
   }
 
 }

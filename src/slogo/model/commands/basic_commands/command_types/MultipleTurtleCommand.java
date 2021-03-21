@@ -57,5 +57,14 @@ public abstract class MultipleTurtleCommand extends Command {
     TURTLE_INFORMATION.addActiveTurtleLayer();
   }
 
+  /**
+   * Gets the number of turtles that currently exist
+   *
+   * @return The number of turtles
+   */
+  protected int getNumberOfTurtles(){
+    return TURTLE_INFORMATION.getNumberOfTurtles();
+  }
+
 
 }

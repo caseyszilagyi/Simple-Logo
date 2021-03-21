@@ -3,7 +3,6 @@ package slogo.view;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-import javafx.animation.Timeline;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -30,8 +29,6 @@ public class TurtleDisplayPane {
   private double penUP = 1;
   double x;
   double y;
-  private int frameDelay = 0;
-  private int sleepTimer = 0;
   private Color penColor;
   private Deque<Double> commandsToBeExecuted;
   private Deque<String> typeToBeUpdated;
@@ -40,9 +37,9 @@ public class TurtleDisplayPane {
   private double lastYPosition = 0;
   private boolean canUpdateAngle = false;
   private double lastAngle = 90;
-  private Timeline timeline;
   private double rows;
   private double cols;
+  private double penThickness = 1.0;
 
   public TurtleDisplayPane(BorderPane root, double r, double c) {
     viewPane = root;
@@ -71,8 +68,6 @@ public class TurtleDisplayPane {
     createTurtle();
 
   }
-
-
 
   public void updateTurtlePosition() {
     String nextUpdate;
@@ -112,6 +107,7 @@ public class TurtleDisplayPane {
     turtle = new ImageView(turtleImage);
     turtle.setFitWidth(TURTLE_WIDTH);
     turtle.setFitHeight(TURTLE_HEIGHT);
+    turtle.setId("Turtle");
     turtleViewPane.getChildren().add(turtle);
     turtle.setX(centerX);
     turtle.setY(centerY);
@@ -135,14 +131,8 @@ public class TurtleDisplayPane {
       typeToBeUpdated.add("Positions");
     }
 
-
-
-//    xPosition.add(x);
-//    yPosition.add(y);
-
     lastXPosition = x;
     lastYPosition = y;
-
   }
 
   private void createLine(double x, double y, Color penColor) {
@@ -150,6 +140,7 @@ public class TurtleDisplayPane {
             x + TURTLE_HEIGHT / 2, y + TURTLE_HEIGHT / 2);
     line1.setStroke(penColor);
     line1.setId(LINE_ID);
+    line1.setStrokeWidth(penThickness);
     turtleViewPane.getChildren().add(line1);
   }
 
@@ -174,6 +165,7 @@ public class TurtleDisplayPane {
       commandsToBeExecuted.add(90 - parameters.get(2));
       typeToBeUpdated.add("Angles");
     }
+
     //   turtle.setRotate(90 - parameters.get(2));
 
     commandsToBeExecuted.add(parameters.get(3));
@@ -194,23 +186,6 @@ public class TurtleDisplayPane {
   public void updateCommandQueue(String commandType, List<Double> commandValues) {
     typeToBeUpdated.add(commandType);
     commandsToBeExecuted.addAll(commandValues);
-
   }
-//
-//  public void moveTurtleByDistance(double distance) {
-//    // do the calculations to make the turtle go forward
-//    // THIS WAS WAY HARDER THAN I THOGUGHT
-//    // because the angles/getrotate are all messed up
-//    double turtleX;
-//    double turtleY;
-//    double turtleAngle = ((-turtle.getRotate() - 90) * Math.PI) / (180);
-//    turtleX = turtle.getX() - Math.cos(turtleAngle) * distance;
-//    turtleY = turtle.getY() + Math.sin(turtleAngle) * distance;
-//    if (!penUP) {
-//      //createLine(turtleX, turtleY);
-//    }
-//
-//    turtle.setX(turtleX);
-//    turtle.setY(turtleY);
-//  }
+
 }

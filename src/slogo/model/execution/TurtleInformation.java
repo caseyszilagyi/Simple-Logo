@@ -5,8 +5,8 @@ import java.util.List;
 import slogo.controller.BackEndExternalAPI;
 
 /**
- * This class holds and keeps track of the current set of active turtles. It has a variety
- * of methods in order to deal with nested loops and more complex scenarios
+ * This class holds and keeps track of the current set of active turtles. It has a variety of
+ * methods in order to deal with nested loops and more complex scenarios
  *
  * @author Casey Szilagyi
  */
@@ -19,7 +19,7 @@ public class TurtleInformation {
   private final List<List<Integer>> CURRENT_ACTIVE_TURTLES = new ArrayList<>();
   private Integer activeTurtleID;
 
-  public TurtleInformation(BackEndExternalAPI modelController){
+  public TurtleInformation(BackEndExternalAPI modelController) {
     MODEL_CONTROLLER = modelController;
     addFirstTurtleLayer();
   }
@@ -33,56 +33,60 @@ public class TurtleInformation {
     activeTurtleID = 1;
   }
 
-
-  // Gets the list of IDs corresponding to the most deeply nested list of active turtles
-  public List<Integer> getCurrentActiveTurtleList() {
-    return CURRENT_ACTIVE_TURTLES.get(CURRENT_ACTIVE_TURTLES.size() - 1);
-  }
-
   /**
    * Gets the active turtle in this bundle
    *
    * @return the turtle
    */
   public Turtle getActiveTurtle() {
-    return ALL_TURTLES.get(activeTurtleID-1);
+    return ALL_TURTLES.get(activeTurtleID - 1);
   }
 
-  public void setActiveTurtle(int ID){
+  /**
+   * Gets the turtle with a given ID
+   * @param ID The ID
+   * @return The turtle
+   */
+  public Turtle getTurtle(int ID){
+    return ALL_TURTLES.get(ID-1);
+  }
+
+  /**
+   * Sets the turtle that the commands will act on
+   *
+   * @param ID The ID of the turtle
+   */
+  public void setActiveTurtle(int ID) {
     activeTurtleID = ID;
     MODEL_CONTROLLER.setActiveTurtle(ID);
   }
 
   /**
-   * Updates the front end with the current active turtle's information
+   * Gets the number of turtles that currently exist
+   *
+   * @return The number of turtles
    */
-  public void updateFrontEnd() {
-    MODEL_CONTROLLER.passInputToFrontEnd(getActiveTurtle().getFrontEndParameters());
+  public int getNumberOfTurtles() {
+    return ALL_TURTLES.size();
   }
 
+  /**
+   * Gets the list of IDs that correspond to the current active turtles
+   *
+   * @return The list of turtle IDs
+   */
+  public List<Integer> getCurrentActiveTurtleList() {
+    return CURRENT_ACTIVE_TURTLES.get(CURRENT_ACTIVE_TURTLES.size() - 1);
+  }
 
   // Makes new turtles up to the given ID. Automatically called when the user
   // tries to add turtles that don't exist yet
   private void makeNewTurtles(int ID) {
     for (int i = ALL_TURTLES.size() + 1; i <= ID; i++) {
       ALL_TURTLES.add(new Turtle(i, MODEL_CONTROLLER));
-      ALL_TURTLES.get(i-1).tellFrontEnd();
+      ALL_TURTLES.get(i - 1).tellFrontEnd();
       activeTurtleID = i;
     }
-  }
-
-
-  /**
-   * Gets a list of all the turtles that exist
-   *
-   * @return The list of all the turtles
-   * <p>
-   * <p>
-   * MAYBE DO THIS WITH AN ITERATOR? Might not need this command, I think that this class should be
-   * doint management with the turtles? commands don't need this
-   */
-  public List<Turtle> getAllTurtles() {
-    return ALL_TURTLES;
   }
 
   /**
@@ -96,25 +100,32 @@ public class TurtleInformation {
     CURRENT_ACTIVE_TURTLES.add(nextLayer);
   }
 
+  /**
+   * Replaces the active turtles with the set of active turtle IDs passed in
+   *
+   * @param nextLayer The set of active turtle IDS
+   */
   public void setActiveTurtleLayer(List<Integer> nextLayer) {
     checkForNewHighestID(nextLayer);
-    removeActiveTurtleLayer();
-    CURRENT_ACTIVE_TURTLES.add(nextLayer);
+    CURRENT_ACTIVE_TURTLES.set(CURRENT_ACTIVE_TURTLES.size()-1, nextLayer);
+    setActiveTurtle(nextLayer.get(0));
+    MODEL_CONTROLLER.setActiveTurtles(nextLayer);
   }
 
   // Checks for a higher ID, because new turtles will need to be made
   private void checkForNewHighestID(List<Integer> nextLayer) {
-    for(int ID: nextLayer){
-      if(ID > ALL_TURTLES.size()){
+    for (int ID : nextLayer) {
+      if (ID > ALL_TURTLES.size()) {
         makeNewTurtles(ID);
       }
     }
   }
 
   /**
-   * Removes an inner nested active turtle layer.
+   * Removes the current set of active turtles
    */
   public void removeActiveTurtleLayer() {
     CURRENT_ACTIVE_TURTLES.remove(CURRENT_ACTIVE_TURTLES.size() - 1);
+    MODEL_CONTROLLER.setActiveTurtles(getCurrentActiveTurtleList());
   }
 }

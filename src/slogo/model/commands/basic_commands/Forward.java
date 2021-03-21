@@ -12,7 +12,7 @@ import slogo.model.tree.TreeNode;
  */
 public class Forward extends TurtleAlteringCommand {
 
-  private final double DISTANCE;
+  private final TreeNode DISTANCE;
 
   /**
    * Makes an instance of the forward command
@@ -22,7 +22,7 @@ public class Forward extends TurtleAlteringCommand {
    */
   public Forward(CommandInformationBundle bundle, List<TreeNode> nodes) {
     super(bundle);
-    DISTANCE = loadClass(bundle, nodes.get(0)).execute();
+    DISTANCE = nodes.get(0);
   }
 
   /**
@@ -32,10 +32,11 @@ public class Forward extends TurtleAlteringCommand {
    */
   @Override
   public double execute() {
-    updateTurtle(turtle -> {
-      changeTurtlePosition(DISTANCE * Math.cos(getAngle() / 360 * Math.PI * 2),
-          DISTANCE * Math.sin(getAngle() / 360 * Math.PI * 2));
+    return updateTurtle(turtle -> {
+      double xChange = Math.cos(getAngle() / 360 * Math.PI * 2);
+      double yChange = Math.sin(getAngle() / 360 * Math.PI * 2);
+      return changeTurtlePosition(executeNode(DISTANCE) * xChange,
+      executeNode(DISTANCE) * yChange);
     });
-    return DISTANCE;
   }
 }
