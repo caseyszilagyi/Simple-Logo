@@ -26,7 +26,8 @@ public class ScreenCreator {
   private static final String TITLE = "SLogo";
   private static final double DEFAULT_X = 1330.0;
   private static final double DEFAULT_Y = 800.0;
-  private static final String RESOURCE_PATH = "slogo.view.resources.languages";
+  public static final String DEFAULT_RESOURCE_PACKAGE = HistoryDisplayPane.class.getPackageName() + ".resources.";
+  private static final String RESOURCE_PATH = DEFAULT_RESOURCE_PACKAGE + "buttons.languages";
 
   private BorderPane root;
   private Scene scene;
@@ -66,7 +67,7 @@ public class ScreenCreator {
     viewPane = new ViewPane(stage);
     root.setCenter(viewPane.getBox());
 
-    commandButtonPane = new CommandButtonPane(viewController);
+    commandButtonPane = new CommandButtonPane(viewController, defaultLanguage);
     root.setLeft(commandButtonPane.getBox());
 
     runSimulation();
