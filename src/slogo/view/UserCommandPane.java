@@ -91,7 +91,7 @@ public class UserCommandPane {
     Collections.sort(allReferences);
     helpComboBox = new ComboBox<>();
     helpComboBox.getItems().addAll(allReferences);
-    helpComboBox.setValue(DEFAULT_MESSAGE);
+    helpComboBox.setValue(buttonLanguageResource.getString("DefaultMessage"));
     helpComboBox.getStyleClass().add(COMBO_BOX);
     box.add(helpComboBox, 3, 0);
     helpComboBox.setOnAction(handler -> {
