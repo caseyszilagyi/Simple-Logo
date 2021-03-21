@@ -11,7 +11,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import slogo.controller.BackEndExternalAPI;
@@ -30,7 +29,6 @@ public class ViewChoicePane {
   private static final double ICON_HEIGHT = 20.0;
 
   private static final String CHOICE_PANE_ID = "ChoicePane";
-  private static final String PEN_COLOR_PICKER_ID = "PenColorPicker";
   private static final String COLOR_PICKER = "color-picker";
   private static final String ICON = "icon";
   private static final String DEFAULT_RESOURCES = HistoryDisplayPane.class.getPackageName() + ".resources.";
