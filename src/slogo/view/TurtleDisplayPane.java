@@ -26,8 +26,10 @@ public class TurtleDisplayPane {
   double x;
   double y;
   private Color penColor;
+
   private Deque<Double> commandsToBeExecuted;
   private Deque<String> typeToBeUpdated;
+
   private int INCREMENT_FACTOR = 10;
   private double lastXPosition = 0;
   private double lastYPosition = 0;
@@ -35,8 +37,11 @@ public class TurtleDisplayPane {
   private double rows;
   private double cols;
   private double penThickness = 1.0;
-  private Set<Integer> activeTurtles;
-  private Set<Integer> inactiveTurtles;
+  private Map<Integer, ImageView> activeTurtles;
+  private Map<Integer, ImageView> inactiveTurtles;
+  private int FIRST_TURTLE = 1;
+  private int currentID = 1;
+
 
   public TurtleDisplayPane(BorderPane root, double r, double c) {
     viewPane = root;
@@ -60,11 +65,11 @@ public class TurtleDisplayPane {
 
     commandsToBeExecuted = new ArrayDeque<>();
     typeToBeUpdated = new ArrayDeque<>();
-    activeTurtles = new HashSet<>();
-    inactiveTurtles = new HashSet<>();
+    activeTurtles = new HashMap<>();
+    inactiveTurtles = new HashMap<>();
 
 
-    createTurtle();
+    createTurtle(FIRST_TURTLE);
 
   }
 
@@ -82,15 +87,15 @@ public class TurtleDisplayPane {
         if (penUP == 1) {
           createLine(nextX, nextY, penColor);
         }
-        turtle.setX(nextX);
-        turtle.setY(nextY);
+        activeTurtles.get(currentID).setX(nextX);
+        activeTurtles.get(currentID).setY(nextY);
       } else if (nextUpdate.equals("Angles")) {
 
-        turtle.setRotate(90 - commandsToBeExecuted.pop());
+        activeTurtles.get(currentID).setRotate(90 - commandsToBeExecuted.pop());
       } else if (nextUpdate.equals("Pen")){
         penUP = commandsToBeExecuted.removeFirst();
       } else if (nextUpdate.equals("Visibility")){
-        turtle.setVisible(commandsToBeExecuted.removeFirst() == 1);
+        activeTurtles.get(currentID).setVisible(commandsToBeExecuted.removeFirst() == 1);
       } else if (nextUpdate.equals("Clearscreen")){
         clearScreen();
       }
@@ -98,7 +103,7 @@ public class TurtleDisplayPane {
   }
 
 
-  private void createTurtle() {
+  private void createTurtle(int id) {
 
     turtleViewPane.getChildren().clear();
     String turtleImageFile = "Turtle2.gif";
@@ -111,6 +116,9 @@ public class TurtleDisplayPane {
     turtle.setX(centerX);
     turtle.setY(centerY);
     turtle.setRotate(0);
+
+    activeTurtles.put(id, turtle);
+
     lastXPosition = centerX;
     lastYPosition = centerY;
   }
@@ -148,7 +156,7 @@ public class TurtleDisplayPane {
     typeToBeUpdated.clear();
 
     turtleViewPane.getChildren().clear();
-    createTurtle();
+    createTurtle(FIRST_TURTLE);
   }
 
   public void setBackground(Background background) {

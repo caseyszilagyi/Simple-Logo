@@ -43,6 +43,8 @@ public interface FrontEndExternalAPI {
 
   public void processUserCommandInput(String userCommandInput);
 
+  public void passInputFromBackendToFrontEnd(List<Double> parameters);
+
   void displayCommandStringOnTextArea(String command);
 
   Map<String, Double> getVariables();
