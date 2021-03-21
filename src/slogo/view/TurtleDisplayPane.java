@@ -39,11 +39,13 @@ public class TurtleDisplayPane {
   private double penThickness = 1.0;
   private Map<Integer, ImageView> activeTurtles;
   private Map<Integer, ImageView> inactiveTurtles;
+  private Map<Integer, Map<Double,Double>> lastPositions;
   private int FIRST_TURTLE = 1;
   private int currentID = 1;
 
   String turtleImageFile = "Turtle2.gif";
   String inactiveTurtleImageFile = "Turtle3.gif";
+  String movingTurtleImageFile = "Turtle4.gif";
 
 
   public TurtleDisplayPane(BorderPane root, double r, double c) {
@@ -70,6 +72,7 @@ public class TurtleDisplayPane {
     typeToBeUpdated = new ArrayDeque<>();
     activeTurtles = new HashMap<>();
     inactiveTurtles = new HashMap<>();
+    lastPositions = new HashMap<>();
 
 
     createTurtle(FIRST_TURTLE);
@@ -102,10 +105,14 @@ public class TurtleDisplayPane {
         activeTurtles.get(currentID).setVisible(commandsToBeExecuted.removeFirst() == 1);
       } else if (nextUpdate.equals("Clearscreen")){
         clearScreen();
+      } else if (nextUpdate.equals("SetID")){
+        currentID = (int) Math.round(commandsToBeExecuted.pop());
+
+        updateTurtleImages();
       }
+
     }
 
-    updateTurtleImages();
   }
 
   private void updateTurtleImages() {
@@ -213,6 +220,7 @@ public class TurtleDisplayPane {
     if(!activeTurtles.containsKey(turtleID) && !inactiveTurtles.containsKey(turtleID)){
       createTurtle(turtleID);
     }
-    currentID = turtleID;
+    commandsToBeExecuted.add((double) turtleID);
+    typeToBeUpdated.add("SetID");
   }
 }
