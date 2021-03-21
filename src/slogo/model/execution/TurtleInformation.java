@@ -107,8 +107,7 @@ public class TurtleInformation {
    */
   public void setActiveTurtleLayer(List<Integer> nextLayer) {
     checkForNewHighestID(nextLayer);
-    removeActiveTurtleLayer();
-    CURRENT_ACTIVE_TURTLES.add(nextLayer);
+    CURRENT_ACTIVE_TURTLES.set(CURRENT_ACTIVE_TURTLES.size()-1, nextLayer);
     setActiveTurtle(nextLayer.get(0));
     MODEL_CONTROLLER.setActiveTurtles(nextLayer);
   }
