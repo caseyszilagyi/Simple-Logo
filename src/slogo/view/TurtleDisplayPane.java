@@ -45,6 +45,7 @@ public class TurtleDisplayPane {
   private Timeline timeline;
   private double rows;
   private double cols;
+  private double penThickness = 1.0;
 
   public TurtleDisplayPane(BorderPane root, double r, double c) {
     viewPane = root;
@@ -160,6 +161,7 @@ public class TurtleDisplayPane {
       x + TURTLE_HEIGHT / 2, y + TURTLE_HEIGHT / 2);
     line1.setStroke(penColor);
     line1.setId(LINE_ID);
+    line1.setStrokeWidth(penThickness);
     turtleViewPane.getChildren().add(line1);
   }
 
@@ -193,8 +195,8 @@ public class TurtleDisplayPane {
     penStates.add(parameters.get(3));
 
     typeToBeUpdated.add("Pen");
-      visibility.add(parameters.get(4));
-      typeToBeUpdated.add("Visibility");
+    visibility.add(parameters.get(4));
+    typeToBeUpdated.add("Visibility");
 
   }
 
