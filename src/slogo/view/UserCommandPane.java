@@ -49,6 +49,7 @@ public class UserCommandPane {
   private ResourceBundle idsForTesting;
   private ResourceBundle reflectionResource;
   private ResourceBundle buttonLanguageResource;
+  private String errorMessage = "";
 
   public UserCommandPane(FrontEndExternalAPI viewController, ResourceBundle idResource, String lang) {
     this.viewController = viewController;
@@ -78,7 +79,12 @@ public class UserCommandPane {
   }
 
   private void run() {
-    viewController.processUserCommandInput(userInputTextArea.getText());
+    try{
+
+      viewController.processUserCommandInput(userInputTextArea.getText());
+    }catch (Exception exception){
+      errorMessage = exception.getMessage();
+    }
   }
 
   private void clear() {
