@@ -27,7 +27,6 @@ public class MakeTokens extends Parser{
   private static final String COMMAND_WITH_LISTS = "CommandBlocks";
   private static final String TOKENS_MAP = "TokenSyntax";
 
-//  private CommandParser commandParser;
   private ResourceBundle listParams;
   private ResourceBundle tokenMap;
   private Deque<List<String>> tokenizeStack;
@@ -38,7 +37,6 @@ public class MakeTokens extends Parser{
    * @param cleanedString list of string commands recognizable by the back end
    */
   public MakeTokens(List<String> cleanedString) {
-//    this.commandParser = commandParser;
     this.cleanedString = cleanedString;
     System.out.println(cleanedString);
     listParams = ResourceBundle.getBundle(SLogoCommandExecutor.COMMAND_PACKAGE + COMMAND_WITH_LISTS);

@@ -146,11 +146,13 @@ public class ScreenCreator {
 
   public void setTurtlePosition(double xPosition, double yPosition) {
     viewPane.moveTurtle(xPosition,yPosition);
-    System.out.println("xPosition: " + xPosition);
-    System.out.println("yPosition: " + yPosition);
   }
 
   public void clearScreen() {
     viewPane.clearScreen();
+  }
+
+  public void setActiveTurtle(int turtleID) {
+    viewPane.setActiveTurtle(turtleID);
   }
 }

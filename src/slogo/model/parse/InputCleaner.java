@@ -20,7 +20,6 @@ import slogo.model.SLogoCommandExecutor;
 public class InputCleaner extends Parser{
 
   private static final String WHITESPACE = "\\s+";
-  public CommandParser commandParser;
   private List<Entry<String, Pattern>> languagePatterns;
 
   private String userInput;
@@ -30,15 +29,11 @@ public class InputCleaner extends Parser{
    * recognizable by backend classes and parser
    *
    * @param userInput       raw string of commands
-   * @param modelController ModelController associated with the current string input
-   * @param commandParser   CommandParser that will parse through this particular string
    */
-  public InputCleaner(String userInput, String language, BackEndExternalAPI modelController,
-      CommandParser commandParser) {
+  public InputCleaner(String userInput, String language) {
     languagePatterns = new ArrayList<>();
     addLangPatterns(language);
     this.userInput = userInput;
-    this.commandParser = commandParser;
   }
 
   private void addLangPatterns(String syntax) {

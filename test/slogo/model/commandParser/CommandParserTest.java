@@ -92,7 +92,7 @@ public class CommandParserTest {
     results.add("RandomNumber");
     results.add("360");
     assertEquals(results, tester.preOrderResults);
-    assertEquals(2, tester.getParam("CommandBlock_1").size());
+    assertEquals(2, tester.commandParam.get("CommandBlock_1").size());
 //    assertEquals(tester.makeTree(), results);
   }
 
@@ -127,9 +127,9 @@ public class CommandParserTest {
     results.add("2");
 
     assertEquals(results, tester.preOrderResults);
-    assertEquals(1, tester.getParam("CommandBlock_1").size());
-    assertEquals(2, tester.getParam("CommandBlock_2").size());
-    assertEquals(2, tester.getParam("CommandBlock_3").size());
+    assertEquals(1, tester.commandParam.get("CommandBlock_1").size());
+    assertEquals(2, tester.commandParam.get("CommandBlock_2").size());
+    assertEquals(2, tester.commandParam.get("CommandBlock_3").size());
 //    assertEquals(tester.makeTree(), results);
   }
 
@@ -155,29 +155,8 @@ public class CommandParserTest {
         + "  fd :step\n"
         + "  rt + :k :x\n"
         + "]", "English");
-    TreeNode root = tester.makeTree();
-    List<String> results = new ArrayList<>();
-//    results.add(null);
-//    results.add("Repeat");
-//    results.add("11");
-//    results.add("CommandBlock_1");
-//    results.add("DoTimes");
-//    results.add("CommandBlock_2");
-//    results.add(":t");
-//    results.add("360");
-//    results.add("CommandBlock_3");
-//    results.add("Forward");
-//    results.add("1");
-//    results.add("Right");
-//    results.add("Quotient");
-//    results.add("Sine");
-//    results.add(":t");
-//    results.add("2");
-
-//    assertEquals(results, tester.preOrderResults);
-    assertEquals(2, tester.getParam("CommandBlock_1").size());
-    assertEquals(2, tester.getParam("CommandBlock_2").size());
-//    assertEquals(tester.makeTree(), results);
+    assertEquals(2, tester.commandParam.get("CommandBlock_1").size());
+    assertEquals(2, tester.commandParam.get("CommandBlock_2").size());
   }
 
 
@@ -247,8 +226,8 @@ public class CommandParserTest {
     results.add(":dist");
     results.add("5");
     assertEquals(results, tester.preOrderResults);
-    assertEquals(1, tester.getParam("CommandBlock_1").size());
-    assertEquals(1, tester.getParam("CommandBlock_2").size());
+    assertEquals(1, tester.commandParam.get("CommandBlock_1").size());
+    assertEquals(1, tester.commandParam.get("CommandBlock_2").size());
   }
 
   /**
