@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 import slogo.model.SLogoCommandExecutor;
 
 /**
+ * Parse through the String of input and extract specified information from it depending on the responsibility of the class
  *
  * @author jincho
  */
@@ -21,8 +22,6 @@ public abstract class Parser {
   public static final String NUM_TOKEN = "NUM";
   public static final String LIST_TOKEN = "LIST";
   public static final String COMMAND_BLOCK_CLASS = "CommandBlock";
-
-
 
   /**
    * all Parsers have access to the map of regex patterns and the expected parameters for the commands provided so they are declared here.

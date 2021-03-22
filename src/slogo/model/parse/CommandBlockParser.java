@@ -85,7 +85,7 @@ public class CommandBlockParser extends Parser{
   private List<String> makeStringParam(int countNum) {
     List<String> ret = new ArrayList<>();
     for(int i=0; i< countNum; i++) {
-      ret.add("NUM");
+      ret.add(NUM_TOKEN);
     }
     return ret;
   }
