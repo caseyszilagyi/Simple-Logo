@@ -138,6 +138,7 @@ public class ModelController implements BackEndExternalAPI {
    */
   public void setActiveTurtles(List<Integer> IDs){
     //:TODO Link with front end
+    viewController.setActiveTurtles(IDs);
   }
 
   /**

@@ -222,4 +222,16 @@ public class TurtleDisplayPane {
     typeToBeUpdated.add("SetID");
 
   }
+
+  public void setActiveTurtles(List<Integer> iDs) {
+    for(Integer turtleID : allTurtleInformation.keySet().toArray(new Integer[0])){
+      if(iDs.contains(turtleID)){
+        allTurtleInformation.get(turtleID).getTurtle().setImage(new Image(turtleImageFile));
+      }else{
+        allTurtleInformation.get(turtleID).getTurtle().setImage(new Image(inactiveTurtleImageFile));
+      }
+    }
+
+
+  }
 }

@@ -132,4 +132,8 @@ public class ScreenCreator {
   public void setActiveTurtle(int turtleID) {
     viewPane.setActiveTurtle(turtleID);
   }
+
+  public void setActiveTurtles(List<Integer> iDs) {
+    viewPane.setActiveTurtles(iDs);
+  }
 }

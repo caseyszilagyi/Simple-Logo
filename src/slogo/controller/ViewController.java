@@ -175,6 +175,12 @@ public class ViewController implements FrontEndExternalAPI {
     screenCreator.updateLanguage(language);
   }
 
+  @Override
+  public void setActiveTurtles(List<Integer> iDs) {
+    screenCreator.setActiveTurtles(iDs);
+    System.out.println("All active turtles: " + iDs);
+  }
+
 
   private void parseUserDefinedCommands(Map<String, UserDefinedCommand> userDefinedCommands) {
     for (Map.Entry<String, UserDefinedCommand> entry : userDefinedCommands.entrySet()) {

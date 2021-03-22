@@ -73,4 +73,6 @@ public interface FrontEndExternalAPI {
   void updateCommandQueue(String commandType, List<Double> commandValues);
 
   void setLanguage(String language);
+
+  void setActiveTurtles(List<Integer> iDs);
 }

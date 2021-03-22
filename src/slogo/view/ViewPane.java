@@ -110,6 +110,10 @@ public class ViewPane {
   public void setActiveTurtle(int turtleID) {
     turtleDisplay.setActiveTurtle(turtleID);
   }
+
+  public void setActiveTurtles(List<Integer> iDs) {
+    turtleDisplay.setActiveTurtles(iDs);
+  }
 }
 
 
