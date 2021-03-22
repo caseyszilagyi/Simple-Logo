@@ -6,10 +6,7 @@ import slogo.model.parse.CommandParser;
 
 public class CommandList extends ListToken{
 
-  public CommandList(String command) {
-    super(command);
-
-  }
+  public CommandList(String command) { super(command); }
 
   public void addParamToken(Token param) {
     if (isDefinedCommand(param.getValue()) ) {
@@ -21,19 +18,7 @@ public class CommandList extends ListToken{
         paramTokensExpected.push(expected);
       }
     } else {
-      while (!paramTokensExpected.isEmpty()) {
-        paramTokensExpected.peek().remove(0);
-        System.out.println("expected: "+paramTokensExpected);
-        if(paramTokensExpected.peek().isEmpty()) {
-          paramTokensExpected.pop();
-        } else { break; }
-      }
+      reduceTokenParamStack(paramTokensExpected);
     }
-
   }
-
-
-
-
-
 }
