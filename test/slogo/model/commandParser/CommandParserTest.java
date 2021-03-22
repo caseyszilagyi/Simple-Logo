@@ -163,7 +163,6 @@ public class CommandParserTest {
   /**
    * Tests one parameters count
    */
-  @Test
   void testOneWrongCommand() {
     CommandParser tester = makeParser("fd 50 60", "English");
     TreeNode root = tester.makeTree();
@@ -179,7 +178,7 @@ public class CommandParserTest {
    */
   @Test
   void testMultCommand() {
-    String userInput = "Forward 50 Backward 50 ";
+    String userInput = "forward 50 back 50 ";
     CommandParser tester = makeParser(userInput, "English");
     TreeNode root = tester.makeTree();
     List<String> results = new ArrayList<>();
@@ -249,8 +248,14 @@ public class CommandParserTest {
    */
   @Test
   void testWrongNumParam() {
-    CommandParser tester = makeParser("to x y", "English");
-    assertEquals(tester.makeTree(), new ErrorHandler("WrongParamNum"));
+    String error = null;
+    try {
+      CommandParser tester = makeParser("to 5 6", "English");
+      tester.makeTree();
+    } catch (Exception e) {
+      error = e.getMessage();
+    }
+    assertEquals(error, "WrongParamNum");
   }
 
   /**
@@ -258,8 +263,14 @@ public class CommandParserTest {
    */
   @Test
   void testWrongNumParamComplex() {
-    CommandParser tester = makeParser("to x [ :y ] [ sum 50 ]", "English");
-    assertEquals(tester.makeTree(), new ErrorHandler("WrongParamNum"));
+    String error = null;
+    try {
+      CommandParser tester = makeParser("to x [ :y ] [ sum 50 ]", "English");
+      tester.makeTree();
+    } catch (Exception e) {
+      error = e.getMessage();
+    }
+    assertEquals(error, "WrongParamNum");
   }
 
 
@@ -269,8 +280,13 @@ public class CommandParserTest {
    */
   @Test
   void testWrongParamInput() {
-    CommandParser tester = makeParser("sum [ fd 50 ]", "English");
-    assertEquals(tester.makeTree(), new ErrorHandler("WrongParamNum"));
+    String error = null;
+    try{
+      CommandParser tester = makeParser("sum [ fd 50 ]", "English");
+    } catch (Exception e) {
+      error = e.getMessage();
+    }
+    assertEquals(error, "WrongParamNum");
   }
 
 

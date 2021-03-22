@@ -9,14 +9,21 @@ import slogo.model.parse.tokens.ListEndToken;
 import slogo.model.parse.tokens.ListToken;
 import slogo.model.parse.tokens.Token;
 
-public class CommandBlockParser extends Parser{
-
+/**
+ *
+ */
+public class CommandBlockParser extends Parser {
   private static final String COMMAND_KEY = "CommandBlock_";
   private static final int USER_DEF_VARLIST_INDEX = 2;
 
   private List<Token> tokens;
   private CommandParser commandParser;
 
+  /**
+   *
+   * @param tokens
+   * @param commandParser
+   */
   public CommandBlockParser(List<Token> tokens, CommandParser commandParser) {
     this.tokens = tokens;
     this.commandParser = commandParser;
@@ -85,7 +92,7 @@ public class CommandBlockParser extends Parser{
 
   private List<String> makeStringParam(int countNum) {
     List<String> ret = new ArrayList<>();
-    for(int i=0; i< countNum; i++) {
+    for (int i = 0; i < countNum; i++) {
       ret.add(NUM_TOKEN);
     }
     return ret;
