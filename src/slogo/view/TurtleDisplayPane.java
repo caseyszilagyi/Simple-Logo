@@ -1,7 +1,9 @@
 package slogo.view;
 
+import java.lang.reflect.Method;
 import java.util.*;
 
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -11,6 +13,7 @@ import javafx.scene.shape.Line;
 public class TurtleDisplayPane {
   private static final double TURTLE_WIDTH = 50;
   private static final double TURTLE_HEIGHT = 50;
+  public static final String UPDATE_NEXT_RESOURCE = TurtleDisplayPane.class.getPackageName() + ".resources.UpdateNextReflectionActions";
 
   private static final String PANE_BOX_ID = "TurtleView";
   private static final String LINE_ID = "Line";
@@ -70,38 +73,48 @@ public class TurtleDisplayPane {
   }
 
   public void updateTurtlePosition() {
-    String nextUpdate;
+    String key;
+    ResourceBundle updateNextActionResources = ResourceBundle.getBundle(UPDATE_NEXT_RESOURCE);
 //
 //    System.out.println("Pen State: " + penUP);
     if(!typeToBeUpdated.isEmpty()) {
-      nextUpdate = typeToBeUpdated.removeFirst();
-
-      if (nextUpdate.equals("Positions")) {
-        double nextX = commandsToBeExecuted.pop();
-        double nextY = commandsToBeExecuted.pop();
-
-        if (allTurtleInformation.get(currentID).getPenState() == 1) {
-          createLine(nextX, nextY, penColor);
-        }
-        allTurtleInformation.get(currentID).getTurtle().setX(nextX);
-        allTurtleInformation.get(currentID).getTurtle().setY(nextY);
-      } else if (nextUpdate.equals("Angles")) {
-
-        allTurtleInformation.get(currentID).getTurtle().setRotate(90 - commandsToBeExecuted.pop());
-      } else if (nextUpdate.equals("Pen")){
-        allTurtleInformation.get(currentID).setPenState(commandsToBeExecuted.removeFirst());
-      } else if (nextUpdate.equals("Visibility")){
-        allTurtleInformation.get(currentID).getTurtle().setVisible(commandsToBeExecuted.removeFirst() == 1);
-      } else if (nextUpdate.equals("Clearscreen")){
-        clearScreen();
-      } else if (nextUpdate.equals("SetID")){
-        currentID = (int) Math.round(commandsToBeExecuted.pop());
-
-   //     updateTurtleImages();
+      key = typeToBeUpdated.removeFirst();
+      try {
+        String methodName = updateNextActionResources.getString(key);
+        Method m = TurtleDisplayPane.this.getClass().getDeclaredMethod(methodName);
+        m.invoke(TurtleDisplayPane.this);
       }
-
+      catch (Exception e) {
+        new Alert(Alert.AlertType.ERROR);
+      }
     }
+  }
 
+  private void updatePosition() {
+    double nextX = commandsToBeExecuted.pop();
+    double nextY = commandsToBeExecuted.pop();
+
+    if (allTurtleInformation.get(currentID).getPenState() == 1) {
+      createLine(nextX, nextY, penColor);
+    }
+    allTurtleInformation.get(currentID).getTurtle().setX(nextX);
+    allTurtleInformation.get(currentID).getTurtle().setY(nextY);
+  }
+
+  private void updateAngles() {
+    allTurtleInformation.get(currentID).getTurtle().setRotate(90 - commandsToBeExecuted.pop());
+  }
+
+  private void updatePen() {
+    allTurtleInformation.get(currentID).setPenState(commandsToBeExecuted.removeFirst());
+  }
+
+  private void updateVisibility() {
+    allTurtleInformation.get(currentID).getTurtle().setVisible(commandsToBeExecuted.removeFirst() == 1);
+  }
+
+  private void setID() {
+    currentID = (int) Math.round(commandsToBeExecuted.pop());
   }
 
   private void updateTurtleImages() {
