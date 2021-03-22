@@ -147,7 +147,7 @@ public class TurtleDisplayPane {
   public void moveTurtle(double xCoordinate, double yCoordinate, Paint penColor) {
     this.penColor = penColor;
 
-    System.out.println("Current ID: " + currentID);
+  //  System.out.println("Current ID: " + currentID);
 
     x = turtleViewPane.getWidth() / 2 + xCoordinate * turtleViewPane.getWidth() / rows - TURTLE_WIDTH / 2;
     y = turtleViewPane.getHeight() / 2 - yCoordinate * turtleViewPane.getHeight() / cols - TURTLE_HEIGHT / 2;

@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ViewChoicePane {
+public class ViewChoicePane{
   private static final double ICON_WIDTH = 20.0;
   private static final double ICON_HEIGHT = 20.0;
 
