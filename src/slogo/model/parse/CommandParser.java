@@ -29,7 +29,7 @@ public class CommandParser extends Parser {
 
   public CommandParser(String rawInput, String language, BackEndExternalAPI modelController) {
     this.modelController = modelController;
-    inputCleaner = new InputCleaner(rawInput, language);
+    inputCleaner = new InputCleaner(rawInput, language, modelController);
     tokenMaker = new MakeTokens(inputCleaner.parseResults());
     cleanCommands = tokenMaker.tokenString();
     commandBlockParser = new CommandBlockParser(cleanCommands, this);

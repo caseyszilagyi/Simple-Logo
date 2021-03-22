@@ -408,7 +408,7 @@ public class TokensAndCommandBlockTest {
   private MakeTokens makeMakeTokens(String input, String language) {
     ModelController modelController = new ModelController();
     commandParser = new CommandParser(input, language, modelController);
-    InputCleaner cleaner = new InputCleaner(input, language);
+    InputCleaner cleaner = new InputCleaner(input, language, modelController);
     List<String> cleanedString = cleaner.parseResults();
     return new MakeTokens(cleanedString);
   }
