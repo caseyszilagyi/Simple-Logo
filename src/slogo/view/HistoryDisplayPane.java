@@ -30,9 +30,6 @@ public class HistoryDisplayPane {
   private static final String BUTTON = "regular-button";
   private static final double TABS_HEIGHT = 570.0;
   private static final double TABS_WIDTH = 403.0;
-  private static final String HISTORY_BUTTON_ID = "previousCommandButton";
-  private static final String VAR_BUTTON_ID = "previousVariableButton";
-  private static final String USER_BUTTON_ID = "previousUserButton";
   public static final String DEFAULT_RESOURCE_PACKAGE = HistoryDisplayPane.class.getPackageName() + ".resources.";
   private static final String EXAMPLE_FILE = "buttons.languages.ExampleCode";
   private static final String DISPLAY_BUTTONS = DEFAULT_RESOURCE_PACKAGE + "buttons.languages.HistoryDisplay";

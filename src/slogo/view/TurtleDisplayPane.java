@@ -8,7 +8,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import slogo.controller.FrontEndExternalAPI;
@@ -16,7 +15,9 @@ import slogo.controller.FrontEndExternalAPI;
 public class TurtleDisplayPane implements FrontEndInternalAPI{
   private static final double TURTLE_WIDTH = 50;
   private static final double TURTLE_HEIGHT = 50;
-  public static final String UPDATE_NEXT_RESOURCE = TurtleDisplayPane.class.getPackageName() + ".resources.UpdateNextReflectionActions";
+  private static final String DEFAULT_RESOURCES = TurtleDisplayPane.class.getPackageName() + ".resources.";
+  public static final String UPDATE_NEXT_RESOURCE = DEFAULT_RESOURCES + "UpdateNextReflectionActions";
+  private static final String ERROR_LANGUAGE = DEFAULT_RESOURCES + ".errormessages.Error";
 
   private static final String PANE_BOX_ID = "TurtleView";
   private static final String LINE_ID = "Line";
@@ -24,32 +25,24 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
   private final double centerY;
   private GridPane viewPane;
   private AnchorPane turtleViewPane;
-
-
   private double penUP = 1;
   double x;
   double y;
   private Paint penColor;
-
   private Deque<Double> commandsToBeExecuted;
   private Deque<String> typeToBeUpdated;
-
   private int INCREMENT_FACTOR = 10;
-  private double lastAngle = 90;
   private double rows;
   private double cols;
-  private double penThickness = 1.0;
   private Map<Integer, FrontEndSprite> allTurtleInformation;
   private int FIRST_TURTLE = 1;
   private int currentID = 1;
   private FrontEndExternalAPI viewController;
   private String cS = "clearscreen";
+  private ResourceBundle errorLanguageResource;
 
   String turtleImageFile = "Turtle2.gif";
   String inactiveTurtleImageFile = "Turtle3.gif";
-  String movingTurtleImageFile = "Turtle4.gif";
-
-
 
   public TurtleDisplayPane(FrontEndExternalAPI viewController,GridPane root, double r, double c) {
     this.viewController = viewController;
@@ -61,6 +54,8 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
     viewPane.add(turtleViewPane, 0, 1);
     turtleViewPane.setId(PANE_BOX_ID);
     turtleViewPane.getStyleClass().add(PANE_BOX_ID);
+    String lang = "English";
+    errorLanguageResource = ResourceBundle.getBundle(ERROR_LANGUAGE + lang);
 
     turtleViewPane.setMaxHeight(cols);
     turtleViewPane.setMaxWidth(rows);
@@ -81,8 +76,6 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
   public void updateTurtlePositions() {
     String key;
     ResourceBundle updateNextActionResources = ResourceBundle.getBundle(UPDATE_NEXT_RESOURCE);
-//
-//    System.out.println("Pen State: " + penUP);
     if(!typeToBeUpdated.isEmpty()) {
       key = typeToBeUpdated.removeFirst();
       try {
@@ -102,7 +95,7 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
 
     if(nextY < 0 || nextX < 0 || nextY > cols - TURTLE_HEIGHT || nextX > rows - TURTLE_WIDTH){
       Alert error = new Alert(AlertType.ERROR);
-      error.setContentText("Turtle out of bounds!");
+      error.setContentText(errorLanguageResource.getString("TurtleOutOfBounds"));
       nextX = centerX;
       nextY = centerY;
       error.show();
@@ -162,17 +155,12 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
 
     FrontEndSprite turtleInformation = new FrontEndTurtle(centerX, centerY, turtle, penUP);
 
- //   activeTurtles.put(id, turtle);
     this.allTurtleInformation.put(id, turtleInformation);
-
-//    lastXPosition = centerX;
-//    lastYPosition = centerY;
   }
 
   public void moveTurtle(double xCoordinate, double yCoordinate, Paint penColor) {
     this.penColor = penColor;
 
-  //  System.out.println("Current ID: " + currentID);
     x = turtleViewPane.getWidth() / 2 + xCoordinate * turtleViewPane.getWidth() / rows - TURTLE_WIDTH / 2;
     y = turtleViewPane.getHeight() / 2 - yCoordinate * turtleViewPane.getHeight() / cols - TURTLE_HEIGHT / 2;
 
@@ -209,7 +197,6 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
 
   }
 
-
   public void setBackground(Background background) {
     turtleViewPane.setBackground(background);
   }
@@ -224,7 +211,10 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
   public void updateCommandQueue(String commandType, List<Double> commandValues) {
     typeToBeUpdated.add(commandType);
     commandsToBeExecuted.addAll(commandValues);
+  }
 
+  public void updateLanguage(String lang) {
+    errorLanguageResource = ResourceBundle.getBundle(ERROR_LANGUAGE + lang);
   }
 
   public void setActiveTurtle(int turtleID) {
@@ -246,7 +236,5 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
         allTurtleInformation.get(turtleID).getTurtle().setImage(new Image(inactiveTurtleImageFile));
       }
     }
-
-
   }
 }
