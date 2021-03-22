@@ -47,7 +47,7 @@ public class ViewPane implements FrontEndInternalAPI{
     viewPane.setMinWidth(ROWS + 10.0);
     xCoord = 0;
     yCoord = 0;
-    turtleDisplay = new TurtleDisplayPane(viewPane, ROWS, COLS);
+    turtleDisplay = new TurtleDisplayPane(viewController, viewPane, ROWS, COLS);
     choiceDisplay = new ViewChoicePane(viewController, s, viewPane, turtleDisplay, idResource);
   }
 
