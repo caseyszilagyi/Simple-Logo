@@ -4,9 +4,7 @@ import java.util.*;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
@@ -18,7 +16,7 @@ public class TurtleDisplayPane {
   private static final String LINE_ID = "Line";
   private final double centerX;
   private final double centerY;
-  private BorderPane viewPane;
+  private GridPane viewPane;
   private AnchorPane turtleViewPane;
 
 
@@ -46,23 +44,21 @@ public class TurtleDisplayPane {
   String movingTurtleImageFile = "Turtle4.gif";
 
 
-  public TurtleDisplayPane(BorderPane root, double r, double c) {
+  public TurtleDisplayPane(GridPane root, double r, double c) {
     viewPane = root;
     rows = r;
     cols = c;
 
     turtleViewPane = new AnchorPane();
-    viewPane.setCenter(turtleViewPane);
+    viewPane.add(turtleViewPane, 0, 2);
     turtleViewPane.setId(PANE_BOX_ID);
     turtleViewPane.getStyleClass().add(PANE_BOX_ID);
 
-    //set size of the ViewPane
     turtleViewPane.setMaxHeight(cols);
     turtleViewPane.setMaxWidth(rows);
     turtleViewPane.setMinHeight(cols);
     turtleViewPane.setMinWidth(rows);
 
-    //Get the center
     centerX = rows / 2 - TURTLE_HEIGHT / 2;
     centerY = cols / 2 - TURTLE_WIDTH / 2;
 
@@ -70,9 +66,7 @@ public class TurtleDisplayPane {
     typeToBeUpdated = new ArrayDeque<>();
     allTurtleInformation = new HashMap<>();
 
-
     createTurtle(FIRST_TURTLE);
-
   }
 
   public void updateTurtlePosition() {
@@ -218,7 +212,6 @@ public class TurtleDisplayPane {
     commandsToBeExecuted.addAll(commandValues);
 
   }
-
   public void setActiveTurtle(int turtleID) {
     if(!allTurtleInformation.containsKey(turtleID)){
       createTurtle(turtleID);
