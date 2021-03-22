@@ -80,10 +80,12 @@ public class UserCommandPane {
 
   private void run() {
     try{
-
       viewController.processUserCommandInput(userInputTextArea.getText());
     }catch (Exception exception){
       errorMessage = exception.getMessage();
+      Alert error = new Alert(AlertType.ERROR);
+      error.setContentText(errorMessage);
+      error.showAndWait();
     }
   }
 
