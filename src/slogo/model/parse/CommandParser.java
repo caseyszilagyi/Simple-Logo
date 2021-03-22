@@ -128,12 +128,6 @@ public class CommandParser extends Parser {
     return parent != null && parent.getCommand().equals("MakeUserInstruction");
   }
 
-  /**
-   * Returns respective parameter counts for the command specified
-   *
-   * @param text String representation of the command
-   * @return String rep of the number of params needed for command
-   */
   private List<String> getParam(String text) {
     List<String> paramList = commandParam.get(text);
     if (paramList != null) {

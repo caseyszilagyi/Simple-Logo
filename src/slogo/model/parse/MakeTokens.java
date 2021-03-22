@@ -38,7 +38,6 @@ public class MakeTokens extends Parser{
    */
   public MakeTokens(List<String> cleanedString) {
     this.cleanedString = cleanedString;
-    System.out.println(cleanedString);
     listParams = ResourceBundle.getBundle(SLogoCommandExecutor.COMMAND_PACKAGE + COMMAND_WITH_LISTS);
     tokenMap = ResourceBundle.getBundle(SLogoCommandExecutor.LANGUAGES_PACKAGE + TOKENS_MAP);
     tokens = new ArrayList<>();
@@ -52,7 +51,6 @@ public class MakeTokens extends Parser{
    */
   public List<Token> tokenString() {
     tokenize();
-//    commandBlockParams();
     return tokens;
   }
 
@@ -128,7 +126,7 @@ public class MakeTokens extends Parser{
     return new ArrayList<>(splitAsList);
   }
 
-  public String getClassName(Token token) {
+  private String getClassName(Token token) {
     return token.getClass().getName().replace(TOKEN_PACKAGE, "");
   }
 
