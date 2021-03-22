@@ -169,14 +169,4 @@ public class Turtle {
     MODEL_CONTROLLER.clearScreen();
   }
 
-  /**
-   * Gets the parameters to pass to the front end to display
-   *
-   * @return The list of parameters
-   */
-  public List<Double> getFrontEndParameters() {
-    return Arrays
-        .asList(xPosition, yPosition, angle, penState, isVisible, clearScreen, ID/1.0);
-  }
-
 }

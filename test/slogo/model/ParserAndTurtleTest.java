@@ -1,6 +1,7 @@
 package slogo.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -161,7 +162,53 @@ public class ParserAndTurtleTest {
     assertEquals(50, getYCoordinate(4));
   }
 
+  /**
+   * Moves the turtles around and then has a conditional
+   */
+  @Test
+  void testAskWith(){
+    executeCommand("repeat 8 [ tell [ :repcount ] setxy product :repcount 25 0 ] askwith [ greater? xcor 110 ] [ fd 5 ] ");
+    assertEquals(0, getYCoordinate(1));
+    assertEquals(0, getYCoordinate(2));
+    assertEquals(0, getYCoordinate(3));
+    assertEquals(0, getYCoordinate(4));
+    assertEquals(5, getYCoordinate(5));
+    assertEquals(5, getYCoordinate(6));
+    assertEquals(5, getYCoordinate(7));
+    assertEquals(5, getYCoordinate(8));
+  }
 
+  /**
+   * Tests the invalid variable name command
+   */
+  @Test
+  void testInvalidVariable(){
+    String error = null;
+    try {
+      badCommand("fd :wrong");
+    }catch (Exception e){
+      error = e.getMessage();
+    }
+    assertEquals(error, "InvalidVariableName");
+  }
+
+  /**
+   * Tests the invalid variable name command
+   */
+  @Test
+  void testInvalidCommand(){
+    String error = null;
+    try {
+      badCommand("tree 40");
+    }catch (Exception e){
+      error = e.getMessage();
+    }
+    assertEquals(error, "InvalidCommandName");
+  }
+
+  private void badCommand(String command) throws Exception { EXECUTOR.executeCommand(command, "English"); }
+
+  // Verifies a turtle's parameters
   private void verifyTurtleParameters(int ID, double x, double y, double angle, double penstate, double visibility){
     assertEquals(x, getXCoordinate(ID), TOLERANCE);
     assertEquals(y, getYCoordinate(ID), TOLERANCE);

@@ -15,7 +15,6 @@ public class TurtleInformation {
   private final BackEndExternalAPI MODEL_CONTROLLER;
 
   private final List<Turtle> ALL_TURTLES = new ArrayList<>();
-  // used to keep track of nested tell/ask statements
   private final List<List<Integer>> CURRENT_ACTIVE_TURTLES = new ArrayList<>();
   private Integer activeTurtleID;
 
@@ -24,7 +23,7 @@ public class TurtleInformation {
     addFirstTurtleLayer();
   }
 
-
+  // Adds the first turtle and sets up the layers
   private void addFirstTurtleLayer() {
     List<Integer> firstLayer = new ArrayList<Integer>();
     firstLayer.add(1);
@@ -59,6 +58,14 @@ public class TurtleInformation {
   public void setActiveTurtle(int ID) {
     activeTurtleID = ID;
     MODEL_CONTROLLER.setActiveTurtle(ID);
+  }
+
+  /**
+   * Gets a list of all the turltes
+   * @return The list of all the turtles
+   */
+  public List<Turtle> getAllTurtles(){
+    return ALL_TURTLES;
   }
 
   /**

@@ -1,8 +1,10 @@
 package slogo.model.commands.basic_commands.command_types;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import slogo.model.execution.CommandInformationBundle;
+import slogo.model.execution.Turtle;
 import slogo.model.execution.TurtleInformation;
 import slogo.model.tree.TreeNode;
 
@@ -37,11 +39,20 @@ public abstract class MultipleTurtleCommand extends Command {
   }
 
   /**
-   * Adds a layer of active turtles that are the same as the currently active. Used for loop
-   * nesting
+   * Determines which turtles are active based on a conditional
+   * @param conditional The TreeNode representing the conditional
    */
-  protected void duplicateActiveTurtleLayer() {
+  protected void determineActiveTurtles(TreeNode conditional){
+    List<Turtle> allTurtles = TURTLE_INFORMATION.getAllTurtles();
+    List<Integer> nextLayer = new ArrayList<>();
+    for(Turtle turtle: allTurtles){
+      TURTLE_INFORMATION.setActiveTurtle(turtle.getID());
+      if(executeNode(conditional) != 0){
+        nextLayer.add(turtle.getID());
+      }
+    }
     TURTLE_INFORMATION.addActiveTurtleLayer();
+    TURTLE_INFORMATION.setActiveTurtleLayer(nextLayer);
   }
 
   /**

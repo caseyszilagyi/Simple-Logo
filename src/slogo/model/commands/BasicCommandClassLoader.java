@@ -49,7 +49,6 @@ public class BasicCommandClassLoader {
           .newInstance(informationBundle, (Object) node.getChildren());
       myCommand = (BasicCommand) command;
     } catch (InstantiationException | InvocationTargetException | NoSuchMethodException | IllegalAccessException | ClassNotFoundException e) {
-      System.out.println(node.getCommand());
       throw new ErrorHandler ("InvalidCommandName");
     }
 
@@ -93,7 +92,6 @@ public class BasicCommandClassLoader {
     if (userInfo.hasVariable(nodeName)) {
       return makeConstant(userInfo.getVariable(nodeName));
     }
-    System.out.println("invalid var: "+nodeName);
     throw new ErrorHandler("InvalidVariableName");
   }
 
@@ -114,7 +112,6 @@ public class BasicCommandClassLoader {
           .getDeclaredConstructor(double.class).newInstance(number);
       myCommand = (BasicCommand) command;
     } catch (Exception e) {
-      System.out.println("FailedConstantInstantiation");
     }
 
     return myCommand;
