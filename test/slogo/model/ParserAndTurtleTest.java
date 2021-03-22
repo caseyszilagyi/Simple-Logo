@@ -161,7 +161,23 @@ public class ParserAndTurtleTest {
     assertEquals(50, getYCoordinate(4));
   }
 
+  /**
+   * Moves the turtles around and then has a conditional
+   */
+  @Test
+  void testAskWith(){
+    executeCommand("repeat 8 [ tell [ :repcount ] setxy product :repcount 25 0 ] askwith [ fd 50 fd 50 ] [ fd 50 ] ");
+    assertEquals(0, getXCoordinate(1));
+    assertEquals(0, getXCoordinate(2));
+    assertEquals(0, getXCoordinate(3));
+    assertEquals(0, getXCoordinate(4));
+    assertEquals(5, getXCoordinate(5));
+    assertEquals(5, getXCoordinate(6));
+    assertEquals(5, getXCoordinate(7));
+    assertEquals(5, getXCoordinate(8));
+  }
 
+  // Verifies a turtle's parameters
   private void verifyTurtleParameters(int ID, double x, double y, double angle, double penstate, double visibility){
     assertEquals(x, getXCoordinate(ID), TOLERANCE);
     assertEquals(y, getYCoordinate(ID), TOLERANCE);

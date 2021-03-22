@@ -1,0 +1,21 @@
+repeat 8 [ tell [ :repcount ] rt product 45 :repcount ]
+
+to tree [ :length :angle :depth :scale ] [
+  ifelse equal? :depth 1 [
+     fd :length
+     bk :length
+  ]
+  [
+     fd :length
+     lt :angle
+     tree product :length :scale :angle difference :depth 1 :scale
+     rt :angle
+     rt :angle
+     tree product :length :scale :angle difference :depth 1 :scale
+     lt :angle
+     bk :length
+   ]
+]
+
+
+tell [ 1 2 3 4 5 6 7 8 ] tree 20 10 10 1
