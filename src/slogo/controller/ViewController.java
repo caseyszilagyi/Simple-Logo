@@ -155,7 +155,7 @@ public class ViewController implements FrontEndExternalAPI {
 
   @Override
   public void setPenSize(double penSize) {
-
+    screenCreator.updateCommandQueue("Thickness", Collections.singletonList(penSize));
   }
 
   @Override
