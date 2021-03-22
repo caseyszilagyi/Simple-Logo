@@ -13,6 +13,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import slogo.controller.FrontEndExternalAPI;
+import slogo.model.commands.basic_commands.UserDefinedCommand;
 
 /**
  * Create the main screen where visuals and panes will be displayed
@@ -90,7 +91,7 @@ public class ScreenCreator implements FrontEndInternalAPI{
 
 
   public void updateVariablesAndUserDefinedCommands(Map<String, Double> variables,
-                                                    Map<String, String> userDefinedCommands) {
+                                                    Map<String, UserDefinedCommand> userDefinedCommands) {
     historyDisplayPane.updateDisplayOfInformation(variables, userDefinedCommands);
   }
 
