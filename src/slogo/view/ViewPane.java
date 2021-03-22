@@ -26,8 +26,8 @@ public class ViewPane {
   private static final String HBOX_ID = "TurtleInfoPane";
   private static final String HBOX_TEXT = "TurtleInfoText";
 
-  private static final int ROWS = 650;
-  private static final int COLS = 550;
+  private static final int ROWS = 700;
+  private static final int COLS = 600;
 
   private GridPane viewPane;
   private TurtleDisplayPane turtleDisplay;
@@ -49,9 +49,6 @@ public class ViewPane {
     yCoord = 0;
     turtleDisplay = new TurtleDisplayPane(viewPane, ROWS, COLS);
     choiceDisplay = new ViewChoicePane(viewController, s, viewPane, turtleDisplay, idResource);
-    displayInfoBox = new HBox();
-    displayInfoBox.getStyleClass().add(HBOX_ID);
-    viewPane.add(displayInfoBox, 0, 1);
   }
 
 
@@ -63,7 +60,6 @@ public class ViewPane {
 
   public void moveTurtle(double xCoordinate, double yCoordinate) {
     turtleDisplay.moveTurtle(xCoordinate, yCoordinate, choiceDisplay.getPenColor());
-    displayInfoBox.getChildren().clear();
   }
 
   public Pane getBox() {

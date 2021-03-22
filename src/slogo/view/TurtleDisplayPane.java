@@ -51,7 +51,7 @@ public class TurtleDisplayPane {
     cols = c;
 
     turtleViewPane = new AnchorPane();
-    viewPane.add(turtleViewPane, 0, 2);
+    viewPane.add(turtleViewPane, 0, 1);
     turtleViewPane.setId(PANE_BOX_ID);
     turtleViewPane.getStyleClass().add(PANE_BOX_ID);
 
