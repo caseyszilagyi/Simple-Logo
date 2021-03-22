@@ -8,12 +8,14 @@ abstract class FrontEndSprite {
     private double yCoord;
     private double penState;
     private ImageView turtleImageView;
+    private double penThickness;
 
     public FrontEndSprite(double xCoord, double yCoord, ImageView turtleImage, double penState){
         this.xCoord = xCoord;
         this.yCoord = yCoord;
         this.penState = penState;
         this.turtleImageView = turtleImage;
+        penThickness = 1.0;
     }
 
     public void setxCoord(double xCoord) {
@@ -46,5 +48,13 @@ abstract class FrontEndSprite {
 
     public ImageView getTurtle(){
         return turtleImageView;
+    }
+
+    public void setPenThickness(double penThickness){
+        this.penThickness = penThickness;
+    }
+
+    public double getPenThickness(){
+        return penThickness;
     }
 }
