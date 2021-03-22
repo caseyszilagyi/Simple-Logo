@@ -249,7 +249,7 @@ public class TokensAndCommandBlockTest {
    */
   @Test
   void testAskWith() {
-    String userInput = "askwith [ greater xcor 40 ] [ fd 50 ]";
+    String userInput = "askwith [ greater? xcor 40 ] [ fd 50 ]";
     MakeTokens tokenMaker = makeMakeTokens(userInput, "English");
     List<Token> tokens = tokenMaker.tokenString();
     CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
@@ -257,13 +257,16 @@ public class TokensAndCommandBlockTest {
     List<String> expected = new ArrayList<>();
     expected.add("AskWith");
     expected.add("CommandBlock_1");
-    expected.add("Greater");
-    expected.add("XCor");
+    expected.add("GreaterThan");
+    expected.add("XCoordinate");
     expected.add("40");
     expected.add("CommandBlock_2");
     expected.add("Forward");
     expected.add("50");
     assertEquals(actual, expected);
+    assertEquals(1, commandParser.commandParam.get("CommandBlock_1").size());
+    assertEquals(1, commandParser.commandParam.get("CommandBlock_2").size());
+
   }
 
   /**
