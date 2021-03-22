@@ -11,7 +11,6 @@ import java.util.regex.Pattern;
 import slogo.ErrorHandler;
 import slogo.model.SLogoCommandExecutor;
 import slogo.model.parse.tokens.ListEndToken;
-import slogo.model.parse.tokens.ListToken;
 import slogo.model.parse.tokens.Token;
 
 /**
@@ -19,8 +18,7 @@ import slogo.model.parse.tokens.Token;
  *
  * @author jincho
  */
-public class MakeTokens extends Parser{
-
+public class MakeTokens extends Parser {
   private final List<String> cleanedString;
   private List<Token> tokens;
   public static final String TOKEN_PACKAGE = MakeTokens.class.getPackageName() + ".tokens.";
@@ -38,7 +36,6 @@ public class MakeTokens extends Parser{
    */
   public MakeTokens(List<String> cleanedString) {
     this.cleanedString = cleanedString;
-    System.out.println(cleanedString);
     listParams = ResourceBundle.getBundle(SLogoCommandExecutor.COMMAND_PACKAGE + COMMAND_WITH_LISTS);
     tokenMap = ResourceBundle.getBundle(SLogoCommandExecutor.LANGUAGES_PACKAGE + TOKENS_MAP);
     tokens = new ArrayList<>();
@@ -52,7 +49,6 @@ public class MakeTokens extends Parser{
    */
   public List<Token> tokenString() {
     tokenize();
-//    commandBlockParams();
     return tokens;
   }
 
@@ -128,7 +124,7 @@ public class MakeTokens extends Parser{
     return new ArrayList<>(splitAsList);
   }
 
-  public String getClassName(Token token) {
+  private String getClassName(Token token) {
     return token.getClass().getName().replace(TOKEN_PACKAGE, "");
   }
 
@@ -138,14 +134,10 @@ public class MakeTokens extends Parser{
 
   private boolean isListStart(String s) { return match(s, syntaxMap.get("ListStart")); }
 
-  private boolean isListEnd(String s) {
-    return s.equals("ListEndToken");
-  }
-
   private String checkExpectedToken(Token toAdd, String expected, boolean inList) {
     if(!getClassName(toAdd).equals(expected) && !inList) {
       throw new ErrorHandler("WrongParamNum");
-    } else if (!isList(expected) || isListEnd(getClassName(toAdd))) {
+    } else if (!isList(expected) || toAdd instanceof ListEndToken) {
       tokenizeStack.peek().remove(0);
       if (tokenizeStack.peek().isEmpty()) {
         tokenizeStack.pop();
@@ -156,7 +148,4 @@ public class MakeTokens extends Parser{
     }
     return expected;
   }
-
-
-
 }

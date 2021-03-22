@@ -12,6 +12,7 @@ import slogo.model.parse.tokens.Token;
 public class CommandBlockParser extends Parser{
 
   private static final String COMMAND_KEY = "CommandBlock_";
+  private static final int USER_DEF_VARLIST_INDEX = 2;
 
   private List<Token> tokens;
   private CommandParser commandParser;
@@ -61,7 +62,7 @@ public class CommandBlockParser extends Parser{
   }
 
   private boolean isEndVarList(int currInd, int userDefInd, int blockSize) {
-    return currInd == userDefInd + blockSize + 2;
+    return currInd == userDefInd + blockSize + USER_DEF_VARLIST_INDEX;
   }
 
   private void completedUserDefVarList(int blockSize, int userDefInd) {
@@ -85,7 +86,7 @@ public class CommandBlockParser extends Parser{
   private List<String> makeStringParam(int countNum) {
     List<String> ret = new ArrayList<>();
     for(int i=0; i< countNum; i++) {
-      ret.add("NUM");
+      ret.add(NUM_TOKEN);
     }
     return ret;
   }

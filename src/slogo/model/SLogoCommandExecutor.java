@@ -1,20 +1,13 @@
 package slogo.model;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+
 import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 import slogo.controller.BackEndExternalAPI;
 import slogo.model.commands.BasicCommandClassLoader;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
 import slogo.model.execution.CommandInformationBundle;
 import slogo.model.execution.UserDefinedInformation;
 import slogo.model.parse.CommandParser;
-import slogo.model.parse.InputCleaner;
-import slogo.model.parse.MakeTokens;
-import slogo.model.parse.tokens.Token;
 import slogo.model.tree.TreeNode;
 
 /**
@@ -22,7 +15,7 @@ import slogo.model.tree.TreeNode;
  * Model. Centralized location for all classes that take part in the cleaning, parsing, and
  * execution of commands.
  *
- * @author jincho
+ * @author jincho and Casey Szilagyi
  */
 public class SLogoCommandExecutor implements CommandExecutor {
 

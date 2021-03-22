@@ -106,21 +106,21 @@ public class ViewController implements FrontEndExternalAPI {
 
   @Override
   public void setActiveTurtle(int turtleID) {
-    System.out.println();
-    System.out.println("Active turtle ID: " + turtleID);
+//    System.out.println();
+//    System.out.println("Active turtle ID: " + turtleID);
     screenCreator.setActiveTurtle(turtleID);
   }
 
   @Override
   public void setTurtlePosition(double xPosition, double yPosition) {
-    System.out.println("xPosition of Turtle (ViewController): " + xPosition);
-    System.out.println("yPosition of Turtle (ViewController): " + yPosition);
+//    System.out.println("xPosition of Turtle (ViewController): " + xPosition);
+//    System.out.println("yPosition of Turtle (ViewController): " + yPosition);
     screenCreator.setTurtlePosition(xPosition,yPosition);
   }
 
   @Override
   public void setTurtleAngle(double angle) {
-    System.out.println("Angle of Turtle: " + angle);
+//    System.out.println("Angle of Turtle: " + angle);
     screenCreator.updateCommandQueue("Angles", Collections.singletonList(angle));
   }
 
@@ -172,7 +172,7 @@ public class ViewController implements FrontEndExternalAPI {
   @Override
   public void setActiveTurtles(List<Integer> iDs) {
     screenCreator.setActiveTurtles(iDs);
-    System.out.println("All active turtles: " + iDs);
+//    System.out.println("All active turtles: " + iDs);
   }
 
 
