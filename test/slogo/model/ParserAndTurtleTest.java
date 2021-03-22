@@ -86,7 +86,7 @@ public class ParserAndTurtleTest {
     assertEquals(2, getYCoordinate(2));
     assertEquals(44, getYCoordinate(4));
   }
-  
+
   /**
    * Testing user defined with tell
    */

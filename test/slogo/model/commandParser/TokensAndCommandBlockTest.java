@@ -13,7 +13,7 @@ import slogo.model.parse.InputCleaner;
 import slogo.model.parse.MakeTokens;
 import slogo.model.parse.tokens.Token;
 
-public class MakeTokensTest{
+public class TokensAndCommandBlockTest {
 
   private CommandParser commandParser;
 

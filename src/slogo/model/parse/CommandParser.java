@@ -1,16 +1,13 @@
 package slogo.model.parse;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.Objects;
 import slogo.ErrorHandler;
 import slogo.controller.BackEndExternalAPI;
-import slogo.model.SLogoCommandExecutor;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
 import slogo.model.parse.tokens.Token;
 import slogo.model.tree.TreeNode;
@@ -100,7 +97,7 @@ public class CommandParser extends Parser {
       return root;
     }
     List<String> params = getParam(root.getValue());
-    if(childOfMakeUserInstruction(root) && !root.getCommand().equals("CommandBlock")){
+    if(childOfMakeUserInstruction(root) && !root.getCommand().equals(COMMAND_BLOCK_CLASS)){
       params = new ArrayList<>();
     }
     for (int i = 0; i < params.size(); i++) {
@@ -128,36 +125,28 @@ public class CommandParser extends Parser {
     return parent != null && parent.getCommand().equals("MakeUserInstruction");
   }
 
-  /**
-   * Returns respective parameter counts for the command specified
-   *
-   * @param text String representation of the command
-   * @return String rep of the number of params needed for command
-   */
   private List<String> getParam(String text) {
     List<String> paramList = commandParam.get(text);
-    if (paramList != null) {
-      return paramList;
-    } else {
-      return new ArrayList<>();
-    }
+    return Objects.requireNonNullElseGet(paramList, ArrayList::new);
   }
 
   private TreeNode checkCommandBlock(TreeNode node) {
-    if (node.getCommand().contains("CommandBlock")) {
-      node = new TreeNode(node.getCommand(), "CommandBlock", node.getParent());
+    if (node.getCommand().contains(COMMAND_BLOCK_CLASS)) {
+      node = new TreeNode(node.getCommand(), COMMAND_BLOCK_CLASS, node.getParent());
     }
     return node;
   }
 
   private boolean correctChildren(List<TreeNode> children, List<String> expected) {
-    if(children.isEmpty() && expected==null) {  return true; }
-    if(expected==null || children.size() != expected.size()) {  return false; }
+    if (children.isEmpty() && expected == null) {  return true; }
+    if (expected == null || children.size() != expected.size()) {  return false; }
     List<String> toMatch = new ArrayList<>();
-    for(int ind=0; ind<children.size(); ind++) {
+    for (int ind = 0; ind < children.size(); ind++) {
       TreeNode t = children.get(ind);
-      if(match(t.getCommand(), syntaxMap.get("Command"), syntaxMap.get("Variable"), syntaxMap.get("Constant"))) { toMatch.add("NUM"); }
-      if(t.getCommand().equals("CommandBlock")) { toMatch.set(ind, "LIST");}
+      if (match(t.getCommand(), syntaxMap.get("Command"), syntaxMap.get("Variable"), syntaxMap.get("Constant"))) {
+        toMatch.add(NUM_TOKEN);
+      }
+      if (t.getCommand().equals(COMMAND_BLOCK_CLASS)) { toMatch.set(ind, LIST_TOKEN);}
     }
     return toMatch.equals(expected);
   }

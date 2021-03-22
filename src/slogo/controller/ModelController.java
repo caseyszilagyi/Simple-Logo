@@ -2,12 +2,10 @@ package slogo.controller;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import slogo.ErrorHandler;
 import slogo.model.CommandExecutor;
 import slogo.model.SLogoCommandExecutor;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
-import slogo.model.commands.basic_commands.command_types.Command;
 
 /**
  * @author Ji Yun Hyo
