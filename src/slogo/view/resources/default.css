@@ -8,6 +8,7 @@
   -fx-background-radius: 10;
   -fx-background-insets: 5;
   -fx-background-color: #696969;
+  -fx-alignment: CENTER;
 }
 
 .UserCommandPane {
@@ -41,6 +42,15 @@
   -fx-background-radius: 10;
   -fx-background-insets: 10;
   -fx-background-color: #d3d3d3;
+}
+
+.TurtleInfoPane {
+  -fx-padding: 15;
+  -fx-background-radius: 10;
+  -fx-background-insets: 0 10 0 10;
+  -fx-background-color: #d3d3d3;
+  -fx-alignment: CENTER;
+  -fx-spacing: 5.0;
 }
 
 .HistoryPane {
@@ -156,4 +166,9 @@
 
 .example-button:hover {
   -fx-background-color: linear-gradient(#808080, #dcdcdc);
+}
+
+.TurtleInfoText {
+  -fx-text-alignment: CENTER;
+  -fx-text-fill: #000000;
 }

@@ -21,8 +21,6 @@ public class ViewController implements FrontEndExternalAPI {
   ScreenCreator screenCreator;
   private String userCommandInputs;
   private final Deque<String> commandHistory;
-  private Deque<Double> commandsToBeExecuted;
-  private Deque<String> typeToBeUpdated;
 
   private final Map<String, String> userDefinedHistory;
   private int NAME_OF_USER_DEFINED_COMMANDS = 1;
@@ -35,8 +33,6 @@ public class ViewController implements FrontEndExternalAPI {
     screenCreator = new ScreenCreator(this);
     commandHistory = new ArrayDeque<>();
     userDefinedHistory = new HashMap<>();
-    commandsToBeExecuted = new ArrayDeque<>();
-    typeToBeUpdated = new ArrayDeque<>();
   }
 
   /**
@@ -113,16 +109,21 @@ public class ViewController implements FrontEndExternalAPI {
 
   @Override
   public void setActiveTurtle(int turtleID) {
-    System.out.println("Active turtles: " + turtleID);
+    System.out.println();
+    System.out.println("Active turtle ID: " + turtleID);
+    screenCreator.setActiveTurtle(turtleID);
   }
 
   @Override
   public void setTurtlePosition(double xPosition, double yPosition) {
+    System.out.println("xPosition of Turtle (ViewController): " + xPosition);
+    System.out.println("yPosition of Turtle (ViewController): " + yPosition);
     screenCreator.setTurtlePosition(xPosition,yPosition);
   }
 
   @Override
   public void setTurtleAngle(double angle) {
+    System.out.println("Angle of Turtle: " + angle);
     screenCreator.updateCommandQueue("Angles", Collections.singletonList(angle));
   }
 
