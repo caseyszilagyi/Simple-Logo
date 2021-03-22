@@ -153,7 +153,6 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
     this.penColor = penColor;
 
   //  System.out.println("Current ID: " + currentID);
-
     x = turtleViewPane.getWidth() / 2 + xCoordinate * turtleViewPane.getWidth() / rows - TURTLE_WIDTH / 2;
     y = turtleViewPane.getHeight() / 2 - yCoordinate * turtleViewPane.getHeight() / cols - TURTLE_HEIGHT / 2;
 
