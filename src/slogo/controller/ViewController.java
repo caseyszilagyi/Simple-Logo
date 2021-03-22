@@ -98,10 +98,6 @@ public class ViewController implements FrontEndExternalAPI {
     screenCreator.displayCommandStringOnTextArea(command);
   }
 
-  @Override
-  public Map<String, Double> getVariables() {
-    return modelController.getVariables();
-  }
 
   @Override
   public void updateFrontEnd(Map<String, Double> variables,

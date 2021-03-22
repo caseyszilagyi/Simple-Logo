@@ -45,8 +45,6 @@ public interface FrontEndExternalAPI {
 
   void displayCommandStringOnTextArea(String command);
 
-  Map<String, Double> getVariables();
-
   void updateFrontEnd(Map<String, Double> variables,
                       Map<String, UserDefinedCommand> userDefinedCommands);
 

@@ -37,13 +37,11 @@ public class ScreenCreator {
   private UserCommandPane userCommand;
   private ViewPane viewPane;
   private CommandButtonPane commandButtonPane;
-  private FrontEndExternalAPI viewController;
   private String styleSheet;
   private Timeline timeline;
   private ResourceBundle idResource;
 
   public ScreenCreator(FrontEndExternalAPI viewController) {
-    this.viewController = viewController;
     stage = new Stage();
     stage.setResizable(true);
     root = new BorderPane();
@@ -74,7 +72,7 @@ public class ScreenCreator {
   }
 
 
-  public void setAnimationSpeed(){
+  private void setAnimationSpeed(){
     timeline.setRate(userCommand.getAnimationSpeed());
   }
 
