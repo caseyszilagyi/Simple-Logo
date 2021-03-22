@@ -192,6 +192,7 @@ public class HistoryDisplayPane {
     for (Map.Entry<String, Double> entry : variables.entrySet()) {
       Button button = makeButton(entry.getKey() + " = " + entry.getValue(), varBox, HISTORY_BUTTON, VAR_BUTTON_ID);
       varBox.getChildren().add(button);
+      button.setOnAction(event -> displayOnTextArea("make " + entry.getKey() + " " + entry.getValue()));
     }
   }
 

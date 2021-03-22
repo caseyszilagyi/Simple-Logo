@@ -86,6 +86,7 @@ public class ViewController implements FrontEndExternalAPI {
   public void processUserCommandInput(String userCommandInputs) {
     commandHistory.offerFirst(userCommandInputs);
     screenCreator.updateCommandHistory(commandHistory);
+
     this.userCommandInputs = userCommandInputs;
     //print statement for debugging
     System.out.println(this.userCommandInputs);
@@ -97,10 +98,6 @@ public class ViewController implements FrontEndExternalAPI {
     screenCreator.displayCommandStringOnTextArea(command);
   }
 
-  @Override
-  public Map<String, Double> getVariables() {
-    return modelController.getVariables();
-  }
 
   @Override
   public void updateFrontEnd(Map<String, Double> variables,
@@ -172,6 +169,12 @@ public class ViewController implements FrontEndExternalAPI {
   @Override
   public void setLanguage(String language) {
     screenCreator.updateLanguage(language);
+  }
+
+  @Override
+  public void setActiveTurtles(List<Integer> iDs) {
+    screenCreator.setActiveTurtles(iDs);
+    System.out.println("All active turtles: " + iDs);
   }
 
 
