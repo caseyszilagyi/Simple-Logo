@@ -54,6 +54,7 @@ public class HistoryDisplayPane {
   private TabPane tabPane;
   private double textWidth = 300.0;
   private Label title;
+  private double SPACING = 5.0;
 
   public HistoryDisplayPane(FrontEndExternalAPI viewController, ResourceBundle idResource, String lang) {
     basePane = new BorderPane();
@@ -101,7 +102,7 @@ public class HistoryDisplayPane {
     Tab ex = createTab("ExampleTab");
     ex.setContent(exPane);
     makeExampleCodeButtons();
-    tabPane.setMaxWidth(TABS_WIDTH - 10.0);
+    tabPane.setMaxWidth(TABS_WIDTH - SPACING * 2);
     tabPane.getTabs().addAll(history, var, user, ex);
   }
 
@@ -112,7 +113,7 @@ public class HistoryDisplayPane {
   }
 
   private void createExamplePane() {
-    double spacing = 5.0;
+    double spacing = SPACING;
     exBox = makeBox();
     exBox.setSpacing(spacing);
     exPane = makeScrollPane(exBox);
