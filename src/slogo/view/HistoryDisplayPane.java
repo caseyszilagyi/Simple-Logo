@@ -14,6 +14,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import slogo.controller.FrontEndExternalAPI;
+import slogo.model.commands.basic_commands.UserDefinedCommand;
 
 
 /**
@@ -165,17 +166,22 @@ public class HistoryDisplayPane {
   }
 
   public void updateDisplayOfInformation(Map<String, Double> variables,
-      Map<String, String> userDefinedCommands) {
+      Map<String, UserDefinedCommand> userDefinedCommands) {
     updateVariableDisplay(variables);
     updateUserDefinedCommands(userDefinedCommands);
   }
 
-  private void updateUserDefinedCommands(Map<String, String> userDefinedCommands) {
+  private void updateUserDefinedCommands(Map<String, UserDefinedCommand> userDefinedCommands) {
     userBox.getChildren().clear();
-    for (Map.Entry<String, String> command : userDefinedCommands.entrySet()) {
+    for (Map.Entry<String, UserDefinedCommand> command : userDefinedCommands.entrySet()) {
       Button button = makeButton(command.getKey(), userBox, HISTORY_BUTTON, "PreviousUserButton");
       userBox.getChildren().add(button);
-      button.setOnAction(event -> displayOnTextArea(command.getValue()));
+      String dummy = command.getKey();
+      for(int i = 0; i < command.getValue().getParamCount(); i ++){
+        dummy += " 50";
+      }
+      String finalDummy = dummy;
+      button.setOnAction(event -> displayOnTextArea(finalDummy));
     }
   }
 

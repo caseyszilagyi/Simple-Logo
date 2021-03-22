@@ -121,6 +121,10 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
 
   }
 
+  private void setPenThickness(){
+    allTurtleInformation.get(currentID).setPenThickness(commandsToBeExecuted.removeFirst());
+  }
+
 
   private void createTurtle(int id) {
 
@@ -172,7 +176,7 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
             x + TURTLE_HEIGHT / 2, y + TURTLE_HEIGHT / 2);
     line1.setStroke(penColor);
     line1.setId(LINE_ID);
-    line1.setStrokeWidth(penThickness);
+    line1.setStrokeWidth(allTurtleInformation.get(currentID).getPenThickness());
     turtleViewPane.getChildren().add(line1);
   }
 
