@@ -93,5 +93,6 @@ public class SLogoCommandExecutor implements CommandExecutor {
     for (TreeNode child : inputRoot.getChildren()) {
       COMMAND_LOADER.makeCommand(BUNDLE, child).execute();
     }
+
   }
 }

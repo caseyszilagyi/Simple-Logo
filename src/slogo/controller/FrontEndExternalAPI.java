@@ -45,8 +45,6 @@ public interface FrontEndExternalAPI {
 
   void displayCommandStringOnTextArea(String command);
 
-  Map<String, Double> getVariables();
-
   void updateFrontEnd(Map<String, Double> variables,
                       Map<String, UserDefinedCommand> userDefinedCommands);
 
@@ -73,4 +71,6 @@ public interface FrontEndExternalAPI {
   void updateCommandQueue(String commandType, List<Double> commandValues);
 
   void setLanguage(String language);
+
+  void setActiveTurtles(List<Integer> iDs);
 }

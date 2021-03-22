@@ -42,7 +42,11 @@ public class FrontEndTurtle {
         this.penState = penState;
     }
 
-    public void updateActiveStatus(){
+    public void activate(){
+
+    }
+
+    public void deactivate(){
 
     }
 
