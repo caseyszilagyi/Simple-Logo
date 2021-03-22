@@ -97,7 +97,6 @@ public class CommandParser extends Parser {
 
   private TreeNode insertNodeRecursive(Deque<Token> splitCommands, TreeNode root) {
     if (getParam(root.getValue()).size() == 0) {
-      System.out.println(root.getValue() + " is a leaf");
       return root;
     }
     List<String> params = getParam(root.getValue());

@@ -133,6 +133,19 @@ public class ParserAndTurtleTests {
     assertEquals(0, getYCoordinate(3));
   }
 
+  /**
+   * Testing tell method called in a loop
+   * should move turtles id 1-4 by 50
+   */
+  @Test
+  void testTellLoop(){
+    executeCommand("make :id 1 repeat 4 [ tell [ :id ] fd 50 make :id sum :id 1 ] ");
+    assertEquals(50, getYCoordinate(1));
+    assertEquals(50, getYCoordinate(2));
+    assertEquals(50, getYCoordinate(3));
+    assertEquals(50, getYCoordinate(4));
+  }
+
 
   // Executes a command given a string
   private void executeCommand(String command){

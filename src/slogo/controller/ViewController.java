@@ -91,8 +91,6 @@ public class ViewController implements FrontEndExternalAPI {
     commandHistory.offerFirst(userCommandInputs);
     screenCreator.updateCommandHistory(commandHistory);
     this.userCommandInputs = userCommandInputs;
-    //print statement for debugging
-    System.out.println(this.userCommandInputs);
     modelController.executeCommand(userCommandInputs);
   }
 
@@ -176,7 +174,6 @@ public class ViewController implements FrontEndExternalAPI {
 
   private void parseUserDefinedCommands(Map<String, UserDefinedCommand> userDefinedCommands) {
     for (Map.Entry<String, UserDefinedCommand> entry : userDefinedCommands.entrySet()) {
-      System.out.println(entry.getKey());
       for (String command : commandHistory) {
         List<String> split = Arrays.asList(command.split(" "));
         if (split.size() > 1 && split.get(NAME_OF_USER_DEFINED_COMMANDS).equals(entry.getKey()) && !userDefinedHistory
