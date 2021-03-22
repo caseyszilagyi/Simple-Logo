@@ -8,9 +8,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 
-public class TurtleDisplayPane {
+public class TurtleDisplayPane implements FrontEndInternalAPI{
   private static final double TURTLE_WIDTH = 50;
   private static final double TURTLE_HEIGHT = 50;
   public static final String UPDATE_NEXT_RESOURCE = TurtleDisplayPane.class.getPackageName() + ".resources.UpdateNextReflectionActions";
@@ -26,7 +27,7 @@ public class TurtleDisplayPane {
   private double penUP = 1;
   double x;
   double y;
-  private Color penColor;
+  private Paint penColor;
 
   private Deque<Double> commandsToBeExecuted;
   private Deque<String> typeToBeUpdated;
@@ -70,7 +71,8 @@ public class TurtleDisplayPane {
     createTurtle(FIRST_TURTLE);
   }
 
-  public void updateTurtlePosition() {
+  @Override
+  public void updateTurtlePositions() {
     String key;
     ResourceBundle updateNextActionResources = ResourceBundle.getBundle(UPDATE_NEXT_RESOURCE);
 //
@@ -143,10 +145,10 @@ public class TurtleDisplayPane {
 //    lastYPosition = centerY;
   }
 
-  public void moveTurtle(double xCoordinate, double yCoordinate, Color penColor) {
+  public void moveTurtle(double xCoordinate, double yCoordinate, Paint penColor) {
     this.penColor = penColor;
 
-    System.out.println("Current ID: " + currentID);
+  //  System.out.println("Current ID: " + currentID);
 
     x = turtleViewPane.getWidth() / 2 + xCoordinate * turtleViewPane.getWidth() / rows - TURTLE_WIDTH / 2;
     y = turtleViewPane.getHeight() / 2 - yCoordinate * turtleViewPane.getHeight() / cols - TURTLE_HEIGHT / 2;
@@ -165,7 +167,7 @@ public class TurtleDisplayPane {
 
   }
 
-  private void createLine(double x, double y, Color penColor) {
+  private void createLine(double x, double y, Paint penColor) {
     Line line1 = new Line(allTurtleInformation.get(currentID).getTurtle().getX() + TURTLE_WIDTH / 2, allTurtleInformation.get(currentID).getTurtle().getY() + TURTLE_WIDTH / 2,
             x + TURTLE_HEIGHT / 2, y + TURTLE_HEIGHT / 2);
     line1.setStroke(penColor);
@@ -174,7 +176,7 @@ public class TurtleDisplayPane {
     turtleViewPane.getChildren().add(line1);
   }
 
-  void clearScreen() {
+  public void clearScreen() {
     commandsToBeExecuted.clear();
     typeToBeUpdated.clear();
 
@@ -185,26 +187,9 @@ public class TurtleDisplayPane {
 
   }
 
+
   public void setBackground(Background background) {
     turtleViewPane.setBackground(background);
-  }
-
-  public void updateTurtle(List<Double> parameters) {
-    if (parameters.get(5) == 1) {
-      clearScreen();
-    }
-    if(lastAngle != parameters.get(2)){
-      lastAngle = parameters.get(2);
-      commandsToBeExecuted.add(90 - parameters.get(2));
-      typeToBeUpdated.add("Angles");
-    }
-
-    commandsToBeExecuted.add(parameters.get(3));
-    typeToBeUpdated.add("Pen");
-
-    commandsToBeExecuted.add(parameters.get(4));
-    typeToBeUpdated.add("Visibility");
-
   }
 
   public void setTurtleImage(Image turtleImage) {
@@ -219,6 +204,7 @@ public class TurtleDisplayPane {
     commandsToBeExecuted.addAll(commandValues);
 
   }
+
   public void setActiveTurtle(int turtleID) {
     if(!allTurtleInformation.containsKey(turtleID)){
       createTurtle(turtleID);

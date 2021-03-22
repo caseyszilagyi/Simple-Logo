@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.ResourceBundle;
 
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -36,13 +37,13 @@ public class HistoryDisplayPane {
   private static final String DISPLAY_BUTTONS = DEFAULT_RESOURCE_PACKAGE + "buttons.languages.HistoryDisplay";
 
   private BorderPane basePane;
-  private ScrollPane historyPane;
+  private Node historyPane;
   private VBox historyBox;
-  private ScrollPane varPane;
+  private Node varPane;
   private VBox varBox;
-  private ScrollPane userPane;
+  private Node userPane;
   private VBox userBox;
-  private ScrollPane exPane;
+  private Node exPane;
   private VBox exBox;
   private FrontEndExternalAPI viewController;
   private VBox topBox;
@@ -53,6 +54,7 @@ public class HistoryDisplayPane {
   private TabPane tabPane;
   private double textWidth = 300.0;
   private Label title;
+  private double SPACING = 5.0;
 
   public HistoryDisplayPane(FrontEndExternalAPI viewController, ResourceBundle idResource, String lang) {
     basePane = new BorderPane();
@@ -100,7 +102,7 @@ public class HistoryDisplayPane {
     Tab ex = createTab("ExampleTab");
     ex.setContent(exPane);
     makeExampleCodeButtons();
-    tabPane.setMaxWidth(TABS_WIDTH - 10.0);
+    tabPane.setMaxWidth(TABS_WIDTH - SPACING * 2);
     tabPane.getTabs().addAll(history, var, user, ex);
   }
 
@@ -111,7 +113,7 @@ public class HistoryDisplayPane {
   }
 
   private void createExamplePane() {
-    double spacing = 5.0;
+    double spacing = SPACING;
     exBox = makeBox();
     exBox.setSpacing(spacing);
     exPane = makeScrollPane(exBox);
@@ -140,7 +142,7 @@ public class HistoryDisplayPane {
     return box;
   }
 
-  private ScrollPane makeScrollPane(VBox vBox) {
+  private Node makeScrollPane(VBox vBox) {
     ScrollPane scrollPane = new ScrollPane(vBox);
     scrollPane.setFitToWidth(true);
     scrollPane.setFitToHeight(true);
@@ -158,7 +160,7 @@ public class HistoryDisplayPane {
     topBox.getChildren().add(title);
   }
 
-  public BorderPane getBox() {
+  public Node getBox() {
     return basePane;
   }
 

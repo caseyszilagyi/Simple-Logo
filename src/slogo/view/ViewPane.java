@@ -21,7 +21,7 @@ import slogo.controller.FrontEndExternalAPI;
  * @author Kathleen Chen
  * @author Ji Yun Hyo
  */
-public class ViewPane {
+public class ViewPane implements FrontEndInternalAPI{
   private static final String VIEW_PANE_ID = "ViewPane";
   private static final String HBOX_ID = "TurtleInfoPane";
   private static final String HBOX_TEXT = "TurtleInfoText";
@@ -52,8 +52,6 @@ public class ViewPane {
   }
 
 
-
-  // TODO: Think of better way to pass language
   public String getLanguage() {
     return choiceDisplay.getLanguage();
   }
@@ -69,18 +67,12 @@ public class ViewPane {
   //These magic index values need to be processed in some other way
   //Current set up for these parameters is not SHY enough since we have to have
   // prior knowledge about the order of these parameters
-  public void updateTurtle(List<Double> parameters) {
-
-    turtleDisplay.updateTurtle(parameters);
-
-    moveTurtle(parameters.get(0), parameters.get(1));
-
-  }
 
 
 
-  public void displayTurtleUpdates() {
-    turtleDisplay.updateTurtlePosition();
+
+  public void updateTurtlePositions() {
+    turtleDisplay.updateTurtlePositions();
   }
 
   public void updateCommandQueue(String commandType, List<Double> commandValues) {
