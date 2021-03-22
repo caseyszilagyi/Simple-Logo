@@ -4,13 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 import slogo.model.parse.CommandParser;
 
+/**
+ *
+ * @author jincho
+ */
 public class ConstantList extends ListToken{
 
-
+  /**
+   *
+   * @param command
+   */
   public ConstantList(String command) {
     super(command);
   }
 
+  /**
+   *
+   * @param param
+   */
   @Override
   public void addParamToken(Token param) {
     if (paramTokensExpected.isEmpty()) {
@@ -20,12 +31,7 @@ public class ConstantList extends ListToken{
       List<String> expected = new ArrayList<>(CommandParser.commandParam.get(param.getCommand()));
       paramTokensExpected.push(expected);
     } else {
-      while (!paramTokensExpected.isEmpty()) {
-        paramTokensExpected.peek().remove(0);
-        if(paramTokensExpected.peek().isEmpty()) {
-          paramTokensExpected.pop();
-        } else { break; }
-      }
+      reduceTokenParamStack(paramTokensExpected);
     }
   }
 }

@@ -98,8 +98,6 @@ public class MakeTokens extends Parser{
   private Token makeToken(String command) {
     String type = tokenType(command);
     if(isList(command)) { type = command; }
-    System.out.println("token make type: "+type);
-    System.out.println("token make command: "+command);
     Token toRet;
     try {
       toRet = (Token) Class.forName(TOKEN_PACKAGE + type).getDeclaredConstructor(String.class).newInstance(command);
@@ -146,7 +144,7 @@ public class MakeTokens extends Parser{
 
   private String checkExpectedToken(Token toAdd, String expected, boolean inList) {
     if(!getClassName(toAdd).equals(expected) && !inList) {
-      throw new ErrorHandler("WrongCommandArg");
+      throw new ErrorHandler("WrongParamNum");
     } else if (!isList(expected) || isListEnd(getClassName(toAdd))) {
       tokenizeStack.peek().remove(0);
       if (tokenizeStack.peek().isEmpty()) {

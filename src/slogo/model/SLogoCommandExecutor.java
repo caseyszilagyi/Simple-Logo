@@ -88,7 +88,6 @@ public class SLogoCommandExecutor implements CommandExecutor {
    */
   public void executeCommand(String input, String language) {
     CommandParser commandParser = new CommandParser(input, language, MODEL_CONTROLLER);
-
     TreeNode inputRoot = commandParser.makeTree();
     for (TreeNode child : inputRoot.getChildren()) {
       COMMAND_LOADER.makeCommand(BUNDLE, child).execute();
