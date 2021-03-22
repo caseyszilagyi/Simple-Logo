@@ -16,6 +16,7 @@ abstract class FrontEndSprite {
         this.penState = penState;
         this.turtleImageView = turtleImage;
         penThickness = 1.0;
+        turtleImageView.setId("Turtle");
     }
 
     public void setxCoord(double xCoord) {

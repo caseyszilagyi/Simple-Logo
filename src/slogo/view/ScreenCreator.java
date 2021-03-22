@@ -36,9 +36,7 @@ public class ScreenCreator implements FrontEndInternalAPI{
   private UserCommandPane userCommand;
   private ViewPane viewPane;
   private CommandButtonPane commandButtonPane;
-  private String styleSheet;
   private Timeline timeline;
-  private ResourceBundle idResource;
 
   public ScreenCreator(FrontEndExternalAPI viewController) {
     stage = new Stage();
@@ -50,9 +48,9 @@ public class ScreenCreator implements FrontEndInternalAPI{
     stage.show();
 
     String defaultLanguage = "English";
-    idResource = ResourceBundle.getBundle(IDS_FOR_TESTING);
+    ResourceBundle idResource = ResourceBundle.getBundle(IDS_FOR_TESTING);
 
-    styleSheet = "slogo/view/resources/default.css";
+    String styleSheet = "slogo/view/resources/default.css";
     scene.getStylesheets().add(styleSheet);
 
     historyDisplayPane = new HistoryDisplayPane(viewController, idResource, defaultLanguage);

@@ -23,8 +23,6 @@ import slogo.controller.FrontEndExternalAPI;
  */
 public class ViewPane implements FrontEndInternalAPI{
   private static final String VIEW_PANE_ID = "ViewPane";
-  private static final String HBOX_ID = "TurtleInfoPane";
-  private static final String HBOX_TEXT = "TurtleInfoText";
 
   private static final int ROWS = 700;
   private static final int COLS = 600;
@@ -32,11 +30,7 @@ public class ViewPane implements FrontEndInternalAPI{
   private GridPane viewPane;
   private TurtleDisplayPane turtleDisplay;
   private ViewChoicePane choiceDisplay;
-  private double xCoord;
-  private double yCoord;
-  private double previousAngle = 90;
   private FrontEndExternalAPI viewController;
-  private HBox displayInfoBox;
 
   public ViewPane(FrontEndExternalAPI viewController, Stage s, ResourceBundle idResource) {
     this.viewController = viewController;
@@ -45,8 +39,6 @@ public class ViewPane implements FrontEndInternalAPI{
     viewPane.getStyleClass().add(VIEW_PANE_ID);
     viewPane.setMaxWidth(ROWS + 10.0);
     viewPane.setMinWidth(ROWS + 10.0);
-    xCoord = 0;
-    yCoord = 0;
     turtleDisplay = new TurtleDisplayPane(viewController, viewPane, ROWS, COLS);
     choiceDisplay = new ViewChoicePane(viewController, s, viewPane, turtleDisplay, idResource);
   }
@@ -91,23 +83,4 @@ public class ViewPane implements FrontEndInternalAPI{
     turtleDisplay.setActiveTurtles(iDs);
   }
 }
-
-
-/*  public void moveTurtleByDistance(double distance) {
-    // do the calculations to make the turtle go forward
-    // THIS WAS WAY HARDER THAN I THOGUGHT
-    // because the angles/getrotate are all messed up
-    double turtleX;
-    double turtleY;
-    double turtleAngle = ((-turtle.getRotate() - 90) * Math.PI) / (180);
-    turtleX = turtle.getX() - Math.cos(turtleAngle) * distance;
-    turtleY = turtle.getY() + Math.sin(turtleAngle) * distance;
-    if (!penUP) {
-      //createLine(turtleX, turtleY);
-    }
-
-    turtle.setX(turtleX);
-    turtle.setY(turtleY);
-
-  }*/
 

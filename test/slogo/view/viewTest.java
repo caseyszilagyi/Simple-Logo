@@ -4,8 +4,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
@@ -25,7 +27,7 @@ public class viewTest extends DukeApplicationTest {
   private Button backgroundButton;
   private AnchorPane turtleDisplay;
   private Button penButton;
-  private ImageView turtle;
+  private ScreenCreator screenCreator;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -38,11 +40,10 @@ public class viewTest extends DukeApplicationTest {
     backgroundButton = lookup("#BackgroundButton").query();
     turtleDisplay = lookup("#TurtleView").query();
     penButton = lookup("#PenButton").query();
-    turtle = lookup("#Turtle").query();
   }
 
   @Test
-  void showPreviousCommand() {
+  void ShowPreviousCommand() {
     String expected = "forward 100";
 
     writeTo(codeInputBox, expected);
@@ -56,7 +57,7 @@ public class viewTest extends DukeApplicationTest {
   }
 
   @Test
-  void clearTextArea() {
+  void ClearTextArea() {
     writeTo(codeInputBox, "cs");
 
     clickOn(clearButton);
@@ -68,18 +69,18 @@ public class viewTest extends DukeApplicationTest {
   }
 
   @Test
-  void changeBackgroundColor() {
+  void ChangeBackgroundColor() {
     clickOn(backgroundButton);
     ColorPicker backgroundColorPicker = lookup("#BackgroundColorPicker").query();
-    setValue(backgroundColorPicker, Color.BLUE);
+    setValue(backgroundColorPicker, Color.valueOf("0xd3d3d3ff"));
 
     Paint fill = turtleDisplay.getBackground().getFills().get(0).getFill();
     String backgroundColor = fill.toString();
-    assertEquals(Color.BLUE.toString(), backgroundColor);
+    assertEquals(Color.valueOf("0xd3d3d3ff").toString(), backgroundColor);
   }
 
   @Test
-  void changePenColor() {
+  void ChangePenColor() {
     clickOn(penButton);
     ColorPicker penColorPicker = lookup("#PenColorPicker").query();
     setValue(penColorPicker, Color.DEEPPINK);
@@ -93,7 +94,8 @@ public class viewTest extends DukeApplicationTest {
   }
 
   @Test
-  void testForwardButton() {
+  void TestForwardButton() {
+    ImageView turtle = lookup("#Turtle").query();
     double original = turtle.getY();
 
     Button forwardButton = lookup("#ForwardButton").query();
@@ -105,7 +107,8 @@ public class viewTest extends DukeApplicationTest {
   }
 
   @Test
-  void testBackwardButton() {
+  void TestBackwardButton() {
+    ImageView turtle = lookup("#Turtle").query();
     double original = turtle.getY();
 
     Button backwardButton = lookup("#BackwardButton").query();
@@ -117,29 +120,32 @@ public class viewTest extends DukeApplicationTest {
   }
 
   @Test
-  void testRightButton() {
+  void TestRightButton() {
     Button rightButton = lookup("#RightButton").query();
     clickOn(rightButton);
 
     double correct = 45.0;
+    ImageView turtle = lookup("#Turtle").query();
     double current = turtle.getRotate();
 
     assertEquals(correct, current);
   }
 
   @Test
-  void testLeftButton() {
+  void TestLeftButton() {
     Button leftButton = lookup("#LeftButton").query();
     clickOn(leftButton);
 
     double correct = -45.0;
+    ImageView turtle = lookup("#Turtle").query();
     double current = turtle.getRotate();
 
     assertEquals(correct, current);
   }
 
   @Test
-  void testHomeButton() {
+  void TestHomeButton() {
+    ImageView turtle = lookup("#Turtle").query();
     double original = turtle.getY();
 
     Button homeButton = lookup("#HomeButton").query();
@@ -151,7 +157,7 @@ public class viewTest extends DukeApplicationTest {
   }
 
   @Test
-  void testLanguageComboBox() {
+  void TestLanguageComboBox() {
     ComboBox lang = lookup("#LanguageComboBox").query();
     select(lang, "Italiano");
     System.out.println("selected");
