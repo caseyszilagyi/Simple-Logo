@@ -3,13 +3,13 @@ package slogo.view;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-abstract class FrontEndObject {
+abstract class FrontEndSprite {
     private double xCoord;
     private double yCoord;
     private double penState;
     private ImageView turtleImageView;
 
-    public FrontEndObject(double xCoord, double yCoord, ImageView turtleImage, double penState){
+    public FrontEndSprite(double xCoord, double yCoord, ImageView turtleImage, double penState){
         this.xCoord = xCoord;
         this.yCoord = yCoord;
         this.penState = penState;
