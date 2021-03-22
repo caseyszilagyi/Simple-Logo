@@ -43,6 +43,7 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
   private int FIRST_TURTLE = 1;
   private int currentID = 1;
   private FrontEndExternalAPI viewController;
+  private String cS = "clearscreen";
 
   String turtleImageFile = "Turtle2.gif";
   String inactiveTurtleImageFile = "Turtle3.gif";
@@ -102,9 +103,10 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
     if(nextY < 0 || nextX < 0 || nextY > cols - TURTLE_HEIGHT || nextX > rows - TURTLE_WIDTH){
       Alert error = new Alert(AlertType.ERROR);
       error.setContentText("Turtle out of bounds!");
-      clearQueue();
-
+      nextX = centerX;
+      nextY = centerY;
       error.show();
+      viewController.processUserCommandInput(cS);
     }
 
     if (allTurtleInformation.get(currentID).getPenState() == 1) {
