@@ -84,7 +84,7 @@ public class ViewChoicePane {
     backgroundColorPicker = makeColorPicker(key, 0, Color.valueOf(currentBackgroundColor));
   }
 
-  private void changeBackgroundColor() {
+  private void setBackground() {
     currentBackgroundColor = backgroundColorPicker.getValue().toString();
     BackgroundFill backgroundFill = new BackgroundFill(backgroundColorPicker.getValue(),
             new CornerRadii(10), new Insets(10));

@@ -8,12 +8,11 @@ public interface FrontEndInternalAPI {
   /**
    *
    */
-  public void setBackgroundColor(String color);
+  public void setBackground(String color);
 
-  /**
-   *
-   */
-  public void updateScreen();
+  void getLanguage();
+
+  void setActiveTurtle();
 
   /**
    *
