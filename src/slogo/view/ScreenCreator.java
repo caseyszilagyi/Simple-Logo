@@ -25,7 +25,7 @@ import slogo.controller.FrontEndExternalAPI;
 public class ScreenCreator {
 
   private static final String TITLE = "SLogo";
-  private static final double DEFAULT_X = 1200.0;
+  private static final double DEFAULT_X = 1250.0;
   private static final double DEFAULT_Y = 800.0;
   private static final String DEFAULT_RESOURCES = HistoryDisplayPane.class.getPackageName() + ".resources.";
   private static final String IDS_FOR_TESTING = DEFAULT_RESOURCES + "IDsforTesting";
