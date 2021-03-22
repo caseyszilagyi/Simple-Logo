@@ -8,7 +8,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import slogo.controller.FrontEndExternalAPI;
@@ -33,10 +32,8 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
   private Deque<Double> commandsToBeExecuted;
   private Deque<String> typeToBeUpdated;
   private int INCREMENT_FACTOR = 10;
-  private double lastAngle = 90;
   private double rows;
   private double cols;
-  private double penThickness = 1.0;
   private Map<Integer, FrontEndSprite> allTurtleInformation;
   private int FIRST_TURTLE = 1;
   private int currentID = 1;
@@ -46,9 +43,6 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
 
   String turtleImageFile = "Turtle2.gif";
   String inactiveTurtleImageFile = "Turtle3.gif";
-  String movingTurtleImageFile = "Turtle4.gif";
-
-
 
   public TurtleDisplayPane(FrontEndExternalAPI viewController,GridPane root, double r, double c) {
     this.viewController = viewController;
