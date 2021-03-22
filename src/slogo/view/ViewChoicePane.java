@@ -1,6 +1,7 @@
 package slogo.view;
 
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -9,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import slogo.controller.BackEndExternalAPI;
@@ -39,12 +41,12 @@ public class ViewChoicePane {
   private ColorPicker penColorPicker;
   private ColorPicker backgroundColorPicker;
   private Stage stage;
-  private Button backgroundColorPickerButton;
-  private Button penColorPickerButton;
+  private Node backgroundColorPickerButton;
+  private Node penColorPickerButton;
   private ComboBox<String> languageComboBox;
   private String language;
-  private Color penColor = Color.BLACK;
-  private Color currentPenColor = Color.BLACK;
+  private Paint penColor = Color.BLACK;
+  private Paint currentPenColor = Color.BLACK;
   private String currentBackgroundColor = "d3d3d3";
   private TurtleDisplayPane turtleDisplay;
   private ResourceBundle idsForTesting;
@@ -112,7 +114,7 @@ public class ViewChoicePane {
     choicePane.add(penColorPickerButton, 1, 0);
   }
 
-  public Color getPenColor() {
+  public Paint getPenColor() {
     return penColor;
   }
 
@@ -161,7 +163,7 @@ public class ViewChoicePane {
     });
   }
 
-  private Button makeButton(String key, int col) {
+  private Node makeButton(String key, int col) {
     Button button = new Button();
     button.setGraphic(setIcon(imageResources.getString(key)));
     button.getStyleClass().add(ICON);
@@ -171,8 +173,8 @@ public class ViewChoicePane {
     return button;
   }
 
-  private ColorPicker makeColorPicker(String key, int col, Color color) {
-    ColorPicker colorPicker = new ColorPicker(color);
+  private ColorPicker makeColorPicker(String key, int col, Paint color) {
+    ColorPicker colorPicker = new ColorPicker((Color) color);
     colorPicker.setId(idsForTesting.getString(key));
     colorPicker.getStyleClass().add(COLOR_PICKER);
     colorPicker.setOnAction(event -> reflectionMethod(key));

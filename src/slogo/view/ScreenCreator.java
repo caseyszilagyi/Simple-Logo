@@ -1,6 +1,5 @@
 package slogo.view;
 
-import javafx.scene.control.Button;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -11,7 +10,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import slogo.controller.FrontEndExternalAPI;
@@ -60,7 +58,7 @@ public class ScreenCreator {
     root.setRight(historyDisplayPane.getBox());
 
     userCommand = new UserCommandPane(viewController, idResource, defaultLanguage);
-    root.setBottom(userCommand.getBox());
+    root.setBottom(userCommand.getBottomPaneBoxArea());
 
     viewPane = new ViewPane(viewController, stage, idResource);
     root.setCenter(viewPane.getBox());

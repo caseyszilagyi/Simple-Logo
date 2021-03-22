@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.ResourceBundle;
 
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -39,20 +40,20 @@ public class UserCommandPane {
   private static final String REFLECTION_RESOURCE = DEFAULT_RESOURCES + "UserCommandReflectionActions";
   private static final String BUTTON_LANGUAGE = DEFAULT_RESOURCES + "languages.UserCommand";
 
-  private GridPane box;
-  private TextArea textArea;
+  private GridPane bottomPaneBoxArea;
+  private TextArea userInputTextArea;
   private FrontEndExternalAPI viewController;
-  private ComboBox<String> helpComboBox;
-  private Button helpButton;
-  private Slider slider;
+  private ComboBox<String> helpDropDownBoxWithInformationAboutCommands;
+  private Node helpButton;
+  private Slider sliderToControlTurtleSpeed;
   private ResourceBundle idsForTesting;
   private ResourceBundle reflectionResource;
   private ResourceBundle buttonLanguageResource;
 
   public UserCommandPane(FrontEndExternalAPI viewController, ResourceBundle idResource, String lang) {
     this.viewController = viewController;
-    box = new GridPane();
-    box.getStyleClass().add(USER_COMMAND_PANE_ID);
+    bottomPaneBoxArea = new GridPane();
+    bottomPaneBoxArea.getStyleClass().add(USER_COMMAND_PANE_ID);
     idsForTesting = idResource;
     reflectionResource = ResourceBundle.getBundle(REFLECTION_RESOURCE);
     buttonLanguageResource = ResourceBundle.getBundle(BUTTON_LANGUAGE + lang);
@@ -62,12 +63,12 @@ public class UserCommandPane {
   }
 
   private void createSlider() {
-    slider = new Slider(10, 5000, 100);
-    box.add(slider, 5, 0);
+    sliderToControlTurtleSpeed = new Slider(10, 5000, 100);
+    bottomPaneBoxArea.add(sliderToControlTurtleSpeed, 5, 0);
   }
 
   public double getAnimationSpeed(){
-    return slider.getValue();
+    return sliderToControlTurtleSpeed.getValue();
   }
 
   private void createButtons() {
@@ -77,25 +78,25 @@ public class UserCommandPane {
   }
 
   private void run() {
-    viewController.processUserCommandInput(textArea.getText());
+    viewController.processUserCommandInput(userInputTextArea.getText());
   }
 
   private void clear() {
-    textArea.clear();
+    userInputTextArea.clear();
   }
 
   private void createHelpButton() {
-    box.getChildren().remove(helpButton);
+    bottomPaneBoxArea.getChildren().remove(helpButton);
     File directoryPath = new File(FILE_PATH);
     ArrayList<String> allReferences = new ArrayList<>(Arrays.asList(directoryPath.list()));
     Collections.sort(allReferences);
-    helpComboBox = new ComboBox<>();
-    helpComboBox.getItems().addAll(allReferences);
-    helpComboBox.setValue(buttonLanguageResource.getString("DefaultMessage"));
-    helpComboBox.getStyleClass().add(COMBO_BOX);
-    box.add(helpComboBox, 3, 0);
-    helpComboBox.setOnAction(handler -> {
-      displayCommandInformation(helpComboBox.getValue());
+    helpDropDownBoxWithInformationAboutCommands = new ComboBox<>();
+    helpDropDownBoxWithInformationAboutCommands.getItems().addAll(allReferences);
+    helpDropDownBoxWithInformationAboutCommands.setValue(buttonLanguageResource.getString("DefaultMessage"));
+    helpDropDownBoxWithInformationAboutCommands.getStyleClass().add(COMBO_BOX);
+    bottomPaneBoxArea.add(helpDropDownBoxWithInformationAboutCommands, 3, 0);
+    helpDropDownBoxWithInformationAboutCommands.setOnAction(handler -> {
+      displayCommandInformation(helpDropDownBoxWithInformationAboutCommands.getValue());
     });
   }
 
@@ -117,18 +118,18 @@ public class UserCommandPane {
     Alert info = new Alert(AlertType.INFORMATION);
     info.setContentText(text.toString());
     info.showAndWait();
-    box.getChildren().remove(helpComboBox);
-    box.add(helpButton, 3, 0);
+    bottomPaneBoxArea.getChildren().remove(helpDropDownBoxWithInformationAboutCommands);
+    bottomPaneBoxArea.add(helpButton, 3, 0);
   }
 
-  private Button makeButton(String key, int col) {
+  private Node makeButton(String key, int col) {
     Button button = new Button();
     button.setText(buttonLanguageResource.getString(key));
     button.setPrefHeight(HEIGHT);
     button.getStyleClass().add(BUTTON);
     button.setId(idsForTesting.getString(key));
     button.setOnAction(event -> reflectionMethod(key));
-    box.add(button, col, 0);
+    bottomPaneBoxArea.add(button, col, 0);
     return button;
   }
 
@@ -144,25 +145,25 @@ public class UserCommandPane {
   }
 
   private void addTextArea() {
-    textArea = new TextArea();
-    textArea.setPrefWidth(WIDTH);
-    textArea.setPrefHeight(HEIGHT);
-    textArea.getStyleClass().add(TEXT_AREA);
-    textArea.setId(idsForTesting.getString("TextArea"));
-    box.add(textArea, 0, 0);
+    userInputTextArea = new TextArea();
+    userInputTextArea.setPrefWidth(WIDTH);
+    userInputTextArea.setPrefHeight(HEIGHT);
+    userInputTextArea.getStyleClass().add(TEXT_AREA);
+    userInputTextArea.setId(idsForTesting.getString("TextArea"));
+    bottomPaneBoxArea.add(userInputTextArea, 0, 0);
   }
 
-  public GridPane getBox() {
-    return box;
+  public GridPane getBottomPaneBoxArea() {
+    return bottomPaneBoxArea;
   }
 
   public void displayCommandStringOnTextArea(String command) {
-    textArea.setText(command);
+    userInputTextArea.setText(command);
   }
 
   public void updateLanguage(String lang) {
     buttonLanguageResource = ResourceBundle.getBundle(BUTTON_LANGUAGE + lang);
-    box.getChildren().clear();
+    bottomPaneBoxArea.getChildren().clear();
     addTextArea();
     createButtons();
     createSlider();
