@@ -6,8 +6,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.regex.Pattern;
 import slogo.ErrorHandler;
+import slogo.controller.BackEndExternalAPI;
 import slogo.model.SLogoCommandExecutor;
 
 /**
@@ -19,6 +21,7 @@ public class InputCleaner extends Parser{
 
   private static final String WHITESPACE = "\\s+";
   private List<Entry<String, Pattern>> languagePatterns;
+  private final Set userDefinedCommands;
 
   private String userInput;
 
@@ -28,10 +31,11 @@ public class InputCleaner extends Parser{
    *
    * @param userInput       raw string of commands
    */
-  public InputCleaner(String userInput, String language) {
+  public InputCleaner(String userInput, String language, BackEndExternalAPI modelController) {
     languagePatterns = new ArrayList<>();
     addLangPatterns(language);
     this.userInput = userInput;
+    userDefinedCommands = modelController.getUserDefinedCommands().keySet();
   }
 
   private void addLangPatterns(String syntax) {
@@ -70,10 +74,10 @@ public class InputCleaner extends Parser{
     List<String> translated = new ArrayList<>();
     String[] beforeTranslation = input.split(WHITESPACE);
     for (String s : beforeTranslation) {
-      if (getCommandKey(s).equals("NO MATCH")) {
-        translated.add(s);
-      } else {
+      if (match(s, syntaxMap.get("Command")) && !userDefinedCommands.contains(s)) {
         translated.add(getCommandKey(s));
+      } else {
+        translated.add(s);
       }
     }
     return translated;
@@ -89,6 +93,6 @@ public class InputCleaner extends Parser{
         throw new ErrorHandler("InvalidCommandName");
       }
     }
-    return "NO MATCH";
+    return text;
   }
 }

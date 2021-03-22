@@ -48,10 +48,21 @@ public class CleanInputTest {
     expected.add("50");
     expected.add("Repeat");
     expected.add("5");
-    expected.add("CommandBlock_1");
+    expected.add("[");
     expected.add("Forward");
     expected.add("50");
+    expected.add("]");
     assertEquals(cleaner.parseResults(), expected);
+  }
+
+  /**
+   * Test invalid language translation
+   */
+  @Test
+  void testErrorLanguage() {
+    String userInput = "# comment\nforward 50 ht 50 chongfu 5 [ qj 50 ]";
+    InputCleaner cleaner = makeInputCleaner(userInput, "Chinese");
+    assertEquals(cleaner.parseResults(), new ErrorHandler("InvalidCommandName"));
   }
 
   /**
@@ -66,11 +77,12 @@ public class CleanInputTest {
     expected.add(":size");
     expected.add("<");
     expected.add("5");
-    expected.add("CommandBlock_1");
+    expected.add("[");
     expected.add("Forward");
     expected.add(":size");
     expected.add("Backward");
     expected.add(":size");
+    expected.add("]");
     assertEquals(cleaner.parseResults(), expected);
   }
 
@@ -86,16 +98,18 @@ public class CleanInputTest {
     expected.add(":size");
     expected.add("<");
     expected.add("5");
-    expected.add("CommandBlock_1");
+    expected.add("[");
     expected.add("Forward");
     expected.add(":size");
     expected.add("Backward");
     expected.add(":size");
+    expected.add("]");
     expected.add("Repeat");
     expected.add("4");
-    expected.add("CommandBlock_2");
+    expected.add("[");
     expected.add("Forward");
     expected.add("5");
+    expected.add("]");
     assertEquals(cleaner.parseResults(), expected);
  }
 
@@ -109,46 +123,17 @@ public class CleanInputTest {
     List<String> expected = new ArrayList<>();
     expected.add("Repeat");
     expected.add("2");
-    expected.add("CommandBlock_1");
+    expected.add("[");
     expected.add("Repeat");
     expected.add("3");
-    expected.add("CommandBlock_2");
+    expected.add("[");
     expected.add("Forward");
     expected.add("100");
+    expected.add("]");
+    expected.add("]");
     assertEquals(cleaner.parseResults(), expected);
  }
 
-  /**
-   * Test mult wrapped brackets
-   */
-  @Test
-  void testMultWrappedBrackets() {
-    String userInput = "repeat 2 [ repeat 3 [ repeat 2 [ fd 100 ] ] ]";
-    InputCleaner cleaner = makeInputCleaner(userInput, "English");
-    List<String> expected = new ArrayList<>();
-    expected.add("Repeat");
-    expected.add("2");
-    expected.add("CommandBlock_1");
-    expected.add("Repeat");
-    expected.add("3");
-    expected.add("CommandBlock_2");
-    expected.add("Repeat");
-    expected.add("2");
-    expected.add("CommandBlock_3");
-    expected.add("Forward");
-    expected.add("100");
-    assertEquals(cleaner.parseResults(), expected);
-  }
-
-  /**
-   * Test wrong num brackets
-   */
-  @Test
-  void testWrongBrackets() {
-    String userInput = "repeat 2 [ repeat 3 [ repeat 2 [ fd 100 ] ] ";
-    InputCleaner cleaner = makeInputCleaner(userInput, "English");
-    assertEquals(cleaner.parseResults(), new ErrorHandler("WrongParamNum"));
-  }
 
   /**
    * Tests the Repeat command repeat 2 [ repeat 3 [ fd 100 ] ]
@@ -160,47 +145,21 @@ public class CleanInputTest {
     List<String> expected = new ArrayList<>();
     expected.add("MakeUserInstruction");
     expected.add("Movement");
-    expected.add("CommandBlock_1");
+    expected.add("[");
     expected.add(":distance");
-    expected.add("CommandBlock_2");
+    expected.add("]");
+    expected.add("[");
     expected.add("Forward");
     expected.add(":distance");
+    expected.add("]");
     assertEquals(expected, cleaner.parseResults());
   }
 
-  /**
-   * Tests the do times dotimes [ :size 10 ] [ fd :size right 5 ]
-   */
-  @Test
-  void testDoTimes() {
-    String input = "dotimes [ :size 10 ] [ fd :size right 5 ]";
-    InputCleaner cleaner = makeInputCleaner(input, "English");
-    List<String> expected = new ArrayList<>();
-    expected.add("DoTimes");
-    expected.add("CommandBlock_1");
-    expected.add(":size");
-    expected.add("10");
-    expected.add("CommandBlock_2");
-    expected.add("Forward");
-    expected.add(":size");
-    expected.add("Right");
-    expected.add("5");
-    assertEquals(expected, cleaner.parseResults());
-  }
 
-  /**
-   * Tests the wrong input fd 50 60
-   */
-  @Test
-  void testSimpleWrongInput() {
-    String input = "fd 50 60";
-    InputCleaner cleaner = makeInputCleaner(input, "English");
-    assertEquals(new ErrorHandler("WrongParamNum"), cleaner.parseResults());
-  }
 
   private InputCleaner makeInputCleaner(String userInput, String language) {
     ModelController modelController = new ModelController();
-    InputCleaner cleaner = new InputCleaner(userInput, language);
+    InputCleaner cleaner = new InputCleaner(userInput, language, modelController);
     return cleaner;
   }
 
