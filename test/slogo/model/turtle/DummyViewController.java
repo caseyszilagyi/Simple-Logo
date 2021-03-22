@@ -57,11 +57,6 @@ public class DummyViewController implements FrontEndExternalAPI {
   }
 
   @Override
-  public Map<String, Double> getVariables() {
-    return null;
-  }
-
-  @Override
   public void updateFrontEnd(Map<String, Double> variables,
       Map<String, UserDefinedCommand> userDefinedCommands) {
 
@@ -124,6 +119,11 @@ public class DummyViewController implements FrontEndExternalAPI {
 
   @Override
   public void setLanguage(String language) {
+
+  }
+
+  @Override
+  public void setActiveTurtles(List<Integer> iDs) {
 
   }
 }

@@ -37,13 +37,11 @@ public class ScreenCreator {
   private UserCommandPane userCommand;
   private ViewPane viewPane;
   private CommandButtonPane commandButtonPane;
-  private FrontEndExternalAPI viewController;
   private String styleSheet;
   private Timeline timeline;
   private ResourceBundle idResource;
 
   public ScreenCreator(FrontEndExternalAPI viewController) {
-    this.viewController = viewController;
     stage = new Stage();
     stage.setResizable(true);
     root = new BorderPane();
@@ -74,17 +72,7 @@ public class ScreenCreator {
   }
 
 
-  public void moveTurtle(List<Double> parameters) {
-
-    System.out.println("parameters: " + parameters);
-    viewPane.updateTurtle(parameters);
-
-//    if(parameters.get(5) == 1){
-//      reset();
-//    }
-  }
-
-  public void setAnimationSpeed(){
+  private void setAnimationSpeed(){
     timeline.setRate(userCommand.getAnimationSpeed());
   }
 
@@ -113,23 +101,10 @@ public class ScreenCreator {
   }
 
   private void runSimulation() {
-//      animationTimer = new AnimationTimer() {
-//        @Override
-//        public void handle(long now) {
-//          if (sleepTimer < frameDelay) {
-//            sleepTimer++;
-//            return;
-//          }
-//          updateTurtlePosition();
-//          sleepTimer = 0;
-//        }
-//      };
     timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
 
       displayTurtleUpdates();
       setAnimationSpeed();
-
-
     }));
     timeline.setCycleCount(Animation.INDEFINITE);
     timeline.play();
@@ -154,5 +129,9 @@ public class ScreenCreator {
 
   public void setActiveTurtle(int turtleID) {
     viewPane.setActiveTurtle(turtleID);
+  }
+
+  public void setActiveTurtles(List<Integer> iDs) {
+    viewPane.setActiveTurtles(iDs);
   }
 }

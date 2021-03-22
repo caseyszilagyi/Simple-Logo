@@ -7,6 +7,7 @@ import slogo.ErrorHandler;
 import slogo.model.CommandExecutor;
 import slogo.model.SLogoCommandExecutor;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
+import slogo.model.commands.basic_commands.command_types.Command;
 
 /**
  * @author Ji Yun Hyo
@@ -21,6 +22,7 @@ public class ModelController implements BackEndExternalAPI {
    */
   public ModelController() {
     COMMAND_EXECUTOR = new SLogoCommandExecutor(this);
+
   }
 
 
@@ -51,6 +53,7 @@ public class ModelController implements BackEndExternalAPI {
    */
   public void executeCommand(String input) {
     COMMAND_EXECUTOR.executeCommand(input, viewController.getLanguage());
+    viewController.updateFrontEnd(getVariables(),getUserDefinedCommands());
   }
 
 
@@ -135,6 +138,7 @@ public class ModelController implements BackEndExternalAPI {
    */
   public void setActiveTurtles(List<Integer> IDs){
     //:TODO Link with front end
+    viewController.setActiveTurtles(IDs);
   }
 
   /**
