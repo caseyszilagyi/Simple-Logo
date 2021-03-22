@@ -37,7 +37,7 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
   private double rows;
   private double cols;
   private double penThickness = 1.0;
-  private Map<Integer, FrontEndTurtle> allTurtleInformation;
+  private Map<Integer, FrontEndSprite> allTurtleInformation;
   private int FIRST_TURTLE = 1;
   private int currentID = 1;
 
@@ -136,7 +136,7 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
     turtle.setY(centerY);
     turtle.setRotate(0);
 
-    FrontEndTurtle turtleInformation = new FrontEndTurtle(centerX, centerY, turtle, penUP);
+    FrontEndSprite turtleInformation = new FrontEndTurtle(centerX, centerY, turtle, penUP);
 
  //   activeTurtles.put(id, turtle);
     this.allTurtleInformation.put(id, turtleInformation);
@@ -181,7 +181,7 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
     typeToBeUpdated.clear();
 
     turtleViewPane.getChildren().clear();
-    for(Map.Entry<Integer, FrontEndTurtle> entry : allTurtleInformation.entrySet()){
+    for(Map.Entry<Integer, FrontEndSprite> entry : allTurtleInformation.entrySet()){
       createTurtle(entry.getKey());
     }
 
