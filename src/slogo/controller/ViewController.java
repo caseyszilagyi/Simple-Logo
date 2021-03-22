@@ -173,4 +173,9 @@ public class ViewController implements FrontEndExternalAPI {
     screenCreator.setActiveTurtles(iDs);
 //    System.out.println("All active turtles: " + iDs);
   }
+
+  @Override
+  public void stopAnimation() {
+    screenCreator.stopAnimation();
+  }
 }

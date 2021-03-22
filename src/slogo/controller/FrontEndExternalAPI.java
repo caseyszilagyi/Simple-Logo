@@ -73,4 +73,6 @@ public interface FrontEndExternalAPI {
   void setLanguage(String language);
 
   void setActiveTurtles(List<Integer> iDs);
+
+  void stopAnimation();
 }

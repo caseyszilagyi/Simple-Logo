@@ -126,4 +126,9 @@ public class DummyViewController implements FrontEndExternalAPI {
   public void setActiveTurtles(List<Integer> iDs) {
 
   }
+
+  @Override
+  public void stopAnimation() {
+
+  }
 }

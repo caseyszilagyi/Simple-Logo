@@ -4,12 +4,14 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
+import slogo.controller.FrontEndExternalAPI;
 
 public class TurtleDisplayPane implements FrontEndInternalAPI{
   private static final double TURTLE_WIDTH = 50;
@@ -40,13 +42,16 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
   private Map<Integer, FrontEndSprite> allTurtleInformation;
   private int FIRST_TURTLE = 1;
   private int currentID = 1;
+  private FrontEndExternalAPI viewController;
 
   String turtleImageFile = "Turtle2.gif";
   String inactiveTurtleImageFile = "Turtle3.gif";
   String movingTurtleImageFile = "Turtle4.gif";
 
 
-  public TurtleDisplayPane(GridPane root, double r, double c) {
+
+  public TurtleDisplayPane(FrontEndExternalAPI viewController,GridPane root, double r, double c) {
+    this.viewController = viewController;
     viewPane = root;
     rows = r;
     cols = c;
@@ -94,11 +99,25 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
     double nextX = commandsToBeExecuted.pop();
     double nextY = commandsToBeExecuted.pop();
 
+    if(nextY < 0 || nextX < 0 || nextY > cols - TURTLE_HEIGHT || nextX > rows - TURTLE_WIDTH){
+
+      clearQueue();
+      viewController.stopAnimation();
+      Alert error = new Alert(AlertType.ERROR);
+      error.setContentText("Turtle out of bounds!");
+      error.showAndWait();
+    }
+
     if (allTurtleInformation.get(currentID).getPenState() == 1) {
       createLine(nextX, nextY, penColor);
     }
     allTurtleInformation.get(currentID).getTurtle().setX(nextX);
     allTurtleInformation.get(currentID).getTurtle().setY(nextY);
+  }
+
+  private void clearQueue() {
+    commandsToBeExecuted.clear();
+    typeToBeUpdated.clear();
   }
 
   private void updateAngles() {
@@ -167,7 +186,6 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
 
     allTurtleInformation.get(currentID).setxCoord(x);
     allTurtleInformation.get(currentID).setyCoord(y);
-
   }
 
   private void createLine(double x, double y, Paint penColor) {
