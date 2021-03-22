@@ -12,32 +12,32 @@ import slogo.ErrorHandler;
 import slogo.model.SLogoCommandExecutor;
 import slogo.model.parse.tokens.ListEndToken;
 import slogo.model.parse.tokens.Token;
+import slogo.model.parse.tokens.TokenFactory;
 
 /**
  * Condenses the translated String input as a List into a List of Token objects based on the Regex token. Also deals with different types of lists in String input.
  *
  * @author jincho
  */
-public class MakeTokens extends Parser {
+public class TokensParser extends Parser {
   private final List<String> cleanedString;
   private List<Token> tokens;
-  public static final String TOKEN_PACKAGE = MakeTokens.class.getPackageName() + ".tokens.";
+  public static final String TOKEN_PACKAGE = TokensParser.class.getPackageName() + ".tokens.";
   private static final String COMMAND_WITH_LISTS = "CommandBlocks";
-  private static final String TOKENS_MAP = "TokenSyntax";
 
   private ResourceBundle listParams;
-  private ResourceBundle tokenMap;
   private Deque<List<String>> tokenizeStack;
+  private TokenFactory tokenFactory;
 
   /**
-   * Constructs the MakeTokens object and necessary instance variables.
+   * Constructs the TokensParser object and necessary instance variables.
    *
    * @param cleanedString list of string commands recognizable by the back end
    */
-  public MakeTokens(List<String> cleanedString) {
+  public TokensParser(List<String> cleanedString) {
     this.cleanedString = cleanedString;
+    tokenFactory = new TokenFactory();
     listParams = ResourceBundle.getBundle(SLogoCommandExecutor.COMMAND_PACKAGE + COMMAND_WITH_LISTS);
-    tokenMap = ResourceBundle.getBundle(SLogoCommandExecutor.LANGUAGES_PACKAGE + TOKENS_MAP);
     tokens = new ArrayList<>();
     tokenizeStack = new ArrayDeque<>();
   }
@@ -72,12 +72,12 @@ public class MakeTokens extends Parser {
       Token toAdd;
       if (isListStart(s)) {
         try {
-          toAdd = makeToken(tokenizeStack.peek().get(0));
+          toAdd = tokenFactory.makeToken(tokenizeStack.peek().get(0));
         } catch (Exception e) {
           throw new ErrorHandler("WrongParamNum");
         }
         inList = true;
-      } else { toAdd = makeToken(s); }
+      } else { toAdd = tokenFactory.makeToken(s); }
       if (listParams.containsKey(s)) {
         tokenizeStack.push(getListParams(s));
         expected = tokenizeStack.peek().get(0);
@@ -89,33 +89,6 @@ public class MakeTokens extends Parser {
       }
       tokens.add(toAdd);
     }
-  }
-
-  private Token makeToken(String command) {
-    String type = tokenType(command);
-    if(isList(command)) { type = command; }
-    Token toRet;
-    try {
-      toRet = (Token) Class.forName(TOKEN_PACKAGE + type).getDeclaredConstructor(String.class).newInstance(command);
-    } catch (Exception e) {
-      throw new ErrorHandler("TokenCannotBeMade");
-    }
-    return toRet;
-  }
-
-  private String tokenType(String command) {
-    String regexType = "";
-    for (String key : syntaxMap.keySet()) {
-      Pattern check = syntaxMap.get(key);
-      if (check.matcher(command).matches()) {
-        regexType = key;
-        break;
-      }
-    }
-    if (!regexType.equals("")) {
-      return tokenMap.getString(regexType);
-    }
-    return command;
   }
 
   private List<String> getListParams(String command) {
