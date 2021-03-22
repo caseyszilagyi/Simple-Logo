@@ -20,7 +20,7 @@ import slogo.controller.FrontEndExternalAPI;
  * @author Kathleen Chen
  * @author Ji Yun Hyo
  */
-public class ScreenCreator {
+public class ScreenCreator implements FrontEndInternalAPI{
 
   private static final String TITLE = "SLogo";
   private static final double DEFAULT_X = 1250.0;
@@ -101,7 +101,7 @@ public class ScreenCreator {
   private void runSimulation() {
     timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
 
-      displayTurtleUpdates();
+      updateTurtlePositions();
       setAnimationSpeed();
     }));
     timeline.setCycleCount(Animation.INDEFINITE);
@@ -109,8 +109,8 @@ public class ScreenCreator {
     timeline.setRate(300);
   }
 
-  private void displayTurtleUpdates() {
-    viewPane.displayTurtleUpdates();
+  public void updateTurtlePositions() {
+    viewPane.updateTurtlePositions();
   }
 
   public void updateCommandQueue(String commandType, List<Double> commandValues) {

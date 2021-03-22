@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 
-public class TurtleDisplayPane {
+public class TurtleDisplayPane implements FrontEndInternalAPI{
   private static final double TURTLE_WIDTH = 50;
   private static final double TURTLE_HEIGHT = 50;
   public static final String UPDATE_NEXT_RESOURCE = TurtleDisplayPane.class.getPackageName() + ".resources.UpdateNextReflectionActions";
@@ -71,7 +71,8 @@ public class TurtleDisplayPane {
     createTurtle(FIRST_TURTLE);
   }
 
-  public void updateTurtlePosition() {
+  @Override
+  public void updateTurtlePositions() {
     String key;
     ResourceBundle updateNextActionResources = ResourceBundle.getBundle(UPDATE_NEXT_RESOURCE);
 //
@@ -175,7 +176,7 @@ public class TurtleDisplayPane {
     turtleViewPane.getChildren().add(line1);
   }
 
-  void clearScreen() {
+  public void clearScreen() {
     commandsToBeExecuted.clear();
     typeToBeUpdated.clear();
 
@@ -185,6 +186,7 @@ public class TurtleDisplayPane {
     }
 
   }
+
 
   public void setBackground(Background background) {
     turtleViewPane.setBackground(background);
@@ -202,6 +204,7 @@ public class TurtleDisplayPane {
     commandsToBeExecuted.addAll(commandValues);
 
   }
+
   public void setActiveTurtle(int turtleID) {
     if(!allTurtleInformation.containsKey(turtleID)){
       createTurtle(turtleID);

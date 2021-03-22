@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.ResourceBundle;
 
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -36,13 +37,13 @@ public class HistoryDisplayPane {
   private static final String DISPLAY_BUTTONS = DEFAULT_RESOURCE_PACKAGE + "buttons.languages.HistoryDisplay";
 
   private BorderPane basePane;
-  private ScrollPane historyPane;
+  private Node historyPane;
   private VBox historyBox;
-  private ScrollPane varPane;
+  private Node varPane;
   private VBox varBox;
-  private ScrollPane userPane;
+  private Node userPane;
   private VBox userBox;
-  private ScrollPane exPane;
+  private Node exPane;
   private VBox exBox;
   private FrontEndExternalAPI viewController;
   private VBox topBox;
@@ -140,7 +141,7 @@ public class HistoryDisplayPane {
     return box;
   }
 
-  private ScrollPane makeScrollPane(VBox vBox) {
+  private Node makeScrollPane(VBox vBox) {
     ScrollPane scrollPane = new ScrollPane(vBox);
     scrollPane.setFitToWidth(true);
     scrollPane.setFitToHeight(true);
@@ -158,7 +159,7 @@ public class HistoryDisplayPane {
     topBox.getChildren().add(title);
   }
 
-  public BorderPane getBox() {
+  public Node getBox() {
     return basePane;
   }
 

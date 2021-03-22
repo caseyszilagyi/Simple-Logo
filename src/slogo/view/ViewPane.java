@@ -21,7 +21,7 @@ import slogo.controller.FrontEndExternalAPI;
  * @author Kathleen Chen
  * @author Ji Yun Hyo
  */
-public class ViewPane {
+public class ViewPane implements FrontEndInternalAPI{
   private static final String VIEW_PANE_ID = "ViewPane";
   private static final String HBOX_ID = "TurtleInfoPane";
   private static final String HBOX_TEXT = "TurtleInfoText";
@@ -71,8 +71,8 @@ public class ViewPane {
 
 
 
-  public void displayTurtleUpdates() {
-    turtleDisplay.updateTurtlePosition();
+  public void updateTurtlePositions() {
+    turtleDisplay.updateTurtlePositions();
   }
 
   public void updateCommandQueue(String commandType, List<Double> commandValues) {
