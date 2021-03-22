@@ -159,6 +159,7 @@ public class ViewChoicePane{
     languageComboBox.setOnAction(handler -> {
       int value = displayLanguages.indexOf(languageComboBox.getValue());
       language = allLanguages[value].toString();
+      turtleDisplay.updateLanguage(language);
       viewController.setLanguage(language);
     });
   }
