@@ -102,7 +102,7 @@ public class ScreenCreator implements FrontEndInternalAPI{
   private void runSimulation() {
     timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
 
-      updateTurtlePositions();
+      updateTurtleStates();
       setAnimationSpeed();
     }));
     timeline.setCycleCount(Animation.INDEFINITE);
@@ -110,8 +110,8 @@ public class ScreenCreator implements FrontEndInternalAPI{
     timeline.setRate(300);
   }
 
-  public void updateTurtlePositions() {
-    viewPane.updateTurtlePositions();
+  public void updateTurtleStates() {
+    viewPane.updateTurtleStates();
   }
 
   public void updateCommandQueue(String commandType, List<Double> commandValues) {

@@ -1,13 +1,8 @@
 package slogo.view;
 
-import java.awt.*;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import com.sun.source.tree.LabeledStatementTree;
-import javafx.animation.AnimationTimer;
-import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -71,8 +66,8 @@ public class ViewPane implements FrontEndInternalAPI{
 
 
 
-  public void updateTurtlePositions() {
-    turtleDisplay.updateTurtlePositions();
+  public void updateTurtleStates() {
+    turtleDisplay.updateTurtleStates();
   }
 
   public void updateCommandQueue(String commandType, List<Double> commandValues) {

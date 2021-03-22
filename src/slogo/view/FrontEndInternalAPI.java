@@ -17,6 +17,6 @@ public interface FrontEndInternalAPI {
 
   void clearScreen();
 
-  void updateTurtlePositions();
+  void updateTurtleStates();
 
 }
