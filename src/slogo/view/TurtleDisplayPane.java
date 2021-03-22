@@ -29,8 +29,6 @@ public class TurtleDisplayPane {
   private Deque<String> typeToBeUpdated;
 
   private int INCREMENT_FACTOR = 10;
-  private double lastXPosition = 0;
-  private double lastYPosition = 0;
   private double lastAngle = 90;
   private double rows;
   private double cols;
@@ -152,8 +150,6 @@ public class TurtleDisplayPane {
     allTurtleInformation.get(currentID).setxCoord(x);
     allTurtleInformation.get(currentID).setyCoord(y);
 
-//    lastXPosition = x;
-//    lastYPosition = y;
   }
 
   private void createLine(double x, double y, Color penColor) {
@@ -189,8 +185,6 @@ public class TurtleDisplayPane {
       commandsToBeExecuted.add(90 - parameters.get(2));
       typeToBeUpdated.add("Angles");
     }
-
-    //   turtle.setRotate(90 - parameters.get(2));
 
     commandsToBeExecuted.add(parameters.get(3));
     typeToBeUpdated.add("Pen");
