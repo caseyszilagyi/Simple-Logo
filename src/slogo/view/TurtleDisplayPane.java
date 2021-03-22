@@ -73,7 +73,7 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
   }
 
   @Override
-  public void updateTurtlePositions() {
+  public void updateTurtleStates() {
     String key;
     ResourceBundle updateNextActionResources = ResourceBundle.getBundle(UPDATE_NEXT_RESOURCE);
     if(!typeToBeUpdated.isEmpty()) {
