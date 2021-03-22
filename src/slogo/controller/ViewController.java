@@ -140,17 +140,20 @@ public class ViewController implements FrontEndExternalAPI {
 
   @Override
   public void setPenColor(int index) {
-
+    double in = index;
+    screenCreator.updateCommandQueue("PenColor", Collections.singletonList(in));
   }
 
   @Override
   public void setTurtleShape(int index) {
-
+    double in = index;
+    screenCreator.updateCommandQueue("PenColor", Collections.singletonList(in));
   }
 
   @Override
   public void setPalette(int index, int red, int green, int blue) {
-
+    double in = index;
+    screenCreator.updateCommandQueue("PenColor", Collections.singletonList(in));
   }
 
   @Override
@@ -174,8 +177,4 @@ public class ViewController implements FrontEndExternalAPI {
 //    System.out.println("All active turtles: " + iDs);
   }
 
-  @Override
-  public void stopAnimation() {
-    screenCreator.stopAnimation();
-  }
 }

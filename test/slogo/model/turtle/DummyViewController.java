@@ -127,8 +127,4 @@ public class DummyViewController implements FrontEndExternalAPI {
 
   }
 
-  @Override
-  public void stopAnimation() {
-
-  }
 }

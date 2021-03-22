@@ -134,7 +134,4 @@ public class ScreenCreator implements FrontEndInternalAPI{
     viewPane.setActiveTurtles(iDs);
   }
 
-  public void stopAnimation() {
-    timeline.stop();
-  }
 }

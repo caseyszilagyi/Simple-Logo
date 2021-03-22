@@ -100,12 +100,11 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
     double nextY = commandsToBeExecuted.pop();
 
     if(nextY < 0 || nextX < 0 || nextY > cols - TURTLE_HEIGHT || nextX > rows - TURTLE_WIDTH){
-
-      clearQueue();
-      viewController.stopAnimation();
       Alert error = new Alert(AlertType.ERROR);
       error.setContentText("Turtle out of bounds!");
-      error.showAndWait();
+      clearQueue();
+
+      error.show();
     }
 
     if (allTurtleInformation.get(currentID).getPenState() == 1) {

@@ -74,5 +74,4 @@ public interface FrontEndExternalAPI {
 
   void setActiveTurtles(List<Integer> iDs);
 
-  void stopAnimation();
 }
