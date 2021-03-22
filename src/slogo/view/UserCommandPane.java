@@ -32,13 +32,10 @@ public class UserCommandPane {
   private static final String BUTTON = "regular-button";
   private static final String FILE_PATH = "src/slogo/view/resources/reference";
   private static final String COMBO_BOX = "combo-box";
-  private static final String DEFAULT_MESSAGE = "Choose command";
-  private static final String TEXT_AREA_ID = "textArea";
-  private static final String RUN_BUTTON_ID = "runButton";
-  private static final String CLEAR_BUTTON_ID = "clearButton";
-  private static final String DEFAULT_RESOURCES = HistoryDisplayPane.class.getPackageName() + ".resources.buttons.";
-  private static final String REFLECTION_RESOURCE = DEFAULT_RESOURCES + "UserCommandReflectionActions";
-  private static final String BUTTON_LANGUAGE = DEFAULT_RESOURCES + "languages.UserCommand";
+  private static final String DEFAULT_RESOURCES = HistoryDisplayPane.class.getPackageName() + ".resources.";
+  private static final String REFLECTION_RESOURCE = DEFAULT_RESOURCES + "buttons.UserCommandReflectionActions";
+  private static final String BUTTON_LANGUAGE = DEFAULT_RESOURCES + "buttons.languages.UserCommand";
+  private static final String ERROR_LANGUAGE = DEFAULT_RESOURCES + ".errormessages.Error";
 
   private GridPane bottomPaneBoxArea;
   private TextArea userInputTextArea;
@@ -50,6 +47,7 @@ public class UserCommandPane {
   private ResourceBundle reflectionResource;
   private ResourceBundle buttonLanguageResource;
   private String errorMessage = "";
+  private ResourceBundle errorLanguageResource;
 
   public UserCommandPane(FrontEndExternalAPI viewController, ResourceBundle idResource, String lang) {
     this.viewController = viewController;
@@ -58,6 +56,7 @@ public class UserCommandPane {
     idsForTesting = idResource;
     reflectionResource = ResourceBundle.getBundle(REFLECTION_RESOURCE);
     buttonLanguageResource = ResourceBundle.getBundle(BUTTON_LANGUAGE + lang);
+    errorLanguageResource = ResourceBundle.getBundle(ERROR_LANGUAGE + lang);
     addTextArea();
     createButtons();
     createSlider();
@@ -84,7 +83,7 @@ public class UserCommandPane {
     }catch (Exception exception){
       errorMessage = exception.getMessage();
       Alert error = new Alert(AlertType.ERROR);
-      error.setContentText(errorMessage);
+      error.setContentText(errorLanguageResource.getString(errorMessage));
       error.showAndWait();
     }
   }
@@ -121,7 +120,7 @@ public class UserCommandPane {
       }
       bufferedReader.close();
     } catch (IOException ex) {
-      System.out.println("Error reading references");
+      new Alert(Alert.AlertType.ERROR);
     }
     Alert info = new Alert(AlertType.INFORMATION);
     info.setContentText(text.toString());
@@ -171,6 +170,7 @@ public class UserCommandPane {
 
   public void updateLanguage(String lang) {
     buttonLanguageResource = ResourceBundle.getBundle(BUTTON_LANGUAGE + lang);
+    errorLanguageResource = ResourceBundle.getBundle(ERROR_LANGUAGE + lang);
     bottomPaneBoxArea.getChildren().clear();
     addTextArea();
     createButtons();
