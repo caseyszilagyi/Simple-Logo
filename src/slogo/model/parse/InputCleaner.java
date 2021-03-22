@@ -105,11 +105,9 @@ public class InputCleaner extends Parser{
           return e.getKey();
         }
       } catch (Exception ex) {
-        System.out.println(text);
         throw new ErrorHandler("InvalidCommandName");
       }
     }
-    System.out.println(text);
     throw new ErrorHandler("InvalidCommandName");
   }
 }
