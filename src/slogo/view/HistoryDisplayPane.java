@@ -171,7 +171,7 @@ public class HistoryDisplayPane {
   private void updateUserDefinedCommands(Map<String, String> userDefinedCommands) {
     userBox.getChildren().clear();
     for (Map.Entry<String, String> command : userDefinedCommands.entrySet()) {
-      Button button = makeButton(command.getKey(), userBox, HISTORY_BUTTON, USER_BUTTON_ID);
+      Button button = makeButton(command.getKey(), userBox, HISTORY_BUTTON, "PreviousUserButton");
       userBox.getChildren().add(button);
       button.setOnAction(event -> displayOnTextArea(command.getValue()));
     }
@@ -181,7 +181,7 @@ public class HistoryDisplayPane {
     displayCommandHistory = commandHistory;
     historyBox.getChildren().clear();
     for (String command : commandHistory) {
-      Button button = makeButton(command, historyBox, HISTORY_BUTTON, HISTORY_BUTTON_ID);
+      Button button = makeButton(command, historyBox, HISTORY_BUTTON, "PreviousCommandButton");
       historyBox.getChildren().add(button);
       button.setOnAction(event -> displayOnTextArea(command));
     }
@@ -190,7 +190,7 @@ public class HistoryDisplayPane {
   public void updateVariableDisplay(Map<String, Double> variables) {
     varBox.getChildren().clear();
     for (Map.Entry<String, Double> entry : variables.entrySet()) {
-      Button button = makeButton(entry.getKey() + " = " + entry.getValue(), varBox, HISTORY_BUTTON, VAR_BUTTON_ID);
+      Button button = makeButton(entry.getKey() + " = " + entry.getValue(), varBox, HISTORY_BUTTON, "PreviousVarButton");
       varBox.getChildren().add(button);
       button.setOnAction(event -> displayOnTextArea("make " + entry.getKey() + " " + entry.getValue()));
     }
@@ -215,7 +215,7 @@ public class HistoryDisplayPane {
 
   private Button makeButton(String text, VBox vBox, String styleClass, String id) {
     Button button = new Button(text);
-    button.setId(id);
+    button.setId(idsForTesting.getString(id));
     button.setWrapText(true);
     button.setPrefWidth(vBox.getWidth());
     button.getStyleClass().add(styleClass);
