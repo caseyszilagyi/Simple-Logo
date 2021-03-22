@@ -65,7 +65,6 @@ public class CommandBlockParser extends Parser{
   }
 
   private void completedUserDefVarList(int blockSize, int userDefInd) {
-    System.out.println("block size: " +blockSize+" for: " +tokens.get(userDefInd+1).getValue());
     commandParser.addSingleParamCount(tokens.get(userDefInd+1).getValue(), makeStringParam(blockSize));
   }
 

@@ -88,7 +88,7 @@ public class InputCleaner extends Parser{
           return e.getKey();
         }
       } catch (Exception ex) {
-        throw new ErrorHandler("InvalidCommand");
+        throw new ErrorHandler("InvalidCommandName");
       }
     }
     return "NO MATCH";

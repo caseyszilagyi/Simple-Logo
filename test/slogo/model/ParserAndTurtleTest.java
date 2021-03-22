@@ -86,6 +86,81 @@ public class ParserAndTurtleTest {
     assertEquals(2, getYCoordinate(2));
     assertEquals(44, getYCoordinate(4));
   }
+  
+  /**
+   * Testing user defined with tell
+   */
+  @Test
+  void testUserNestedTell(){
+    executeCommand("to move [ :num ] [ tell [ :num ] fd sum 5 5 ] move 5");
+    assertEquals(10, getYCoordinate(5));
+  }
+
+  /**
+   * Testing tell command with command as id
+   */
+  @Test
+  void testTellWithCommandId(){
+    executeCommand("tell [ sum 1 1 ] fd 50");
+    assertEquals(50, getYCoordinate(2));
+  }
+
+  /**
+   * Testing tell command with command for multiple id's
+   */
+  @Test
+  void testTellWithMultCommandId(){
+    executeCommand("tell [ sum 1 1 sum 1 2 sum 3 2 ] fd 50");
+    assertEquals(50, getYCoordinate(2));
+    assertEquals(50, getYCoordinate(3));
+    assertEquals(50, getYCoordinate(5));
+  }
+
+  /**
+   * Testing tell command with command and constants for multiple id's
+   */
+  @Test
+  void testTellWithMixCommandId(){
+    executeCommand("tell [ sum 1 1 3 sum 3 2 ] fd 50");
+    assertEquals(50, getYCoordinate(2));
+    assertEquals(50, getYCoordinate(3));
+    assertEquals(50, getYCoordinate(5));
+  }
+
+  /**
+   * Testing series of tell commands (fd only applies to second one that is followed by command)
+   */
+  @Test
+  void testTellSeries(){
+    executeCommand("tell [ 1 ] tell [ 2 ] fd 50");
+    assertEquals(0, getYCoordinate(1));
+    assertEquals(50, getYCoordinate(2));
+  }
+
+  /**
+   * Testing series of tell commands mixed with commands or just tell(fd only applies to second one that is followed by command)
+   */
+  @Test
+  void testTellSeriesMix(){
+    executeCommand("tell [ 1 ] tell [ 2 ] fd 50 tell [ 3 ] tell [ 1 2 ] fd 50");
+    assertEquals(50, getYCoordinate(1));
+    assertEquals(100, getYCoordinate(2));
+    assertEquals(0, getYCoordinate(3));
+  }
+
+  /**
+   * Testing tell method called in a loop
+   * should move turtles id 1-4 by 50
+   */
+  @Test
+  void testTellLoop(){
+    executeCommand("make :id 1 repeat 4 [ tell [ :id ] fd 50 make :id sum :id 1 ] ");
+    assertEquals(50, getYCoordinate(1));
+    assertEquals(50, getYCoordinate(2));
+    assertEquals(50, getYCoordinate(3));
+    assertEquals(50, getYCoordinate(4));
+  }
+
 
   private void verifyTurtleParameters(int ID, double x, double y, double angle, double penstate, double visibility){
     assertEquals(x, getXCoordinate(ID), TOLERANCE);

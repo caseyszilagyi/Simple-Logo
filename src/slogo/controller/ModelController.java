@@ -3,6 +3,7 @@ package slogo.controller;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import slogo.ErrorHandler;
 import slogo.model.CommandExecutor;
 import slogo.model.SLogoCommandExecutor;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
@@ -64,8 +65,7 @@ public class ModelController implements BackEndExternalAPI {
     try {
       return viewController.getLanguage();
     } catch (Exception e) {
-      System.out.println("View Controller doesn't exist!!");
-      throw e;
+      throw new ErrorHandler("View Controller doesn't exist!!");
     }
   }
 
