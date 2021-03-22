@@ -74,16 +74,6 @@ public class ScreenCreator {
   }
 
 
-  public void moveTurtle(List<Double> parameters) {
-
-    System.out.println("parameters: " + parameters);
-    viewPane.updateTurtle(parameters);
-
-//    if(parameters.get(5) == 1){
-//      reset();
-//    }
-  }
-
   public void setAnimationSpeed(){
     timeline.setRate(userCommand.getAnimationSpeed());
   }
@@ -113,23 +103,10 @@ public class ScreenCreator {
   }
 
   private void runSimulation() {
-//      animationTimer = new AnimationTimer() {
-//        @Override
-//        public void handle(long now) {
-//          if (sleepTimer < frameDelay) {
-//            sleepTimer++;
-//            return;
-//          }
-//          updateTurtlePosition();
-//          sleepTimer = 0;
-//        }
-//      };
     timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
 
       displayTurtleUpdates();
       setAnimationSpeed();
-
-
     }));
     timeline.setCycleCount(Animation.INDEFINITE);
     timeline.play();
