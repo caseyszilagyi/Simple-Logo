@@ -21,7 +21,7 @@ public class InputCleaner extends Parser{
 
   private static final String WHITESPACE = "\\s+";
   private List<Entry<String, Pattern>> languagePatterns;
-  private final Set userDefinedCommands;
+  private List<String> userDefinedCommands;
   private Pattern makeUserDef;
 
   private String userInput;
@@ -36,7 +36,7 @@ public class InputCleaner extends Parser{
     languagePatterns = new ArrayList<>();
     addLangPatterns(language);
     this.userInput = userInput;
-    userDefinedCommands = modelController.getUserDefinedCommands().keySet();
+    userDefinedCommands = new ArrayList<>(modelController.getUserDefinedCommands().keySet());
   }
 
   private void addLangPatterns(String syntax) {
@@ -89,11 +89,12 @@ public class InputCleaner extends Parser{
 
   private boolean userDefCommandName(int id, String[] beforeTranslation) {
     String curr = beforeTranslation[id];
-    boolean alreadyDefined = userDefinedCommands.contains(curr);
     boolean newlyDefined = false;
     if(id != 0) {
       newlyDefined = match(beforeTranslation[id-1], makeUserDef);
+      if(newlyDefined) { userDefinedCommands.add(curr); }
     }
+    boolean alreadyDefined = userDefinedCommands.contains(curr);
     return alreadyDefined || newlyDefined;
   }
 
@@ -104,9 +105,11 @@ public class InputCleaner extends Parser{
           return e.getKey();
         }
       } catch (Exception ex) {
+        System.out.println(text);
         throw new ErrorHandler("InvalidCommandName");
       }
     }
+    System.out.println(text);
     throw new ErrorHandler("InvalidCommandName");
   }
 }
