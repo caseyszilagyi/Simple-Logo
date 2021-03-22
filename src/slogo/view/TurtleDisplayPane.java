@@ -1,16 +1,20 @@
 package slogo.view;
 
+import java.lang.reflect.Method;
 import java.util.*;
 
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 
-public class TurtleDisplayPane {
+public class TurtleDisplayPane implements FrontEndInternalAPI{
   private static final double TURTLE_WIDTH = 50;
   private static final double TURTLE_HEIGHT = 50;
+  public static final String UPDATE_NEXT_RESOURCE = TurtleDisplayPane.class.getPackageName() + ".resources.UpdateNextReflectionActions";
 
   private static final String PANE_BOX_ID = "TurtleView";
   private static final String LINE_ID = "Line";
@@ -23,7 +27,7 @@ public class TurtleDisplayPane {
   private double penUP = 1;
   double x;
   double y;
-  private Color penColor;
+  private Paint penColor;
 
   private Deque<Double> commandsToBeExecuted;
   private Deque<String> typeToBeUpdated;
@@ -33,7 +37,7 @@ public class TurtleDisplayPane {
   private double rows;
   private double cols;
   private double penThickness = 1.0;
-  private Map<Integer, FrontEndTurtle> allTurtleInformation;
+  private Map<Integer, FrontEndSprite> allTurtleInformation;
   private int FIRST_TURTLE = 1;
   private int currentID = 1;
 
@@ -48,7 +52,7 @@ public class TurtleDisplayPane {
     cols = c;
 
     turtleViewPane = new AnchorPane();
-    viewPane.add(turtleViewPane, 0, 2);
+    viewPane.add(turtleViewPane, 0, 1);
     turtleViewPane.setId(PANE_BOX_ID);
     turtleViewPane.getStyleClass().add(PANE_BOX_ID);
 
@@ -67,39 +71,50 @@ public class TurtleDisplayPane {
     createTurtle(FIRST_TURTLE);
   }
 
-  public void updateTurtlePosition() {
-    String nextUpdate;
+  @Override
+  public void updateTurtlePositions() {
+    String key;
+    ResourceBundle updateNextActionResources = ResourceBundle.getBundle(UPDATE_NEXT_RESOURCE);
 //
 //    System.out.println("Pen State: " + penUP);
     if(!typeToBeUpdated.isEmpty()) {
-      nextUpdate = typeToBeUpdated.removeFirst();
-
-      if (nextUpdate.equals("Positions")) {
-        double nextX = commandsToBeExecuted.pop();
-        double nextY = commandsToBeExecuted.pop();
-
-        if (allTurtleInformation.get(currentID).getPenState() == 1) {
-          createLine(nextX, nextY, penColor);
-        }
-        allTurtleInformation.get(currentID).getTurtle().setX(nextX);
-        allTurtleInformation.get(currentID).getTurtle().setY(nextY);
-      } else if (nextUpdate.equals("Angles")) {
-
-        allTurtleInformation.get(currentID).getTurtle().setRotate(90 - commandsToBeExecuted.pop());
-      } else if (nextUpdate.equals("Pen")){
-        allTurtleInformation.get(currentID).setPenState(commandsToBeExecuted.removeFirst());
-      } else if (nextUpdate.equals("Visibility")){
-        allTurtleInformation.get(currentID).getTurtle().setVisible(commandsToBeExecuted.removeFirst() == 1);
-      } else if (nextUpdate.equals("Clearscreen")){
-        clearScreen();
-      } else if (nextUpdate.equals("SetID")){
-        currentID = (int) Math.round(commandsToBeExecuted.pop());
-
-   //     updateTurtleImages();
+      key = typeToBeUpdated.removeFirst();
+      try {
+        String methodName = updateNextActionResources.getString(key);
+        Method m = TurtleDisplayPane.this.getClass().getDeclaredMethod(methodName);
+        m.invoke(TurtleDisplayPane.this);
       }
-
+      catch (Exception e) {
+        new Alert(Alert.AlertType.ERROR);
+      }
     }
+  }
 
+  private void updatePosition() {
+    double nextX = commandsToBeExecuted.pop();
+    double nextY = commandsToBeExecuted.pop();
+
+    if (allTurtleInformation.get(currentID).getPenState() == 1) {
+      createLine(nextX, nextY, penColor);
+    }
+    allTurtleInformation.get(currentID).getTurtle().setX(nextX);
+    allTurtleInformation.get(currentID).getTurtle().setY(nextY);
+  }
+
+  private void updateAngles() {
+    allTurtleInformation.get(currentID).getTurtle().setRotate(90 - commandsToBeExecuted.pop());
+  }
+
+  private void updatePen() {
+    allTurtleInformation.get(currentID).setPenState(commandsToBeExecuted.removeFirst());
+  }
+
+  private void updateVisibility() {
+    allTurtleInformation.get(currentID).getTurtle().setVisible(commandsToBeExecuted.removeFirst() == 1);
+  }
+
+  private void setID() {
+    currentID = (int) Math.round(commandsToBeExecuted.pop());
   }
 
   private void updateTurtleImages() {
@@ -121,7 +136,7 @@ public class TurtleDisplayPane {
     turtle.setY(centerY);
     turtle.setRotate(0);
 
-    FrontEndTurtle turtleInformation = new FrontEndTurtle(centerX, centerY, turtle, penUP);
+    FrontEndSprite turtleInformation = new FrontEndTurtle(centerX, centerY, turtle, penUP);
 
  //   activeTurtles.put(id, turtle);
     this.allTurtleInformation.put(id, turtleInformation);
@@ -130,10 +145,10 @@ public class TurtleDisplayPane {
 //    lastYPosition = centerY;
   }
 
-  public void moveTurtle(double xCoordinate, double yCoordinate, Color penColor) {
+  public void moveTurtle(double xCoordinate, double yCoordinate, Paint penColor) {
     this.penColor = penColor;
 
-    System.out.println("Current ID: " + currentID);
+  //  System.out.println("Current ID: " + currentID);
 
     x = turtleViewPane.getWidth() / 2 + xCoordinate * turtleViewPane.getWidth() / rows - TURTLE_WIDTH / 2;
     y = turtleViewPane.getHeight() / 2 - yCoordinate * turtleViewPane.getHeight() / cols - TURTLE_HEIGHT / 2;
@@ -152,7 +167,7 @@ public class TurtleDisplayPane {
 
   }
 
-  private void createLine(double x, double y, Color penColor) {
+  private void createLine(double x, double y, Paint penColor) {
     Line line1 = new Line(allTurtleInformation.get(currentID).getTurtle().getX() + TURTLE_WIDTH / 2, allTurtleInformation.get(currentID).getTurtle().getY() + TURTLE_WIDTH / 2,
             x + TURTLE_HEIGHT / 2, y + TURTLE_HEIGHT / 2);
     line1.setStroke(penColor);
@@ -161,37 +176,20 @@ public class TurtleDisplayPane {
     turtleViewPane.getChildren().add(line1);
   }
 
-  void clearScreen() {
+  public void clearScreen() {
     commandsToBeExecuted.clear();
     typeToBeUpdated.clear();
 
     turtleViewPane.getChildren().clear();
-    for(Map.Entry<Integer, FrontEndTurtle> entry : allTurtleInformation.entrySet()){
+    for(Map.Entry<Integer, FrontEndSprite> entry : allTurtleInformation.entrySet()){
       createTurtle(entry.getKey());
     }
 
   }
 
+
   public void setBackground(Background background) {
     turtleViewPane.setBackground(background);
-  }
-
-  public void updateTurtle(List<Double> parameters) {
-    if (parameters.get(5) == 1) {
-      clearScreen();
-    }
-    if(lastAngle != parameters.get(2)){
-      lastAngle = parameters.get(2);
-      commandsToBeExecuted.add(90 - parameters.get(2));
-      typeToBeUpdated.add("Angles");
-    }
-
-    commandsToBeExecuted.add(parameters.get(3));
-    typeToBeUpdated.add("Pen");
-
-    commandsToBeExecuted.add(parameters.get(4));
-    typeToBeUpdated.add("Visibility");
-
   }
 
   public void setTurtleImage(Image turtleImage) {
@@ -206,6 +204,7 @@ public class TurtleDisplayPane {
     commandsToBeExecuted.addAll(commandValues);
 
   }
+
   public void setActiveTurtle(int turtleID) {
     if(!allTurtleInformation.containsKey(turtleID)){
       createTurtle(turtleID);

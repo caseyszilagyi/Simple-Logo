@@ -1,24 +1,22 @@
 package slogo.view;
 
+import java.util.List;
+
 /**
  *
  */
 public interface FrontEndInternalAPI {
 
-  /**
-   *
-   */
-  public void setBackgroundColor(String color);
 
-  /**
-   *
-   */
-  public void updateScreen();
+  void setActiveTurtles(List<Integer> iDs);
 
-  /**
-   *
-   */
-  public void displayError(String errorMessage);
+  void setActiveTurtle(int turtleID);
 
-  void processUserCommandInput(String text);
+  void updateCommandQueue(String commandType, List<Double> commandValues);
+
+
+  void clearScreen();
+
+  void updateTurtlePositions();
+
 }

@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.ResourceBundle;
 
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -13,6 +14,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import slogo.controller.FrontEndExternalAPI;
+import slogo.model.commands.basic_commands.UserDefinedCommand;
 
 
 /**
@@ -36,13 +38,13 @@ public class HistoryDisplayPane {
   private static final String DISPLAY_BUTTONS = DEFAULT_RESOURCE_PACKAGE + "buttons.languages.HistoryDisplay";
 
   private BorderPane basePane;
-  private ScrollPane historyPane;
+  private Node historyPane;
   private VBox historyBox;
-  private ScrollPane varPane;
+  private Node varPane;
   private VBox varBox;
-  private ScrollPane userPane;
+  private Node userPane;
   private VBox userBox;
-  private ScrollPane exPane;
+  private Node exPane;
   private VBox exBox;
   private FrontEndExternalAPI viewController;
   private VBox topBox;
@@ -53,6 +55,7 @@ public class HistoryDisplayPane {
   private TabPane tabPane;
   private double textWidth = 300.0;
   private Label title;
+  private double SPACING = 5.0;
 
   public HistoryDisplayPane(FrontEndExternalAPI viewController, ResourceBundle idResource, String lang) {
     basePane = new BorderPane();
@@ -100,7 +103,7 @@ public class HistoryDisplayPane {
     Tab ex = createTab("ExampleTab");
     ex.setContent(exPane);
     makeExampleCodeButtons();
-    tabPane.setMaxWidth(TABS_WIDTH - 10.0);
+    tabPane.setMaxWidth(TABS_WIDTH - SPACING * 2);
     tabPane.getTabs().addAll(history, var, user, ex);
   }
 
@@ -111,7 +114,7 @@ public class HistoryDisplayPane {
   }
 
   private void createExamplePane() {
-    double spacing = 5.0;
+    double spacing = SPACING;
     exBox = makeBox();
     exBox.setSpacing(spacing);
     exPane = makeScrollPane(exBox);
@@ -140,7 +143,7 @@ public class HistoryDisplayPane {
     return box;
   }
 
-  private ScrollPane makeScrollPane(VBox vBox) {
+  private Node makeScrollPane(VBox vBox) {
     ScrollPane scrollPane = new ScrollPane(vBox);
     scrollPane.setFitToWidth(true);
     scrollPane.setFitToHeight(true);
@@ -158,22 +161,27 @@ public class HistoryDisplayPane {
     topBox.getChildren().add(title);
   }
 
-  public BorderPane getBox() {
+  public Node getBox() {
     return basePane;
   }
 
   public void updateDisplayOfInformation(Map<String, Double> variables,
-      Map<String, String> userDefinedCommands) {
+      Map<String, UserDefinedCommand> userDefinedCommands) {
     updateVariableDisplay(variables);
     updateUserDefinedCommands(userDefinedCommands);
   }
 
-  private void updateUserDefinedCommands(Map<String, String> userDefinedCommands) {
+  private void updateUserDefinedCommands(Map<String, UserDefinedCommand> userDefinedCommands) {
     userBox.getChildren().clear();
-    for (Map.Entry<String, String> command : userDefinedCommands.entrySet()) {
-      Button button = makeButton(command.getKey(), userBox, HISTORY_BUTTON, USER_BUTTON_ID);
+    for (Map.Entry<String, UserDefinedCommand> command : userDefinedCommands.entrySet()) {
+      Button button = makeButton(command.getKey(), userBox, HISTORY_BUTTON, "PreviousUserButton");
       userBox.getChildren().add(button);
-      button.setOnAction(event -> displayOnTextArea(command.getValue()));
+      String dummy = command.getKey();
+      for(int i = 0; i < command.getValue().getParamCount(); i ++){
+        dummy += " 50";
+      }
+      String finalDummy = dummy;
+      button.setOnAction(event -> displayOnTextArea(finalDummy));
     }
   }
 
@@ -181,7 +189,7 @@ public class HistoryDisplayPane {
     displayCommandHistory = commandHistory;
     historyBox.getChildren().clear();
     for (String command : commandHistory) {
-      Button button = makeButton(command, historyBox, HISTORY_BUTTON, HISTORY_BUTTON_ID);
+      Button button = makeButton(command, historyBox, HISTORY_BUTTON, "PreviousCommandButton");
       historyBox.getChildren().add(button);
       button.setOnAction(event -> displayOnTextArea(command));
     }
@@ -190,7 +198,7 @@ public class HistoryDisplayPane {
   public void updateVariableDisplay(Map<String, Double> variables) {
     varBox.getChildren().clear();
     for (Map.Entry<String, Double> entry : variables.entrySet()) {
-      Button button = makeButton(entry.getKey() + " = " + entry.getValue(), varBox, HISTORY_BUTTON, VAR_BUTTON_ID);
+      Button button = makeButton(entry.getKey() + " = " + entry.getValue(), varBox, HISTORY_BUTTON, "PreviousVarButton");
       varBox.getChildren().add(button);
       button.setOnAction(event -> displayOnTextArea("make " + entry.getKey() + " " + entry.getValue()));
     }
@@ -215,7 +223,7 @@ public class HistoryDisplayPane {
 
   private Button makeButton(String text, VBox vBox, String styleClass, String id) {
     Button button = new Button(text);
-    button.setId(id);
+    button.setId(idsForTesting.getString(id));
     button.setWrapText(true);
     button.setPrefWidth(vBox.getWidth());
     button.getStyleClass().add(styleClass);

@@ -21,13 +21,13 @@ import slogo.controller.FrontEndExternalAPI;
  * @author Kathleen Chen
  * @author Ji Yun Hyo
  */
-public class ViewPane {
+public class ViewPane implements FrontEndInternalAPI{
   private static final String VIEW_PANE_ID = "ViewPane";
   private static final String HBOX_ID = "TurtleInfoPane";
   private static final String HBOX_TEXT = "TurtleInfoText";
 
-  private static final int ROWS = 650;
-  private static final int COLS = 550;
+  private static final int ROWS = 700;
+  private static final int COLS = 600;
 
   private GridPane viewPane;
   private TurtleDisplayPane turtleDisplay;
@@ -49,21 +49,15 @@ public class ViewPane {
     yCoord = 0;
     turtleDisplay = new TurtleDisplayPane(viewPane, ROWS, COLS);
     choiceDisplay = new ViewChoicePane(viewController, s, viewPane, turtleDisplay, idResource);
-    displayInfoBox = new HBox();
-    displayInfoBox.getStyleClass().add(HBOX_ID);
-    viewPane.add(displayInfoBox, 0, 1);
   }
 
 
-
-  // TODO: Think of better way to pass language
   public String getLanguage() {
     return choiceDisplay.getLanguage();
   }
 
   public void moveTurtle(double xCoordinate, double yCoordinate) {
     turtleDisplay.moveTurtle(xCoordinate, yCoordinate, choiceDisplay.getPenColor());
-    displayInfoBox.getChildren().clear();
   }
 
   public Pane getBox() {
@@ -73,18 +67,12 @@ public class ViewPane {
   //These magic index values need to be processed in some other way
   //Current set up for these parameters is not SHY enough since we have to have
   // prior knowledge about the order of these parameters
-  public void updateTurtle(List<Double> parameters) {
-
-    turtleDisplay.updateTurtle(parameters);
-
-    moveTurtle(parameters.get(0), parameters.get(1));
-
-  }
 
 
 
-  public void displayTurtleUpdates() {
-    turtleDisplay.updateTurtlePosition();
+
+  public void updateTurtlePositions() {
+    turtleDisplay.updateTurtlePositions();
   }
 
   public void updateCommandQueue(String commandType, List<Double> commandValues) {

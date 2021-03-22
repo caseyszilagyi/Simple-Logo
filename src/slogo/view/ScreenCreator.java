@@ -1,6 +1,5 @@
 package slogo.view;
 
-import javafx.scene.control.Button;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -11,10 +10,10 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import slogo.controller.FrontEndExternalAPI;
+import slogo.model.commands.basic_commands.UserDefinedCommand;
 
 /**
  * Create the main screen where visuals and panes will be displayed
@@ -22,10 +21,10 @@ import slogo.controller.FrontEndExternalAPI;
  * @author Kathleen Chen
  * @author Ji Yun Hyo
  */
-public class ScreenCreator {
+public class ScreenCreator implements FrontEndInternalAPI{
 
   private static final String TITLE = "SLogo";
-  private static final double DEFAULT_X = 1200.0;
+  private static final double DEFAULT_X = 1250.0;
   private static final double DEFAULT_Y = 800.0;
   private static final String DEFAULT_RESOURCES = HistoryDisplayPane.class.getPackageName() + ".resources.";
   private static final String IDS_FOR_TESTING = DEFAULT_RESOURCES + "IDsforTesting";
@@ -60,7 +59,7 @@ public class ScreenCreator {
     root.setRight(historyDisplayPane.getBox());
 
     userCommand = new UserCommandPane(viewController, idResource, defaultLanguage);
-    root.setBottom(userCommand.getBox());
+    root.setBottom(userCommand.getBottomPaneBoxArea());
 
     viewPane = new ViewPane(viewController, stage, idResource);
     root.setCenter(viewPane.getBox());
@@ -92,7 +91,7 @@ public class ScreenCreator {
 
 
   public void updateVariablesAndUserDefinedCommands(Map<String, Double> variables,
-                                                    Map<String, String> userDefinedCommands) {
+                                                    Map<String, UserDefinedCommand> userDefinedCommands) {
     historyDisplayPane.updateDisplayOfInformation(variables, userDefinedCommands);
   }
 
@@ -103,7 +102,7 @@ public class ScreenCreator {
   private void runSimulation() {
     timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
 
-      displayTurtleUpdates();
+      updateTurtlePositions();
       setAnimationSpeed();
     }));
     timeline.setCycleCount(Animation.INDEFINITE);
@@ -111,8 +110,8 @@ public class ScreenCreator {
     timeline.setRate(300);
   }
 
-  private void displayTurtleUpdates() {
-    viewPane.displayTurtleUpdates();
+  public void updateTurtlePositions() {
+    viewPane.updateTurtlePositions();
   }
 
   public void updateCommandQueue(String commandType, List<Double> commandValues) {

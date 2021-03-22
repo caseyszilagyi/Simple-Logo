@@ -100,27 +100,26 @@ public class ViewController implements FrontEndExternalAPI {
   @Override
   public void updateFrontEnd(Map<String, Double> variables,
                              Map<String, UserDefinedCommand> userDefinedCommands) {
-    parseUserDefinedCommands(userDefinedCommands);
-    screenCreator.updateVariablesAndUserDefinedCommands(variables, userDefinedHistory);
+    screenCreator.updateVariablesAndUserDefinedCommands(variables, userDefinedCommands);
   }
 
   @Override
   public void setActiveTurtle(int turtleID) {
-    System.out.println();
-    System.out.println("Active turtle ID: " + turtleID);
+//    System.out.println();
+//    System.out.println("Active turtle ID: " + turtleID);
     screenCreator.setActiveTurtle(turtleID);
   }
 
   @Override
   public void setTurtlePosition(double xPosition, double yPosition) {
-    System.out.println("xPosition of Turtle (ViewController): " + xPosition);
-    System.out.println("yPosition of Turtle (ViewController): " + yPosition);
+//    System.out.println("xPosition of Turtle (ViewController): " + xPosition);
+//    System.out.println("yPosition of Turtle (ViewController): " + yPosition);
     screenCreator.setTurtlePosition(xPosition,yPosition);
   }
 
   @Override
   public void setTurtleAngle(double angle) {
-    System.out.println("Angle of Turtle: " + angle);
+//    System.out.println("Angle of Turtle: " + angle);
     screenCreator.updateCommandQueue("Angles", Collections.singletonList(angle));
   }
 
@@ -172,25 +171,6 @@ public class ViewController implements FrontEndExternalAPI {
   @Override
   public void setActiveTurtles(List<Integer> iDs) {
     screenCreator.setActiveTurtles(iDs);
-    System.out.println("All active turtles: " + iDs);
-  }
-
-
-  private void parseUserDefinedCommands(Map<String, UserDefinedCommand> userDefinedCommands) {
-    for (Map.Entry<String, UserDefinedCommand> entry : userDefinedCommands.entrySet()) {
-      for (String command : commandHistory) {
-        List<String> split = Arrays.asList(command.split(" "));
-        if (split.size() > 1 && split.get(NAME_OF_USER_DEFINED_COMMANDS).equals(entry.getKey()) && !userDefinedHistory
-                .containsKey(command)) {
-          StringBuilder stringBuilder = new StringBuilder();
-          stringBuilder.append(split.get(NAME_OF_USER_DEFINED_COMMANDS));
-          for (int i = 0; i < entry.getValue().getParamCount(); i++) {
-            stringBuilder.append(EXAMPLE_PARAMETER);
-          }
-          userDefinedHistory.put(commandHistory.getFirst(), stringBuilder.toString());
-        }
-      }
-
-    }
+//    System.out.println("All active turtles: " + iDs);
   }
 }
