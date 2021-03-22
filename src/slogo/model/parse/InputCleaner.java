@@ -22,6 +22,7 @@ public class InputCleaner extends Parser{
   private static final String WHITESPACE = "\\s+";
   private List<Entry<String, Pattern>> languagePatterns;
   private final Set userDefinedCommands;
+  private Pattern makeUserDef;
 
   private String userInput;
 
@@ -42,7 +43,9 @@ public class InputCleaner extends Parser{
     ResourceBundle resources = ResourceBundle.getBundle(SLogoCommandExecutor.LANGUAGES_PACKAGE + syntax);
     for (String key : Collections.list(resources.getKeys())) {
       String regex = resources.getString(key);
-      languagePatterns.add(new SimpleEntry<>(key, Pattern.compile(regex, Pattern.CASE_INSENSITIVE)));
+      Pattern regexPattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+      if(key.equals("MakeUserInstruction")) { makeUserDef = regexPattern; }
+      languagePatterns.add(new SimpleEntry<>(key, regexPattern));
     }
   }
 
@@ -73,14 +76,25 @@ public class InputCleaner extends Parser{
   private List<String> translateCommand(String input) {
     List<String> translated = new ArrayList<>();
     String[] beforeTranslation = input.split(WHITESPACE);
-    for (String s : beforeTranslation) {
-      if (match(s, syntaxMap.get("Command")) && !userDefinedCommands.contains(s)) {
+    for (int i = 0; i<beforeTranslation.length; i++) {
+      String s = beforeTranslation[i];
+      if (match(s, syntaxMap.get("Command")) && !userDefCommandName(i, beforeTranslation) ) {
         translated.add(getCommandKey(s));
       } else {
         translated.add(s);
       }
     }
     return translated;
+  }
+
+  private boolean userDefCommandName(int id, String[] beforeTranslation) {
+    String curr = beforeTranslation[id];
+    boolean alreadyDefined = userDefinedCommands.contains(curr);
+    boolean newlyDefined = false;
+    if(id != 0) {
+      newlyDefined = match(beforeTranslation[id-1], makeUserDef);
+    }
+    return alreadyDefined || newlyDefined;
   }
 
   private String getCommandKey(String text) {
@@ -93,6 +107,6 @@ public class InputCleaner extends Parser{
         throw new ErrorHandler("InvalidCommandName");
       }
     }
-    return text;
+    throw new ErrorHandler("InvalidCommandName");
   }
 }

@@ -60,7 +60,7 @@ public class CleanInputTest {
    */
   @Test
   void testErrorLanguage() {
-    String userInput = "# comment\nforward 50 ht 50 chongfu 5 [ qj 50 ]";
+    String userInput = "forward 50";
     InputCleaner cleaner = makeInputCleaner(userInput, "Chinese");
     assertEquals(cleaner.parseResults(), new ErrorHandler("InvalidCommandName"));
   }
