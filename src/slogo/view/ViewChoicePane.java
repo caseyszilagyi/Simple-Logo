@@ -1,5 +1,10 @@
 package slogo.view;
 
+import java.io.File;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -8,7 +13,10 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
@@ -18,23 +26,21 @@ import slogo.controller.FrontEndExternalAPI;
 import slogo.controller.ModelController;
 import slogo.controller.ViewController;
 
-import java.io.File;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+public class ViewChoicePane {
 
-public class ViewChoicePane{
   private static final double ICON_WIDTH = 20.0;
   private static final double ICON_HEIGHT = 20.0;
 
   private static final String CHOICE_PANE_ID = "ChoicePane";
   private static final String COLOR_PICKER = "color-picker";
   private static final String ICON = "icon";
-  private static final String DEFAULT_RESOURCES = HistoryDisplayPane.class.getPackageName() + ".resources.";
-  private static final String LANGUAGE_OPTIONS = DEFAULT_RESOURCES + "buttons.languages.LangaugeOptions";
+  private static final String DEFAULT_RESOURCES =
+      HistoryDisplayPane.class.getPackageName() + ".resources.";
+  private static final String LANGUAGE_OPTIONS =
+      DEFAULT_RESOURCES + "buttons.languages.LangaugeOptions";
   private static final String IMAGE_RESOURCES = DEFAULT_RESOURCES + "Image";
-  private static final String REFLECTION_RESOURCES = DEFAULT_RESOURCES + "buttons.ViewChoiceReflectionActions";
+  private static final String REFLECTION_RESOURCES =
+      DEFAULT_RESOURCES + "buttons.ViewChoiceReflectionActions";
 
   private GridPane choicePane;
   private GridPane viewPane;
@@ -54,7 +60,8 @@ public class ViewChoicePane{
   private ResourceBundle reflectionResources;
   private FrontEndExternalAPI viewController;
 
-  public ViewChoicePane(FrontEndExternalAPI viewController, Stage s, GridPane root, TurtleDisplayPane turtleDisplayPane, ResourceBundle idResources) {
+  public ViewChoicePane(FrontEndExternalAPI viewController, Stage s, GridPane root,
+      TurtleDisplayPane turtleDisplayPane, ResourceBundle idResources) {
     this.viewController = viewController;
     stage = s;
     viewPane = root;
@@ -89,7 +96,7 @@ public class ViewChoicePane{
   private void setBackground() {
     currentBackgroundColor = backgroundColorPicker.getValue().toString();
     BackgroundFill backgroundFill = new BackgroundFill(backgroundColorPicker.getValue(),
-            new CornerRadii(10), new Insets(10));
+        new CornerRadii(10), new Insets(10));
     Background background = new Background(backgroundFill);
     turtleDisplay.setBackground(background);
     choicePane.getChildren().remove(backgroundColorPicker);
@@ -188,8 +195,7 @@ public class ViewChoicePane{
       String methodName = reflectionResources.getString(key);
       Method m = ViewChoicePane.this.getClass().getDeclaredMethod(methodName);
       m.invoke(ViewChoicePane.this);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       new Alert(Alert.AlertType.ERROR);
     }
   }

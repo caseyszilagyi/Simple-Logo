@@ -4,58 +4,59 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 abstract class FrontEndSprite {
-    private double xCoord;
-    private double yCoord;
-    private double penState;
-    private ImageView turtleImageView;
-    private double penThickness;
 
-    public FrontEndSprite(double xCoord, double yCoord, ImageView turtleImage, double penState){
-        this.xCoord = xCoord;
-        this.yCoord = yCoord;
-        this.penState = penState;
-        this.turtleImageView = turtleImage;
-        penThickness = 1.0;
-        turtleImageView.setId("Turtle");
-    }
+  private double xCoord;
+  private double yCoord;
+  private double penState;
+  private ImageView turtleImageView;
+  private double penThickness;
 
-    public void setxCoord(double xCoord) {
-        this.xCoord = xCoord;
-    }
+  public FrontEndSprite(double xCoord, double yCoord, ImageView turtleImage, double penState) {
+    this.xCoord = xCoord;
+    this.yCoord = yCoord;
+    this.penState = penState;
+    this.turtleImageView = turtleImage;
+    penThickness = 1.0;
+    turtleImageView.setId("Turtle");
+  }
 
-    public void setyCoord(double yCoord) {
-        this.yCoord = yCoord;
-    }
+  public void setxCoord(double xCoord) {
+    this.xCoord = xCoord;
+  }
 
-    public double getxCoord(){
-        return xCoord;
-    }
+  public void setyCoord(double yCoord) {
+    this.yCoord = yCoord;
+  }
 
-    public double getyCoord(){
-        return yCoord;
-    }
+  public double getxCoord() {
+    return xCoord;
+  }
 
-    public double getPenState(){
-        return penState;
-    }
+  public double getyCoord() {
+    return yCoord;
+  }
 
-    public void setPenState(double penState) {
-        this.penState = penState;
-    }
+  public double getPenState() {
+    return penState;
+  }
 
-    public void setTurtleImageView(Image image){
-        turtleImageView.setImage(image);
-    }
+  public void setPenState(double penState) {
+    this.penState = penState;
+  }
 
-    public ImageView getTurtle(){
-        return turtleImageView;
-    }
+  public void setTurtleImageView(Image image) {
+    turtleImageView.setImage(image);
+  }
 
-    public void setPenThickness(double penThickness){
-        this.penThickness = penThickness;
-    }
+  public ImageView getTurtle() {
+    return turtleImageView;
+  }
 
-    public double getPenThickness(){
-        return penThickness;
-    }
+  public void setPenThickness(double penThickness) {
+    this.penThickness = penThickness;
+  }
+
+  public double getPenThickness() {
+    return penThickness;
+  }
 }

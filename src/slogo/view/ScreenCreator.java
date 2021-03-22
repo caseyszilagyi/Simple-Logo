@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.ResourceBundle;
-
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -21,12 +20,13 @@ import slogo.model.commands.basic_commands.UserDefinedCommand;
  * @author Kathleen Chen
  * @author Ji Yun Hyo
  */
-public class ScreenCreator implements FrontEndInternalAPI{
+public class ScreenCreator implements FrontEndInternalAPI {
 
   private static final String TITLE = "SLogo";
   private static final double DEFAULT_X = 1250.0;
   private static final double DEFAULT_Y = 800.0;
-  private static final String DEFAULT_RESOURCES = HistoryDisplayPane.class.getPackageName() + ".resources.";
+  private static final String DEFAULT_RESOURCES =
+      HistoryDisplayPane.class.getPackageName() + ".resources.";
   private static final String IDS_FOR_TESTING = DEFAULT_RESOURCES + "IDsforTesting";
 
   private BorderPane root;
@@ -69,7 +69,7 @@ public class ScreenCreator implements FrontEndInternalAPI{
   }
 
 
-  private void setAnimationSpeed(){
+  private void setAnimationSpeed() {
     timeline.setRate(userCommand.getAnimationSpeed());
   }
 
@@ -89,7 +89,7 @@ public class ScreenCreator implements FrontEndInternalAPI{
 
 
   public void updateVariablesAndUserDefinedCommands(Map<String, Double> variables,
-                                                    Map<String, UserDefinedCommand> userDefinedCommands) {
+      Map<String, UserDefinedCommand> userDefinedCommands) {
     historyDisplayPane.updateDisplayOfInformation(variables, userDefinedCommands);
   }
 
@@ -117,7 +117,7 @@ public class ScreenCreator implements FrontEndInternalAPI{
   }
 
   public void setTurtlePosition(double xPosition, double yPosition) {
-    viewPane.moveTurtle(xPosition,yPosition);
+    viewPane.moveTurtle(xPosition, yPosition);
   }
 
   public void clearScreen() {

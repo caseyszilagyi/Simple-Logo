@@ -2,9 +2,7 @@ package slogo.view;
 
 import java.util.List;
 import java.util.ResourceBundle;
-
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import slogo.controller.FrontEndExternalAPI;
@@ -16,7 +14,8 @@ import slogo.controller.FrontEndExternalAPI;
  * @author Kathleen Chen
  * @author Ji Yun Hyo
  */
-public class ViewPane implements FrontEndInternalAPI{
+public class ViewPane implements FrontEndInternalAPI {
+
   private static final String VIEW_PANE_ID = "ViewPane";
 
   private static final int ROWS = 700;
@@ -54,8 +53,6 @@ public class ViewPane implements FrontEndInternalAPI{
   //These magic index values need to be processed in some other way
   //Current set up for these parameters is not SHY enough since we have to have
   // prior knowledge about the order of these parameters
-
-
 
 
   public void updateTurtleStates() {

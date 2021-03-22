@@ -3,7 +3,6 @@ package slogo.view;
 import java.util.Map;
 import java.util.Queue;
 import java.util.ResourceBundle;
-
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -21,6 +20,7 @@ import slogo.model.commands.basic_commands.UserDefinedCommand;
  * Create the HBox for the display for history of commands, variables, and user commands
  */
 public class HistoryDisplayPane {
+
   private static final String HISTORY_DISPLAY_PANE_ID = "HistoryDisplayPane";
   private static final String HISTORY_DISPLAY_PANE_TEXT = "HistoryDisplayPaneText";
   private static final String HISTORY_PANE_ID = "HistoryPane";
@@ -30,9 +30,11 @@ public class HistoryDisplayPane {
   private static final String BUTTON = "regular-button";
   private static final double TABS_HEIGHT = 570.0;
   private static final double TABS_WIDTH = 403.0;
-  public static final String DEFAULT_RESOURCE_PACKAGE = HistoryDisplayPane.class.getPackageName() + ".resources.";
+  public static final String DEFAULT_RESOURCE_PACKAGE =
+      HistoryDisplayPane.class.getPackageName() + ".resources.";
   private static final String EXAMPLE_FILE = "buttons.languages.ExampleCode";
-  private static final String DISPLAY_BUTTONS = DEFAULT_RESOURCE_PACKAGE + "buttons.languages.HistoryDisplay";
+  private static final String DISPLAY_BUTTONS =
+      DEFAULT_RESOURCE_PACKAGE + "buttons.languages.HistoryDisplay";
 
   private BorderPane basePane;
   private Node historyPane;
@@ -54,7 +56,8 @@ public class HistoryDisplayPane {
   private Label title;
   private double SPACING = 5.0;
 
-  public HistoryDisplayPane(FrontEndExternalAPI viewController, ResourceBundle idResource, String lang) {
+  public HistoryDisplayPane(FrontEndExternalAPI viewController, ResourceBundle idResource,
+      String lang) {
     basePane = new BorderPane();
     basePane.getStyleClass().add(HISTORY_DISPLAY_PANE_ID);
     this.viewController = viewController;
@@ -105,7 +108,7 @@ public class HistoryDisplayPane {
   }
 
   private Tab createTab(String key) {
-    Tab tab= new Tab(historyTabResource.getString(key));
+    Tab tab = new Tab(historyTabResource.getString(key));
     tab.setId(idsForTesting.getString(key));
     return tab;
   }
@@ -174,7 +177,7 @@ public class HistoryDisplayPane {
       Button button = makeButton(command.getKey(), userBox, HISTORY_BUTTON, "PreviousUserButton");
       userBox.getChildren().add(button);
       String dummy = command.getKey();
-      for(int i = 0; i < command.getValue().getParamCount(); i ++){
+      for (int i = 0; i < command.getValue().getParamCount(); i++) {
         dummy += " 50";
       }
       String finalDummy = dummy;
@@ -195,16 +198,18 @@ public class HistoryDisplayPane {
   public void updateVariableDisplay(Map<String, Double> variables) {
     varBox.getChildren().clear();
     for (Map.Entry<String, Double> entry : variables.entrySet()) {
-      Button button = makeButton(entry.getKey() + " = " + entry.getValue(), varBox, HISTORY_BUTTON, "PreviousVarButton");
+      Button button = makeButton(entry.getKey() + " = " + entry.getValue(), varBox, HISTORY_BUTTON,
+          "PreviousVarButton");
       varBox.getChildren().add(button);
-      button.setOnAction(event -> displayOnTextArea("make " + entry.getKey() + " " + entry.getValue()));
+      button.setOnAction(
+          event -> displayOnTextArea("make " + entry.getKey() + " " + entry.getValue()));
     }
   }
 
   private void makeExampleCodeButtons() {
     double prefWidth = TABS_WIDTH - 20.0;
     Object[] allExCode = exampleCode.keySet().toArray();
-    for (Object example: allExCode) {
+    for (Object example : allExCode) {
       String exampleCodeString = exampleCode.getString(example.toString());
       String exampleCodewithLabel = example + ": " + exampleCodeString;
       Button button = makeButton(exampleCodewithLabel, exBox, EXAMPLE_BUTTON, "examplebutton");
@@ -234,8 +239,11 @@ public class HistoryDisplayPane {
     tabPane.getTabs().clear();
     topBox.getChildren().clear();
     createTabs();
-    if (lang.equals("Chinese")) { textWidth = 150.0; }
-    else { textWidth = 300.0; }
+    if (lang.equals("Chinese")) {
+      textWidth = 150.0;
+    } else {
+      textWidth = 300.0;
+    }
     displayTitle(textWidth);
     createClearHistoryButton();
   }

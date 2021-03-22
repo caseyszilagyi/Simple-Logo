@@ -1,22 +1,31 @@
 package slogo.view;
 
 import java.lang.reflect.Method;
-import java.util.*;
-
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import slogo.controller.FrontEndExternalAPI;
 
-public class TurtleDisplayPane implements FrontEndInternalAPI{
+public class TurtleDisplayPane implements FrontEndInternalAPI {
+
   private static final double TURTLE_WIDTH = 50;
   private static final double TURTLE_HEIGHT = 50;
-  private static final String DEFAULT_RESOURCES = TurtleDisplayPane.class.getPackageName() + ".resources.";
-  public static final String UPDATE_NEXT_RESOURCE = DEFAULT_RESOURCES + "UpdateNextReflectionActions";
+  private static final String DEFAULT_RESOURCES =
+      TurtleDisplayPane.class.getPackageName() + ".resources.";
+  public static final String UPDATE_NEXT_RESOURCE =
+      DEFAULT_RESOURCES + "UpdateNextReflectionActions";
   private static final String ERROR_LANGUAGE = DEFAULT_RESOURCES + ".errormessages.Error";
 
   private static final String PANE_BOX_ID = "TurtleView";
@@ -44,7 +53,7 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
   String turtleImageFile = "Turtle2.gif";
   String inactiveTurtleImageFile = "Turtle3.gif";
 
-  public TurtleDisplayPane(FrontEndExternalAPI viewController,GridPane root, double r, double c) {
+  public TurtleDisplayPane(FrontEndExternalAPI viewController, GridPane root, double r, double c) {
     this.viewController = viewController;
     viewPane = root;
     rows = r;
@@ -76,14 +85,13 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
   public void updateTurtleStates() {
     String key;
     ResourceBundle updateNextActionResources = ResourceBundle.getBundle(UPDATE_NEXT_RESOURCE);
-    if(!typeToBeUpdated.isEmpty()) {
+    if (!typeToBeUpdated.isEmpty()) {
       key = typeToBeUpdated.removeFirst();
       try {
         String methodName = updateNextActionResources.getString(key);
         Method m = TurtleDisplayPane.this.getClass().getDeclaredMethod(methodName);
         m.invoke(TurtleDisplayPane.this);
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         new Alert(Alert.AlertType.ERROR);
       }
     }
@@ -93,7 +101,7 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
     double nextX = commandsToBeExecuted.pop();
     double nextY = commandsToBeExecuted.pop();
 
-    if(nextY < 0 || nextX < 0 || nextY > cols - TURTLE_HEIGHT || nextX > rows - TURTLE_WIDTH){
+    if (nextY < 0 || nextX < 0 || nextY > cols - TURTLE_HEIGHT || nextX > rows - TURTLE_WIDTH) {
       Alert error = new Alert(AlertType.ERROR);
       error.setContentText(errorLanguageResource.getString("TurtleOutOfBounds"));
       nextX = centerX;
@@ -123,7 +131,8 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
   }
 
   private void updateVisibility() {
-    allTurtleInformation.get(currentID).getTurtle().setVisible(commandsToBeExecuted.removeFirst() == 1);
+    allTurtleInformation.get(currentID).getTurtle()
+        .setVisible(commandsToBeExecuted.removeFirst() == 1);
   }
 
   private void setID() {
@@ -134,7 +143,7 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
 
   }
 
-  private void setPenThickness(){
+  private void setPenThickness() {
     allTurtleInformation.get(currentID).setPenThickness(commandsToBeExecuted.removeFirst());
   }
 
@@ -161,13 +170,15 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
   public void moveTurtle(double xCoordinate, double yCoordinate, Paint penColor) {
     this.penColor = penColor;
 
-    x = turtleViewPane.getWidth() / 2 + xCoordinate * turtleViewPane.getWidth() / rows - TURTLE_WIDTH / 2;
-    y = turtleViewPane.getHeight() / 2 - yCoordinate * turtleViewPane.getHeight() / cols - TURTLE_HEIGHT / 2;
+    x = turtleViewPane.getWidth() / 2 + xCoordinate * turtleViewPane.getWidth() / rows
+        - TURTLE_WIDTH / 2;
+    y = turtleViewPane.getHeight() / 2 - yCoordinate * turtleViewPane.getHeight() / cols
+        - TURTLE_HEIGHT / 2;
 
-    double xIncrement = (x - allTurtleInformation.get(currentID).getxCoord())/ INCREMENT_FACTOR;
-    double yIncrement = (y - allTurtleInformation.get(currentID).getyCoord())/ INCREMENT_FACTOR;
+    double xIncrement = (x - allTurtleInformation.get(currentID).getxCoord()) / INCREMENT_FACTOR;
+    double yIncrement = (y - allTurtleInformation.get(currentID).getyCoord()) / INCREMENT_FACTOR;
 
-    for(int i = 1; i <= INCREMENT_FACTOR; i++){
+    for (int i = 1; i <= INCREMENT_FACTOR; i++) {
       commandsToBeExecuted.add(allTurtleInformation.get(currentID).getxCoord() + xIncrement * i);
       commandsToBeExecuted.add(allTurtleInformation.get(currentID).getyCoord() + yIncrement * i);
       typeToBeUpdated.add("Positions");
@@ -178,8 +189,9 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
   }
 
   private void createLine(double x, double y, Paint penColor) {
-    Line line1 = new Line(allTurtleInformation.get(currentID).getTurtle().getX() + TURTLE_WIDTH / 2, allTurtleInformation.get(currentID).getTurtle().getY() + TURTLE_WIDTH / 2,
-            x + TURTLE_HEIGHT / 2, y + TURTLE_HEIGHT / 2);
+    Line line1 = new Line(allTurtleInformation.get(currentID).getTurtle().getX() + TURTLE_WIDTH / 2,
+        allTurtleInformation.get(currentID).getTurtle().getY() + TURTLE_WIDTH / 2,
+        x + TURTLE_HEIGHT / 2, y + TURTLE_HEIGHT / 2);
     line1.setStroke(penColor);
     line1.setId(LINE_ID);
     line1.setStrokeWidth(allTurtleInformation.get(currentID).getPenThickness());
@@ -191,7 +203,7 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
     typeToBeUpdated.clear();
 
     turtleViewPane.getChildren().clear();
-    for(Map.Entry<Integer, FrontEndSprite> entry : allTurtleInformation.entrySet()){
+    for (Map.Entry<Integer, FrontEndSprite> entry : allTurtleInformation.entrySet()) {
       createTurtle(entry.getKey());
     }
 
@@ -218,7 +230,7 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
   }
 
   public void setActiveTurtle(int turtleID) {
-    if(!allTurtleInformation.containsKey(turtleID)){
+    if (!allTurtleInformation.containsKey(turtleID)) {
       createTurtle(turtleID);
     }
 
@@ -229,10 +241,10 @@ public class TurtleDisplayPane implements FrontEndInternalAPI{
   }
 
   public void setActiveTurtles(List<Integer> iDs) {
-    for(Integer turtleID : allTurtleInformation.keySet().toArray(new Integer[0])){
-      if(iDs.contains(turtleID)){
+    for (Integer turtleID : allTurtleInformation.keySet().toArray(new Integer[0])) {
+      if (iDs.contains(turtleID)) {
         allTurtleInformation.get(turtleID).getTurtle().setImage(new Image(turtleImageFile));
-      }else{
+      } else {
         allTurtleInformation.get(turtleID).getTurtle().setImage(new Image(inactiveTurtleImageFile));
       }
     }

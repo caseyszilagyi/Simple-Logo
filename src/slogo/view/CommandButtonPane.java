@@ -1,15 +1,18 @@
 package slogo.view;
 
+import java.util.ResourceBundle;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import slogo.controller.FrontEndExternalAPI;
-import java.util.ResourceBundle;
 
 public class CommandButtonPane {
+
   private static final String BUTTON_PANE_ID = "CommandButtonPane";
   private static final String BUTTON = "regular-button";
-  private static final String DEFAULT_COMMAND_BUTTONS = HistoryDisplayPane.class.getPackageName() + ".resources.buttons.";
-  private static final String COMMAND_BUTTON_LANGUAGE = DEFAULT_COMMAND_BUTTONS + "languages.CommandButtons";
+  private static final String DEFAULT_COMMAND_BUTTONS =
+      HistoryDisplayPane.class.getPackageName() + ".resources.buttons.";
+  private static final String COMMAND_BUTTON_LANGUAGE =
+      DEFAULT_COMMAND_BUTTONS + "languages.CommandButtons";
 
   private ResourceBundle buttonLanguageResource;
   private FrontEndExternalAPI viewController;
@@ -17,7 +20,8 @@ public class CommandButtonPane {
   private Object[] buttons;
   private ResourceBundle idsForTesting;
 
-  public CommandButtonPane(FrontEndExternalAPI viewController, ResourceBundle idResources, String lang) {
+  public CommandButtonPane(FrontEndExternalAPI viewController, ResourceBundle idResources,
+      String lang) {
     buttonBox = new VBox();
     buttonBox.getStyleClass().add(BUTTON_PANE_ID);
 
@@ -31,7 +35,7 @@ public class CommandButtonPane {
   }
 
   private void makeButtons() {
-    for(Object o: buttons) {
+    for (Object o : buttons) {
       Button button = new Button();
       button.setText(buttonLanguageResource.getString(o.toString()));
       button.getStyleClass().add(BUTTON);

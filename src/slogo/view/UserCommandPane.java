@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.ResourceBundle;
-
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -32,8 +31,10 @@ public class UserCommandPane {
   private static final String BUTTON = "regular-button";
   private static final String FILE_PATH = "src/slogo/view/resources/reference";
   private static final String COMBO_BOX = "combo-box";
-  private static final String DEFAULT_RESOURCES = HistoryDisplayPane.class.getPackageName() + ".resources.";
-  private static final String REFLECTION_RESOURCE = DEFAULT_RESOURCES + "buttons.UserCommandReflectionActions";
+  private static final String DEFAULT_RESOURCES =
+      HistoryDisplayPane.class.getPackageName() + ".resources.";
+  private static final String REFLECTION_RESOURCE =
+      DEFAULT_RESOURCES + "buttons.UserCommandReflectionActions";
   private static final String BUTTON_LANGUAGE = DEFAULT_RESOURCES + "buttons.languages.UserCommand";
   private static final String ERROR_LANGUAGE = DEFAULT_RESOURCES + ".errormessages.Error";
 
@@ -49,7 +50,8 @@ public class UserCommandPane {
   private String errorMessage = "";
   private ResourceBundle errorLanguageResource;
 
-  public UserCommandPane(FrontEndExternalAPI viewController, ResourceBundle idResource, String lang) {
+  public UserCommandPane(FrontEndExternalAPI viewController, ResourceBundle idResource,
+      String lang) {
     this.viewController = viewController;
     bottomPaneBoxArea = new GridPane();
     bottomPaneBoxArea.getStyleClass().add(USER_COMMAND_PANE_ID);
@@ -67,7 +69,7 @@ public class UserCommandPane {
     bottomPaneBoxArea.add(sliderToControlTurtleSpeed, 5, 0);
   }
 
-  public double getAnimationSpeed(){
+  public double getAnimationSpeed() {
     return sliderToControlTurtleSpeed.getValue();
   }
 
@@ -78,9 +80,9 @@ public class UserCommandPane {
   }
 
   private void run() {
-    try{
+    try {
       viewController.processUserCommandInput(userInputTextArea.getText());
-    }catch (Exception exception){
+    } catch (Exception exception) {
       errorMessage = exception.getMessage();
       Alert error = new Alert(AlertType.ERROR);
       error.setContentText(errorLanguageResource.getString(errorMessage));
@@ -99,7 +101,8 @@ public class UserCommandPane {
     Collections.sort(allReferences);
     helpDropDownBoxWithInformationAboutCommands = new ComboBox<>();
     helpDropDownBoxWithInformationAboutCommands.getItems().addAll(allReferences);
-    helpDropDownBoxWithInformationAboutCommands.setValue(buttonLanguageResource.getString("DefaultMessage"));
+    helpDropDownBoxWithInformationAboutCommands
+        .setValue(buttonLanguageResource.getString("DefaultMessage"));
     helpDropDownBoxWithInformationAboutCommands.getStyleClass().add(COMBO_BOX);
     bottomPaneBoxArea.add(helpDropDownBoxWithInformationAboutCommands, 3, 0);
     helpDropDownBoxWithInformationAboutCommands.setOnAction(handler -> {
@@ -145,8 +148,7 @@ public class UserCommandPane {
       String methodName = reflectionResource.getString(key);
       Method m = UserCommandPane.this.getClass().getDeclaredMethod(methodName);
       m.invoke(UserCommandPane.this);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       new Alert(Alert.AlertType.ERROR);
     }
   }
