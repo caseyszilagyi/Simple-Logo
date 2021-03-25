@@ -10,7 +10,12 @@ import slogo.model.parse.tokens.ListToken;
 import slogo.model.parse.tokens.Token;
 
 /**
+ * parser that deals with lists and counting and saving the number of parameters each list has in the map that is used to create the AST
+ * in the CommandParser class. This creates a unique identifier for each list that allows for reference when it is reached. It also replaces the
+ * use of list tokens as identifiers of lists all to command blocks, which is a basic command type we created in terms of recognizable execution
+ * by the basic command classes.
  *
+ * @author jincho
  */
 public class CommandBlockParser extends Parser {
   private static final String COMMAND_KEY = "CommandBlock_";
@@ -20,7 +25,7 @@ public class CommandBlockParser extends Parser {
   private CommandParser commandParser;
 
   /**
-   *
+   * constructs this parser and also makes a method call to make the command blocks and get their parameter counts. 
    * @param tokens
    * @param commandParser
    */
@@ -98,6 +103,10 @@ public class CommandBlockParser extends Parser {
     return ret;
   }
 
+  /**
+   *
+   * @return
+   */
   @Override
   public List<String> parseResults() {
     return null;

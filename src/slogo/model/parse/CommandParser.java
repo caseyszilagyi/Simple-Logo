@@ -27,6 +27,12 @@ public class CommandParser extends Parser {
   private CommandBlockParser commandBlockParser;
 
 
+  /**
+   *
+   * @param rawInput
+   * @param language
+   * @param modelController
+   */
   public CommandParser(String rawInput, String language, BackEndExternalAPI modelController) {
     this.modelController = modelController;
     inputCleaner = new InputCleaner(rawInput, language, modelController);
@@ -87,6 +93,10 @@ public class CommandParser extends Parser {
     }
   }
 
+  /**
+   *
+   * @return
+   */
   @Override
   public List<String> parseResults() {
     return preOrderResults;
@@ -97,7 +107,7 @@ public class CommandParser extends Parser {
       return root;
     }
     List<String> params = getParam(root.getValue());
-    if(childOfMakeUserInstruction(root) && !root.getCommand().equals(COMMAND_BLOCK_CLASS)){
+    if (childOfMakeUserInstruction(root) && !root.getCommand().equals(COMMAND_BLOCK_CLASS)) {
       params = new ArrayList<>();
     }
     for (int i = 0; i < params.size(); i++) {
@@ -146,7 +156,7 @@ public class CommandParser extends Parser {
       if (match(t.getCommand(), syntaxMap.get("Command"), syntaxMap.get("Variable"), syntaxMap.get("Constant"))) {
         toMatch.add(NUM_TOKEN);
       }
-      if (t.getCommand().equals(COMMAND_BLOCK_CLASS)) { toMatch.set(ind, LIST_TOKEN);}
+      if (t.getCommand().equals(COMMAND_BLOCK_CLASS)) { toMatch.set(ind, LIST_TOKEN); }
     }
     return toMatch.equals(expected);
   }
