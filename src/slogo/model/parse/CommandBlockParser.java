@@ -25,17 +25,27 @@ public class CommandBlockParser extends Parser {
   private CommandParser commandParser;
 
   /**
-   * constructs this parser and also makes a method call to make the command blocks and get their parameter counts. 
+   * constructs parser that gets the parameter counts of command blocks which have undefined number of parameters. needs to declare the
+   * command parser it is associated with and also the list of tokens that was made in the token parser
    * @param tokens
    * @param commandParser
    */
   public CommandBlockParser(List<Token> tokens, CommandParser commandParser) {
     this.tokens = tokens;
     this.commandParser = commandParser;
-    commandBlockParams();
   }
 
-  private void commandBlockParams() {
+  /**
+   * counts the parameters for each command block (aka list) and saves that number to the map in the command parser that is used
+   * to determine the number of children for each command in the AST. it has MANY conditions to check on as it parses through the tokens.
+   * it must check for user defined commands to save that information as we parse in case the user defined command is
+   * used in the same comamnd input, the end of a list to know when to stop counting parameters and save that info to the map, and if the
+   * token is a list to see when it should begin counting parameters within that list.
+   * this method uses stacks in case there are nested lists and must pause counting params of one list and start another. it also saves the
+   * command block that list that was pushed to the stack on a different stack so that the parameter counts and the respective command blocks are
+   * saved together
+   */
+  public void commandBlockParams() {
     Deque<Token> commandBlocks = new ArrayDeque<>();
     Deque<Integer> parameters = new ArrayDeque<>();
     int userDefInd = -1;

@@ -13,7 +13,8 @@ import slogo.model.parse.tokens.Token;
 import slogo.model.tree.TreeNode;
 
 /**
- * creates a n-ary tree of all commands and their parameters associated with this string input
+ * creates a n-ary tree of all commands and their parameters associated with this string input so that the basic command class objects
+ * can be created and executed properly andi in order
  *
  * @author jincho jiyunhyo
  */
@@ -28,10 +29,13 @@ public class CommandParser extends Parser {
 
 
   /**
+   * constructs the command parser with instance variables it needs for creating the n-ary tree. it creates instances
+   * of each of the parser types so that the raw string can be parsed through and checked for certain cleans. in this constructor, it also cleans
+   * all the strings such that it is ready for creating the tree.
    *
-   * @param rawInput
-   * @param language
-   * @param modelController
+   * @param rawInput direct input taken from the GUI
+   * @param language the language selected by the user for commands
+   * @param modelController the model controller that is running for the current input
    */
   public CommandParser(String rawInput, String language, BackEndExternalAPI modelController) {
     this.modelController = modelController;
@@ -39,6 +43,7 @@ public class CommandParser extends Parser {
     tokenMaker = new TokensParser(inputCleaner.parseResults());
     cleanCommands = tokenMaker.tokenString();
     commandBlockParser = new CommandBlockParser(cleanCommands, this);
+    commandBlockParser.commandBlockParams();
     commandTree = new TreeNode(null, null);
     addUserDefParamCounts();
   }
@@ -94,7 +99,7 @@ public class CommandParser extends Parser {
   }
 
   /**
-   *
+   * returns a string representation of the commands in pre-order (aka matching the order of the input given)
    * @return
    */
   @Override

@@ -34,6 +34,7 @@ public class TokensAndCommandBlockTest {
     TokensParser tokenMaker = makeMakeTokens(userInput, "English");
     List<Token> tokens = tokenMaker.tokenString();
     CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
+    commandBlockParser.commandBlockParams();
     List<String> actual = tokensToString(tokens);
     List<String> expected = new ArrayList<>();
     expected.add("XCoordinate");
@@ -49,6 +50,7 @@ public class TokensAndCommandBlockTest {
     TokensParser tokenMaker = makeMakeTokens(userInput, "English");
     List<Token> tokens = tokenMaker.tokenString();
     CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
+    commandBlockParser.commandBlockParams();
     List<String> actual = tokensToString(tokens);
     List<String> expected = new ArrayList<>();
     expected.add("Sum");
@@ -66,6 +68,7 @@ public class TokensAndCommandBlockTest {
     TokensParser tokenMaker = makeMakeTokens(userInput, "English");
     List<Token> tokens = tokenMaker.tokenString();
     CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
+    commandBlockParser.commandBlockParams();
     List<String> actual = tokensToString(tokens);
     List<String> expected = new ArrayList<>();
     expected.add("Tell");
@@ -97,6 +100,7 @@ public class TokensAndCommandBlockTest {
     TokensParser tokenMaker = makeMakeTokens(userInput, "English");
     List<Token> tokens = tokenMaker.tokenString();
     CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
+    commandBlockParser.commandBlockParams();
     List<String> actual = tokensToString(tokens);
     List<String> expected = new ArrayList<>();
     expected.add("MakeUserInstruction");
@@ -188,6 +192,7 @@ public class TokensAndCommandBlockTest {
     TokensParser tokenMaker = makeMakeTokens(userInput, "English");
     List<Token> tokens = tokenMaker.tokenString();
     CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
+    commandBlockParser.commandBlockParams();
     List<String> actual = tokensToString(tokens);
     assertEquals(0, commandParser.commandParam.get("square").size());
     assertEquals(0, commandParser.commandParam.get("tunnel").size());
@@ -214,6 +219,7 @@ public class TokensAndCommandBlockTest {
     TokensParser tokenMaker = makeMakeTokens(userInput, "English");
     List<Token> tokens = tokenMaker.tokenString();
     CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
+    commandBlockParser.commandBlockParams();
     List<String> actual = tokensToString(tokens);
     List<String> expected = new ArrayList<>();
     expected.add("Tell");
@@ -235,6 +241,7 @@ public class TokensAndCommandBlockTest {
     TokensParser tokenMaker = makeMakeTokens(userInput, "English");
     List<Token> tokens = tokenMaker.tokenString();
     CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
+    commandBlockParser.commandBlockParams();
     List<String> actual = tokensToString(tokens);
     List<String> expected = new ArrayList<>();
     expected.add("Forward");
@@ -253,6 +260,7 @@ public class TokensAndCommandBlockTest {
     TokensParser tokenMaker = makeMakeTokens(userInput, "English");
     List<Token> tokens = tokenMaker.tokenString();
     CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
+    commandBlockParser.commandBlockParams();
     List<String> actual = tokensToString(tokens);
     List<String> expected = new ArrayList<>();
     expected.add("AskWith");
@@ -278,6 +286,7 @@ public class TokensAndCommandBlockTest {
     TokensParser tokenMaker = makeMakeTokens(userInput, "English");
     List<Token> tokens = tokenMaker.tokenString();
     CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
+    commandBlockParser.commandBlockParams();
     List<String> actual = tokensToString(tokens);
     List<String> expected = new ArrayList<>();
     expected.add("Repeat");
@@ -298,6 +307,7 @@ public class TokensAndCommandBlockTest {
     TokensParser tokenMaker = makeMakeTokens(userInput, "English");
     List<Token> tokens = tokenMaker.tokenString();
     CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
+    commandBlockParser.commandBlockParams();
     List<String> actual = tokensToString(tokens);
     List<String> expected = new ArrayList<>();
     expected.add("Repeat");
@@ -320,6 +330,7 @@ public class TokensAndCommandBlockTest {
     TokensParser tokenMaker = makeMakeTokens(userInput, "English");
     List<Token> tokens = tokenMaker.tokenString();
     CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
+    commandBlockParser.commandBlockParams();
     List<String> actual = tokensToString(tokens);
     List<String> expected = new ArrayList<>();
     expected.add("Repeat");
@@ -345,6 +356,7 @@ public class TokensAndCommandBlockTest {
     TokensParser tokenMaker = makeMakeTokens(userInput, "English");
     List<Token> tokens = tokenMaker.tokenString();
     CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
+    commandBlockParser.commandBlockParams();
     List<String> actual = tokensToString(tokens);
     List<String> expected = new ArrayList<>();
     expected.add("MakeUserInstruction");
@@ -372,6 +384,7 @@ public class TokensAndCommandBlockTest {
     TokensParser tokenMaker = makeMakeTokens(userInput, "English");
     List<Token> tokens = tokenMaker.tokenString();
     CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
+    commandBlockParser.commandBlockParams();
     List<String> actual = tokensToString(tokens);
     List<String> expected = new ArrayList<>();
     expected.add("MakeUserInstruction");
@@ -405,6 +418,7 @@ public class TokensAndCommandBlockTest {
     TokensParser tokenMaker = makeMakeTokens(userInput, "English");
     List<Token> tokens = tokenMaker.tokenString();
     CommandBlockParser commandBlockParser = new CommandBlockParser(tokens, commandParser);
+    commandBlockParser.commandBlockParams();
     List<String> actual = tokensToString(tokens);
     List<String> expected = new ArrayList<>();
     expected.add("MakeUserInstruction");
