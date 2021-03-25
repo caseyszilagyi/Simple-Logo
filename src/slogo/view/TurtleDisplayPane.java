@@ -18,6 +18,12 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import slogo.controller.FrontEndExternalAPI;
 
+/**
+ * Creates the pane that displays the turtle and its movement and pen strokes.
+ * Also handles the animation of the turtle.
+ * @author Kathleen Chen
+ * @author Ji Yun Hyo
+ */
 public class TurtleDisplayPane implements FrontEndInternalAPI {
 
   private static final double TURTLE_WIDTH = 50;
@@ -53,6 +59,12 @@ public class TurtleDisplayPane implements FrontEndInternalAPI {
   String turtleImageFile = "Turtle2.gif";
   String inactiveTurtleImageFile = "Turtle3.gif";
 
+  /**
+   * Purpose: Creates the pane for the turtle to be displayed in.
+   * Assumptions: None
+   * Parameters: FrontEndExternalAPI viewController, GridPane root, double r, double c
+   * Exception: None
+   */
   public TurtleDisplayPane(FrontEndExternalAPI viewController, GridPane root, double r, double c) {
     this.viewController = viewController;
     viewPane = root;
@@ -81,6 +93,12 @@ public class TurtleDisplayPane implements FrontEndInternalAPI {
     createTurtle(FIRST_TURTLE);
   }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * Parameters:
+   * Exception: Throws an exception if the turtle moves out of the frame
+   */
   @Override
   public void updateTurtleStates() {
     String key;
@@ -167,6 +185,14 @@ public class TurtleDisplayPane implements FrontEndInternalAPI {
     this.allTurtleInformation.put(id, turtleInformation);
   }
 
+  /**
+   * Purpose: Moves the turtle based on information passed to the view controller
+   *          from the back end. Draws a line if the pen state is down.
+   * Assumptions: The x and y coordinates are given in a valid way (error checking done
+   *              in another method)
+   * Parameters: double xCoordinate, double yCoordinate, Paint penColor
+   * Exception: None
+   */
   public void moveTurtle(double xCoordinate, double yCoordinate, Paint penColor) {
     this.penColor = penColor;
 
@@ -198,6 +224,13 @@ public class TurtleDisplayPane implements FrontEndInternalAPI {
     turtleViewPane.getChildren().add(line1);
   }
 
+  /**
+   * Purpose: Clears the screen and resets the turtle back to its initial position
+   *          in the center of the screen
+   * Assumptions: None
+   * Parameters: None
+   * Exception: None
+   */
   public void clearScreen() {
     commandsToBeExecuted.clear();
     typeToBeUpdated.clear();
@@ -209,10 +242,22 @@ public class TurtleDisplayPane implements FrontEndInternalAPI {
 
   }
 
+  /**
+   * Purpose: Sets the background of the pane to the correct background color.
+   * Assumptions: There is a background color being passed
+   * Parameters: Background background
+   * Exception: None
+   */
   public void setBackground(Background background) {
     turtleViewPane.setBackground(background);
   }
 
+  /**
+   * Purpose: Sets the image of the turtle to the correct image uploaded.
+   * Assumptions: There is a valid image uploaded
+   * Parameters: Image turtleImage
+   * Exception: None
+   */
   public void setTurtleImage(Image turtleImage) {
     allTurtleInformation.get(currentID).getTurtle().setImage(turtleImage);
     allTurtleInformation.get(currentID).getTurtle().setFitWidth(TURTLE_WIDTH);
@@ -220,15 +265,35 @@ public class TurtleDisplayPane implements FrontEndInternalAPI {
     allTurtleInformation.get(currentID).getTurtle().setId("Turtle" + currentID);
   }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * Parameters:
+   * Exception: None
+   */
   public void updateCommandQueue(String commandType, List<Double> commandValues) {
     typeToBeUpdated.add(commandType);
     commandsToBeExecuted.addAll(commandValues);
   }
 
+  /**
+   * Purpose: Updates which resource file for errors is active when the
+   *          language is changed.
+   * Assumptions: There is a valid language (a resource file for that language
+   *              exists)
+   * Parameters: String lang
+   * Exception: None
+   */
   public void updateLanguage(String lang) {
     errorLanguageResource = ResourceBundle.getBundle(ERROR_LANGUAGE + lang);
   }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * Parameters:
+   * Exception: None
+   */
   public void setActiveTurtle(int turtleID) {
     if (!allTurtleInformation.containsKey(turtleID)) {
       createTurtle(turtleID);
@@ -240,6 +305,12 @@ public class TurtleDisplayPane implements FrontEndInternalAPI {
 
   }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * Parameters:
+   * Exception: None
+   */
   public void setActiveTurtles(List<Integer> iDs) {
     for (Integer turtleID : allTurtleInformation.keySet().toArray(new Integer[0])) {
       if (iDs.contains(turtleID)) {

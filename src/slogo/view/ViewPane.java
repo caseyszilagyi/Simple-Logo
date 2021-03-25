@@ -9,7 +9,7 @@ import slogo.controller.FrontEndExternalAPI;
 
 
 /**
- * Creates the view for where the turtle will be displayed
+ * Creates the view for where the turtle will be displayed.
  *
  * @author Kathleen Chen
  * @author Ji Yun Hyo
@@ -28,7 +28,7 @@ public class ViewPane implements FrontEndInternalAPI {
 
   /**
    * Purpose: Creates the pane that displays the turtle and the choices associated with it
-   * Assumptions:
+   * Assumptions: None
    * Parameters: FrontEndExternalAPI viewController, Stage s, ResourceBundle idResource
    * Exception: None
    */
@@ -66,7 +66,7 @@ public class ViewPane implements FrontEndInternalAPI {
 
   /**
    * Purpose: Returns the GridPane to the ScreenCreator to build the final screen
-   * Assumptions:
+   * Assumptions: None
    * Parameters: None
    * Exception: None
    * Return: Pane viewPane
@@ -100,9 +100,10 @@ public class ViewPane implements FrontEndInternalAPI {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * Parameters:
+   * Purpose: Clears the turtle view screen of the drawn lines and returns the turtle
+   *          to the center of the display.
+   * Assumptions: None
+   * Parameters: None
    * Exception: None
    */
   public void clearScreen() {

@@ -18,6 +18,8 @@ import slogo.model.commands.basic_commands.UserDefinedCommand;
 
 /**
  * Create the HBox for the display for history of commands, variables, and user commands
+ * @author Kathleen Chen
+ * @author Ji Yun Hyo
  */
 public class HistoryDisplayPane {
 
@@ -56,6 +58,15 @@ public class HistoryDisplayPane {
   private Label title;
   private double SPACING = 5.0;
 
+  /**
+   * Purpose: Creates a BorderPane that holds the scrolling VBoxes that display
+   *          information about history, variables, user defined commands,
+   *          and examples.
+   * Assumptions: None
+   * Parameters: FrontEndExternalAPI viewController, ResourceBundle idResource,
+   *             String lang
+   * Exception: None
+   */
   public HistoryDisplayPane(FrontEndExternalAPI viewController, ResourceBundle idResource,
       String lang) {
     basePane = new BorderPane();
@@ -161,10 +172,24 @@ public class HistoryDisplayPane {
     topBox.getChildren().add(title);
   }
 
+  /**
+   * Purpose: Return the BorderPane that is the baseBox (in the general
+   *          form of a Node).
+   * Assumptions: None
+   * Parameters: None
+   * Exception: None
+   * Returns: Node baseBox
+   */
   public Node getBox() {
     return basePane;
   }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * Parameters:
+   * Exception: None
+   */
   public void updateDisplayOfInformation(Map<String, Double> variables,
       Map<String, UserDefinedCommand> userDefinedCommands) {
     updateVariableDisplay(variables);
@@ -185,6 +210,12 @@ public class HistoryDisplayPane {
     }
   }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * Parameters:
+   * Exception: None
+   */
   public void updateCommandHistory(Queue<String> commandHistory) {
     displayCommandHistory = commandHistory;
     historyBox.getChildren().clear();
@@ -195,6 +226,12 @@ public class HistoryDisplayPane {
     }
   }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * Parameters:
+   * Exception: None
+   */
   public void updateVariableDisplay(Map<String, Double> variables) {
     varBox.getChildren().clear();
     for (Map.Entry<String, Double> entry : variables.entrySet()) {
@@ -232,6 +269,13 @@ public class HistoryDisplayPane {
     return button;
   }
 
+  /**
+   * Purpose: Update the buttons and text displayed on this pane based on
+   *          the language of the program.
+   * Assumptions: There is a language set for the program
+   * Parameters: String lang
+   * Exception: None
+   */
   public void updateLanguage(String lang) {
     exampleCode = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + EXAMPLE_FILE + lang);
     historyTabResource = ResourceBundle.getBundle(DISPLAY_BUTTONS + lang);

@@ -26,6 +26,12 @@ import slogo.controller.FrontEndExternalAPI;
 import slogo.controller.ModelController;
 import slogo.controller.ViewController;
 
+/**
+ * Creates the pane that display the combo boxes and buttons associated with the
+ * turtle display pane and the program in general.
+ * @author Kathleen Chen
+ * @author Ji Yun Hyo
+ */
 public class ViewChoicePane {
 
   private static final double ICON_WIDTH = 20.0;
@@ -60,6 +66,14 @@ public class ViewChoicePane {
   private ResourceBundle reflectionResources;
   private FrontEndExternalAPI viewController;
 
+  /**
+   * Purpose: Create the pane where the specific buttons and combo boxes are
+   *          created and displayed.
+   * Assumptions: None
+   * Parameters: rontEndExternalAPI viewController, Stage s, GridPane root,
+   *             TurtleDisplayPane turtleDisplayPane, ResourceBundle idResources
+   * Exception: None
+   */
   public ViewChoicePane(FrontEndExternalAPI viewController, Stage s, GridPane root,
       TurtleDisplayPane turtleDisplayPane, ResourceBundle idResources) {
     this.viewController = viewController;
@@ -121,6 +135,13 @@ public class ViewChoicePane {
     choicePane.add(penColorPickerButton, 1, 0);
   }
 
+  /**
+   * Purpose: Gets and returns the current color of the pen.
+   * Assumptions: None
+   * Parameters: None
+   * Exception: None
+   * Returns: Paint penColor
+   */
   public Paint getPenColor() {
     return penColor;
   }
@@ -130,6 +151,13 @@ public class ViewChoicePane {
     makeButton(key, 2);
   }
 
+  /**
+   * Purpose: Opens a dialog box that allows a person to upload a file for
+   *          the turtle image.
+   * Assumptions: The file is a gif
+   * Parameters: None
+   * Exception: None
+   */
   public void uploadTurtleImage() {
     FileChooser turtleImageChooser = new FileChooser();
     File file = turtleImageChooser.showOpenDialog(stage);
@@ -200,6 +228,13 @@ public class ViewChoicePane {
     }
   }
 
+  /**
+   * Purpose: Returns the language of the program based on the combobox.
+   * Assumptions: None
+   * Parameters: None
+   * Exception: None
+   * Returns: String language
+   */
   public String getLanguage() {
     return language;
   }

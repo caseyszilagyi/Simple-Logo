@@ -38,6 +38,12 @@ public class ScreenCreator implements FrontEndInternalAPI {
   private CommandButtonPane commandButtonPane;
   private Timeline timeline;
 
+  /**
+   * Purpose: Create the main stage and scene that holds all the other scenes.
+   * Assumptions: There is a FrontEndExternalAPI
+   * Parameters: FrontEndExternalAPI viewController
+   * Exception: None
+   */
   public ScreenCreator(FrontEndExternalAPI viewController) {
     stage = new Stage();
     stage.setResizable(true);
@@ -68,31 +74,66 @@ public class ScreenCreator implements FrontEndInternalAPI {
     runSimulation();
   }
 
-
+  /**
+   * Purpose:
+   * Assumptions:
+   * Parameters:
+   * Exception: None
+   */
   private void setAnimationSpeed() {
     timeline.setRate(userCommand.getAnimationSpeed());
   }
 
+  /**
+   * Purpose: Returns the language from the combobox displayed on the view pane.
+   * Assumptions: There is a language displayed on the view pane.
+   * Parameters: None
+   * Exception: None
+   */
   public String getLanguage() {
     return viewPane.getLanguage();
   }
 
+  /**
+   * Purpose: Updates the screen elements based on the language that is displayed
+   *          in the combo box on the view pane.
+   * Assumptions: The combo box language has just changed
+   * Parameters: String language
+   * Exception: None
+   */
   public void updateLanguage(String language) {
     commandButtonPane.updateLanguage(language);
     userCommand.updateLanguage(language);
     historyDisplayPane.updateLanguage(language);
   }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * Parameters:
+   * Exception: None
+   */
   public void updateCommandHistory(Queue<String> commandHistory) {
     historyDisplayPane.updateCommandHistory(commandHistory);
   }
 
-
+  /**
+   * Purpose:
+   * Assumptions:
+   * Parameters:
+   * Exception: None
+   */
   public void updateVariablesAndUserDefinedCommands(Map<String, Double> variables,
       Map<String, UserDefinedCommand> userDefinedCommands) {
     historyDisplayPane.updateDisplayOfInformation(variables, userDefinedCommands);
   }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * Parameters:
+   * Exception: None
+   */
   public void displayCommandStringOnTextArea(String command) {
     userCommand.displayCommandStringOnTextArea(command);
   }
@@ -108,26 +149,62 @@ public class ScreenCreator implements FrontEndInternalAPI {
     timeline.setRate(300);
   }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * Parameters:
+   * Exception: None
+   */
   public void updateTurtleStates() {
     viewPane.updateTurtleStates();
   }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * Parameters:
+   * Exception: None
+   */
   public void updateCommandQueue(String commandType, List<Double> commandValues) {
     viewPane.updateCommandQueue(commandType, commandValues);
   }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * Parameters:
+   * Exception: None
+   */
   public void setTurtlePosition(double xPosition, double yPosition) {
     viewPane.moveTurtle(xPosition, yPosition);
   }
 
+  /**
+   * Purpose: Clear and reset the view pane when clearscreen is called
+   * Assumptions: None
+   * Parameters: None
+   * Exception: None
+   */
   public void clearScreen() {
     viewPane.clearScreen();
   }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * Parameters:
+   * Exception: None
+   */
   public void setActiveTurtle(int turtleID) {
     viewPane.setActiveTurtle(turtleID);
   }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * Parameters:
+   * Exception: None
+   */
   public void setActiveTurtles(List<Integer> iDs) {
     viewPane.setActiveTurtles(iDs);
   }
