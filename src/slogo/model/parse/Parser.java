@@ -62,6 +62,7 @@ public abstract class Parser {
 
   /**
    * sees if the text given is of the regex pattern given
+   *
    * @param text string you want to see if it matches regex pattern
    * @param regex pattern you compare string to
    * @return boolean stating if text is of regex pattern given

@@ -13,7 +13,8 @@ import slogo.model.parse.tokens.Token;
 import slogo.model.tree.TreeNode;
 
 /**
- * creates a n-ary tree of all commands and their parameters associated with this string input
+ * creates a n-ary tree of all commands and their parameters associated with this string input so that the basic command class objects
+ * can be created and executed properly andi in order
  *
  * @author jincho jiyunhyo
  */
@@ -27,12 +28,22 @@ public class CommandParser extends Parser {
   private CommandBlockParser commandBlockParser;
 
 
+  /**
+   * constructs the command parser with instance variables it needs for creating the n-ary tree. it creates instances
+   * of each of the parser types so that the raw string can be parsed through and checked for certain cleans. in this constructor, it also cleans
+   * all the strings such that it is ready for creating the tree.
+   *
+   * @param rawInput direct input taken from the GUI
+   * @param language the language selected by the user for commands
+   * @param modelController the model controller that is running for the current input
+   */
   public CommandParser(String rawInput, String language, BackEndExternalAPI modelController) {
     this.modelController = modelController;
     inputCleaner = new InputCleaner(rawInput, language, modelController);
     tokenMaker = new TokensParser(inputCleaner.parseResults());
     cleanCommands = tokenMaker.tokenString();
     commandBlockParser = new CommandBlockParser(cleanCommands, this);
+    commandBlockParser.commandBlockParams();
     commandTree = new TreeNode(null, null);
     addUserDefParamCounts();
   }
@@ -87,6 +98,10 @@ public class CommandParser extends Parser {
     }
   }
 
+  /**
+   * returns a string representation of the commands in pre-order (aka matching the order of the input given)
+   * @return
+   */
   @Override
   public List<String> parseResults() {
     return preOrderResults;
@@ -97,7 +112,7 @@ public class CommandParser extends Parser {
       return root;
     }
     List<String> params = getParam(root.getValue());
-    if(childOfMakeUserInstruction(root) && !root.getCommand().equals(COMMAND_BLOCK_CLASS)){
+    if (childOfMakeUserInstruction(root) && !root.getCommand().equals(COMMAND_BLOCK_CLASS)) {
       params = new ArrayList<>();
     }
     for (int i = 0; i < params.size(); i++) {
@@ -146,7 +161,7 @@ public class CommandParser extends Parser {
       if (match(t.getCommand(), syntaxMap.get("Command"), syntaxMap.get("Variable"), syntaxMap.get("Constant"))) {
         toMatch.add(NUM_TOKEN);
       }
-      if (t.getCommand().equals(COMMAND_BLOCK_CLASS)) { toMatch.set(ind, LIST_TOKEN);}
+      if (t.getCommand().equals(COMMAND_BLOCK_CLASS)) { toMatch.set(ind, LIST_TOKEN); }
     }
     return toMatch.equals(expected);
   }

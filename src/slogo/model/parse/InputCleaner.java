@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
-import java.util.Set;
 import java.util.regex.Pattern;
 import slogo.ErrorHandler;
 import slogo.controller.BackEndExternalAPI;
@@ -15,6 +14,7 @@ import slogo.model.SLogoCommandExecutor;
 /**
  * Cleans the raw string input from the user into a list of strings that the CommandParser can use
  * will recognize as commands and command parameters removes comments
+ *
  * @author jincho
  */
 public class InputCleaner extends Parser{
@@ -52,8 +52,7 @@ public class InputCleaner extends Parser{
   /**
    * method that actually cleans the string input
    *
-   * @return list of strings without comments, translated to backend recognizable, and commandblocks
-   * grouped
+   * @return list of strings without comments, translated to backend recognizable
    */
   @Override
   public List<String> parseResults() {

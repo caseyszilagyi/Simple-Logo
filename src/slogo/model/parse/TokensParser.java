@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.Deque;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 import slogo.ErrorHandler;
 import slogo.model.SLogoCommandExecutor;
 import slogo.model.parse.tokens.ListEndToken;
@@ -15,7 +14,10 @@ import slogo.model.parse.tokens.Token;
 import slogo.model.parse.tokens.TokenFactory;
 
 /**
- * Condenses the translated String input as a List into a List of Token objects based on the Regex token. Also deals with different types of lists in String input.
+ * Condenses the translated String input as a List into a List of Token objects based on the Regex token.
+ * Also deals with different types of lists in String input. More details are in the TokenFactory javadoc in terms of
+ * explaining what a Token is and its purpose. This class just organizes and uses this class to make it ready for
+ * counting paameters and extracting desired information about commands.
  *
  * @author jincho
  */
@@ -53,8 +55,9 @@ public class TokensParser extends Parser {
   }
 
   /**
+   * creates a list of strings that just contains the actual command/constant/variable value associated with the token
    *
-   * @return
+   * @return this list of strings that specifies the command/value type
    */
   @Override
   public List<String> parseResults() {
