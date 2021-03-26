@@ -5,6 +5,11 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import slogo.controller.FrontEndExternalAPI;
 
+/**
+ * Creates the pane that displays buttons that allow users to do preset commands.
+ * @author Kathleen Chen
+ */
+
 public class CommandButtonPane {
 
   private static final String BUTTON_PANE_ID = "CommandButtonPane";
@@ -20,6 +25,14 @@ public class CommandButtonPane {
   private Object[] buttons;
   private ResourceBundle idsForTesting;
 
+  /**
+   * Purpose: Create a pane that will display buttons of premade commands
+   *        that the user can use.
+   * Assumptions: None
+   * Parameters: FrontEndExternalAPI viewController, ResourceBundle idResources,
+   *       String lang
+   * Exception: None
+   */
   public CommandButtonPane(FrontEndExternalAPI viewController, ResourceBundle idResources,
       String lang) {
     buttonBox = new VBox();
@@ -49,10 +62,23 @@ public class CommandButtonPane {
     viewController.processUserCommandInput(buttonLanguageResource.getString(command));
   }
 
+  /**
+   * Purpose: Return the VBox associated with the command button pane.
+   * Assumptions: None
+   * Parameters: None
+   * Exception: None
+   * Return: VBox buttonBox
+   */
   public VBox getBox() {
     return buttonBox;
   }
 
+  /**
+   * Purpose: Update the buttons based on the language.
+   * Assumptions: The language is a valid language (a properties file for it)
+   * Parameters: String lang
+   * Exception: None
+   */
   public void updateLanguage(String lang) {
     buttonLanguageResource = ResourceBundle.getBundle(COMMAND_BUTTON_LANGUAGE + lang);
     buttonBox.getChildren().clear();

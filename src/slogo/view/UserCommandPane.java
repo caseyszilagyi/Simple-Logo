@@ -20,7 +20,9 @@ import javafx.scene.layout.GridPane;
 import slogo.controller.FrontEndExternalAPI;
 
 /**
- * Creates the pane where the user will input their commands and run them
+ * Creates the pane where the user will input their commands and run them.
+ * @author Kathleen Chen
+ * @author Ji Yun Hyo
  */
 public class UserCommandPane {
 
@@ -50,6 +52,14 @@ public class UserCommandPane {
   private String errorMessage = "";
   private ResourceBundle errorLanguageResource;
 
+  /**
+   * Purpose: Create the pane that displays the user command input and the
+   *          appropriate buttons
+   * Assumptions: None
+   * Parameters: FrontEndExternalAPI viewController, ResourceBundle idResource,
+   *             String lang
+   * Exception: None
+   */
   public UserCommandPane(FrontEndExternalAPI viewController, ResourceBundle idResource,
       String lang) {
     this.viewController = viewController;
@@ -69,6 +79,12 @@ public class UserCommandPane {
     bottomPaneBoxArea.add(sliderToControlTurtleSpeed, 5, 0);
   }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * Parameters:
+   * Exception: None
+   */
   public double getAnimationSpeed() {
     return sliderToControlTurtleSpeed.getValue();
   }
@@ -162,14 +178,36 @@ public class UserCommandPane {
     bottomPaneBoxArea.add(userInputTextArea, 0, 0);
   }
 
+  /**
+   * Purpose: Returns the pane that displays the user command input information
+   *          and buttons.
+   * Assumptions: None
+   * Parameters: None
+   * Exception: None
+   * Returns: GridPane bottomPaneBoxArea
+   */
   public GridPane getBottomPaneBoxArea() {
     return bottomPaneBoxArea;
   }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * Parameters:
+   * Exception: None
+   */
   public void displayCommandStringOnTextArea(String command) {
     userInputTextArea.setText(command);
   }
 
+  /**
+   * Purpose: Updates the language of the display buttons and error messages
+   *          based on the language of the program.
+   * Assumptions: The language is a valid language and there exists a properties
+   *              file for it.
+   * Parameters: String lang
+   * Exception: None
+   */
   public void updateLanguage(String lang) {
     buttonLanguageResource = ResourceBundle.getBundle(BUTTON_LANGUAGE + lang);
     errorLanguageResource = ResourceBundle.getBundle(ERROR_LANGUAGE + lang);
