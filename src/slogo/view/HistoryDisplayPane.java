@@ -225,10 +225,8 @@ public class HistoryDisplayPane {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * Parameters:
-   * Exception: None
+   * updates the variables and user defined commands to be displayed in the tab
+   * @param variables name and value of the variables
    */
   public void updateVariableDisplay(Map<String, Double> variables) {
     varBox.getChildren().clear();

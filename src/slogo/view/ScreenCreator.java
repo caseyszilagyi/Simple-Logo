@@ -75,10 +75,9 @@ public class ScreenCreator implements FrontEndInternalAPI {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * Parameters:
-   * Exception: None
+   * Sets the animation speed by using the built-in command for TimeLine
+   * Dependency: None
+   * Exception: timeline should be instantiated
    */
   private void setAnimationSpeed() {
     timeline.setRate(userCommand.getAnimationSpeed());

@@ -292,10 +292,8 @@ public class TurtleDisplayPane implements FrontEndInternalAPI {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * Parameters:
-   * Exception: None
+   * Sets the ID of the turtle to be updated/displayed
+   * @param turtleID ID of the turtle to be updated/displayed for animation
    */
   public void setActiveTurtle(int turtleID) {
     if (!allTurtleInformation.containsKey(turtleID)) {
