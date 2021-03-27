@@ -33,30 +33,73 @@ public interface FrontEndExternalAPI {
   public String getLanguage();
 
   /**
-   * Backend can call this method to relay information to be displayed to the frontend
+   * Returns the command history
+   * Dependency: ScreenCreator
    */
   public Queue<String> getCommandHistory();
 
   /**
-   * Displays error message
+   * returns the error message to be displayed
+   * @param errorMessage
    */
   public void displayError(String errorMessage);
 
+  /**
+   * sets the model controller to set up the line of communication from/to the backend
+   * @param modelController BackEndExternalAPI
+   */
   public void setModelController(BackEndExternalAPI modelController);
 
+  /**
+   * Returns the user command input to be parsed
+   * @return user command input
+   */
   public String getUserCommandInput();
 
+  /**
+   * Processes the command input from the text area. Primary method that passes the user input
+   * to the backend to be parsed
+   * Dependency exists with model controller, ScreenCreator, and the backend classes.
+   * @param userCommandInput command string of the user input
+   */
   public void processUserCommandInput(String userCommandInput);
 
+  /**
+   * Displays the actual command when the user clicks on the command history/user-defined commands button
+   * Dependencies exist with ScreenCreator
+   * @param command String to be displayed in the text area
+   */
   void displayCommandStringOnTextArea(String command);
 
+  /**
+   * Sends the information to the frontend so that the command history/variables tabs can be updated
+   * Dependency exists with model controller method that gets the information from the backend.
+   * Dependency exists with ScreenCreator class from the frontend that calls this method.
+   * @param variables information about all the variables user has defined
+   * @param userDefinedCommands information about all the user-defined commands
+   */
   void updateFrontEnd(Map<String, Double> variables,
                       Map<String, UserDefinedCommand> userDefinedCommands);
 
+  /**
+   * Sets the ID of the turtle to be updated/displayed
+   * @param turtleID ID of the turtle to be updated/displayed for animation
+   */
   void setActiveTurtle(int turtleID);
 
+  /**
+   * Sets the turtle position to be updated to the x and y coordinates
+   * Dependency exists with the ScreenCreator class that calls this method
+   * @param xPosition xCoord of the turtle
+   * @param yPosition yCoord of the turtle
+   */
   void setTurtlePosition(double xPosition, double yPosition);
 
+  /**
+   * Sets the turtle angle
+   * Dependency exists with ScreenCreator class that calls this method
+   * @param angle angle to be set
+   */
   void setTurtleAngle(double angle);
 
   void setPenState(double penState);
