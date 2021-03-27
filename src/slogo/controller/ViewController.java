@@ -13,6 +13,7 @@ import slogo.model.execution.Turtle;
 import slogo.view.ScreenCreator;
 
 /**
+ * Receives information from backend and passes the information to frontend
  * @author Ji Yun Hyo
  */
 public class ViewController implements FrontEndExternalAPI {
