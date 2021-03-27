@@ -95,11 +95,9 @@ public class ScreenCreator implements FrontEndInternalAPI {
   }
 
   /**
-   * Purpose: Updates the screen elements based on the language that is displayed
-   *          in the combo box on the view pane.
-   * Assumptions: The combo box language has just changed
-   * Parameters: String language
-   * Exception: None
+   * Sets the language of the command and the UI
+   * Dependency: ScreenCreator class that calls this method
+   * @param language string representing the language
    */
   public void updateLanguage(String language) {
     commandButtonPane.updateLanguage(language);
@@ -108,7 +106,8 @@ public class ScreenCreator implements FrontEndInternalAPI {
   }
 
   /**
-   *
+   * Updates the tab to show the command history
+   * Dependency exists with HistoryDisplayPane
    * @param commandHistory list of all command strings that was inputted to the text area
    */
   public void updateCommandHistory(Queue<String> commandHistory) {
@@ -158,20 +157,21 @@ public class ScreenCreator implements FrontEndInternalAPI {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * Parameters:
-   * Exception: None
+   * Passes the information to the frontend (ScreenCreator) so that the type and the commands
+   * can be added to the queue for animation.
+   * Dependency: ScreenCreator class that calls this method
+   * @param commandType command type to be executed
+   * @param commandValues values of the results of the commands
    */
   public void updateCommandQueue(String commandType, List<Double> commandValues) {
     viewPane.updateCommandQueue(commandType, commandValues);
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * Parameters:
-   * Exception: None
+   * Sets the turtle position to be updated to the x and y coordinates
+   * Dependency exists with the ScreenCreator class that calls this method
+   * @param xPosition xCoord of the turtle
+   * @param yPosition yCoord of the turtle
    */
   public void setTurtlePosition(double xPosition, double yPosition) {
     viewPane.moveTurtle(xPosition, yPosition);
@@ -188,20 +188,17 @@ public class ScreenCreator implements FrontEndInternalAPI {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * Parameters:
-   * Exception: None
+   * Sets the ID of the turtle to be updated/displayed
+   * @param turtleID ID of the turtle to be updated/displayed for animation
    */
   public void setActiveTurtle(int turtleID) {
     viewPane.setActiveTurtle(turtleID);
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * Parameters:
-   * Exception: None
+   * This allows the frontend to keep a list of all frontend turtles that are set to active by the
+   * backend. This allows the frontend to display different turtle images for active/inactive turtles
+   * @param iDs all IDs of the active turtles
    */
   public void setActiveTurtles(List<Integer> iDs) {
     viewPane.setActiveTurtles(iDs);

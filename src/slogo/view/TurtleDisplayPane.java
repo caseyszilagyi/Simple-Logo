@@ -268,10 +268,11 @@ public class TurtleDisplayPane implements FrontEndInternalAPI {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * Parameters:
-   * Exception: None
+   * Passes the information to the frontend (ScreenCreator) so that the type and the commands
+   * can be added to the queue for animation.
+   * Dependency: ScreenCreator class that calls this method
+   * @param commandType command type to be executed
+   * @param commandValues values of the results of the commands
    */
   public void updateCommandQueue(String commandType, List<Double> commandValues) {
     typeToBeUpdated.add(commandType);
@@ -308,10 +309,9 @@ public class TurtleDisplayPane implements FrontEndInternalAPI {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * Parameters:
-   * Exception: None
+   * This allows the frontend to keep a list of all frontend turtles that are set to active by the
+   * backend. This allows the frontend to display different turtle images for active/inactive turtles
+   * @param iDs all IDs of the active turtles
    */
   public void setActiveTurtles(List<Integer> iDs) {
     for (Integer turtleID : allTurtleInformation.keySet().toArray(new Integer[0])) {

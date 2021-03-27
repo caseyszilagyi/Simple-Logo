@@ -185,10 +185,9 @@ public class HistoryDisplayPane {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * Parameters:
-   * Exception: None
+   * updates the variables and user defined commands to be displayed in the tab
+   * @param variables name and value of the variables
+   * @param userDefinedCommands name and object of the user-defined commands
    */
   public void updateDisplayOfInformation(Map<String, Double> variables,
       Map<String, UserDefinedCommand> userDefinedCommands) {
@@ -211,10 +210,9 @@ public class HistoryDisplayPane {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * Parameters:
-   * Exception: None
+   * Updates the tab to show the command history
+   * Dependency exists with HistoryDisplayPane
+   * @param commandHistory list of all command strings that was inputted to the text area
    */
   public void updateCommandHistory(Queue<String> commandHistory) {
     displayCommandHistory = commandHistory;

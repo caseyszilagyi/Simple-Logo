@@ -102,24 +102,78 @@ public interface FrontEndExternalAPI {
    */
   void setTurtleAngle(double angle);
 
+  /**
+   * Sets the turtle's pen state
+   * Dependency: ScreenCreator class
+   * @param penState sets pen down or pen up
+   */
   void setPenState(double penState);
 
+  /**
+   * Sets the visibility of the turtle
+   * Dependency: ScreenCreator class that calls this method
+   * @param visibility visibility of the turtle
+   */
   void setTurtleVisibility(double visibility);
 
+  /**
+   * Clears the screen and puts all turtles at the origin
+   * Dependency: ScreenCreator class that calls this method
+   */
   void clearScreen();
 
+  /**
+   * Sets pen color
+   * Dependency: ScreenCreator class that calls this method
+   * @param index index of the pen color
+   */
   void setPenColor(int index);
 
+  /**
+   * Sets the turtle shape
+   * Dependency: ScreenCreator class that calls this method
+   * @param index index representing the turtle shape
+   */
   void setTurtleShape(int index);
 
+  /**
+   * Sets the color palette
+   * Dependency: ScreenCreator class that calls this method
+   * @param index index of the color palette
+   * @param red red value out of 255
+   * @param green green value out of 255
+   * @param blue blue value out of 255
+   */
   void setPalette(int index, int red, int green, int blue);
 
+  /**
+   * Sets the pensize
+   * Dependency: ScreenCreator class that calls this method
+   * @param penSize double representing the pen size
+   */
   void setPenSize(double penSize);
 
+  /**
+   * Passes the information to the frontend (ScreenCreator) so that the type and the commands
+   * can be added to the queue for animation.
+   * Dependency: ScreenCreator class that calls this method
+   * @param commandType command type to be executed
+   * @param commandValues values of the results of the commands
+   */
   void updateCommandQueue(String commandType, List<Double> commandValues);
 
+  /**
+   * Sets the language of the command and the UI
+   * Dependency: ScreenCreator class that calls this method
+   * @param language string representing the language
+   */
   void setLanguage(String language);
 
+  /**
+   * This allows the frontend to keep a list of all frontend turtles that are set to active by the
+   * backend. This allows the frontend to display different turtle images for active/inactive turtles
+   * @param iDs all IDs of the active turtles
+   */
   void setActiveTurtles(List<Integer> iDs);
 
 }

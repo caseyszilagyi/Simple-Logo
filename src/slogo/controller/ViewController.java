@@ -172,54 +172,108 @@ public class ViewController implements FrontEndExternalAPI {
     screenCreator.updateCommandQueue("Angles", Collections.singletonList(angle));
   }
 
+  /**
+   * Sets the turtle's pen state
+   * Dependency: ScreenCreator class
+   * @param penState sets pen down or pen up
+   */
   @Override
   public void setPenState(double penState) {
     screenCreator.updateCommandQueue("Pen", Collections.singletonList(penState));
   }
 
+  /**
+   * Sets the visibility of the turtle
+   * Dependency: ScreenCreator class that calls this method
+   * @param visibility visibility of the turtle
+   */
   @Override
   public void setTurtleVisibility(double visibility) {
     screenCreator.updateCommandQueue("Visibility", Collections.singletonList(visibility));
   }
 
+  /**
+   * Clears the screen and puts all turtles at the origin
+   * Dependency: ScreenCreator class that calls this method
+   */
   @Override
   public void clearScreen() {
     screenCreator.clearScreen();
   }
 
+  /**
+   * Sets pen color
+   * Dependency: ScreenCreator class that calls this method
+   * @param index index of the pen color
+   */
   @Override
   public void setPenColor(int index) {
     double in = index;
     screenCreator.updateCommandQueue("PenColor", Collections.singletonList(in));
   }
 
+  /**
+   * Sets the turtle shape
+   * Dependency: ScreenCreator class that calls this method
+   * @param index index representing the turtle shape
+   */
   @Override
   public void setTurtleShape(int index) {
     double in = index;
     screenCreator.updateCommandQueue("PenColor", Collections.singletonList(in));
   }
 
+  /**
+   * Sets the color palette
+   * Dependency: ScreenCreator class that calls this method
+   * @param index index of the color palette
+   * @param red red value out of 255
+   * @param green green value out of 255
+   * @param blue blue value out of 255
+   */
   @Override
   public void setPalette(int index, int red, int green, int blue) {
     double in = index;
     screenCreator.updateCommandQueue("PenColor", Collections.singletonList(in));
   }
 
+  /**
+   * Sets the pensize
+   * Dependency: ScreenCreator class that calls this method
+   * @param penSize double representing the pen size
+   */
   @Override
   public void setPenSize(double penSize) {
     screenCreator.updateCommandQueue("Thickness", Collections.singletonList(penSize));
   }
 
+  /**
+   * Passes the information to the frontend (ScreenCreator) so that the type and the commands
+   * can be added to the queue for animation.
+   * Dependency: ScreenCreator class that calls this method
+   * @param commandType command type to be executed
+   * @param commandValues values of the results of the commands
+   */
   @Override
   public void updateCommandQueue(String commandType, List<Double> commandValues) {
     //  screenCreator.updateCommandQueue(commandType, commandValues);
   }
 
+  /**
+   * Sets the language of the command and the UI
+   * Dependency: ScreenCreator class that calls this method
+   * @param language string representing the language
+   */
   @Override
   public void setLanguage(String language) {
     screenCreator.updateLanguage(language);
   }
 
+  /**
+   * This allows the frontend to keep a list of all frontend turtles that are set to active by the
+   * backend. This allows the frontend to display different turtle images for active/inactive turtles
+   * @param iDs all IDs of the active turtles
+   */
   @Override
   public void setActiveTurtles(List<Integer> iDs) {
     screenCreator.setActiveTurtles(iDs);

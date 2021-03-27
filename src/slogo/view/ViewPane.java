@@ -55,10 +55,10 @@ public class ViewPane implements FrontEndInternalAPI {
   }
 
   /**
-   * Purpose: Moves the turtle on the display screen based on x and y coordinates from back end
-   * Assumptions: x and y coordinates are valid
-   * Parameters: double xCoordinate, double yCoordinate
-   * Exception: None
+   * Sets the turtle position to be updated to the x and y coordinates
+   * Dependency exists with the ScreenCreator class that calls this method
+   * @param xCoordinate xCoord of the turtle
+   * @param yCoordinate yCoord of the turtle
    */
   public void moveTurtle(double xCoordinate, double yCoordinate) {
     turtleDisplay.moveTurtle(xCoordinate, yCoordinate, choiceDisplay.getPenColor());
@@ -92,10 +92,11 @@ public class ViewPane implements FrontEndInternalAPI {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * Parameters:
-   * Exception: None
+   * Passes the information to the frontend (ScreenCreator) so that the type and the commands
+   * can be added to the queue for animation.
+   * Dependency: ScreenCreator class that calls this method
+   * @param commandType command type to be executed
+   * @param commandValues values of the results of the commands
    */
   public void updateCommandQueue(String commandType, List<Double> commandValues) {
     turtleDisplay.updateCommandQueue(commandType, commandValues);
@@ -123,10 +124,9 @@ public class ViewPane implements FrontEndInternalAPI {
   }
 
   /**
-   * Purpose: sets the active turtle ID so that turtle display pane knows which turtle to update
-   * Assumptions: each command is preceded by the resoective turtle ID
-   * Parameters:
-   * Exception: None
+   * This allows the frontend to keep a list of all frontend turtles that are set to active by the
+   * backend. This allows the frontend to display different turtle images for active/inactive turtles
+   * @param iDs all IDs of the active turtles
    */
   public void setActiveTurtles(List<Integer> iDs) {
     turtleDisplay.setActiveTurtles(iDs);
