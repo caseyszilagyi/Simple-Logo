@@ -80,10 +80,7 @@ public class UserCommandPane {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * Parameters:
-   * Exception: None
+   * @return speed of animation
    */
   public double getAnimationSpeed() {
     return sliderToControlTurtleSpeed.getValue();
@@ -191,10 +188,9 @@ public class UserCommandPane {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * Parameters:
-   * Exception: None
+   * Allows for interactive buttons so that clicking a command history/variable/user-defined commands
+   * would display the relevant command in the text area
+   * @param command the command to display in the text area
    */
   public void displayCommandStringOnTextArea(String command) {
     userInputTextArea.setText(command);

@@ -8,6 +8,7 @@ import slogo.model.SLogoCommandExecutor;
 import slogo.model.commands.basic_commands.UserDefinedCommand;
 
 /**
+ * Receives information from front end and passes the information to backend
  * @author Ji Yun Hyo
  */
 public class ModelController implements BackEndExternalAPI {

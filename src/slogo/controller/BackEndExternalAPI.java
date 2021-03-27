@@ -18,14 +18,13 @@ public interface BackEndExternalAPI {
   /**
    * Returns a data structure containing user defined commands
    *
-   * @return
+   * @return user defined commands
    */
   public Map<String, UserDefinedCommand> getUserDefinedCommands();
 
   /**
    * Passes in the String of commands to be parsed
-   *
-   * @param input
+   * @param input command string
    */
   public void executeCommand(String input);
   /**
