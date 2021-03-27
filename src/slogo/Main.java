@@ -8,7 +8,7 @@ import slogo.controller.ModelController;
 import slogo.controller.ViewController;
 
 /**
- *
+ * @author Ji Yun Hyo
  */
 public class Main extends Application {
 

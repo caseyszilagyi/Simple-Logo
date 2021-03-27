@@ -80,9 +80,11 @@ public class ViewPane implements FrontEndInternalAPI {
   // prior knowledge about the order of these parameters
 
   /**
-   * Purpose:
-   * Assumptions:
-   * Parameters:
+   * Purpose: Updates and displays the updated states of the turtle and displays them in the
+   * TurtleDisplayPane
+   * Assumptions: all commands queue were properly constructed and the backend sent the correct
+   * updated states for each of the turtles
+   * Parameters: None
    * Exception: None
    */
   public void updateTurtleStates() {
@@ -121,8 +123,8 @@ public class ViewPane implements FrontEndInternalAPI {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
+   * Purpose: sets the active turtle ID so that turtle display pane knows which turtle to update
+   * Assumptions: each command is preceded by the resoective turtle ID
    * Parameters:
    * Exception: None
    */

@@ -3,6 +3,9 @@ package slogo.view;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * @author Ji Yun Hyo
+ */
 abstract class FrontEndSprite {
 
   private double xCoord;

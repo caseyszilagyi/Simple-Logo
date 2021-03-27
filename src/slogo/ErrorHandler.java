@@ -1,5 +1,8 @@
 package slogo;
 
+/**
+ * @author Casey
+ */
 public class ErrorHandler extends RuntimeException {
 
   /**

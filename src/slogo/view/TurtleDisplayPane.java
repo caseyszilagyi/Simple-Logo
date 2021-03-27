@@ -94,10 +94,12 @@ public class TurtleDisplayPane implements FrontEndInternalAPI {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * Parameters:
-   * Exception: Throws an exception if the turtle moves out of the frame
+   * Purpose: Updates and displays the updated states of the turtle and displays them in the
+   * TurtleDisplayPane
+   * Assumptions: all commands queue were properly constructed and the backend sent the correct
+   * updated states for each of the turtles
+   * Parameters: None
+   * Exception: None
    */
   @Override
   public void updateTurtleStates() {

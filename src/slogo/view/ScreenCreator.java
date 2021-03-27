@@ -108,20 +108,17 @@ public class ScreenCreator implements FrontEndInternalAPI {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * Parameters:
-   * Exception: None
+   *
+   * @param commandHistory list of all command strings that was inputted to the text area
    */
   public void updateCommandHistory(Queue<String> commandHistory) {
     historyDisplayPane.updateCommandHistory(commandHistory);
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * Parameters:
-   * Exception: None
+   * updates the variables and user defined commands to be displayed in the tab
+   * @param variables name and value of the variables
+   * @param userDefinedCommands name and object of the user-defined commands
    */
   public void updateVariablesAndUserDefinedCommands(Map<String, Double> variables,
       Map<String, UserDefinedCommand> userDefinedCommands) {
@@ -129,10 +126,9 @@ public class ScreenCreator implements FrontEndInternalAPI {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * Parameters:
-   * Exception: None
+   * Allows for interactive buttons so that clicking a command history/variable/user-defined commands
+   * would display the relevant command in the text area
+   * @param command the command to display in the text area
    */
   public void displayCommandStringOnTextArea(String command) {
     userCommand.displayCommandStringOnTextArea(command);
@@ -150,9 +146,11 @@ public class ScreenCreator implements FrontEndInternalAPI {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * Parameters:
+   * Purpose: Updates and displays the updated states of the turtle and displays them in the
+   * TurtleDisplayPane
+   * Assumptions: all commands queue were properly constructed and the backend sent the correct
+   * updated states for each of the turtles
+   * Parameters: None
    * Exception: None
    */
   public void updateTurtleStates() {

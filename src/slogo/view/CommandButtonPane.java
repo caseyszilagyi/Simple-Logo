@@ -8,6 +8,7 @@ import slogo.controller.FrontEndExternalAPI;
 /**
  * Creates the pane that displays buttons that allow users to do preset commands.
  * @author Kathleen Chen
+ * @author Ji Yun Hyo
  */
 
 public class CommandButtonPane {

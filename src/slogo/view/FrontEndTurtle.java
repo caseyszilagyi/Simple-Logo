@@ -3,6 +3,9 @@ package slogo.view;
 
 import javafx.scene.image.ImageView;
 
+/**
+ * @author Ji Yun Hyo
+ */
 public class FrontEndTurtle extends FrontEndSprite {
 
 
