@@ -13,17 +13,22 @@ import slogo.model.execution.Turtle;
 public interface FrontEndExternalAPI {
 
   /**
-   * Sets the background color of the GUI
+   * Sets the background color of the display. The index corresponds to a specific color as
+   * specified in a properties file
+   * @param color The index corresponding to the color
    */
   public void setBackGroundColor(int color);
 
   /**
-   * Sets the image of the turtle
+   * Sets the image of the specific turtle with the image
+   * @param turtle turtle ID
+   * @param image image file
    */
   public void setTurtleImage(Turtle turtle, ImageView image);
 
   /**
-   * Sets the language of the commands
+   * Gets the language of the command and UI.
+   * There is a dependency with ScreenCreator
    */
   public String getLanguage();
 

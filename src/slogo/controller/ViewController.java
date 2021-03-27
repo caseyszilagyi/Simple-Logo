@@ -36,21 +36,28 @@ public class ViewController implements FrontEndExternalAPI {
   }
 
   /**
-   *
+   * Sets the background color of the display. The index corresponds to a specific color as
+   * specified in a properties file
+   * @param index The index corresponding to the color
    */
+  @Override
   public void setBackGroundColor(int index) {
     // TODO implement here
   }
 
   /**
-   *
+   * Sets the image of the specific turtle with the image
+   * @param turtle turtle ID
+   * @param image image file
    */
+  @Override
   public void setTurtleImage(Turtle turtle, ImageView image) {
     // TODO implement here
   }
 
   /**
-   *
+   * Gets the language of the command and UI.
+   * There is a dependency with ScreenCreator
    */
   public String getLanguage() {
     // TODO implement here
@@ -58,7 +65,8 @@ public class ViewController implements FrontEndExternalAPI {
   }
 
   /**
-   *
+   * Returns the command history
+   * Dependency: ScreenCreator
    */
   public Deque<String> getCommandHistory() {
     // TODO implement here
